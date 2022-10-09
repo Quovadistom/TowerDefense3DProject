@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27f2d9a3c6584a87d6c657c2f4d89, type: 3}
+  m_Name: PrefabCollection
+  m_EditorClassIdentifier: 
+  EnemyPrefab: {fileID: 9180935779869482348, guid: 4fd074ba08f86ec4589e5b8b1868a317, type: 3}
+  BulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
+  BasicTurret: {fileID: 1414027848399921275, guid: 3c98a9ca4341ef14c92a07e2c3576d9b, type: 3}

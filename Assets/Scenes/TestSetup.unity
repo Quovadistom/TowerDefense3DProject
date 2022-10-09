@@ -1667,7 +1667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cf308ae17b97d4ab05a05e09c7c43b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurretToSpawn: {fileID: 1414027848399921275, guid: 3c98a9ca4341ef14c92a07e2c3576d9b, type: 3}
+  TurretToSpawn: {fileID: 2222747314198725742, guid: 6967eabe831cbd14db3a228e93f43003, type: 3}
 --- !u!114 &496699697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4377,7 +4377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cf308ae17b97d4ab05a05e09c7c43b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurretToSpawn: {fileID: 1414027848399921275, guid: cfbebb27e425c344bac065172bd19afa, type: 3}
+  TurretToSpawn: {fileID: 2222747314198725742, guid: cfbebb27e425c344bac065172bd19afa, type: 3}
 --- !u!1 &1890666243
 GameObject:
   m_ObjectHideFlags: 0

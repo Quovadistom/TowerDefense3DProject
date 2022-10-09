@@ -1,4 +1,4 @@
-﻿public interface IBulletProfile : IBulletProfileBase
+﻿public interface IBulletProfile : IAttackProfileBase
 {
     float Speed { get; }
 }

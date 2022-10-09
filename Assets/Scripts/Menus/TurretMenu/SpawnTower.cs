@@ -7,14 +7,14 @@ using Zenject;
 
 public class SpawnTower : MonoBehaviour, IPointerDownHandler
 {
-    public TurretBase TurretToSpawn;
+    public TurretEnemyHandler TurretToSpawn;
     private SelectionService m_selectionService;
-    private TurretBase.Factory m_turretFactory;
+    private TurretEnemyHandler.Factory m_turretFactory;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
 
     [Inject]
-    public void Construct(SelectionService selectionService, TurretBase.Factory turretFactory, TouchInputService touchInputService, LayerSettings layerSettings)
+    public void Construct(SelectionService selectionService, TurretEnemyHandler.Factory turretFactory, TouchInputService touchInputService, LayerSettings layerSettings)
     {
         m_selectionService = selectionService;
         m_turretFactory = turretFactory;

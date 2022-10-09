@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using Zenject.Asteroids;
 
 public class AppInstaller : MonoInstaller
 {
@@ -29,7 +30,7 @@ public class AppInstaller : MonoInstaller
         // Factories
         Container.Bind<TurretFactory>().AsSingle();
 
-        Container.BindFactory<TurretBase, TurretBase, TurretBase.Factory>().FromFactory<PrefabFactory<TurretBase>>();
+        Container.BindFactory<TurretEnemyHandler, TurretEnemyHandler, TurretEnemyHandler.Factory>().FromFactory<PrefabFactory<TurretEnemyHandler>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
     }
 }

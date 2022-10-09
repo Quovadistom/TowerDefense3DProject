@@ -1,10 +1,8 @@
 using UnityEngine;
 using Zenject;
 
-public class TurretBase : MonoBehaviour
+public class TurretEnemyHandler : MonoBehaviour
 {
-    public BasicTurretData TurretData;
-
     private GenericRepository<BasicEnemy> m_enemiesInRange;
 
     public ITargetMethod TargetMethod { get; set; } = new TargetFirstEnemy();
@@ -49,7 +47,7 @@ public class TurretBase : MonoBehaviour
         Target = enemy;
     }
 
-    public class Factory : PlaceholderFactory<TurretBase, TurretBase>
+    public class Factory : PlaceholderFactory<TurretEnemyHandler, TurretEnemyHandler>
     {
     }
 }

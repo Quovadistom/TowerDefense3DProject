@@ -2,9 +2,9 @@
 {
     public float Speed { get; }
 
-    public int Damage { get; }
+    public float Damage { get; }
 
-    public StandardBulletProfile(float speed, int damage)
+    public StandardBulletProfile(float speed, float damage)
     {
         Speed = speed;
         Damage = damage;

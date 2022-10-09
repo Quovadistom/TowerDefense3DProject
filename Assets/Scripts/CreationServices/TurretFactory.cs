@@ -17,8 +17,8 @@ public class TurretFactory
         _prefabs = prefabs;
     }
 
-    public TurretBase Create<T>()
-        where T : TurretBase
+    public TurretEnemyHandler Create<T>()
+        where T : TurretEnemyHandler
     {
         var prefab = _prefabs.OfType<T>().Single();
         return _container.InstantiatePrefabForComponent<T>(prefab);

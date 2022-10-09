@@ -2,22 +2,13 @@
 using UnityEngine;
 
 [Serializable]
-public class BasicTurretData : TurretDataBase<IBulletProfile>
+public class BasicTurretData : TurretAndAttackData<IBulletProfile>
 {
-    public BasicTurretData()
+    public Bullet BulletPrefab;
+
+    private void Awake()
     {
-        BulletProfile = new StandardBulletProfile(BulletSpeed, BulletDamage);
+        AttackProfile = new StandardBulletProfile(BulletSpeed, BulletDamage);
+        FiringMethod = new ProjectileFiringMethod(this);
     }
-}
-
-public class TurretDataBase<T> where T : IBulletProfile
-{
-    public float Range = 4;
-    public float TurnSpeed = 8;
-    public float Firerate = 1f;
-    public float BulletSpeed = 20;
-    public int BulletDamage = 50;
-
-    public T BulletProfile; 
-    public ProjectileBase<T> BulletPrefab;
 }

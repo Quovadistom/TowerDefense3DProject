@@ -12,7 +12,7 @@ public class BasicEnemy : Poolable
     private int m_waypointIndex = 0;
     private Transform m_target;
     private LevelService m_levelService;
-    private int m_currentHealth;
+    private float m_currentHealth;
 
     [Inject]
     public void Construct(LevelService levelService)
@@ -62,7 +62,7 @@ public class BasicEnemy : Poolable
         m_currentHealth = StartingHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         m_currentHealth -= damage;
         if (m_currentHealth <= 0)
@@ -70,10 +70,5 @@ public class BasicEnemy : Poolable
             m_poolingService.ReturnPooledObject(this);
             ResetObject();
         }
-    }
-
-    internal void TakeDamage(object damage)
-    {
-        throw new NotImplementedException();
     }
 }

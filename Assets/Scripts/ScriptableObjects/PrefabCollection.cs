@@ -7,5 +7,5 @@ public class PrefabCollection : ScriptableObject
 {
     public BasicEnemy EnemyPrefab;
     public Bullet BulletPrefab;
-    public TurretBase BasicTurret;
+    public TurretEnemyHandler BasicTurret;
 }

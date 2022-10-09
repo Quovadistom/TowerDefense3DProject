@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBulletProfileBase
+public interface IAttackProfileBase
 {
-    int Damage { get; }
+    float Damage { get; }
 }

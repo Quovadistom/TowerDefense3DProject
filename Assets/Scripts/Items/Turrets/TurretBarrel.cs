@@ -1,20 +1,19 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class BarrelBase : Swappable<BarrelBulletSpawnPoints>
+public class TurretBarrel : Swappable<BulletSpawnPoints>
 {
     [SerializeField] private TurretEnemyHandler m_turret;
     [SerializeField] private TurretData m_turretData;
-    [SerializeField] private BarrelBulletSpawnPoints m_bulletSpawnPoints;
 
     private Transform m_targetTransform;
-    private BulletService m_bulletService;
 
-    [Inject]
-    public void Construct(BulletService bulletService)
+    private void Awake()
     {
-        m_bulletService = bulletService;
+        OnTargetLost();
+        m_turret.OnTargetLost += OnTargetLost;
     }
 
     private void Update()
@@ -30,11 +29,21 @@ public class BarrelBase : Swappable<BarrelBulletSpawnPoints>
         }
     }
 
+    private void OnDestroy()
+    {
+        m_turret.OnTargetLost -= OnTargetLost;
+    }
+
+    private void OnTargetLost()
+    {
+        m_turretData.FiringMethod.TargetLost();
+    }
+
     private void LookAtTarget()
     {
         if (IsLockedOnTarget())
         {
-            m_turretData.FiringMethod.Shoot(m_bulletService, m_bulletSpawnPoints.SpawnPoints, m_turret.Target);
+            m_turretData.FiringMethod.Shoot(m_turret.Target);
         }
     }
 
@@ -42,6 +51,6 @@ public class BarrelBase : Swappable<BarrelBulletSpawnPoints>
     {
         Vector3 dirFromAtoB = (m_targetTransform.position - transform.position).normalized;
         float dotProd = Vector3.Dot(dirFromAtoB, transform.forward);
-        return dotProd >= 0.95;
+        return dotProd >= 0.99;
     }
 }

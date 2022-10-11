@@ -6,21 +6,21 @@ using Zenject;
 
 public class TurretFactory
 {
-    readonly DiContainer _container;
-    readonly List<Object> _prefabs;
+    readonly DiContainer m_container;
+    readonly List<Object> m_prefabs;
 
     public TurretFactory(
         List<Object> prefabs,
         DiContainer container)
     {
-        _container = container;
-        _prefabs = prefabs;
+        m_container = container;
+        m_prefabs = prefabs;
     }
 
     public TurretEnemyHandler Create<T>()
         where T : TurretEnemyHandler
     {
-        var prefab = _prefabs.OfType<T>().Single();
-        return _container.InstantiatePrefabForComponent<T>(prefab);
+        var prefab = m_prefabs.OfType<T>().Single();
+        return m_container.InstantiatePrefabForComponent<T>(prefab);
     }
 }

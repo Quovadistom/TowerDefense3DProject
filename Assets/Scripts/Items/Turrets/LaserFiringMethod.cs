@@ -1,33 +1,83 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Timers;
 using UnityEngine;
 
 public class LaserFiringMethod : IAttackMethod
 {
-    private LineRenderer m_lineRenderer;
+    private LayerSettings m_layerSettings;
+    private LaserTurretData m_laserTurretData;
+    private Timer m_timer;
+    private bool m_timerElapsed = true;
 
-    public void Shoot(BulletService bulletService, IReadOnlyList<Transform> bulletSpawnPointsList, BasicEnemy target)
+    public LaserFiringMethod(LayerSettings layerSettings, LaserTurretData laserTurretData)
     {
-        foreach (Transform transform in bulletSpawnPointsList)
-        {
-            LineRenderer lineRenderer = GetLineRenderer(transform);
-            Vector3[] positions = new Vector3[]
-            {
-                transform.position,
-                target.transform.position
-            };
+        m_layerSettings = layerSettings;
+        m_laserTurretData = laserTurretData;
 
-            lineRenderer.SetPositions(positions);
+        m_timer = new Timer(m_laserTurretData.Firerate * 1000);
+        m_timer.Elapsed += OnTimerElapsed;
+    }
+
+    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        m_timerElapsed = true;
+    }
+
+    public void Shoot(BasicEnemy target)
+    {
+        foreach (LineRenderer lineRenderer in m_laserTurretData.ProjectileSpawnPoints.SpawnPoints)
+        {
+            lineRenderer.enabled = true;
+            Vector3 lineRendererTransformPosition = lineRenderer.transform.position;
+            Vector3 targetPosition = target.EnemyMiddle.transform.position - lineRendererTransformPosition;
+
+            RaycastHit[] enemies = Physics.RaycastAll(lineRendererTransformPosition,
+                targetPosition,
+                m_laserTurretData.Range,
+                m_layerSettings.EnemyLayer);
+
+            lineRenderer.useWorldSpace = true;
+
+            if (enemies.Length > 0)
+            {
+                lineRenderer.enabled = true;
+                Vector3[] positions = new Vector3[]
+                {
+                    lineRendererTransformPosition,
+                    m_laserTurretData.LaserLength * Vector3.Normalize(targetPosition) + lineRendererTransformPosition
+                };
+
+                lineRenderer.SetPositions(positions);
+
+                DamageEnemies(enemies);
+            }
         }
     }
 
-    private LineRenderer GetLineRenderer(Transform transform)
+    private void DamageEnemies(RaycastHit[] enemies)
     {
-        if (m_lineRenderer == null)
+        if (!m_timerElapsed)
         {
-            m_lineRenderer = transform.AddComponent<LineRenderer>();
+            return;
         }
 
-        return m_lineRenderer;
+        foreach (RaycastHit enemy in enemies)
+        {
+            if (enemy.rigidbody.TryGetComponent(out BasicEnemy basicEnemy))
+            {
+                basicEnemy.TakeDamage(m_laserTurretData.Damage);
+            }
+        }
+
+        m_timer.Start();
+        m_timerElapsed = false;
+    }
+
+    public void TargetLost()
+    {
+        foreach (LineRenderer lineRenderer in m_laserTurretData.ProjectileSpawnPoints.SpawnPoints)
+        {
+            lineRenderer.enabled = false;
+        }
     }
 }

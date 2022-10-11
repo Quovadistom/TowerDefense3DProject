@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -9,10 +11,39 @@ public class TurretEnemyHandler : MonoBehaviour
 
     public BasicEnemy Target { get; private set; }
 
+    private bool m_hasTarget;
+    public bool HasTarget
+    {
+        get 
+        { 
+            return m_hasTarget; 
+        }
+        private set
+        {
+            if (value == m_hasTarget)
+            {
+                return;
+            }
+
+            m_hasTarget = value;
+
+            if (!m_hasTarget)
+            {
+                OnTargetLost?.Invoke();
+            }
+        }
+    }
+
+    public event Action OnTargetLost;
+
     private void Awake()
     {
         m_enemiesInRange = new GenericRepository<BasicEnemy>();
-        InvokeRepeating(nameof(ScanForTarget), 0.2f, 0.2f);
+    }
+
+    private void Update()
+    {
+        ScanForTarget();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,7 +62,12 @@ public class TurretEnemyHandler : MonoBehaviour
 
     public bool IsTargetValid()
     {
-        if (Target == null || (Target != null && Target.IsPooled))
+        if (Target == null)
+        {
+            return false;
+        }
+
+        if (Target != null && (Target.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
         {
             m_enemiesInRange.Remove(Target);
             Target = null;
@@ -43,7 +79,19 @@ public class TurretEnemyHandler : MonoBehaviour
 
     private void ScanForTarget()
     {
-        TargetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        if (IsTargetValid())
+        {
+            return;
+        }
+
+        if (!m_enemiesInRange.ReadOnlyList.Any())
+        {
+            HasTarget = false;
+            return;
+        }
+
+        HasTarget = TargetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+
         Target = enemy;
     }
 

@@ -950,9 +950,10 @@ MonoBehaviour:
   Range: 4
   TurnSpeed: 8
   Firerate: 1
-  BulletSpeed: 20
-  BulletDamage: 50
+  Damage: 50
+  ProjectileSpawnPoints: {fileID: 8896939420286918107}
   BulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
+  BulletSpeed: 20
 --- !u!1 &8696194503828499706
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,5 +4,6 @@ using UnityEngine;
 public interface IAttackMethod
 {
 
-    public void Shoot(BulletService bulletService, IReadOnlyList<Transform> bulletSpawnPointsList, BasicEnemy target);
+    public void Shoot(BasicEnemy target);
+    public void TargetLost();
 }

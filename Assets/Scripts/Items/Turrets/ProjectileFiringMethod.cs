@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
-using Zenject;
 
-public class ProjectileFiringMethod : IAttackMethod
+public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 {
-    private BasicTurretData m_turretData;
+    private BulletService m_bulletService;
+    private ProjectileTurretData m_projectileTurretData;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public ProjectileFiringMethod(BasicTurretData basicTurretData)
+    public ProjectileFiringMethod(BulletService bulletService, ProjectileTurretData projectileTurretData)
     {
-        m_turretData = basicTurretData;
+        m_bulletService = bulletService;
+        m_projectileTurretData = projectileTurretData;
 
-        m_timer = new Timer(m_turretData.Firerate * 1000);
+        m_timer = new Timer(m_projectileTurretData.Firerate * 1000);
         m_timer.Elapsed += OnTimerElapsed;
     }
 
@@ -23,7 +24,7 @@ public class ProjectileFiringMethod : IAttackMethod
         m_timerElapsed = true;
     }
 
-    public void Shoot(BulletService bulletService, IReadOnlyList<Transform> bulletSpawnPointsList, BasicEnemy target)
+    public void Shoot(BasicEnemy target)
     {
         if (!m_timerElapsed)
         {
@@ -32,11 +33,13 @@ public class ProjectileFiringMethod : IAttackMethod
 
         m_timerElapsed = false;
 
-        foreach (Transform spawnPoint in bulletSpawnPointsList)
+        foreach (Transform spawnPoint in m_projectileTurretData.ProjectileSpawnPoints.SpawnPoints)
         {
-            bulletService.CreateNewBullet(m_turretData.BulletPrefab, spawnPoint.position, m_turretData.AttackProfile, target);
+            m_bulletService.CreateNewBullet(m_projectileTurretData.BulletPrefab, spawnPoint.position, m_projectileTurretData.ProjectileProfile, target);
         }
 
         m_timer.Start();
     }
+
+    public void TargetLost() { }
 }

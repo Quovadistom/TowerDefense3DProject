@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac27f2d9a3c6584a87d6c657c2f4d89, type: 3}
   m_Name: PrefabCollection
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 9180935779869482348, guid: 4fd074ba08f86ec4589e5b8b1868a317, type: 3}
-  BulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
-  BasicTurret: {fileID: 1414027848399921275, guid: 3c98a9ca4341ef14c92a07e2c3576d9b, type: 3}
+  LaserLineRenderer: {fileID: 8909905059859160679, guid: 2f21ce7963bd753478d65825e45b6857, type: 3}

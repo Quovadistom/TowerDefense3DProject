@@ -1,10 +1,12 @@
-﻿public class TurretAndAttackData<T> : TurretData where T : IAttackProfileBase
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public class TurretAndAttackData<T> : TurretData
 {
     public float Firerate = 1f;
-    public float BulletSpeed = 20;
-    public float BulletDamage = 50;
+    public float Damage = 50;
 
-    public T AttackProfile;
+    public T ProjectileSpawnPoints;
 }
 
 // laser

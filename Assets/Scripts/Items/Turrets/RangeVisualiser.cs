@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeVisualiser : MonoBehaviour
+public class RangeVisualiser : TurretMediator
 {
-    public TurretData TurretData;
+    public TurretMediator TurretData;
     public SpriteRenderer Renderer;
     [SerializeField] private SphereCollider m_rangeCollider;
 

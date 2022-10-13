@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretAndAttackData<T> : TurretData
+public class TurretAndAttackData<T> : TurretMediator
 {
-    public float Firerate = 1f;
-    public float Damage = 50;
-
-    public T ProjectileSpawnPoints;
 }
 
 // laser

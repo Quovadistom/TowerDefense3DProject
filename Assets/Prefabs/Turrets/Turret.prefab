@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6604247114964080220}
   - component: {fileID: 6208985817494503850}
   m_Layer: 0
-  m_Name: BarrelVisual
+  m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,10 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c0624a29c6cd14996c7efd4a6bc35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectToSwap: {fileID: 8896939420286918107}
-  m_turret: {fileID: 2222747314198725742}
-  m_turretData: {fileID: 8741458935821981214}
-  m_bulletSpawnPoints: {fileID: 8896939420286918107}
+  m_turretMediator: {fileID: 8741458935821981214}
 --- !u!1 &6503327617389409010
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,8 +240,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa92bfabc834a9419a50b181f23c72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Firerate: 1
+  Damage: 50
+  Range: 4
+  TurnSpeed: 8
   TurretData: {fileID: 8741458935821981214}
   Renderer: {fileID: 7642932117025264838}
+  m_rangeCollider: {fileID: 8408130409933229476}
 --- !u!1 &8208056898987037588
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +256,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6094994000069046467}
-  - component: {fileID: 631611704660268864}
+  - component: {fileID: 8408130409933229476}
   - component: {fileID: 2222747314198725742}
   - component: {fileID: 8664666483538800391}
   - component: {fileID: 8741458935821981214}
@@ -284,8 +286,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &631611704660268864
-CapsuleCollider:
+--- !u!135 &8408130409933229476
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -294,9 +296,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 4
-  m_Height: 7
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2222747314198725742
 MonoBehaviour:
@@ -310,6 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52104542e4516934dbc198fa0f1e93e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_turretMediator: {fileID: 8741458935821981214}
 --- !u!114 &8664666483538800391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,10 +949,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf78d948d53671348b3b36eab1c8c602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Range: 4
-  TurnSpeed: 8
   Firerate: 1
   Damage: 50
+  Range: 4
+  TurnSpeed: 8
   ProjectileSpawnPoints: {fileID: 8896939420286918107}
   BulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
   BulletSpeed: 20
@@ -1066,7 +1068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534ace981ebcbee41bf2e9653938a616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ComponentToSelect: {fileID: 2222747314198725742}
+  ComponentToSelect: {fileID: 8741458935821981214}
   Outline: {fileID: 8664666483538800391}
   VisualsToShow: {fileID: 7087915773415253654}
 --- !u!114 &2400669061940468392

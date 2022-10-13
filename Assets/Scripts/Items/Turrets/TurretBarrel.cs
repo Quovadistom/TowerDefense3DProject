@@ -3,47 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class TurretBarrel : Swappable<BulletSpawnPoints>
+public class TurretBarrel : MonoBehaviour
 {
-    [SerializeField] private TurretEnemyHandler m_turret;
-    [SerializeField] private TurretData m_turretData;
+    [SerializeField] private TurretMediator m_turretMediator;
 
     private Transform m_targetTransform;
+    private BasicEnemy m_currentTarget;
 
     private void Awake()
     {
         OnTargetLost();
-        m_turret.OnTargetLost += OnTargetLost;
+        m_turretMediator.OnEnemyChanged += OnEnemyChanged;
     }
 
     private void Update()
     {
-        if (m_turret.IsTargetValid())
+        if (m_currentTarget == null)
         {
-            m_targetTransform = m_turret.Target.EnemyMiddle;
-            var lookPos = m_targetTransform.position - transform.position;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretData.TurnSpeed);
-
-            LookAtTarget();
+            return;
         }
+
+        m_targetTransform = m_currentTarget.EnemyMiddle;
+        var lookPos = m_targetTransform.position - transform.position;
+        var rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretMediator.TurnSpeed);
+
+        LookAtTarget();
     }
 
     private void OnDestroy()
     {
-        m_turret.OnTargetLost -= OnTargetLost;
+        m_turretMediator.OnEnemyChanged -= OnEnemyChanged;
+    }
+
+    private void OnEnemyChanged(BasicEnemy newEnemy)
+    {
+        m_currentTarget = newEnemy;
+
+        if (newEnemy == null)
+        {
+            OnTargetLost();
+        }
     }
 
     private void OnTargetLost()
     {
-        m_turretData.FiringMethod.TargetLost();
+        m_turretMediator.FiringMethod.TargetLost();
     }
 
     private void LookAtTarget()
     {
         if (IsLockedOnTarget())
         {
-            m_turretData.FiringMethod.Shoot(m_turret.Target);
+            m_turretMediator.FiringMethod.Shoot(m_currentTarget);
         }
     }
 

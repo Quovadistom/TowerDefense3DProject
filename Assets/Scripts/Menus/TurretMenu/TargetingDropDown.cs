@@ -60,6 +60,6 @@ public class TargetingDropDown : MonoBehaviour
 
     private void OnTargetingChanged(int index)
     {
-        SelectedTurretMenu.SelectedTurret.TargetMethod = m_targetingMethods[index];
+        SelectedTurretMenu.SelectedTurret.SetTargetMethod(m_targetingMethods[index]);
     }
 }

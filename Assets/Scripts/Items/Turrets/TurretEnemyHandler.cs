@@ -2,42 +2,20 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class TurretEnemyHandler : MonoBehaviour
 {
-    private GenericRepository<BasicEnemy> m_enemiesInRange;
+    [SerializeField] private TurretMediator m_turretMediator; 
 
-    public ITargetMethod TargetMethod { get; set; } = new TargetFirstEnemy();
+    private GenericRepository<BasicEnemy> m_enemiesInRange;
+    private ITargetMethod m_targetMethod;
 
     public BasicEnemy Target { get; private set; }
 
-    private bool m_hasTarget;
-    public bool HasTarget
-    {
-        get 
-        { 
-            return m_hasTarget; 
-        }
-        private set
-        {
-            if (value == m_hasTarget)
-            {
-                return;
-            }
-
-            m_hasTarget = value;
-
-            if (!m_hasTarget)
-            {
-                OnTargetLost?.Invoke();
-            }
-        }
-    }
-
-    public event Action OnTargetLost;
-
     private void Awake()
     {
+        m_turretMediator.OnTargetMethodChanged += TargetMethodChanged;
         m_enemiesInRange = new GenericRepository<BasicEnemy>();
     }
 
@@ -60,38 +38,35 @@ public class TurretEnemyHandler : MonoBehaviour
         m_enemiesInRange.Remove(enemy);
     }
 
-    public bool IsTargetValid()
+    private void OnDestroy()
     {
-        if (Target == null)
-        {
-            return false;
-        }
+        m_turretMediator.OnTargetMethodChanged -= TargetMethodChanged;
+    }
 
+    private void TargetMethodChanged(ITargetMethod targetMethod) => m_targetMethod = targetMethod;
+
+    public void CheckTargetValidity()
+    {
         if (Target != null && (Target.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
         {
             m_enemiesInRange.Remove(Target);
             Target = null;
-            return false;
+            m_turretMediator.SetTarget(Target);
         }
-
-        return true;
     }
 
     private void ScanForTarget()
     {
-        if (IsTargetValid())
-        {
-            return;
-        }
+        CheckTargetValidity();
 
         if (!m_enemiesInRange.ReadOnlyList.Any())
         {
-            HasTarget = false;
             return;
         }
 
-        HasTarget = TargetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        m_targetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
 
+        m_turretMediator.SetTarget(enemy);
         Target = enemy;
     }
 

@@ -3,8 +3,9 @@ using UnityEngine;
 using Zenject;
 
 [Serializable]
-public class LaserTurretData : TurretAndAttackData<LaserSpawnPoints>
+public class LaserTurretMediator : TurretMediator
 {
+    public LaserSpawnPoints LaserSpawnPoints;
     public float LaserLength = 5;
 
     private LayerSettings m_layerSettings;
@@ -15,8 +16,9 @@ public class LaserTurretData : TurretAndAttackData<LaserSpawnPoints>
         m_layerSettings = layerSettings;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         FiringMethod = new LaserFiringMethod(m_layerSettings, this);
     }
 }

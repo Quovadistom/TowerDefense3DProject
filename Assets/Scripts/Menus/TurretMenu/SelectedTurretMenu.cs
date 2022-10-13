@@ -7,7 +7,7 @@ public class SelectedTurretMenu : MonoBehaviour
     private SelectionService m_selectionService;
 
     public event Action TurretDataChanged;
-    public TurretEnemyHandler SelectedTurret { get; private set; }
+    public TurretMediator SelectedTurret { get; private set; }
 
     [Inject]
     public void Construct(SelectionService selectionService)
@@ -29,7 +29,7 @@ public class SelectedTurretMenu : MonoBehaviour
 
     private void OnObjectSelected(Component component)
     {
-        TurretEnemyHandler turretBase = (TurretEnemyHandler)component;
+        TurretMediator turretBase = (TurretMediator)component;
 
         SelectedTurret = turretBase;
 

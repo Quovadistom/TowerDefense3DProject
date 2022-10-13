@@ -5,11 +5,11 @@ using UnityEngine;
 public class LaserFiringMethod : IAttackMethod
 {
     private LayerSettings m_layerSettings;
-    private LaserTurretData m_laserTurretData;
+    private LaserTurretMediator m_laserTurretData;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public LaserFiringMethod(LayerSettings layerSettings, LaserTurretData laserTurretData)
+    public LaserFiringMethod(LayerSettings layerSettings, LaserTurretMediator laserTurretData)
     {
         m_layerSettings = layerSettings;
         m_laserTurretData = laserTurretData;
@@ -25,7 +25,7 @@ public class LaserFiringMethod : IAttackMethod
 
     public void Shoot(BasicEnemy target)
     {
-        foreach (LineRenderer lineRenderer in m_laserTurretData.ProjectileSpawnPoints.SpawnPoints)
+        foreach (LineRenderer lineRenderer in m_laserTurretData.LaserSpawnPoints.SpawnPoints)
         {
             lineRenderer.enabled = true;
             Vector3 lineRendererTransformPosition = lineRenderer.transform.position;
@@ -75,7 +75,7 @@ public class LaserFiringMethod : IAttackMethod
 
     public void TargetLost()
     {
-        foreach (LineRenderer lineRenderer in m_laserTurretData.ProjectileSpawnPoints.SpawnPoints)
+        foreach (LineRenderer lineRenderer in m_laserTurretData.LaserSpawnPoints.SpawnPoints)
         {
             lineRenderer.enabled = false;
         }

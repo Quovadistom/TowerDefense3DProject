@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Zenject;
 
-[Serializable]
-public class ProjectileTurretData : TurretAndAttackData<BulletSpawnPoints>
+public class ProjectileTurretData : TurretMediator
 {
+    public BulletSpawnPoints ProjectileSpawnPoints;
     public ProjectileBase<IBulletProfile> BulletPrefab;
     public float BulletSpeed = 20;
     private BulletService m_bulletService;
@@ -17,8 +18,10 @@ public class ProjectileTurretData : TurretAndAttackData<BulletSpawnPoints>
         m_bulletService = bulletService;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         ProjectileProfile = new StandardBulletProfile(BulletSpeed, Damage);
         FiringMethod = new ProjectileFiringMethod<IBulletProfile>(m_bulletService, this);
     }

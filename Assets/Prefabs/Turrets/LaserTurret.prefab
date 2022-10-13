@@ -45,9 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c0624a29c6cd14996c7efd4a6bc35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_objectToSwap: {fileID: 0}
-  m_turret: {fileID: 2222747314198725742}
-  m_turretData: {fileID: 1485379727472848212}
+  m_turretMediator: {fileID: 1485379727472848212}
 --- !u!1 &6503327617389409010
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa92bfabc834a9419a50b181f23c72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Firerate: 1
+  Damage: 50
+  Range: 4
+  TurnSpeed: 8
   TurretData: {fileID: 1485379727472848212}
   Renderer: {fileID: 7642932117025264838}
   m_rangeCollider: {fileID: 938741640497811103}
@@ -427,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52104542e4516934dbc198fa0f1e93e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_turretMediator: {fileID: 1485379727472848212}
 --- !u!114 &8664666483538800391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,11 +1067,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e4748d611ac6c47b5d87d79a45f162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Range: 4
-  TurnSpeed: 1000
   Firerate: 0.2
   Damage: 10
-  ProjectileSpawnPoints: {fileID: 5923035441972167402}
+  Range: 4
+  TurnSpeed: 1000
+  LaserSpawnPoints: {fileID: 5923035441972167402}
   LaserLength: 4
 --- !u!135 &938741640497811103
 SphereCollider:
@@ -1227,7 +1230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534ace981ebcbee41bf2e9653938a616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ComponentToSelect: {fileID: 2222747314198725742}
+  ComponentToSelect: {fileID: 1485379727472848212}
   Outline: {fileID: 8664666483538800391}
   VisualsToShow: {fileID: 7087915773415253654}
 --- !u!114 &2400669061940468392

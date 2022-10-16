@@ -347,6 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_isVisible: 1
   m_isUnlocked: 1
+  m_treeBase: {fileID: 0}
   m_upgradeButton: {fileID: 8677844027033133396}
   m_text: {fileID: 4947449818647078954}
   m_input: {fileID: 9126356372202947742}

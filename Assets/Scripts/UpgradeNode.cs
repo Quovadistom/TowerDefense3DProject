@@ -12,6 +12,7 @@ public class UpgradeNode : MonoBehaviour
     [SerializeField] private bool m_isUnlocked = false;
 
     [Header("UI References")]
+    [SerializeField] TurretUpgradeTreeBase m_treeBase;
     [SerializeField] Button m_upgradeButton;
     [SerializeField] TMP_Text m_text;
     [SerializeField] Transform m_input;
@@ -45,6 +46,8 @@ public class UpgradeNode : MonoBehaviour
         {
             node.Unlock();
         }
+
+        m_upgradeButton.interactable = false;
     }
 
     private void Unlock()

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class TurretUpgradeTreeBase : MonoBehaviour
 {
-    public TurretMediator m_turretMediator;
+    public TurretMediator TurretMediator { get; set; }
 
     internal void SetMediator(TurretMediator turretMediator)
     {
-        m_turretMediator = turretMediator;
+        TurretMediator = turretMediator;
     }
 }

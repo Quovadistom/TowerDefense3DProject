@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa92bfabc834a9419a50b181f23c72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpgradeTreeAsset: {fileID: 0}
   Firerate: 1
   Damage: 50
   Range: 4
@@ -949,6 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf78d948d53671348b3b36eab1c8c602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpgradeTreeAsset: {fileID: 3776209151905544151, guid: 86c7b7467763a214da6bc9a56315d1b0, type: 3}
   Firerate: 1
   Damage: 50
   Range: 4

@@ -6,7 +6,7 @@ public class SelectedTurretMenu : MonoBehaviour
 {
     private SelectionService m_selectionService;
 
-    public event Action TurretDataChanged;
+    public event Action<TurretMediator> TurretDataChanged;
     public TurretMediator SelectedTurret { get; private set; }
 
     [Inject]
@@ -33,7 +33,7 @@ public class SelectedTurretMenu : MonoBehaviour
 
         SelectedTurret = turretBase;
 
-        TurretDataChanged?.Invoke();
+        TurretDataChanged?.Invoke(SelectedTurret);
 
         this.gameObject.SetActive(turretBase != null);
     }

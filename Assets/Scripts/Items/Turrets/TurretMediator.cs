@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class TurretMediator : MonoBehaviour
 {
+    public TurretUpgradeTreeBase UpgradeTreeAsset;
     public float Firerate = 1;
     public float Damage = 50;
     public float Range = 4;

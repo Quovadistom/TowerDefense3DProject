@@ -13,6 +13,8 @@ public class UpgradeTree : MonoBehaviour
 
     private TurretUpgradeTreeBase m_activeTurretUpgradeTreeBase;
 
+    private Dictionary<TurretMediator, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TurretMediator, TurretUpgradeTreeBase>();
+
     void Awake()
     {
         m_selectedTurretMenu.TurretDataChanged += OnTurretChanged;
@@ -25,7 +27,30 @@ public class UpgradeTree : MonoBehaviour
 
     private void OnTurretChanged(TurretMediator selectedTurret)
     {
-        m_activeTurretUpgradeTreeBase = Instantiate(selectedTurret.UpgradeTreeAsset, m_viewPort);
-        m_scrollRect.content = (RectTransform) m_activeTurretUpgradeTreeBase.transform;
+        if (m_activeTurretUpgradeTreeBase != null)
+        {
+            m_activeTurretUpgradeTreeBase.gameObject.SetActive(false);
+        }
+
+        if (selectedTurret == null)
+        {
+            return;
+        }
+
+        if (m_turretUpgradeTrees.TryGetValue(selectedTurret, out TurretUpgradeTreeBase upgradeTree))
+        {
+            m_activeTurretUpgradeTreeBase = upgradeTree;
+            m_activeTurretUpgradeTreeBase.gameObject.SetActive(true);
+        }
+        else
+        {
+            upgradeTree = Instantiate(selectedTurret.UpgradeTreeAsset, m_viewPort);
+            upgradeTree.SetMediator(selectedTurret);
+            m_activeTurretUpgradeTreeBase = upgradeTree;
+            m_turretUpgradeTrees.Add(selectedTurret, m_activeTurretUpgradeTreeBase);
+        }
+
+        m_scrollRect.StopMovement();
+        m_scrollRect.content = (RectTransform)m_activeTurretUpgradeTreeBase.transform;
     }
 }

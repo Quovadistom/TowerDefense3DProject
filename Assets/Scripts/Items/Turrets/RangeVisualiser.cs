@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeVisualiser : TurretMediator
+public class RangeVisualiser : MonoBehaviour
 {
     public TurretMediator TurretData;
     public SpriteRenderer Renderer;

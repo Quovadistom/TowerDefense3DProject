@@ -1,12 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-public class TurretMediator : MonoBehaviour
+public class BarrelTurretMediator : TurretMediatorBase
 {
-    public TurretUpgradeTreeBase UpgradeTreeAsset;
     public float Firerate = 1;
     public float Damage = 50;
-    public float Range = 4;
     public float TurnSpeed = 8;
 
     public IAttackMethod FiringMethod { get; protected set; }
@@ -37,13 +35,11 @@ public class TurretMediator : MonoBehaviour
         TargetMethod = method;
         OnTargetMethodChanged?.Invoke(TargetMethod);
     }
+
+    public void SetBarrel(float? fireRate = null, float? damage = null, float? turnSpeed = null)
+    {
+        Firerate = fireRate != null ? (float)fireRate : Firerate;
+        Damage = damage != null ? (float)damage : Damage;
+        TurnSpeed = turnSpeed != null ? (float)turnSpeed : TurnSpeed;
+    }
 }
-
-// laser
-// range, turnspeed, firerate/damagerate, damage, pierce
-
-//explosion
-// range, turnspeed, firerate, damage, explosionrange
-
-// lightning
-// range, turnspeed, firerate, damage, explosionrange, bounce

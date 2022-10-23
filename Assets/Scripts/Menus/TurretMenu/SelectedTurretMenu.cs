@@ -6,8 +6,8 @@ public class SelectedTurretMenu : MonoBehaviour
 {
     private SelectionService m_selectionService;
 
-    public event Action<TurretMediator> TurretDataChanged;
-    public TurretMediator SelectedTurret { get; private set; }
+    public event Action<BarrelTurretMediator> TurretDataChanged;
+    public BarrelTurretMediator SelectedTurret { get; private set; }
 
     [Inject]
     public void Construct(SelectionService selectionService)
@@ -18,7 +18,10 @@ public class SelectedTurretMenu : MonoBehaviour
     private void Awake()
     {
         m_selectionService.ObjectSelected += OnObjectSelected;
+    }
 
+    private void Start()
+    {
         this.gameObject.SetActive(false);
     }
 
@@ -29,7 +32,7 @@ public class SelectedTurretMenu : MonoBehaviour
 
     private void OnObjectSelected(Component component)
     {
-        TurretMediator turretBase = (TurretMediator)component;
+        BarrelTurretMediator turretBase = (BarrelTurretMediator)component;
 
         SelectedTurret = turretBase;
 

@@ -50,7 +50,7 @@ public class TargetingDropDown : MonoBehaviour
     }
 
 
-    private void OnTurretChanged(TurretMediator selectedTurret)
+    private void OnTurretChanged(BarrelTurretMediator selectedTurret)
     {
         if (selectedTurret != null)
         {

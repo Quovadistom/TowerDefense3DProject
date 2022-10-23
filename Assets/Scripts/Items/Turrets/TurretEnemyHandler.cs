@@ -6,7 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class TurretEnemyHandler : MonoBehaviour
 {
-    [SerializeField] private TurretMediator m_turretMediator; 
+    [SerializeField] private BarrelTurretMediator m_turretMediator; 
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
     private ITargetMethod m_targetMethod;

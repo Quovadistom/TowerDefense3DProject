@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using Zenject;
 
-public class ProjectileTurretData : TurretMediator
+public class ProjectileTurretData : BarrelTurretMediator
 {
     public BulletSpawnPoints ProjectileSpawnPoints;
     public ProjectileBase<IBulletProfile> BulletPrefab;

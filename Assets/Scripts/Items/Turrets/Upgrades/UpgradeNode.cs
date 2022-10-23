@@ -21,6 +21,8 @@ public class UpgradeNode : MonoBehaviour
 
     public Vector3 InputPosition => m_input.position;
 
+    public event Action ButtonClicked;
+
     private void OnValidate()
     {
         SetVisuals();
@@ -48,6 +50,8 @@ public class UpgradeNode : MonoBehaviour
         }
 
         m_upgradeButton.interactable = false;
+
+        ButtonClicked?.Invoke();
     }
 
     private void Unlock()

@@ -5,7 +5,7 @@ using Zenject;
 
 public class TurretBarrel : MonoBehaviour
 {
-    [SerializeField] private TurretMediator m_turretMediator;
+    [SerializeField] private BarrelTurretMediator m_turretMediator;
 
     private Transform m_targetTransform;
     private BasicEnemy m_currentTarget;

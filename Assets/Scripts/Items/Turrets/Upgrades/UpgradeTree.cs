@@ -13,7 +13,7 @@ public class UpgradeTree : MonoBehaviour
 
     private TurretUpgradeTreeBase m_activeTurretUpgradeTreeBase;
 
-    private Dictionary<TurretMediator, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TurretMediator, TurretUpgradeTreeBase>();
+    private Dictionary<TurretMediatorBase, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TurretMediatorBase, TurretUpgradeTreeBase>();
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class UpgradeTree : MonoBehaviour
         m_selectedTurretMenu.TurretDataChanged -= OnTurretChanged;
     }
 
-    private void OnTurretChanged(TurretMediator selectedTurret)
+    private void OnTurretChanged(TurretMediatorBase selectedTurret)
     {
         if (m_activeTurretUpgradeTreeBase != null)
         {
@@ -40,17 +40,22 @@ public class UpgradeTree : MonoBehaviour
         if (m_turretUpgradeTrees.TryGetValue(selectedTurret, out TurretUpgradeTreeBase upgradeTree))
         {
             m_activeTurretUpgradeTreeBase = upgradeTree;
-            m_activeTurretUpgradeTreeBase.gameObject.SetActive(true);
         }
         else
         {
-            upgradeTree = Instantiate(selectedTurret.UpgradeTreeAsset, m_viewPort);
-            upgradeTree.SetMediator(selectedTurret);
-            m_activeTurretUpgradeTreeBase = upgradeTree;
+            selectedTurret.UpgradeTreeAsset.transform.SetParent(m_viewPort, false);
+            m_activeTurretUpgradeTreeBase = selectedTurret.UpgradeTreeAsset;
             m_turretUpgradeTrees.Add(selectedTurret, m_activeTurretUpgradeTreeBase);
         }
 
         m_scrollRect.StopMovement();
         m_scrollRect.content = (RectTransform)m_activeTurretUpgradeTreeBase.transform;
+
+        if (m_activeTurretUpgradeTreeBase.TryGetComponent(out Canvas canvas))
+        {
+            Destroy(canvas);
+        }
+
+        m_activeTurretUpgradeTreeBase.gameObject.SetActive(true);
     }
 }

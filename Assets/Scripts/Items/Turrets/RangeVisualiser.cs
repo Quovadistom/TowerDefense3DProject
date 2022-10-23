@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RangeVisualiser : MonoBehaviour
 {
-    public TurretMediator TurretData;
+    public BarrelTurretMediator TurretData;
     public SpriteRenderer Renderer;
     [SerializeField] private SphereCollider m_rangeCollider;
 

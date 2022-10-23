@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [Serializable]
-public class LaserTurretMediator : TurretMediator
+public class LaserTurretMediator : BarrelTurretMediator
 {
     public LaserSpawnPoints LaserSpawnPoints;
     public float LaserLength = 5;

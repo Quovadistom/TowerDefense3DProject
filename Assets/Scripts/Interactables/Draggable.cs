@@ -1,3 +1,4 @@
+using Assets.Scripts.Interactables;
 using System.ComponentModel.Design;
 using UnityEngine;
 using Zenject;

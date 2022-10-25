@@ -3,26 +3,29 @@ using System.ComponentModel.Design;
 using UnityEngine;
 using Zenject;
 
-public class Selectable : MonoBehaviour
+namespace Assets.Scripts.Interactables
 {
-    public Component ComponentToSelect;
-    public Outline Outline;
-    public GameObject VisualsToShow;
-
-    public bool IsSelected { get; private set; }
-
-    public void SetSelected(bool selected)
+    public class Selectable : MonoBehaviour
     {
-        IsSelected = selected;
+        public Component ComponentToSelect;
+        public Outline Outline;
+        public GameObject VisualsToShow;
 
-        if (Outline != null)
-        {
-            Outline.enabled = selected;
-        }
+        public bool IsSelected { get; private set; }
 
-        if (VisualsToShow != null)
+        public void SetSelected(bool selected)
         {
-            VisualsToShow.SetActive(selected);
+            IsSelected = selected;
+
+            if (Outline != null)
+            {
+                Outline.enabled = selected;
+            }
+
+            if (VisualsToShow != null)
+            {
+                VisualsToShow.SetActive(selected);
+            }
         }
     }
 }

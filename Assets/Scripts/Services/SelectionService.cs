@@ -1,3 +1,4 @@
+using Assets.Scripts.Interactables;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;

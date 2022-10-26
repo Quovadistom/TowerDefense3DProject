@@ -310,7 +310,6 @@ MonoBehaviour:
   m_treeBase: {fileID: 0}
   m_upgradeButton: {fileID: 8677844027033133396}
   m_text: {fileID: 4947449818647078954}
-  m_lineRendererAsset: {fileID: 6448612103536033883, guid: 3304a624886be9045970f641a47881e5, type: 3}
-  m_unlockedByNodes: []
+  UnlockedByNodes: []
   m_isVisible: 1
   m_isUnlocked: 1

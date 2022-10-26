@@ -14,12 +14,7 @@ public class UpgradeNode : MonoBehaviour
     [SerializeField] TurretUpgradeTreeBase m_treeBase;
     [SerializeField] Button m_upgradeButton;
     [SerializeField] TMP_Text m_text;
-    [SerializeField] Transform m_input;
-    [SerializeField] Transform m_output;
-    [SerializeField] UILineRenderer m_lineRendererAsset;
-    [SerializeField] List<UpgradeNode> m_unlockedByNodes;
-
-    public Vector3 InputPosition => m_output.position;
+    public List<UpgradeNode> UnlockedByNodes;
 
     public event Action ButtonClicked;
 
@@ -40,7 +35,7 @@ public class UpgradeNode : MonoBehaviour
         m_upgradeButton.interactable = m_isUnlocked;
         m_upgradeButton.gameObject.SetActive(m_isVisible);
 
-        foreach (UpgradeNode upgradeNode in m_unlockedByNodes)
+        foreach (UpgradeNode upgradeNode in UnlockedByNodes)
         {
             upgradeNode.ButtonClicked += Unlock;
         }
@@ -65,27 +60,6 @@ public class UpgradeNode : MonoBehaviour
         m_upgradeButton.gameObject.SetActive(m_isVisible);
     }
 
-    [Button]
-    public void UpdateLineRenderers()
-    {        
-        foreach (UILineRenderer lineRenderer in GetComponentsInChildren<UILineRenderer>(true))
-        {
-            DestroyImmediate(lineRenderer.gameObject);
-        }
-
-        foreach (UpgradeNode upgradeNode in m_unlockedByNodes)
-        {
-            Vector2[] coordinates = new Vector2[]
-            {
-                Vector2.zero,
-                m_input.InverseTransformPoint(upgradeNode.InputPosition)
-            };
-
-            UILineRenderer lineRenderer = Instantiate(m_lineRendererAsset, m_input);
-            lineRenderer.Points = coordinates;
-        }
-    }
-
     private void OnButtonClick()
     {
         m_upgradeButton.interactable = false;
@@ -102,7 +76,7 @@ public class UpgradeNode : MonoBehaviour
             Debug.LogWarning("This node is hidden. Please show the node or remove dependency.", this);
         }
 
-        if (m_unlockSignals < m_unlockedByNodes.Count)
+        if (m_unlockSignals < UnlockedByNodes.Count)
         {
             return;
         }

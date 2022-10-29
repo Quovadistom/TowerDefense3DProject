@@ -3,43 +3,85 @@ using UnityEngine;
 
 public class BarrelTurretMediator : TurretMediatorBase
 {
-    public float Firerate = 1;
-    public float Damage = 50;
-    public float TurnSpeed = 8;
-
-    public IAttackMethod FiringMethod { get; protected set; }
-    public ITargetMethod TargetMethod { get; protected set; }
-
     private BasicEnemy m_currentTarget;
-    public event Action<BasicEnemy> OnEnemyChanged;
-    public event Action<ITargetMethod> OnTargetMethodChanged;
+    private ITargetMethod m_currentTargetMethod;
+    private IAttackMethod m_currentAttackMethod;
+    [Header("Barrel Settings")]
+    [SerializeField] private float m_fireRate;
+    [SerializeField] private float m_turnSpeed;
+    [SerializeField] private float m_damage;
 
-    protected virtual void Awake()
+    public event Action<BasicEnemy> TargetChanged;
+    public event Action<ITargetMethod> TargetMethodChanged;
+    public event Action<IAttackMethod> AttackMethodChanged;
+    public event Action<float> FirerateChanged;
+    public event Action<float> TurnSpeedChanged;
+    public event Action<float> DamageChanged;
+
+    protected override void Start()
     {
-        SetTargetMethod(new TargetFirstEnemy());
+        base.Start();
+
+        CurrentTargetMethod = new TargetFirstEnemy();
     }
 
-    public void SetTarget(BasicEnemy newEnemy)
+    public BasicEnemy CurrentTarget
     {
-        if (newEnemy == m_currentTarget)
+        get => m_currentTarget;
+        set
         {
-            return;
+            m_currentTarget = value;
+            TargetChanged?.Invoke(m_currentTarget);
         }
-
-        m_currentTarget = newEnemy;
-        OnEnemyChanged?.Invoke(m_currentTarget);
     }
 
-    public void SetTargetMethod(ITargetMethod method)
+    public ITargetMethod CurrentTargetMethod
     {
-        TargetMethod = method;
-        OnTargetMethodChanged?.Invoke(TargetMethod);
+        get => m_currentTargetMethod;
+        set
+        {
+            m_currentTargetMethod = value;
+            TargetMethodChanged?.Invoke(m_currentTargetMethod);
+        }
+    }    
+    
+    public IAttackMethod CurrentAttackMethod
+    {
+        get => m_currentAttackMethod;
+        set
+        {
+            m_currentAttackMethod = value;
+            AttackMethodChanged?.Invoke(m_currentAttackMethod);
+        }
     }
 
-    public void SetBarrel(float? fireRate = null, float? damage = null, float? turnSpeed = null)
+    public float Firerate
     {
-        Firerate = fireRate != null ? (float)fireRate : Firerate;
-        Damage = damage != null ? (float)damage : Damage;
-        TurnSpeed = turnSpeed != null ? (float)turnSpeed : TurnSpeed;
+        get => m_fireRate;
+        set
+        {
+            m_fireRate = value;
+            FirerateChanged?.Invoke(m_fireRate);
+        }
+    }
+
+    public float TurnSpeed
+    {
+        get => m_turnSpeed;
+        set
+        {
+            m_turnSpeed = value;
+            TurnSpeedChanged?.Invoke(m_turnSpeed);
+        }
+    }
+
+    public float Damage
+    {
+        get => m_damage;
+        set
+        {
+            m_damage = value;
+            DamageChanged?.Invoke(m_damage);
+        }
     }
 }

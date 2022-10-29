@@ -1,28 +1,41 @@
 ﻿using System;
 using UnityEngine;
 
-public class RangeUpdate
-{
-    public RangeUpdate(float range, GameObject visual)
-    {
-        Range = range;
-        Visual = visual;    
-    }
-
-    public float Range { get; private set; }
-    public GameObject Visual { get; private set; }
-}
-
 public class TurretMediatorBase : MonoBehaviour
 {
+    [Header("Range UI References")]
     public TurretUpgradeTreeBase UpgradeTreeAsset;
-    public float Range = 4;
 
-    public event Action<RangeUpdate> RangeUpdated;
+    [Header("Range Settings")]
+    [SerializeField] private float m_range = 4;
+    
+    private GameObject m_rangeVisual;
 
-    public void SetRange(RangeUpdate newRangeUpdate)
+    public event Action<float> RangeUpdated;
+    public event Action<GameObject> RangeVisualUpdated;
+
+    protected virtual void Start()
     {
-        Range = newRangeUpdate.Range;
-        RangeUpdated?.Invoke(newRangeUpdate);
+        Range = m_range;
+    }
+
+    public float Range
+    {
+        get => m_range;
+        set
+        {
+            m_range = value;
+            RangeUpdated?.Invoke(m_range);
+        }
+    }
+
+    public GameObject RangeVisual
+    {
+        get => m_rangeVisual;
+        set
+        {
+            m_rangeVisual = value;
+            RangeVisualUpdated?.Invoke(m_rangeVisual);
+        }
     }
 }

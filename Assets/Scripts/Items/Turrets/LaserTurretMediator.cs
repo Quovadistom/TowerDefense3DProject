@@ -16,9 +16,9 @@ public class LaserTurretMediator : BarrelTurretMediator
         m_layerSettings = layerSettings;
     }
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
-        FiringMethod = new LaserFiringMethod(m_layerSettings, this);
+        base.Start();
+        CurrentAttackMethod = new LaserFiringMethod(m_layerSettings, this);
     }
 }

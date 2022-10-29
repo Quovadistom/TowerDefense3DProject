@@ -13,7 +13,7 @@ public class TurretBarrel : MonoBehaviour
     private void Awake()
     {
         OnTargetLost();
-        m_turretMediator.OnEnemyChanged += OnEnemyChanged;
+        m_turretMediator.TargetChanged += OnEnemyChanged;
     }
 
     private void Update()
@@ -33,7 +33,7 @@ public class TurretBarrel : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_turretMediator.OnEnemyChanged -= OnEnemyChanged;
+        m_turretMediator.TargetChanged -= OnEnemyChanged;
     }
 
     private void OnEnemyChanged(BasicEnemy newEnemy)
@@ -48,14 +48,14 @@ public class TurretBarrel : MonoBehaviour
 
     private void OnTargetLost()
     {
-        m_turretMediator.FiringMethod.TargetLost();
+        m_turretMediator.CurrentAttackMethod?.TargetLost();
     }
 
     private void LookAtTarget()
     {
         if (IsLockedOnTarget())
         {
-            m_turretMediator.FiringMethod.Shoot(m_currentTarget);
+            m_turretMediator.CurrentAttackMethod?.Shoot(m_currentTarget);
         }
     }
 

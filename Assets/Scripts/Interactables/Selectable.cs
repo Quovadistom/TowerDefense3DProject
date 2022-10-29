@@ -8,7 +8,7 @@ namespace Assets.Scripts.Interactables
     public class Selectable : MonoBehaviour
     {
         public Component ComponentToSelect;
-        public Outline Outline;
+        //public Outline Outline;
         public GameObject VisualsToShow;
 
         public bool IsSelected { get; private set; }
@@ -17,10 +17,10 @@ namespace Assets.Scripts.Interactables
         {
             IsSelected = selected;
 
-            if (Outline != null)
-            {
-                Outline.enabled = selected;
-            }
+            //if (Outline != null)
+            //{
+            //    Outline.enabled = selected;
+            //}
 
             if (VisualsToShow != null)
             {

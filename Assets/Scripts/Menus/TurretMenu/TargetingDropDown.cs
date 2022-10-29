@@ -54,12 +54,12 @@ public class TargetingDropDown : MonoBehaviour
     {
         if (selectedTurret != null)
         {
-            m_dropdown.value = m_targetingMethods.IndexOf(m_targetingMethods.First(x => x.GetType() == selectedTurret.TargetMethod.GetType()));
+            m_dropdown.value = m_targetingMethods.IndexOf(m_targetingMethods.First(x => x.GetType() == selectedTurret.CurrentTargetMethod.GetType()));
         }
     }
 
     private void OnTargetingChanged(int index)
     {
-        SelectedTurretMenu.SelectedTurret.SetTargetMethod(m_targetingMethods[index]);
+        SelectedTurretMenu.SelectedTurret.CurrentTargetMethod = m_targetingMethods[index];
     }
 }

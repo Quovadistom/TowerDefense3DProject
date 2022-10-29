@@ -3,11 +3,13 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using Zenject;
 
-public class ProjectileTurretData : BarrelTurretMediator
+public class ProjectileTurretMediator : BarrelTurretMediator
 {
+    [Header("Projectile Settings")]
     public BulletSpawnPoints ProjectileSpawnPoints;
     public ProjectileBase<IBulletProfile> BulletPrefab;
     public float BulletSpeed = 20;
+
     private BulletService m_bulletService;
 
     public StandardBulletProfile ProjectileProfile { get; private set; }
@@ -18,11 +20,11 @@ public class ProjectileTurretData : BarrelTurretMediator
         m_bulletService = bulletService;
     }
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
 
         ProjectileProfile = new StandardBulletProfile(BulletSpeed, Damage);
-        FiringMethod = new ProjectileFiringMethod<IBulletProfile>(m_bulletService, this);
+        CurrentAttackMethod = new ProjectileFiringMethod<IBulletProfile>(m_bulletService, this);
     }
 }

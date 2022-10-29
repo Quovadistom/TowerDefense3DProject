@@ -1,22 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RangeVisualiser : MonoBehaviour
 {
-    public BarrelTurretMediator TurretData;
-    public SpriteRenderer Renderer;
+    [SerializeField] private BarrelTurretMediator m_turretData;
+    [SerializeField] private SpriteRenderer m_renderer;
     [SerializeField] private SphereCollider m_rangeCollider;
 
-    private void Update() // TODO: do not use update, update with event/callback
+    private void Awake()
     {
-        float range = TurretData.Range;
-        transform.localScale = new Vector3(range * 2, range * 2, 0);
-        m_rangeCollider.radius = range;
+        m_turretData.RangeUpdated += OnRangeUpdated;
+    }
+
+    private void OnDestroy()
+    {
+        m_turretData.RangeUpdated -= OnRangeUpdated;
+    }
+
+    private void OnRangeUpdated(float newRange)
+    {
+        m_renderer.transform.localScale = new Vector3(newRange * 2, newRange * 2, 0);
+        m_rangeCollider.radius = newRange;
     }
 
     public void SetRangeColor(Color color)
     {
-        Renderer.color = color;
+        m_renderer.color = color;
     }
 }

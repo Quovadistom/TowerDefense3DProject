@@ -3,7 +3,6 @@ using UnityEngine;
 
 public interface IAttackMethod
 {
-
     public void Shoot(BasicEnemy target);
     public void TargetLost();
 }

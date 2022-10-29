@@ -15,7 +15,7 @@ public class TurretEnemyHandler : MonoBehaviour
 
     private void Awake()
     {
-        m_turretMediator.OnTargetMethodChanged += TargetMethodChanged;
+        m_turretMediator.TargetMethodChanged += TargetMethodChanged;
         m_enemiesInRange = new GenericRepository<BasicEnemy>();
     }
 
@@ -40,7 +40,7 @@ public class TurretEnemyHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_turretMediator.OnTargetMethodChanged -= TargetMethodChanged;
+        m_turretMediator.TargetMethodChanged -= TargetMethodChanged;
     }
 
     private void TargetMethodChanged(ITargetMethod targetMethod) => m_targetMethod = targetMethod;
@@ -51,7 +51,7 @@ public class TurretEnemyHandler : MonoBehaviour
         {
             m_enemiesInRange.Remove(Target);
             Target = null;
-            m_turretMediator.SetTarget(Target);
+            m_turretMediator.CurrentTarget = Target;
         }
     }
 
@@ -66,7 +66,7 @@ public class TurretEnemyHandler : MonoBehaviour
 
         m_targetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
 
-        m_turretMediator.SetTarget(enemy);
+        m_turretMediator.CurrentTarget = enemy;
         Target = enemy;
     }
 

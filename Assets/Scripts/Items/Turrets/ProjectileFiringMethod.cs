@@ -6,11 +6,11 @@ using UnityEngine;
 public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 {
     private BulletService m_bulletService;
-    private ProjectileTurretData m_projectileTurretData;
+    private ProjectileTurretMediator m_projectileTurretData;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public ProjectileFiringMethod(BulletService bulletService, ProjectileTurretData projectileTurretData)
+    public ProjectileFiringMethod(BulletService bulletService, ProjectileTurretMediator projectileTurretData)
     {
         m_bulletService = bulletService;
         m_projectileTurretData = projectileTurretData;

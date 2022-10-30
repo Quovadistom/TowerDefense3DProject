@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NaughtyAttributes;
+using System;
 using UnityEngine;
 
 public class BarrelTurretMediator : TurretMediatorBase
@@ -6,15 +7,15 @@ public class BarrelTurretMediator : TurretMediatorBase
     private BasicEnemy m_currentTarget;
     private ITargetMethod m_currentTargetMethod;
     private IAttackMethod m_currentAttackMethod;
-    [Header("Barrel Settings")]
-    [SerializeField] private float m_fireRate;
+
+    [BoxGroup("Turret Settings")]
     [SerializeField] private float m_turnSpeed;
+    [BoxGroup("Projectile Settings")]
     [SerializeField] private float m_damage;
 
     public event Action<BasicEnemy> TargetChanged;
     public event Action<ITargetMethod> TargetMethodChanged;
     public event Action<IAttackMethod> AttackMethodChanged;
-    public event Action<float> FirerateChanged;
     public event Action<float> TurnSpeedChanged;
     public event Action<float> DamageChanged;
 
@@ -52,16 +53,6 @@ public class BarrelTurretMediator : TurretMediatorBase
         {
             m_currentAttackMethod = value;
             AttackMethodChanged?.Invoke(m_currentAttackMethod);
-        }
-    }
-
-    public float Firerate
-    {
-        get => m_fireRate;
-        set
-        {
-            m_fireRate = value;
-            FirerateChanged?.Invoke(m_fireRate);
         }
     }
 

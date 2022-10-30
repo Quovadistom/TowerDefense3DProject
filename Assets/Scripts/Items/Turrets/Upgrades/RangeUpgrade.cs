@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(UpgradeNode))]
 public class RangeUpgrade : UpgradeBase<TurretMediatorBase>
 {
     [SerializeField] private float m_increaseRangePercentage;

@@ -15,8 +15,15 @@ public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
         m_bulletService = bulletService;
         m_projectileTurretData = projectileTurretData;
 
+        m_projectileTurretData.FirerateChanged += OnFireRateChanged;
+
         m_timer = new Timer(m_projectileTurretData.Firerate * 1000);
         m_timer.Elapsed += OnTimerElapsed;
+    }
+
+    private void OnFireRateChanged(float newFireRate)
+    {
+        m_timer.Interval = newFireRate * 1000;
     }
 
     private void OnTimerElapsed(object sender, ElapsedEventArgs e)

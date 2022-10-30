@@ -5,7 +5,8 @@ using Zenject;
 
 public class TurretBarrel : MonoBehaviour
 {
-    [SerializeField] private BarrelTurretMediator m_turretMediator;
+    [SerializeField] private ProjectileTurretMediator m_turretMediator;
+    [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
 
     private Transform m_targetTransform;
     private BasicEnemy m_currentTarget;
@@ -14,6 +15,7 @@ public class TurretBarrel : MonoBehaviour
     {
         OnTargetLost();
         m_turretMediator.TargetChanged += OnEnemyChanged;
+        m_turretMediator.ProjectileSpawnPointsChanged += OnProjectileSpawnPointChanged;
     }
 
     private void Update()
@@ -34,6 +36,7 @@ public class TurretBarrel : MonoBehaviour
     private void OnDestroy()
     {
         m_turretMediator.TargetChanged -= OnEnemyChanged;
+        m_turretMediator.ProjectileSpawnPointsChanged -= OnProjectileSpawnPointChanged;
     }
 
     private void OnEnemyChanged(BasicEnemy newEnemy)
@@ -44,6 +47,13 @@ public class TurretBarrel : MonoBehaviour
         {
             OnTargetLost();
         }
+    }
+
+    private void OnProjectileSpawnPointChanged(BulletSpawnPoints bulletSpawnPoints)
+    {
+        Destroy(m_bulletSpawnPoints.gameObject);
+        bulletSpawnPoints.transform.SetParent(this.transform, false);
+        m_bulletSpawnPoints = bulletSpawnPoints;
     }
 
     private void OnTargetLost()

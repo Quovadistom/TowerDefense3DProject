@@ -14,7 +14,7 @@ public class LaserFiringMethod : IAttackMethod
         m_layerSettings = layerSettings;
         m_laserTurretData = laserTurretData;
 
-        m_timer = new Timer(m_laserTurretData.Firerate * 1000);
+        //m_timer = new Timer(m_laserTurretData.Firerate * 1000);
         m_timer.Elapsed += OnTimerElapsed;
     }
 

@@ -1,21 +1,16 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class TurretEnemyHandler : MonoBehaviour
 {
     [SerializeField] private BarrelTurretMediator m_turretMediator; 
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
-    private ITargetMethod m_targetMethod;
-
-    public BasicEnemy Target { get; private set; }
+    private BasicEnemy m_target;
 
     private void Awake()
     {
-        m_turretMediator.TargetMethodChanged += TargetMethodChanged;
         m_enemiesInRange = new GenericRepository<BasicEnemy>();
     }
 
@@ -38,20 +33,13 @@ public class TurretEnemyHandler : MonoBehaviour
         m_enemiesInRange.Remove(enemy);
     }
 
-    private void OnDestroy()
-    {
-        m_turretMediator.TargetMethodChanged -= TargetMethodChanged;
-    }
-
-    private void TargetMethodChanged(ITargetMethod targetMethod) => m_targetMethod = targetMethod;
-
     public void CheckTargetValidity()
     {
-        if (Target != null && (Target.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
+        if (m_target != null && (m_target.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
         {
-            m_enemiesInRange.Remove(Target);
-            Target = null;
-            m_turretMediator.CurrentTarget = Target;
+            m_enemiesInRange.Remove(m_target);
+            m_target = null;
+            m_turretMediator.CurrentTarget = m_target;
         }
     }
 
@@ -64,10 +52,10 @@ public class TurretEnemyHandler : MonoBehaviour
             return;
         }
 
-        m_targetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        m_turretMediator.CurrentTargetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
 
         m_turretMediator.CurrentTarget = enemy;
-        Target = enemy;
+        m_target = enemy;
     }
 
     public class Factory : PlaceholderFactory<TurretEnemyHandler, TurretEnemyHandler>

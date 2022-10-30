@@ -1,12 +1,13 @@
-﻿using System;
+﻿using NaughtyAttributes;
+using System;
 using UnityEngine;
 
 public class TurretMediatorBase : MonoBehaviour
 {
-    [Header("Range UI References")]
+    [BoxGroup("UI References")]
     public TurretUpgradeTreeBase UpgradeTreeAsset;
 
-    [Header("Range Settings")]
+    [BoxGroup("Turret Settings")]
     [SerializeField] private float m_range = 4;
     
     private GameObject m_rangeVisual;

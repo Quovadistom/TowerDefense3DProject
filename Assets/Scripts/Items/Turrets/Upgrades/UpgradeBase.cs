@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(UpgradeNode))]
 public class UpgradeBase<T> : MonoBehaviour where T : TurretMediatorBase
 {
     public T m_turretMediator;

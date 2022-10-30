@@ -29,7 +29,6 @@ public class SpawnTower : MonoBehaviour, IPointerDownHandler
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
         {
             turret.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
-            m_selectionService.ForceSetSelected(turret.transform);
         }
     }
 }

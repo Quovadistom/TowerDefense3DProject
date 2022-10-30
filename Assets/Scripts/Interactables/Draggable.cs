@@ -12,8 +12,8 @@ public class Draggable : MonoBehaviour
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private ColorSettings m_colorSettings;
-    private Selectable m_selectable;
     private int m_pathColliderAmount;
+    private bool m_isPlaced = false;
 
     public bool AllowDragging { get; set; } = true;
 
@@ -28,13 +28,12 @@ public class Draggable : MonoBehaviour
 
     private void Awake()
     {
-        m_selectable = GetComponent<Selectable>();
-        m_selectionService.LockSelection = true;
+        m_selectionService.ForceClearSelected();
     }
 
     void Update()
     {     
-        if (m_selectable.IsSelected && m_touchInputService.TryGetTouchPhase(out TouchPhase touchPhase))
+        if (m_touchInputService.TryGetTouchPhase(out TouchPhase touchPhase))
         {
             if (AllowDragging && (touchPhase == TouchPhase.Began || touchPhase == TouchPhase.Moved))
             {
@@ -44,17 +43,18 @@ public class Draggable : MonoBehaviour
                 }
             }
 
-            if (m_pathColliderAmount == 0 && (touchPhase == TouchPhase.Ended || touchPhase == TouchPhase.Canceled))
+            if (!m_isPlaced && m_pathColliderAmount == 0 && (touchPhase == TouchPhase.Ended || touchPhase == TouchPhase.Canceled))
             {
+                m_isPlaced = true;
                 AllowDragging = false;
-                m_selectionService.LockSelection = false;
+                m_selectionService.ForceSetSelected(this.transform);
             }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Path"))
+        if (other.CompareTag("Path") || other.CompareTag("Turret"))
         {
             RangeVisualiser.SetRangeColor(m_colorSettings.RangeBlockedToPlaceColor);
             m_pathColliderAmount++;
@@ -63,7 +63,7 @@ public class Draggable : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Path"))
+        if (other.CompareTag("Path") || other.CompareTag("Turret"))
         {
             m_pathColliderAmount--;
             if (m_pathColliderAmount == 0)

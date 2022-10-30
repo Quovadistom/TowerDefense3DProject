@@ -74,6 +74,11 @@ public class SelectionService : ITickable
         }
     }
 
+    public void ForceClearSelected()
+    {
+        SetSelected(null);
+    }
+
     public void ForceSetSelected(Transform transformToSelect)
     {
         Selectable selectable = transformToSelect.GetComponentInChildren<Selectable>();

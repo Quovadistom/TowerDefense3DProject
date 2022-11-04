@@ -3,25 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseVisualChanger : MonoBehaviour
+public class BaseVisualChanger<T> : MonoBehaviour where T : ChangeVisualComponent
 {
-    [SerializeField] TurretMediatorBase m_turretMediatorBase;
-    [SerializeField] GameObject m_baseVisualToChange;
+    public T Component;
+    [SerializeField] Transform m_baseVisualToChange;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        m_turretMediatorBase.RangeVisualUpdated += OnRangeVisualUpdated;
+        Component.VisualChanged += OnRangeVisualUpdated;
     }
 
-    private void OnDestroy()
-    {        
-        m_turretMediatorBase.RangeVisualUpdated += OnRangeVisualUpdated;
+    protected virtual void OnDestroy()
+    {
+        Component.VisualChanged += OnRangeVisualUpdated;
     }
 
-    private void OnRangeVisualUpdated(GameObject newVisual)
+    private void OnRangeVisualUpdated(Transform newVisual)
     {
-        GameObject visual = GameObject.Instantiate(newVisual, m_baseVisualToChange.transform.parent);
-        Destroy(m_baseVisualToChange);
+        Transform visual = GameObject.Instantiate(newVisual, m_baseVisualToChange.transform.parent);
+        Destroy(m_baseVisualToChange.gameObject);
         m_baseVisualToChange = visual;
     }
 }

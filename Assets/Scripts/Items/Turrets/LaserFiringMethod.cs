@@ -5,16 +5,18 @@ using UnityEngine;
 public class LaserFiringMethod : IAttackMethod
 {
     private LayerSettings m_layerSettings;
-    private LaserTurretMediator m_laserTurretData;
+    private TurretLaserComponent m_laserComponent;
+    private TurretRangeComponent m_turretRangeComponent;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public LaserFiringMethod(LayerSettings layerSettings, LaserTurretMediator laserTurretData)
+    public LaserFiringMethod(LayerSettings layerSettings, TurretLaserComponent laserTurretData, TurretRangeComponent turretRangeComponent)
     {
         m_layerSettings = layerSettings;
-        m_laserTurretData = laserTurretData;
+        m_laserComponent = laserTurretData;
+        m_turretRangeComponent = turretRangeComponent;
 
-        //m_timer = new Timer(m_laserTurretData.Firerate * 1000);
+        m_timer = new Timer(m_laserComponent.DamageRate * 1000);
         m_timer.Elapsed += OnTimerElapsed;
     }
 
@@ -25,7 +27,7 @@ public class LaserFiringMethod : IAttackMethod
 
     public void Shoot(BasicEnemy target)
     {
-        foreach (LineRenderer lineRenderer in m_laserTurretData.LaserSpawnPoints.SpawnPoints)
+        foreach (LineRenderer lineRenderer in m_laserComponent.LaserSpawnPoints.SpawnPoints)
         {
             lineRenderer.enabled = true;
             Vector3 lineRendererTransformPosition = lineRenderer.transform.position;
@@ -33,7 +35,7 @@ public class LaserFiringMethod : IAttackMethod
 
             RaycastHit[] enemies = Physics.RaycastAll(lineRendererTransformPosition,
                 targetPosition,
-                m_laserTurretData.Range,
+                m_turretRangeComponent.Range,
                 m_layerSettings.EnemyLayer);
 
             lineRenderer.useWorldSpace = true;
@@ -44,7 +46,7 @@ public class LaserFiringMethod : IAttackMethod
                 Vector3[] positions = new Vector3[]
                 {
                     lineRendererTransformPosition,
-                    m_laserTurretData.LaserLength * Vector3.Normalize(targetPosition) + lineRendererTransformPosition
+                    m_laserComponent.LaserLength * Vector3.Normalize(targetPosition) + lineRendererTransformPosition
                 };
 
                 lineRenderer.SetPositions(positions);
@@ -65,7 +67,7 @@ public class LaserFiringMethod : IAttackMethod
         {
             if (enemy.rigidbody.TryGetComponent(out BasicEnemy basicEnemy))
             {
-                basicEnemy.TakeDamage(m_laserTurretData.Damage);
+                basicEnemy.TakeDamage(m_laserComponent.LaserDamage);
             }
         }
 
@@ -75,7 +77,7 @@ public class LaserFiringMethod : IAttackMethod
 
     public void TargetLost()
     {
-        foreach (LineRenderer lineRenderer in m_laserTurretData.LaserSpawnPoints.SpawnPoints)
+        foreach (LineRenderer lineRenderer in m_laserComponent.LaserSpawnPoints.SpawnPoints)
         {
             lineRenderer.enabled = false;
         }

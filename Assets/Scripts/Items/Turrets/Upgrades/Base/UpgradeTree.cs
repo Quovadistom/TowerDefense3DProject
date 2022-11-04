@@ -13,7 +13,7 @@ public class UpgradeTree : MonoBehaviour
 
     private TurretUpgradeTreeBase m_activeTurretUpgradeTreeBase;
 
-    private Dictionary<TurretMediatorBase, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TurretMediatorBase, TurretUpgradeTreeBase>();
+    private Dictionary<TurretInfoComponent, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TurretInfoComponent, TurretUpgradeTreeBase>();
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class UpgradeTree : MonoBehaviour
         m_selectedTurretMenu.TurretDataChanged -= OnTurretChanged;
     }
 
-    private void OnTurretChanged(TurretMediatorBase selectedTurret)
+    private void OnTurretChanged(TurretInfoComponent selectedTurret)
     {
         if (m_activeTurretUpgradeTreeBase != null)
         {

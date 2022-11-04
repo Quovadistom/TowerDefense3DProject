@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [Serializable]
-public class LaserTurretMediator : BarrelTurretMediator
+public class LaserTurretMediator : MonoBehaviour
 {
     public LaserSpawnPoints LaserSpawnPoints;
     public float LaserLength = 5;
@@ -16,9 +16,9 @@ public class LaserTurretMediator : BarrelTurretMediator
         m_layerSettings = layerSettings;
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-        CurrentAttackMethod = new LaserFiringMethod(m_layerSettings, this);
+        //base.Start();
+        //CurrentAttackMethod = new LaserFiringMethod(m_layerSettings, this);
     }
 }

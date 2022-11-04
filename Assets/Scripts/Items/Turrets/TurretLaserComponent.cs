@@ -1,0 +1,74 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
+
+public class TurretLaserComponent : AttackMethodComponent
+{
+    [SerializeField] private TurretRangeComponent m_turretRangeComponent;
+    [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;
+
+    [SerializeField] private float m_damageRate;
+    [SerializeField] private float m_laserLength;
+    [SerializeField] private float m_laserDamage;
+
+    public event Action<LaserSpawnPoints> LaserSpawnPointsChanged;
+    public event Action<float> DamageRateChanged;
+    public event Action<float> LaserLengthChanged;
+    public event Action<float> LaserDamageChanged;
+
+    private LayerSettings m_layerSettings;
+
+    [Inject]
+    public void Construct(LayerSettings layerSettings)
+    {
+        m_layerSettings = layerSettings;
+    }
+
+    protected void Start()
+    {
+        CurrentAttackMethod = new LaserFiringMethod(m_layerSettings, this, m_turretRangeComponent);
+    }
+
+    public LaserSpawnPoints LaserSpawnPoints
+    {
+        get => m_laserSpawnPoints;
+        set
+        {
+            m_laserSpawnPoints = Instantiate(value);
+            Visual = m_laserSpawnPoints.transform;
+            LaserSpawnPointsChanged?.Invoke(m_laserSpawnPoints);
+        }
+    }
+
+    public float DamageRate
+    {
+        get => m_damageRate;
+        set
+        {
+            m_damageRate = value;
+            DamageRateChanged?.Invoke(m_damageRate);
+        }
+    }
+
+    public float LaserLength
+    {
+        get => m_laserLength;
+        set
+        {
+            m_laserLength = value;
+            LaserLengthChanged?.Invoke(m_laserLength);
+        }
+    }
+
+    public float LaserDamage
+    {
+        get => m_laserDamage;
+        set
+        {
+            m_laserDamage = value;
+            LaserDamageChanged?.Invoke(m_laserDamage);
+        }
+    }
+}

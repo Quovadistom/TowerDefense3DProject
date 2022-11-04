@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class TurretBarrel : MonoBehaviour
+public class TurretBarrel : BaseVisualChanger<AttackMethodComponent>
 {
-    [SerializeField] private ProjectileTurretMediator m_turretMediator;
-    [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
+    [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
+    [SerializeField] private Transform m_barrelVisual;
 
     private Transform m_targetTransform;
     private BasicEnemy m_currentTarget;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         OnTargetLost();
-        m_turretMediator.TargetChanged += OnEnemyChanged;
-        m_turretMediator.ProjectileSpawnPointsChanged += OnProjectileSpawnPointChanged;
+        m_turretTargetingComponent.TargetChanged += OnEnemyChanged;
     }
 
     private void Update()
@@ -28,15 +29,16 @@ public class TurretBarrel : MonoBehaviour
         m_targetTransform = m_currentTarget.EnemyMiddle;
         var lookPos = m_targetTransform.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretMediator.TurnSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretTargetingComponent.TurnSpeed);
 
         LookAtTarget();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        m_turretMediator.TargetChanged -= OnEnemyChanged;
-        m_turretMediator.ProjectileSpawnPointsChanged -= OnProjectileSpawnPointChanged;
+        base.OnDestroy();
+
+        m_turretTargetingComponent.TargetChanged -= OnEnemyChanged;
     }
 
     private void OnEnemyChanged(BasicEnemy newEnemy)
@@ -49,23 +51,16 @@ public class TurretBarrel : MonoBehaviour
         }
     }
 
-    private void OnProjectileSpawnPointChanged(BulletSpawnPoints bulletSpawnPoints)
-    {
-        Destroy(m_bulletSpawnPoints.gameObject);
-        bulletSpawnPoints.transform.SetParent(this.transform, false);
-        m_bulletSpawnPoints = bulletSpawnPoints;
-    }
-
     private void OnTargetLost()
     {
-        m_turretMediator.CurrentAttackMethod?.TargetLost();
+        Component.CurrentAttackMethod?.TargetLost();
     }
 
     private void LookAtTarget()
     {
         if (IsLockedOnTarget())
         {
-            m_turretMediator.CurrentAttackMethod?.Shoot(m_currentTarget);
+            Component.CurrentAttackMethod?.Shoot(m_currentTarget);
         }
     }
 

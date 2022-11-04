@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireRateUpgrade : UpgradeBase<ProjectileTurretMediator>
+public class FireRateUpgrade : UpgradeBase<TurretProjectileComponent>
 {
     [SerializeField] private float m_decreaseFireRatePercentage;
-    [SerializeField] BulletSpawnPoints m_newVisual;
+    [SerializeField] BulletSpawnPoints m_newBulletSpawnPoints;
     private UpgradeNode m_node;
 
     private void Awake()
@@ -17,6 +17,6 @@ public class FireRateUpgrade : UpgradeBase<ProjectileTurretMediator>
     private void OnUpgradeButtonClicked()
     {
         m_turretMediator.Firerate = m_turretMediator.Firerate.RemovePercentage(Mathf.Abs(m_decreaseFireRatePercentage));
-        m_turretMediator.ProjectileSpawnPoints = m_newVisual;
+        m_turretMediator.BulletSpawnPoints = m_newBulletSpawnPoints;
     }
 }

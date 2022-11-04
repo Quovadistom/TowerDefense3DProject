@@ -1617,7 +1617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cf308ae17b97d4ab05a05e09c7c43b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TurretToSpawn: {fileID: 2222747314198725742, guid: 6967eabe831cbd14db3a228e93f43003, type: 3}
+  TurretToSpawn: {fileID: 2222747314198725742, guid: a64c273f3b534784681867241c98d41f, type: 3}
 --- !u!114 &496699697
 MonoBehaviour:
   m_ObjectHideFlags: 0

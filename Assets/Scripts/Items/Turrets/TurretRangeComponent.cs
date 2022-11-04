@@ -2,12 +2,8 @@
 using System;
 using UnityEngine;
 
-public class TurretMediatorBase : MonoBehaviour
+public class TurretRangeComponent : ChangeVisualComponent
 {
-    [BoxGroup("UI References")]
-    public TurretUpgradeTreeBase UpgradeTreeAsset;
-
-    [BoxGroup("Turret Settings")]
     [SerializeField] private float m_range = 4;
     
     private GameObject m_rangeVisual;
@@ -27,16 +23,6 @@ public class TurretMediatorBase : MonoBehaviour
         {
             m_range = value;
             RangeUpdated?.Invoke(m_range);
-        }
-    }
-
-    public GameObject RangeVisual
-    {
-        get => m_rangeVisual;
-        set
-        {
-            m_rangeVisual = value;
-            RangeVisualUpdated?.Invoke(m_rangeVisual);
         }
     }
 }

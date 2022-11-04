@@ -4,7 +4,7 @@ using Zenject;
 
 public class TurretEnemyHandler : MonoBehaviour
 {
-    [SerializeField] private BarrelTurretMediator m_turretMediator; 
+    [SerializeField] private TurretTargetingComponent m_turretMediator; 
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
     private BasicEnemy m_target;

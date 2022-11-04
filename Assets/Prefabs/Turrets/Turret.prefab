@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c0624a29c6cd14996c7efd4a6bc35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_turretMediator: {fileID: 8741458935821981214}
-  m_bulletSpawnPoints: {fileID: 3440312962212154905}
+  Component: {fileID: 8741458935821981214}
+  m_baseVisualToChange: {fileID: 1868004982670252325}
+  m_turretTargetingComponent: {fileID: 72891756521979294}
+  m_barrelVisual: {fileID: 1868004982670252325}
 --- !u!1 &972879938918249212
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,7 +240,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7569241856344208435}
   - component: {fileID: 2013067901375487837}
-  - component: {fileID: 266329141803666032}
   m_Layer: 0
   m_Name: TurretRangeController
   m_TagString: Untagged
@@ -275,23 +276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa92bfabc834a9419a50b181f23c72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_turretData: {fileID: 8741458935821981214}
+  Component: {fileID: 8665493875791922090}
+  m_baseVisualToChange: {fileID: 3410948092518638085}
   m_renderer: {fileID: 2999254758153268498}
   m_rangeCollider: {fileID: 8408130409933229476}
---- !u!114 &266329141803666032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7087915773415253654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 296819deb6a0cd242acdab4f2446219f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_turretMediatorBase: {fileID: 8741458935821981214}
-  m_baseVisualToChange: {fileID: 8251019709244428480}
 --- !u!1 &8208056898987037588
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +291,9 @@ GameObject:
   - component: {fileID: 6094994000069046467}
   - component: {fileID: 8408130409933229476}
   - component: {fileID: 2222747314198725742}
+  - component: {fileID: 6700668100133648957}
+  - component: {fileID: 8665493875791922090}
+  - component: {fileID: 72891756521979294}
   - component: {fileID: 8741458935821981214}
   m_Layer: 0
   m_Name: Turret
@@ -355,7 +346,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52104542e4516934dbc198fa0f1e93e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_turretMediator: {fileID: 8741458935821981214}
+  m_turretMediator: {fileID: 72891756521979294}
+--- !u!114 &6700668100133648957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208056898987037588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeTreeAsset: {fileID: 2748849763165245316}
+--- !u!114 &8665493875791922090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208056898987037588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aee232ed27c55941aa36cda7a1af9f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_range: 4
+--- !u!114 &72891756521979294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208056898987037588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e98e8b1da67fa14e9f2612f61952014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_turnSpeed: 100
 --- !u!114 &8741458935821981214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,14 +398,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf78d948d53671348b3b36eab1c8c602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpgradeTreeAsset: {fileID: 2748849763165245316}
-  m_range: 4
-  m_turnSpeed: 100
-  m_damage: 100
-  m_projectileSpawnPoints: {fileID: 3440312962212154905}
+  m_bulletSpawnPoints: {fileID: 3440312962212154905}
   m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
   m_fireRate: 1
   m_bulletSpeed: 20
+  m_bulletDamage: 50
 --- !u!1 &8251019709244428480
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 534ace981ebcbee41bf2e9653938a616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ComponentToSelect: {fileID: 8741458935821981214}
+  ComponentToSelect: {fileID: 6700668100133648957}
   VisualsToShow: {fileID: 972879938918249212}
 --- !u!114 &2400669061940468392
 MonoBehaviour:
@@ -1007,9 +1034,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f88ad2b7eaf7884897bf357cb4370a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_turretMediator: {fileID: 8741458935821981214}
+  m_turretMediator: {fileID: 8665493875791922090}
   m_increaseRangePercentage: 100
-  m_newVisual: {fileID: 1298517129349659265, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
+  m_newVisual: {fileID: 5751905902034225220, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
 --- !u!114 &2748849763165245316 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3776209151905544151, guid: 86c7b7467763a214da6bc9a56315d1b0, type: 3}
@@ -1040,7 +1067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_turretMediator: {fileID: 8741458935821981214}
   m_decreaseFireRatePercentage: 90
-  m_newVisual: {fileID: 8245188047922882460, guid: f300a9e34a7570747bbfee6db180856f, type: 3}
+  m_newBulletSpawnPoints: {fileID: 8245188047922882460, guid: f300a9e34a7570747bbfee6db180856f, type: 3}
 --- !u!224 &6405541309992003864 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5379311843412070731, guid: 86c7b7467763a214da6bc9a56315d1b0, type: 3}

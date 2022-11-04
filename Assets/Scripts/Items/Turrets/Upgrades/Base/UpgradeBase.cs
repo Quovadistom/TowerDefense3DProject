@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(UpgradeNode))]
-public class UpgradeBase<T> : MonoBehaviour where T : TurretMediatorBase
+public class UpgradeBase<T> : MonoBehaviour
 {
     public T m_turretMediator;
 

@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeUpgrade : UpgradeBase<TurretMediatorBase>
+public class RangeUpgrade : UpgradeBase<TurretRangeComponent>
 {
     [SerializeField] private float m_increaseRangePercentage;
-    [SerializeField] GameObject m_newVisual;
+    [SerializeField] Transform m_newVisual;
     private UpgradeNode m_node;
 
     private void Awake()
@@ -18,6 +18,6 @@ public class RangeUpgrade : UpgradeBase<TurretMediatorBase>
     private void OnUpgradeButtonClicked()
     {
         m_turretMediator.Range = m_turretMediator.Range.AddPercentage(m_increaseRangePercentage);
-        m_turretMediator.RangeVisual = m_newVisual;
+        m_turretMediator.Visual = m_newVisual;
     }
 }

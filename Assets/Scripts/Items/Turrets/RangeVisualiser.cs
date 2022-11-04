@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class RangeVisualiser : MonoBehaviour
+public class RangeVisualiser : BaseVisualChanger<TurretRangeComponent>
 {
-    [SerializeField] private BarrelTurretMediator m_turretData;
     [SerializeField] private SpriteRenderer m_renderer;
     [SerializeField] private SphereCollider m_rangeCollider;
 
-    private void Awake()
+    protected override void Awake()
     {
-        m_turretData.RangeUpdated += OnRangeUpdated;
+        base.Awake();
+
+        Component.RangeUpdated += OnRangeUpdated;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        m_turretData.RangeUpdated -= OnRangeUpdated;
+        base.OnDestroy();
+
+        Component.RangeUpdated -= OnRangeUpdated;
     }
 
     private void OnRangeUpdated(float newRange)

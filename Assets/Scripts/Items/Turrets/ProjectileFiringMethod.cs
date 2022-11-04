@@ -6,11 +6,11 @@ using UnityEngine;
 public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 {
     private BulletService m_bulletService;
-    private ProjectileTurretMediator m_projectileTurretData;
+    private TurretProjectileComponent m_projectileTurretData;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public ProjectileFiringMethod(BulletService bulletService, ProjectileTurretMediator projectileTurretData)
+    public ProjectileFiringMethod(BulletService bulletService, TurretProjectileComponent projectileTurretData)
     {
         m_bulletService = bulletService;
         m_projectileTurretData = projectileTurretData;
@@ -40,7 +40,7 @@ public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 
         m_timerElapsed = false;
 
-        foreach (Transform spawnPoint in m_projectileTurretData.ProjectileSpawnPoints.SpawnPoints)
+        foreach (Transform spawnPoint in m_projectileTurretData.BulletSpawnPoints.SpawnPoints)
         {
             m_bulletService.CreateNewBullet(m_projectileTurretData.BulletPrefab, spawnPoint.position, m_projectileTurretData.ProjectileProfile, target);
         }

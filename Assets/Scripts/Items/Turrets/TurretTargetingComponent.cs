@@ -2,27 +2,19 @@
 using System;
 using UnityEngine;
 
-public class BarrelTurretMediator : TurretMediatorBase
+public class TurretTargetingComponent : MonoBehaviour
 {
     private BasicEnemy m_currentTarget;
     private ITargetMethod m_currentTargetMethod;
-    private IAttackMethod m_currentAttackMethod;
 
-    [BoxGroup("Turret Settings")]
     [SerializeField] private float m_turnSpeed;
-    [BoxGroup("Projectile Settings")]
-    [SerializeField] private float m_damage;
 
     public event Action<BasicEnemy> TargetChanged;
     public event Action<ITargetMethod> TargetMethodChanged;
-    public event Action<IAttackMethod> AttackMethodChanged;
     public event Action<float> TurnSpeedChanged;
-    public event Action<float> DamageChanged;
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
         CurrentTargetMethod = new TargetFirstEnemy();
     }
 
@@ -45,16 +37,6 @@ public class BarrelTurretMediator : TurretMediatorBase
             TargetMethodChanged?.Invoke(m_currentTargetMethod);
         }
     }    
-    
-    public IAttackMethod CurrentAttackMethod
-    {
-        get => m_currentAttackMethod;
-        set
-        {
-            m_currentAttackMethod = value;
-            AttackMethodChanged?.Invoke(m_currentAttackMethod);
-        }
-    }
 
     public float TurnSpeed
     {
@@ -63,16 +45,6 @@ public class BarrelTurretMediator : TurretMediatorBase
         {
             m_turnSpeed = value;
             TurnSpeedChanged?.Invoke(m_turnSpeed);
-        }
-    }
-
-    public float Damage
-    {
-        get => m_damage;
-        set
-        {
-            m_damage = value;
-            DamageChanged?.Invoke(m_damage);
         }
     }
 }

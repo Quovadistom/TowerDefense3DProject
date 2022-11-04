@@ -50,16 +50,23 @@ public class TargetingDropDown : MonoBehaviour
     }
 
 
-    private void OnTurretChanged(BarrelTurretMediator selectedTurret)
+    private void OnTurretChanged(TurretInfoComponent selectedTurret)
     {
-        if (selectedTurret != null)
+        if (selectedTurret != null && selectedTurret.gameObject.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
         {
-            m_dropdown.value = m_targetingMethods.IndexOf(m_targetingMethods.First(x => x.GetType() == selectedTurret.CurrentTargetMethod.GetType()));
+            m_dropdown.value = m_targetingMethods.IndexOf(m_targetingMethods.First(x => x.GetType() == turretTargetingComponent.CurrentTargetMethod.GetType()));
+        }
+        else
+        {
+            m_dropdown.gameObject.SetActive(false);
         }
     }
 
     private void OnTargetingChanged(int index)
     {
-        SelectedTurretMenu.SelectedTurret.CurrentTargetMethod = m_targetingMethods[index];
+        if (SelectedTurretMenu.SelectedTurret.gameObject.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
+        {
+            turretTargetingComponent.CurrentTargetMethod = m_targetingMethods[index];
+        }
     }
 }

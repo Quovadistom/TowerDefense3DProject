@@ -1,25 +1,21 @@
-﻿using NaughtyAttributes;
-using System;
-using System.Runtime.CompilerServices;
+﻿using System;
 using UnityEngine;
 using Zenject;
 
-public class ProjectileTurretMediator : BarrelTurretMediator
+public class TurretProjectileComponent : AttackMethodComponent
 {
-    [BoxGroup("UI References")]
-    [SerializeField] private BulletSpawnPoints m_projectileSpawnPoints;
-    [BoxGroup("UI References")]
+    [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
     [SerializeField] private ProjectileBase<IBulletProfile> m_bulletPrefab;
-    [BoxGroup("Barrel Settings")]
     [SerializeField] private float m_fireRate;
-    [BoxGroup("Projectile Settings")]
-    [SerializeField] private float m_bulletSpeed = 20;
+    [SerializeField] private float m_bulletSpeed;
+    [SerializeField] private float m_bulletDamage;
     private StandardBulletProfile m_projectileProfile;
 
-    public event Action<BulletSpawnPoints> ProjectileSpawnPointsChanged;
+    public event Action<BulletSpawnPoints> BulletSpawnPointsChanged;
     public event Action<ProjectileBase<IBulletProfile>> BulletPrefabChanged;
     public event Action<float> FirerateChanged;
     public event Action<float> BulletSpeedChanged;
+    public event Action<float> DamageChanged;
     public event Action<StandardBulletProfile> ProjectileProfileChanged;
 
     private BulletService m_bulletService;
@@ -30,21 +26,20 @@ public class ProjectileTurretMediator : BarrelTurretMediator
         m_bulletService = bulletService;
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
-        ProjectileProfile = new StandardBulletProfile(m_bulletSpeed, Damage);
+        ProjectileProfile = new StandardBulletProfile(BulletSpeed, BulletDamage);
         CurrentAttackMethod = new ProjectileFiringMethod<IBulletProfile>(m_bulletService, this);
     }
 
-    public BulletSpawnPoints ProjectileSpawnPoints
+    public BulletSpawnPoints BulletSpawnPoints
     {
-        get => m_projectileSpawnPoints;
+        get => m_bulletSpawnPoints;
         set
         {
-            m_projectileSpawnPoints = Instantiate(value);
-            ProjectileSpawnPointsChanged?.Invoke(m_projectileSpawnPoints);
+            m_bulletSpawnPoints = Instantiate(value);
+            Visual = m_bulletSpawnPoints.transform;
+            BulletSpawnPointsChanged?.Invoke(m_bulletSpawnPoints);
         }
     }
 
@@ -63,7 +58,6 @@ public class ProjectileTurretMediator : BarrelTurretMediator
         get => m_fireRate;
         set
         {
-            Debug.Log(value);
             m_fireRate = value;
             FirerateChanged?.Invoke(m_fireRate);
         }
@@ -79,6 +73,16 @@ public class ProjectileTurretMediator : BarrelTurretMediator
         }
     }
 
+    public float BulletDamage
+    {
+        get => m_bulletDamage;
+        set
+        {
+            m_bulletDamage = value;
+            DamageChanged?.Invoke(m_bulletDamage);
+        }
+    }
+
     public StandardBulletProfile ProjectileProfile
     {
         get => m_projectileProfile;
@@ -88,5 +92,4 @@ public class ProjectileTurretMediator : BarrelTurretMediator
             ProjectileProfileChanged?.Invoke(m_projectileProfile);
         }
     }
-
 }

@@ -16,9 +16,9 @@ public class BulletService
         Bullets = new Bullets();
     }
 
-    public ProjectileBase<T> CreateNewBullet<T>(ProjectileBase<T> bulletPrefab, Vector3 position, T bulletProfile, BasicEnemy enemy) where T : IBulletProfile
+    public ProjectileBase CreateNewBullet(ProjectileBase bulletPrefab, Vector3 position, ProjectileProfile bulletProfile, BasicEnemy enemy)
     {
-        ProjectileBase<T> newBullet = (ProjectileBase<T>) m_poolingService.GetPooledObject(bulletPrefab);
+        ProjectileBase newBullet = (ProjectileBase) m_poolingService.GetPooledObject(bulletPrefab);
         newBullet.SetProfile(bulletProfile);
         newBullet.transform.position = position;
         newBullet.SetAndSeekEnemy(enemy);

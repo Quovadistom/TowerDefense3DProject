@@ -8,6 +8,7 @@ public class BasicEnemy : Poolable
     public float Speed = 5f;
     public int StartingHealth = 100;
     public Transform EnemyMiddle;
+    [SerializeField] MeshRenderer m_meshRenderer;
 
     private int m_waypointIndex = 0;
     private Transform m_target;
@@ -60,11 +61,13 @@ public class BasicEnemy : Poolable
         base.ResetObject();
         m_waypointIndex = 0;
         m_currentHealth = StartingHealth;
+        m_meshRenderer.material.color = Color.red;
     }
 
     public void TakeDamage(float damage)
     {
-        m_currentHealth -= damage;
+        m_currentHealth -= Mathf.Max(0, damage);
+        m_meshRenderer.material.color = new Color(1, m_meshRenderer.material.color.g + damage / StartingHealth, 0, 1);
         if (m_currentHealth <= 0)
         {
             m_poolingService.ReturnPooledObject(this);

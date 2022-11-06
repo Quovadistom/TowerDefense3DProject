@@ -6,18 +6,18 @@ using UnityEngine;
 public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 {
     private BulletService m_bulletService;
-    private TurretProjectileComponent m_projectileTurretData;
+    private TurretProjectileComponent m_turretProjectileComponent;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public ProjectileFiringMethod(BulletService bulletService, TurretProjectileComponent projectileTurretData)
+    public ProjectileFiringMethod(BulletService bulletService, TurretProjectileComponent turretProjectileComponent)
     {
         m_bulletService = bulletService;
-        m_projectileTurretData = projectileTurretData;
+        m_turretProjectileComponent = turretProjectileComponent;
 
-        m_projectileTurretData.FirerateChanged += OnFireRateChanged;
+        m_turretProjectileComponent.FirerateChanged += OnFireRateChanged;
 
-        m_timer = new Timer(m_projectileTurretData.Firerate * 1000);
+        m_timer = new Timer(m_turretProjectileComponent.Firerate * 1000);
         m_timer.Elapsed += OnTimerElapsed;
     }
 
@@ -40,9 +40,9 @@ public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 
         m_timerElapsed = false;
 
-        foreach (Transform spawnPoint in m_projectileTurretData.BulletSpawnPoints.SpawnPoints)
+        foreach (Transform spawnPoint in m_turretProjectileComponent.BulletSpawnPoints.SpawnPoints)
         {
-            m_bulletService.CreateNewBullet(m_projectileTurretData.BulletPrefab, spawnPoint.position, m_projectileTurretData.ProjectileProfile, target);
+            m_bulletService.CreateNewBullet(m_turretProjectileComponent.BulletPrefab, spawnPoint.position, m_turretProjectileComponent.ProjectileProfile, target);
         }
 
         m_timer.Start();

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class AttackBase<T> : Poolable where T : IAttackProfileBase
+public class AttackBase : Poolable
 {
     protected BasicEnemy m_target;
 
-    public T BulletProfile { get; private set; }
+    public ProjectileProfile ProjectileProfile { get; private set; }
 
     public virtual void Update()
     {
@@ -31,8 +31,8 @@ public class AttackBase<T> : Poolable where T : IAttackProfileBase
         m_target = target;
     }
 
-    internal void SetProfile(T bulletProfile)
+    internal void SetProfile(ProjectileProfile bulletProfile)
     {
-        BulletProfile = bulletProfile;
+        ProjectileProfile = bulletProfile;
     }
 }

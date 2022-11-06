@@ -5,18 +5,14 @@ using Zenject;
 public class TurretProjectileComponent : AttackMethodComponent
 {
     [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
-    [SerializeField] private ProjectileBase<IBulletProfile> m_bulletPrefab;
+    [SerializeField] private ProjectileBase m_bulletPrefab;
     [SerializeField] private float m_fireRate;
-    [SerializeField] private float m_bulletSpeed;
-    [SerializeField] private float m_bulletDamage;
-    private StandardBulletProfile m_projectileProfile;
+    [SerializeField] private ProjectileProfile m_projectileProfile;
 
     public event Action<BulletSpawnPoints> BulletSpawnPointsChanged;
-    public event Action<ProjectileBase<IBulletProfile>> BulletPrefabChanged;
+    public event Action<ProjectileBase> BulletPrefabChanged;
     public event Action<float> FirerateChanged;
-    public event Action<float> BulletSpeedChanged;
-    public event Action<float> DamageChanged;
-    public event Action<StandardBulletProfile> ProjectileProfileChanged;
+    public event Action<ProjectileProfile> ProjectileProfileChanged;
 
     private BulletService m_bulletService;
 
@@ -28,7 +24,6 @@ public class TurretProjectileComponent : AttackMethodComponent
 
     protected void Start()
     {
-        ProjectileProfile = new StandardBulletProfile(BulletSpeed, BulletDamage);
         CurrentAttackMethod = new ProjectileFiringMethod<IBulletProfile>(m_bulletService, this);
     }
 
@@ -43,7 +38,7 @@ public class TurretProjectileComponent : AttackMethodComponent
         }
     }
 
-    public ProjectileBase<IBulletProfile> BulletPrefab
+    public ProjectileBase BulletPrefab
     {
         get => m_bulletPrefab;
         set
@@ -63,27 +58,7 @@ public class TurretProjectileComponent : AttackMethodComponent
         }
     }
 
-    public float BulletSpeed
-    {
-        get => m_bulletSpeed;
-        set
-        {
-            m_bulletSpeed = value;
-            BulletSpeedChanged?.Invoke(m_bulletSpeed);
-        }
-    }
-
-    public float BulletDamage
-    {
-        get => m_bulletDamage;
-        set
-        {
-            m_bulletDamage = value;
-            DamageChanged?.Invoke(m_bulletDamage);
-        }
-    }
-
-    public StandardBulletProfile ProjectileProfile
+    public ProjectileProfile ProjectileProfile
     {
         get => m_projectileProfile;
         set

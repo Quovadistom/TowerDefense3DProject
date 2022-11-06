@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 72891756521979294}
   - component: {fileID: 8741458935821981214}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: ExplosionTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,12 +399,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_bulletSpawnPoints: {fileID: 3440312962212154905}
-  m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
+  m_bulletPrefab: {fileID: 4334808024718801613, guid: b8e6ecb4ae1520a44b0f3a6a431f4131, type: 3}
   m_fireRate: 1
   m_projectileProfile:
     m_bulletSpeed: 10
-    m_bulletDamage: 100
-    m_explosionRange: 0
+    m_bulletDamage: 120
+    m_explosionRange: 3
 --- !u!1 &8251019709244428480
 GameObject:
   m_ObjectHideFlags: 0

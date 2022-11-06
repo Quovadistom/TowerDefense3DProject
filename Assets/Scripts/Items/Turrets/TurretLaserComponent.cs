@@ -36,8 +36,8 @@ public class TurretLaserComponent : AttackMethodComponent
         get => m_laserSpawnPoints;
         set
         {
-            m_laserSpawnPoints = Instantiate(value);
-            Visual = m_laserSpawnPoints.transform;
+            Visual = value.transform;
+            m_laserSpawnPoints = Visual.GetComponent<LaserSpawnPoints>();
             LaserSpawnPointsChanged?.Invoke(m_laserSpawnPoints);
         }
     }

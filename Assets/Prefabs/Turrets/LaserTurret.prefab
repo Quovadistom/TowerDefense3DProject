@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c0624a29c6cd14996c7efd4a6bc35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Component: {fileID: 0}
-  m_baseVisualToChange: {fileID: 0}
+  Component: {fileID: 1772329473644724630}
+  m_baseVisualToChange: {fileID: 5858069358103792406}
   m_turretTargetingComponent: {fileID: 72891756521979294}
   m_barrelVisual: {fileID: 5858069358103792406}
 --- !u!1 &972879938918249212
@@ -1109,7 +1109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_turretMediator: {fileID: 8665493875791922090}
   m_increaseRangePercentage: 100
-  m_newVisual: {fileID: 1298517129349659265, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
+  m_newVisual: {fileID: 5751905902034225220, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
 --- !u!114 &2748849763165245316 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3776209151905544151, guid: 86c7b7467763a214da6bc9a56315d1b0, type: 3}

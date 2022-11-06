@@ -37,8 +37,8 @@ public class TurretProjectileComponent : AttackMethodComponent
         get => m_bulletSpawnPoints;
         set
         {
-            m_bulletSpawnPoints = Instantiate(value);
-            Visual = m_bulletSpawnPoints.transform;
+            Visual = value.transform;
+            m_bulletSpawnPoints = Visual.GetComponent<BulletSpawnPoints>();
             BulletSpawnPointsChanged?.Invoke(m_bulletSpawnPoints);
         }
     }

@@ -10,18 +10,18 @@ public class BaseVisualChanger<T> : MonoBehaviour where T : ChangeVisualComponen
 
     protected virtual void Awake()
     {
-        Component.VisualChanged += OnRangeVisualUpdated;
+        Component.VisualChanged += OnVisualUpdated;
     }
 
     protected virtual void OnDestroy()
     {
-        Component.VisualChanged += OnRangeVisualUpdated;
+        Component.VisualChanged += OnVisualUpdated;
     }
 
-    private void OnRangeVisualUpdated(Transform newVisual)
+    private void OnVisualUpdated(Transform newVisual)
     {
-        Transform visual = GameObject.Instantiate(newVisual, m_baseVisualToChange.transform.parent);
+        newVisual.SetParent(m_baseVisualToChange.parent, false);
         Destroy(m_baseVisualToChange.gameObject);
-        m_baseVisualToChange = visual;
+        m_baseVisualToChange = newVisual;
     }
 }

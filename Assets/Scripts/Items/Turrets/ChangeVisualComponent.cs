@@ -9,9 +9,10 @@ public class ChangeVisualComponent : MonoBehaviour
 
     public Transform Visual
     {
+        get => m_visual;
         set
         {
-            m_visual = value;
+            m_visual = Instantiate(value);
             VisualChanged?.Invoke(m_visual);
         }
     }

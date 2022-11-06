@@ -5,8 +5,6 @@ using UnityEngine;
 public class TurretRangeComponent : ChangeVisualComponent
 {
     [SerializeField] private float m_range = 4;
-    
-    private GameObject m_rangeVisual;
 
     public event Action<float> RangeUpdated;
     public event Action<GameObject> RangeVisualUpdated;

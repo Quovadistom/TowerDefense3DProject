@@ -57,8 +57,4 @@ public class TurretEnemyHandler : MonoBehaviour
         m_turretMediator.CurrentTarget = enemy;
         m_target = enemy;
     }
-
-    public class Factory : PlaceholderFactory<TurretEnemyHandler, TurretEnemyHandler>
-    {
-    }
 }

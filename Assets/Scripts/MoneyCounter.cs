@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class HealthCounter : MonoBehaviour
+public class MoneyCounter : MonoBehaviour
 {
     public TMP_Text m_text;
     private LevelService m_levelService;
@@ -18,16 +17,16 @@ public class HealthCounter : MonoBehaviour
 
     private void Awake()
     {
-        m_levelService.HealthChanged += OnHealthChanged;
+        m_levelService.MoneyChanged += OnMoneyChanged;
     }
 
     private void OnDestroy()
     {
-        m_levelService.HealthChanged -= OnHealthChanged;
+        m_levelService.MoneyChanged -= OnMoneyChanged;
     }
 
-    private void OnHealthChanged(int currentHealth)
+    private void OnMoneyChanged(int currentMoney)
     {
-        m_text.text = currentHealth.ToString();
+        m_text.text = currentMoney.ToString();
     }
 }

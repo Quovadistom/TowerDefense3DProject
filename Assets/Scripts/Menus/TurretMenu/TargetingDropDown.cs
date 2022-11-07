@@ -55,6 +55,7 @@ public class TargetingDropDown : MonoBehaviour
         if (selectedTurret != null && selectedTurret.gameObject.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
         {
             m_dropdown.value = m_targetingMethods.IndexOf(m_targetingMethods.First(x => x.GetType() == turretTargetingComponent.CurrentTargetMethod.GetType()));
+            m_dropdown.gameObject.SetActive(true);
         }
         else
         {

@@ -51,7 +51,7 @@ public class BasicEnemy : Poolable
         }
         else
         {
-            m_levelService.ReduceHealth();
+            m_levelService.Health--;
             m_poolingService.ReturnPooledObject(this);
         }
     }
@@ -70,6 +70,7 @@ public class BasicEnemy : Poolable
         m_meshRenderer.material.color = new Color(1, m_meshRenderer.material.color.g + damage / StartingHealth, 0, 1);
         if (m_currentHealth <= 0)
         {
+            m_levelService.Money += 10;
             m_poolingService.ReturnPooledObject(this);
             ResetObject();
         }

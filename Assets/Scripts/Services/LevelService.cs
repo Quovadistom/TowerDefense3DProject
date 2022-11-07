@@ -9,8 +9,12 @@ public class LevelService
     private List<Transform> m_waypoints = new List<Transform>();
     public IReadOnlyList<Transform> Waypoints => m_waypoints;
 
-    public event Action<int> HealthChanged;
     private int m_health;
+    private int m_money;
+
+    public event Action<int> HealthChanged;
+    public event Action<int> MoneyChanged;
+
     public int Health
     {
         get { return m_health; }
@@ -18,7 +22,17 @@ public class LevelService
         {
             m_health = value;
             HealthChanged?.Invoke(m_health);
-        } 
+        }
+    }
+
+    public int Money
+    {
+        get { return m_money; }
+        set
+        {
+            m_money = value;
+            MoneyChanged?.Invoke(m_money);
+        }
     }
 
     public void SetWaypoints(List<Transform> waypoints)
@@ -29,15 +43,6 @@ public class LevelService
     public void StartLevel()
     {
         Health = 10;
-    }
-
-    public void ReduceHealth()
-    {
-        Health--;
-    }
-    
-    public void IncreaseHealth()
-    {
-        Health++;
+        Money = 1000;
     }
 }

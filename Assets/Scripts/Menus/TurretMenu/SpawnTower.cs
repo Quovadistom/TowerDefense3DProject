@@ -7,24 +7,45 @@ using Zenject;
 
 public class SpawnTower : MonoBehaviour, IPointerDownHandler
 {
-    public TurretEnemyHandler TurretToSpawn;
-    private SelectionService m_selectionService;
-    private TurretEnemyHandler.Factory m_turretFactory;
+    [SerializeField] private TurretInfoComponent m_turretToSpawn;
+    [SerializeField] private Button m_button;
+    private TurretInfoComponent.Factory m_turretFactory;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
+    private LevelService m_levelService;
 
     [Inject]
-    public void Construct(SelectionService selectionService, TurretEnemyHandler.Factory turretFactory, TouchInputService touchInputService, LayerSettings layerSettings)
+    public void Construct(TurretInfoComponent.Factory turretFactory, TouchInputService touchInputService, LayerSettings layerSettings, LevelService levelService)
     {
-        m_selectionService = selectionService;
         m_turretFactory = turretFactory;
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
+        m_levelService = levelService;
+    }
+
+    private void Awake()
+    {
+        m_levelService.MoneyChanged += OnMoneyChanged;
+    }
+
+    private void OnDestroy()
+    {
+        m_levelService.MoneyChanged -= OnMoneyChanged;
+    }
+
+    private void OnMoneyChanged(int money)
+    {
+        m_button.interactable = m_turretToSpawn.Cost <= money;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        var turret = m_turretFactory.Create(TurretToSpawn);
+        if (!m_button.IsInteractable())
+        {
+            return;
+        }
+
+        TurretInfoComponent turret = m_turretFactory.Create(m_turretToSpawn);
 
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
         {

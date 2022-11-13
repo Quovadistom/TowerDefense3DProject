@@ -11,9 +11,10 @@ using UnityEngine.UI.Extensions;
 public class UpgradeNode : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] TurretUpgradeTreeBase m_treeBase;
-    [SerializeField] Button m_upgradeButton;
-    [SerializeField] TMP_Text m_text;
+    [SerializeField] private TurretUpgradeTreeBase m_treeBase;
+    [SerializeField] private Button m_upgradeButton;
+    [SerializeField] private TMP_Text m_text;
+
     public List<UpgradeNode> UnlockedByNodes;
 
     public event Action ButtonClicked;

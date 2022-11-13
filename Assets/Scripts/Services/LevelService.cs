@@ -15,6 +15,11 @@ public class LevelService
     public event Action<int> HealthChanged;
     public event Action<int> MoneyChanged;
 
+    public LevelService()
+    {
+        InitializeLevel();
+    }
+
     public int Health
     {
         get { return m_health; }
@@ -40,7 +45,7 @@ public class LevelService
         m_waypoints = waypoints;
     }
 
-    public void StartLevel()
+    public void InitializeLevel()
     {
         Health = 10;
         Money = 1000;

@@ -1,47 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 using UnityEngine;
 using Zenject;
 
 public class WaveManager : MonoBehaviour
 {
-    private LevelService m_levelService;
     private EnemyService m_enemyService;
-    private WaveSettings m_waveSettings;
+    private WaveService m_waveService;
+
+    [Inject]
+    public void Construct(EnemyService enemyService, WaveService waveService)
+    {
+        m_enemyService = enemyService;
+        m_waveService = waveService;
+    }
 
     private void Awake()
     {
-        OnNextWave();
+        m_waveService.StartWave += OnNextWaveStarted;
     }
 
-    [Inject]
-    public void Construct(LevelService levelService, EnemyService enemyService, WaveSettings waveSettings)
+    private void OnDestroy()
     {
-        m_levelService = levelService;
-        m_enemyService = enemyService;
-        m_waveSettings = waveSettings;
+        m_waveService.StartWave -= OnNextWaveStarted;
     }
 
-    private async void OnNextWave()
+    private async void OnNextWaveStarted(Wave wave)
     {
-        m_levelService.StartLevel();
-        m_enemyService.NewWaveStarted();
-
-        foreach (Wave wave in m_waveSettings.Waves)
+        foreach (EnemyGroup enemyGroup in wave.EnemyGroups)
         {
-            foreach (EnemyGroup enemyGroup in wave.EnemyGroups)
+            for (int i = 0; i < enemyGroup.EnemyAmount; i++)
             {
-                for (int i = 0; i < enemyGroup.EnemyAmount; i++)
-                {
-                    BasicEnemy basicEnemy = m_enemyService.CreateNewEnemy(enemyGroup.Enemy, transform.position);
-                    await Task.Delay(enemyGroup.EnemyDelayMilliSeconds);
-                }
-
-                await Task.Delay(enemyGroup.GroupDelayMilliSeconds);
+                BasicEnemy basicEnemy = m_enemyService.CreateNewEnemy(enemyGroup.Enemy, transform.position);
+                await Task.Delay(enemyGroup.EnemyDelayMilliSeconds);
             }
 
-            await Task.Delay(m_waveSettings.SecondsToNextWave * 1000);
+            await Task.Delay(enemyGroup.GroupDelayMilliSeconds);
         }
     }
 }

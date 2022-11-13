@@ -9,16 +9,19 @@ public class BasicEnemy : Poolable
     public int StartingHealth = 100;
     public Transform EnemyMiddle;
     [SerializeField] MeshRenderer m_meshRenderer;
+    [SerializeField] private int m_enemyWorth;
 
     private int m_waypointIndex = 0;
     private Transform m_target;
     private LevelService m_levelService;
+    private WaveService m_waveService;
     private float m_currentHealth;
 
     [Inject]
-    public void Construct(LevelService levelService)
+    public void Construct(LevelService levelService, WaveService waveService)
     {
         m_levelService = levelService;
+        m_waveService = waveService;
     }
 
     private void Awake()
@@ -52,6 +55,7 @@ public class BasicEnemy : Poolable
         else
         {
             m_levelService.Health--;
+            m_waveService.AliveEnemies--;
             m_poolingService.ReturnPooledObject(this);
         }
     }
@@ -70,7 +74,8 @@ public class BasicEnemy : Poolable
         m_meshRenderer.material.color = new Color(1, m_meshRenderer.material.color.g + damage / StartingHealth, 0, 1);
         if (m_currentHealth <= 0)
         {
-            m_levelService.Money += 10;
+            m_levelService.Money += m_enemyWorth;
+            m_waveService.AliveEnemies--;
             m_poolingService.ReturnPooledObject(this);
             ResetObject();
         }

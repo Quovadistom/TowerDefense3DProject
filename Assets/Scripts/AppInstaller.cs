@@ -23,6 +23,7 @@ public class AppInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<PoolingService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<WaveService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<BulletService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TouchInputService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<SelectionService>().AsSingle().NonLazy();

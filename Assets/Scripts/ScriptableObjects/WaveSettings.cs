@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WaveSettings", menuName = "ScriptableObjects/WaveSettings")]
 public class WaveSettings : ScriptableObject
 {
-    public int SecondsToNextWave;
     public List<Wave> Waves;
 
 #if UNITY_EDITOR

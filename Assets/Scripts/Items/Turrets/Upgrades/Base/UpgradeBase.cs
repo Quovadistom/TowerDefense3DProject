@@ -1,10 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(UpgradeNode))]
-public class UpgradeBase<T> : MonoBehaviour
+public class UpgradeBase<T> : MonoBehaviour where T : MonoBehaviour
 {
+    [SerializeField] private int m_upgradeCost;
     public T m_turretMediator;
+
+    private UpgradeNode m_node;
+    private LevelService m_levelService;
+
+    [Inject]
+    public void Construct(LevelService levelService)
+    {
+        m_levelService = levelService;
+    }
+
+    private void Awake()
+    {
+        m_node = GetComponent<UpgradeNode>();
+        m_node.ButtonClicked += OnUpgradeButtonClicked;
+    }
 
     private void Reset()
     {
@@ -20,5 +38,10 @@ public class UpgradeBase<T> : MonoBehaviour
             }
         }
 #endif
+    }
+
+    protected virtual void OnUpgradeButtonClicked() 
+    {
+        m_levelService.Money -= m_upgradeCost;
     }
 }

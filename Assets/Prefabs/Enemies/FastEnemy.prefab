@@ -118,6 +118,7 @@ MonoBehaviour:
   Speed: 10
   StartingHealth: 80
   EnemyMiddle: {fileID: 6727829743358831176}
+  m_meshRenderer: {fileID: 8294629718966055497}
 --- !u!1 &6546101250999425745
 GameObject:
   m_ObjectHideFlags: 0

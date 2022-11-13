@@ -53,7 +53,7 @@ public class PoolingService
         return pooledObject;
     }
 
-    public void ReturnPooledObject(Poolable pooledObject)
+    public virtual void ReturnPooledObject(Poolable pooledObject)
     {
         if (m_availableObjectPools.TryGetValue(pooledObject.GetType().ToString(), out ObjectPool<Poolable> objectPool))
         {

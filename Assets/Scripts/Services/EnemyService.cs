@@ -14,10 +14,6 @@ public class EnemyService
         m_poolingService = poolingService;
     }
 
-    public void NewWaveStarted()
-    {
-    }
-
     public BasicEnemy CreateNewEnemy(BasicEnemy enemy, Vector3 position)
     {
         BasicEnemy newEnemy = (BasicEnemy)m_poolingService.GetPooledObject(enemy);

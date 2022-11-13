@@ -1037,6 +1037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f88ad2b7eaf7884897bf357cb4370a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_upgradeCost: 0
   m_turretMediator: {fileID: 8665493875791922090}
   m_increaseRangePercentage: 100
   m_newVisual: {fileID: 5751905902034225220, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
@@ -1068,6 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad87b59bcd50504bb564f9413a545ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_upgradeCost: 0
   m_turretMediator: {fileID: 8741458935821981214}
   m_decreaseFireRatePercentage: 90
   m_newBulletSpawnPoints: {fileID: 8245188047922882460, guid: f300a9e34a7570747bbfee6db180856f, type: 3}

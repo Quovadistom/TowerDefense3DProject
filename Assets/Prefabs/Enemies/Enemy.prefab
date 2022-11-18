@@ -50,6 +50,7 @@ MonoBehaviour:
   StartingHealth: 100
   EnemyMiddle: {fileID: 6727829743358831176}
   m_meshRenderer: {fileID: 8294629718966055497}
+  m_enemyWorth: 20
 --- !u!54 &3817559662281220342
 Rigidbody:
   m_ObjectHideFlags: 0

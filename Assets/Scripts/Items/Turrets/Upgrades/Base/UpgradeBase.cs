@@ -11,11 +11,18 @@ public class UpgradeBase<T> : MonoBehaviour where T : MonoBehaviour
 
     private UpgradeNode m_node;
     private LevelService m_levelService;
+    private DifficultyService m_difficultyService;
+
+    public int UpgradeCost
+    {
+        get => m_upgradeCost * m_difficultyService.InflationPercentage;
+    }
 
     [Inject]
-    public void Construct(LevelService levelService)
+    public void Construct(LevelService levelService, DifficultyService difficultyService)
     {
         m_levelService = levelService;
+        m_difficultyService = difficultyService;
     }
 
     private void Awake()

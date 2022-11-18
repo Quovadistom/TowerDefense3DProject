@@ -13,19 +13,26 @@ public class SpawnTower : MonoBehaviour, IPointerDownHandler
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
+    private PlacementService m_placementService;
 
     [Inject]
-    public void Construct(TurretInfoComponent.Factory turretFactory, TouchInputService touchInputService, LayerSettings layerSettings, LevelService levelService)
+    public void Construct(TurretInfoComponent.Factory turretFactory, 
+        TouchInputService touchInputService, 
+        LayerSettings layerSettings, 
+        LevelService levelService, 
+        PlacementService placementService)
     {
         m_turretFactory = turretFactory;
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
         m_levelService = levelService;
+        m_placementService = placementService;
     }
 
     private void Awake()
     {
         m_levelService.MoneyChanged += OnMoneyChanged;
+        m_placementService.PlacementProgressChanged += OnPlacementProgressChanged;
     }
 
     private void OnDestroy()
@@ -33,9 +40,22 @@ public class SpawnTower : MonoBehaviour, IPointerDownHandler
         m_levelService.MoneyChanged -= OnMoneyChanged;
     }
 
+    private void OnPlacementProgressChanged(bool busy)
+    {
+        m_button.interactable = IsButtonInteractable();
+    }
+
     private void OnMoneyChanged(int money)
     {
-        m_button.interactable = m_turretToSpawn.Cost <= money;
+        m_button.interactable = IsButtonInteractable();
+    }
+
+    private bool IsButtonInteractable()
+    {
+        bool canBuyTurret = m_turretToSpawn.Cost <= m_levelService.Money;
+        bool canPlaceTurret = !m_placementService.IsPlacementInProgress;
+
+        return canBuyTurret && canPlaceTurret;
     }
 
     public void OnPointerDown(PointerEventData eventData)

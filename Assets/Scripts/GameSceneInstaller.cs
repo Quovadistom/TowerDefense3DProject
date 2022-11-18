@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
-using Zenject.Asteroids;
 
-public class AppInstaller : MonoInstaller
+public class GameSceneInstaller : MonoInstaller
 {
     public LayerSettings LayerSettings;
     public ColorSettings ColorSettings;
@@ -27,6 +23,7 @@ public class AppInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<BulletService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TouchInputService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<SelectionService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<PlacementService>().AsSingle().NonLazy();
 
         // Factories
         Container.Bind<TurretFactory>().AsSingle();

@@ -1,14 +1,19 @@
 using UnityEngine;
 using Zenject;
 
-public class TurretInfoComponent : MonoBehaviour
+public class TurretInfoComponent : CostComponent
+{
+    public TurretUpgradeTreeBase UpgradeTreeAsset;
+
+    public class Factory : PlaceholderFactory<TurretInfoComponent, TurretInfoComponent>
+    {
+    }
+}
+
+public class CostComponent : MonoBehaviour
 {
     [SerializeField] private int m_cost;
-
-    public TurretUpgradeTreeBase UpgradeTreeAsset;
     private LevelService m_levelService;
-
-    public int Cost { get => m_cost; }
 
     [Inject]
     public void Construct(LevelService levelService)
@@ -16,12 +21,10 @@ public class TurretInfoComponent : MonoBehaviour
         m_levelService = levelService;
     }
 
-    public void Awake()
+    public void SubtractCost()
     {
         m_levelService.Money -= m_cost;
     }
 
-    public class Factory : PlaceholderFactory<TurretInfoComponent, TurretInfoComponent>
-    {
-    }
+    public int Cost { get => m_cost; }
 }

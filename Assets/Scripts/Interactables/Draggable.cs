@@ -8,34 +8,39 @@ public class Draggable : MonoBehaviour
 {
     public Transform TransformToMove;
     public RangeVisualiser RangeVisualiser;
+    [SerializeField] private CostComponent m_costComponent;
+
     private SelectionService m_selectionService;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private ColorSettings m_colorSettings;
+    private PlacementService m_placementService;
     private int m_pathColliderAmount;
     private bool m_isPlaced = false;
 
-    public bool AllowDragging { get; set; } = true;
+    private bool m_allowDragging { get; set; } = true;
 
     [Inject]
-    public void Construct(SelectionService selectionService, TouchInputService touchInputService, LayerSettings layerSettings, ColorSettings colorSettings)
+    public void Construct(SelectionService selectionService, TouchInputService touchInputService, LayerSettings layerSettings, ColorSettings colorSettings, PlacementService placementService)
     {
         m_selectionService = selectionService;
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
         m_colorSettings = colorSettings;
+        m_placementService = placementService;
     }
 
     private void Awake()
     {
         m_selectionService.ForceClearSelected();
+        m_placementService.IsPlacementInProgress = true;
     }
 
     void Update()
     {     
         if (m_touchInputService.TryGetTouchPhase(out TouchPhase touchPhase))
         {
-            if (AllowDragging && (touchPhase == TouchPhase.Began || touchPhase == TouchPhase.Moved))
+            if (m_allowDragging && (touchPhase == TouchPhase.Began || touchPhase == TouchPhase.Moved))
             {
                 if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
                 {
@@ -46,7 +51,9 @@ public class Draggable : MonoBehaviour
             if (!m_isPlaced && m_pathColliderAmount == 0 && (touchPhase == TouchPhase.Ended || touchPhase == TouchPhase.Canceled))
             {
                 m_isPlaced = true;
-                AllowDragging = false;
+                m_allowDragging = false;
+                m_placementService.IsPlacementInProgress = false;
+                m_costComponent.SubtractCost();
                 m_selectionService.ForceSetSelected(this.transform);
             }
         }

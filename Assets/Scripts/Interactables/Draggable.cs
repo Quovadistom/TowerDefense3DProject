@@ -8,7 +8,7 @@ public class Draggable : MonoBehaviour
 {
     public Transform TransformToMove;
     public RangeVisualiser RangeVisualiser;
-    [SerializeField] private CostComponent m_costComponent;
+    [SerializeField] private ValueComponent m_valueComponent;
 
     private SelectionService m_selectionService;
     private TouchInputService m_touchInputService;
@@ -53,7 +53,7 @@ public class Draggable : MonoBehaviour
                 m_isPlaced = true;
                 m_allowDragging = false;
                 m_placementService.IsPlacementInProgress = false;
-                m_costComponent.SubtractCost();
+                m_valueComponent.SubtractCost();
                 m_selectionService.ForceSetSelected(this.transform);
             }
         }

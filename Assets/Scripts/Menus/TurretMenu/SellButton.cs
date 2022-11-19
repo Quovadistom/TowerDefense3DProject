@@ -31,7 +31,7 @@ public class SellButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        m_levelService.Money += m_selectedTurretMenu.SelectedTurret.Cost; // Times a sellback factor?
+        m_levelService.Money += m_selectedTurretMenu.SelectedTurret.Value; // Times a sellback factor?
         Destroy(m_selectedTurretMenu.SelectedTurret.gameObject);
     }
 }

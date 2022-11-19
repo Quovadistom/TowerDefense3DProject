@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_cost: 150
+  m_value: 100
   UpgradeTreeAsset: {fileID: 2748849763165245316}
 --- !u!114 &8665493875791922090
 MonoBehaviour:
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransformToMove: {fileID: 6094994000069046467}
   RangeVisualiser: {fileID: 2013067901375487837}
-  m_costComponent: {fileID: 6700668100133648957}
+  m_valueComponent: {fileID: 6700668100133648957}
 --- !u!54 &3103504841916300363
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1109,6 +1109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f88ad2b7eaf7884897bf357cb4370a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_valueComponent: {fileID: 6700668100133648957}
   m_upgradeCost: 0
   m_turretMediator: {fileID: 8665493875791922090}
   m_increaseRangePercentage: 100

@@ -52,7 +52,7 @@ public class SpawnTower : MonoBehaviour, IPointerDownHandler
 
     private bool IsButtonInteractable()
     {
-        bool canBuyTurret = m_turretToSpawn.Cost <= m_levelService.Money;
+        bool canBuyTurret = m_turretToSpawn.Value <= m_levelService.Money;
         bool canPlaceTurret = !m_placementService.IsPlacementInProgress;
 
         return canBuyTurret && canPlaceTurret;

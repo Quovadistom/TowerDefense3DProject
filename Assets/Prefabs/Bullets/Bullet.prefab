@@ -95,7 +95,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1978505253526545341
 GameObject:
@@ -143,8 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa37f71ea4735d42ab5aeb73b0789b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 20
-  Damage: 50
 --- !u!54 &-7530769720928262664
 Rigidbody:
   m_ObjectHideFlags: 0

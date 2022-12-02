@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deca378a885c296408c43e22b6fda533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2
+  Speed: 1
   StartingHealth: 100
   EnemyMiddle: {fileID: 6727829743358831176}
   m_meshRenderer: {fileID: 8294629718966055497}

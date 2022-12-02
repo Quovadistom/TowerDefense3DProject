@@ -21,7 +21,7 @@ public class BulletService
         ProjectileBase newBullet = (ProjectileBase) m_poolingService.GetPooledObject(bulletPrefab);
         newBullet.SetProfile(bulletProfile);
         newBullet.transform.position = position;
-        newBullet.SetAndSeekEnemy(enemy);
+        newBullet.SetEnemy(enemy);
         return newBullet;
     }
 }

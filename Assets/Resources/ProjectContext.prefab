@@ -75,3 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneCollection: {fileID: 11400000, guid: c3d35b5093e33044dbc0b56b45b2b189, type: 2}
+  TurretCollection: {fileID: 11400000, guid: 7950c46b4454d234ebbbe5134acf761d, type: 2}

@@ -4,10 +4,14 @@ using Zenject;
 
 public class GameSceneInstaller : MonoInstaller
 {
+    [Header("Scriptable Objects")]
     public LayerSettings LayerSettings;
     public ColorSettings ColorSettings;
     public WaveSettings WaveSettings;
     public PrefabCollection PrefabCollection;
+
+    [Header("Factory Assets")]
+    public GameObject SpawnTurretButtonPrefab;
 
     public override void InstallBindings()
     {
@@ -28,9 +32,8 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<PlacementService>().AsSingle().NonLazy();
 
         // Factories
-        Container.Bind<TurretFactory>().AsSingle();
-
         Container.BindFactory<TurretInfoComponent, TurretInfoComponent, TurretInfoComponent.Factory>().FromFactory<PrefabFactory<TurretInfoComponent>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
+        Container.BindFactory<SpawnTowerButton, SpawnTowerButton.Factory>().FromComponentInNewPrefab(SpawnTurretButtonPrefab);
     }
 }

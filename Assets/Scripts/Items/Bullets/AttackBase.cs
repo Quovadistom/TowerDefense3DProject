@@ -26,7 +26,7 @@ public class AttackBase : Poolable
     {
     }
 
-    public void SetAndSeekEnemy(BasicEnemy target)
+    public virtual void SetEnemy(BasicEnemy target)
     {
         m_target = target;
     }

@@ -373,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aee232ed27c55941aa36cda7a1af9f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_range: 4
+  m_range: 3
 --- !u!114 &72891756521979294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
   m_fireRate: 1
   m_projectileProfile:
-    m_bulletSpeed: 10
+    m_bulletSpeed: 15
     m_bulletDamage: 100
     m_explosionRange: 0
 --- !u!1 &8251019709244428480

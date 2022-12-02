@@ -5,15 +5,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class SpawnTower : MonoBehaviour, IPointerDownHandler
+public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] private TurretInfoComponent m_turretToSpawn;
     [SerializeField] private Button m_button;
     private TurretInfoComponent.Factory m_turretFactory;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
     private PlacementService m_placementService;
+
+    public TurretInfoComponent TurretToSpawn { get; set; }
 
     [Inject]
     public void Construct(TurretInfoComponent.Factory turretFactory, 
@@ -52,7 +53,7 @@ public class SpawnTower : MonoBehaviour, IPointerDownHandler
 
     private bool IsButtonInteractable()
     {
-        bool canBuyTurret = m_turretToSpawn.Value <= m_levelService.Money;
+        bool canBuyTurret = TurretToSpawn.Value <= m_levelService.Money;
         bool canPlaceTurret = !m_placementService.IsPlacementInProgress;
 
         return canBuyTurret && canPlaceTurret;
@@ -65,11 +66,13 @@ public class SpawnTower : MonoBehaviour, IPointerDownHandler
             return;
         }
 
-        TurretInfoComponent turret = m_turretFactory.Create(m_turretToSpawn);
+        TurretInfoComponent turret = m_turretFactory.Create(TurretToSpawn);
 
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
         {
             turret.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
         }
     }
+
+    public class Factory : PlaceholderFactory<SpawnTowerButton> { }
 }

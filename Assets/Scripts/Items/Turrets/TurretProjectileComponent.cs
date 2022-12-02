@@ -15,16 +15,18 @@ public class TurretProjectileComponent : AttackMethodComponent
     public event Action<ProjectileProfile> ProjectileProfileChanged;
 
     private BulletService m_bulletService;
+    private WaveService m_waveService;
 
     [Inject]
-    public void Construct(BulletService bulletService)
+    public void Construct(BulletService bulletService, WaveService waveService)
     {
         m_bulletService = bulletService;
+        m_waveService = waveService;
     }
 
     protected void Start()
     {
-        CurrentAttackMethod = new ProjectileFiringMethod<IBulletProfile>(m_bulletService, this);
+        CurrentAttackMethod = new ProjectileFiringMethod(m_bulletService, this, m_waveService);
     }
 
     public BulletSpawnPoints BulletSpawnPoints

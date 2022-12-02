@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 
-public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
+public class ProjectileFiringMethod : IAttackMethod
 {
     private BulletService m_bulletService;
     private TurretProjectileComponent m_turretProjectileComponent;
     private Timer m_timer;
     private bool m_timerElapsed = true;
 
-    public ProjectileFiringMethod(BulletService bulletService, TurretProjectileComponent turretProjectileComponent)
+    public ProjectileFiringMethod(BulletService bulletService, TurretProjectileComponent turretProjectileComponent, WaveService waveService)
     {
         m_bulletService = bulletService;
         m_turretProjectileComponent = turretProjectileComponent;
@@ -19,6 +19,7 @@ public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 
         m_timer = new Timer(m_turretProjectileComponent.Firerate * 1000);
         m_timer.Elapsed += OnTimerElapsed;
+        waveService.WaveComplete += () => m_timer.Stop();
     }
 
     private void OnFireRateChanged(float newFireRate)
@@ -40,8 +41,11 @@ public class ProjectileFiringMethod<T> : IAttackMethod where T : IBulletProfile
 
         m_timerElapsed = false;
 
+        Debug.Log("Shoot extern");
+
         foreach (Transform spawnPoint in m_turretProjectileComponent.BulletSpawnPoints.SpawnPoints)
         {
+            Debug.Log("Shoot intern");
             m_bulletService.CreateNewBullet(m_turretProjectileComponent.BulletPrefab, spawnPoint.position, m_turretProjectileComponent.ProjectileProfile, target);
         }
 

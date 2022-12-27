@@ -20,7 +20,7 @@ public class UpgradeNode : MonoBehaviour
     public event Action ButtonClicked;
 
     [HideInInspector] public bool m_isVisible = true;
-    [HideInInspector] public bool m_isUnlocked = false;
+    [HideInInspector] public bool IsUnlocked = false;
 
     private int m_unlockSignals = 0;
 
@@ -33,7 +33,7 @@ public class UpgradeNode : MonoBehaviour
     {
         m_upgradeButton.onClick.AddListener(OnButtonClick);
 
-        m_upgradeButton.interactable = m_isUnlocked;
+        m_upgradeButton.interactable = IsUnlocked;
         m_upgradeButton.gameObject.SetActive(m_isVisible);
 
         foreach (UpgradeNode upgradeNode in UnlockedByNodes)
@@ -50,8 +50,8 @@ public class UpgradeNode : MonoBehaviour
     [Button]
     private void LockOrUnlock()
     {
-        m_isUnlocked = !m_isUnlocked;
-        m_upgradeButton.interactable = m_isUnlocked;
+        IsUnlocked = !IsUnlocked;
+        m_upgradeButton.interactable = IsUnlocked;
     }
 
     [Button]
@@ -61,14 +61,14 @@ public class UpgradeNode : MonoBehaviour
         m_upgradeButton.gameObject.SetActive(m_isVisible);
     }
 
-    private void OnButtonClick()
+    public void OnButtonClick()
     {
         m_upgradeButton.interactable = false;
 
         ButtonClicked?.Invoke();
     }
 
-    private void Unlock()
+    public void Unlock()
     {
         m_unlockSignals++;
         
@@ -82,7 +82,7 @@ public class UpgradeNode : MonoBehaviour
             return;
         }
 
-        m_isUnlocked = true;
-        m_upgradeButton.interactable = m_isUnlocked;
+        IsUnlocked = true;
+        m_upgradeButton.interactable = IsUnlocked;
     }
 }

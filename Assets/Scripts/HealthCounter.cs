@@ -18,6 +18,7 @@ public class HealthCounter : MonoBehaviour
 
     private void Awake()
     {
+        OnHealthChanged(m_levelService.Health);
         m_levelService.HealthChanged += OnHealthChanged;
     }
 

@@ -30,6 +30,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<TouchInputService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<SelectionService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<PlacementService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<TowerService>().AsSingle().NonLazy();
 
         // Factories
         Container.BindFactory<TurretInfoComponent, TurretInfoComponent, TurretInfoComponent.Factory>().FromFactory<PrefabFactory<TurretInfoComponent>>();

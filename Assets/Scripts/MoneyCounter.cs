@@ -17,6 +17,7 @@ public class MoneyCounter : MonoBehaviour
 
     private void Awake()
     {
+        OnMoneyChanged(m_levelService.Money);
         m_levelService.MoneyChanged += OnMoneyChanged;
     }
 

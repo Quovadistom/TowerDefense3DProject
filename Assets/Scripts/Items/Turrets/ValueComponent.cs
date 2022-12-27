@@ -17,5 +17,9 @@ public class ValueComponent : MonoBehaviour
         m_levelService.Money -= m_value;
     }
 
-    public int Value { get => m_value; set { m_value = value; } }
+    public int Value 
+    {
+        get { return m_value; }
+        set { m_value = value; }    
+    } 
 }

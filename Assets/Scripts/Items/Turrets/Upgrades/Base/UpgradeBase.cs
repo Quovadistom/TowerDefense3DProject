@@ -4,8 +4,9 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(UpgradeNode))]
-public class UpgradeBase<T> : MonoBehaviour where T : MonoBehaviour
+public class UpgradeBase<T> : MonoBehaviour, IIDProvider where T : MonoBehaviour
 {
+    [SerializeField] private string m_upgradeName;
     [SerializeField] private ValueComponent m_valueComponent;
     [SerializeField] private int m_upgradeCost;
     public T m_turretMediator;
@@ -13,6 +14,16 @@ public class UpgradeBase<T> : MonoBehaviour where T : MonoBehaviour
     private UpgradeNode m_node;
     private LevelService m_levelService;
     private DifficultyService m_difficultyService;
+
+    public string ID => m_upgradeName;
+
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(m_upgradeName))
+        {
+            m_upgradeName = Guid.NewGuid().ToString();
+        }
+    }
 
     public int UpgradeCost
     {

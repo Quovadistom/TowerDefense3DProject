@@ -2,6 +2,9 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -9,6 +12,37 @@ public class TurretUpgradeTreeBase : MonoBehaviour
 {
     [SerializeField] UILineRenderer m_lineRendererAsset;
     [SerializeField] Transform m_lineParent;
+
+    public List<string> GetUnlockedUpgrades()
+    {
+        List<string> unlockedUpgrades = new List<string>();
+
+        UpgradeNode[] nodes = GetComponentsInChildren<UpgradeNode>(true);
+
+        foreach (UpgradeNode node in nodes.Where(node => node.IsUnlocked))
+        {
+            if (node.TryGetComponent(out IIDProvider idProvider))
+            {
+                unlockedUpgrades.Add(idProvider.ID);
+            }
+        }
+
+        return unlockedUpgrades;
+    }
+
+    public void SetUnlockedUpgrades(List<string> unlockedUpgrades)
+    {
+        UpgradeNode[] nodes = GetComponentsInChildren<UpgradeNode>(true);
+
+        foreach (UpgradeNode node in nodes)
+        {
+            if (node.TryGetComponent(out IIDProvider idProvider) && unlockedUpgrades.Contains(idProvider.ID))
+            {
+                node.OnButtonClick();
+            }
+        }
+    }
+
 
     [Button]
     private void UpdateAllLineRenderers()

@@ -1,4 +1,5 @@
 using Assets.Scripts.Interactables;
+using System;
 using System.ComponentModel.Design;
 using UnityEngine;
 using Zenject;
@@ -17,11 +18,13 @@ public class Draggable : MonoBehaviour
     private PlacementService m_placementService;
     private int m_pathColliderAmount;
     private bool m_isPlaced = false;
+    private Selectable m_selectable;
 
     private bool m_allowDragging { get; set; } = true;
+    public event Action TowerPlaced;
 
     [Inject]
-    public void Construct(SelectionService selectionService, TouchInputService touchInputService, LayerSettings layerSettings, ColorSettings colorSettings, PlacementService placementService)
+    private void Construct(SelectionService selectionService, TouchInputService touchInputService, LayerSettings layerSettings, ColorSettings colorSettings, PlacementService placementService)
     {
         m_selectionService = selectionService;
         m_touchInputService = touchInputService;
@@ -32,8 +35,7 @@ public class Draggable : MonoBehaviour
 
     private void Awake()
     {
-        m_selectionService.ForceClearSelected();
-        m_placementService.IsPlacementInProgress = true;
+        m_selectable = GetComponent<Selectable>();
     }
 
     void Update()
@@ -50,13 +52,26 @@ public class Draggable : MonoBehaviour
 
             if (!m_isPlaced && m_pathColliderAmount == 0 && (touchPhase == TouchPhase.Ended || touchPhase == TouchPhase.Canceled))
             {
-                m_isPlaced = true;
-                m_allowDragging = false;
-                m_placementService.IsPlacementInProgress = false;
+                ForceEndDragging();
                 m_valueComponent.SubtractCost();
                 m_selectionService.ForceSetSelected(this.transform);
             }
         }
+    }
+
+    public void StartDragging()
+    {
+        m_selectionService.ForceClearSelected();
+        m_placementService.IsPlacementInProgress = true;
+    }
+
+    public void ForceEndDragging()
+    {
+        m_selectable.SetSelected(false);
+        m_isPlaced = true;
+        m_allowDragging = false;
+        m_placementService.IsPlacementInProgress = false;
+        TowerPlaced?.Invoke();
     }
 
     private void OnTriggerEnter(Collider other)

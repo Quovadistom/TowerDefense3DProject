@@ -1,24 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class LevelService
-{    
+public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
+{
     private List<Transform> m_waypoints = new List<Transform>();
     public IReadOnlyList<Transform> Waypoints => m_waypoints;
 
-    private int m_health;
-    private int m_money;
+    private int m_health = 10;
+    private int m_money = 1000;
 
     public event Action<int> HealthChanged;
     public event Action<int> MoneyChanged;
-
-    public LevelService()
-    {
-        InitializeLevel();
-    }
 
     public int Health
     {
@@ -45,9 +38,24 @@ public class LevelService
         m_waypoints = waypoints;
     }
 
-    public void InitializeLevel()
+    protected override Guid Id => Guid.Parse("7c631af4-9fff-4572-86aa-1f2178772e80");
+
+    protected override void ConvertDtoBack(LevelServiceDTO dto)
     {
-        Health = 10;
-        Money = 1000;
+        Health = dto.Health;
+        Money = dto.Money;
     }
+
+    protected override void ConvertDto()
+    {
+        Dto.Health = Health;
+        Dto.Money = Money;
+    }
+}
+
+[Serializable]
+public class LevelServiceDTO
+{
+    public int Health;
+    public int Money;
 }

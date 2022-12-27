@@ -67,6 +67,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         }
 
         TurretInfoComponent turret = m_turretFactory.Create(TurretToSpawn);
+        turret.StartTowerPlacemet();
 
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
         {

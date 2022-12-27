@@ -312,4 +312,4 @@ MonoBehaviour:
   m_text: {fileID: 4947449818647078954}
   UnlockedByNodes: []
   m_isVisible: 1
-  m_isUnlocked: 1
+  IsUnlocked: 0

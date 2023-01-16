@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class TurretLaserComponent : AttackMethodComponent
+public class TurretLaserComponent : AttackMethodComponent, ITowerComponent
 {
     [SerializeField] private TurretRangeComponent m_turretRangeComponent;
     [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;

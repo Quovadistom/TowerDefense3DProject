@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public class TurretRangeComponent : ChangeVisualComponent
+public class TurretRangeComponent : ChangeVisualComponent, ITowerComponent
 {
     [SerializeField] private float m_range = 4;
 

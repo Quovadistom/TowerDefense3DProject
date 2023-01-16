@@ -8,16 +8,16 @@ using Zenject;
 public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Button m_button;
-    private TurretInfoComponent.Factory m_turretFactory;
+    private TowerInfoComponent.Factory m_turretFactory;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
     private PlacementService m_placementService;
 
-    public TurretInfoComponent TurretToSpawn { get; set; }
+    public TowerInfoComponent TurretToSpawn { get; set; }
 
     [Inject]
-    public void Construct(TurretInfoComponent.Factory turretFactory, 
+    public void Construct(TowerInfoComponent.Factory turretFactory, 
         TouchInputService touchInputService, 
         LayerSettings layerSettings, 
         LevelService levelService, 
@@ -66,7 +66,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
             return;
         }
 
-        TurretInfoComponent turret = m_turretFactory.Create(TurretToSpawn);
+        TowerInfoComponent turret = m_turretFactory.Create(TurretToSpawn);
         turret.StartTowerPlacemet();
 
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))

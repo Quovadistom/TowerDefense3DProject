@@ -10,6 +10,10 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
     private int m_health = 10;
     private int m_money = 1000;
 
+    public LevelService(SerializationService serializationService) : base(serializationService)
+    {
+    }
+
     public event Action<int> HealthChanged;
     public event Action<int> MoneyChanged;
 

@@ -1,14 +1,31 @@
+using UnityEngine;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
+    [Header("Scriptable Objects")]
     public SceneCollection SceneCollection;
     public TurretCollection TurretCollection;
+    public BoostCollection UpgradesCollection;
+
+    [Header("Factory Assets")]
+    public ItemMenuButton ItemMenuButtonPrefab;
 
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<DifficultyService>().AsSingle().NonLazy();
+        // Scriptables
         Container.BindInterfacesAndSelfTo<SceneCollection>().FromInstance(SceneCollection);
         Container.BindInterfacesAndSelfTo<TurretCollection>().FromInstance(TurretCollection);
+        Container.BindInterfacesAndSelfTo<BoostCollection>().FromInstance(UpgradesCollection);
+
+        // Services
+        Container.BindInterfacesAndSelfTo<SerializationService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<DifficultyService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<TowerBoostService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ItemMenuService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<BoostAvailabilityService>().AsSingle().NonLazy();
+
+        // Factories
+        Container.BindFactory<ItemMenuButton, ItemMenuButton.Factory>().FromComponentInNewPrefab(ItemMenuButtonPrefab);
     }
 }

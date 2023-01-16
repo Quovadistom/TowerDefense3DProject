@@ -8,30 +8,29 @@ using Zenject;
 [Serializable]
 public class TurretInfo
 {
-    public TurretType TurretType{ get; set; }
+    public TowerType TurretType{ get; set; }
     public Vector3 Position { get; set; }
     public List<string> UnlockedUpgrades { get; set; }
 }
 
 public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 {
-    private List<TurretInfoComponent> m_placedTurrets = new List<TurretInfoComponent>();
+    private List<TowerInfoComponent> m_placedTurrets = new List<TowerInfoComponent>();
     private TurretCollection m_turretCollection;
-    private TurretInfoComponent.Factory m_turretFactory;
+    private TowerInfoComponent.Factory m_turretFactory;
 
-    [Inject]
-    public void Construct(TurretCollection turretCollection, TurretInfoComponent.Factory turretFactory)
+    public TowerService(TurretCollection turretCollection, TowerInfoComponent.Factory turretFactory, SerializationService serializationService) : base(serializationService)
     {
         m_turretCollection = turretCollection;
         m_turretFactory = turretFactory;
     }
 
-    public void AddTower(TurretInfoComponent turretInfoComponent)
+    public void AddTower(TowerInfoComponent turretInfoComponent)
     {
         m_placedTurrets.Add(turretInfoComponent);
     }
 
-    public void RemoveTower(TurretInfoComponent selectedTurret)
+    public void RemoveTower(TowerInfoComponent selectedTurret)
     {
         m_placedTurrets.Remove(selectedTurret);
     }
@@ -42,7 +41,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         List<TurretInfo> placedTurrets= new List<TurretInfo>();
 
-        foreach(TurretInfoComponent placedTurret in m_placedTurrets)
+        foreach(TowerInfoComponent placedTurret in m_placedTurrets)
         {
             placedTurrets.Add(new TurretInfo()
             {
@@ -59,8 +58,8 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         foreach (TurretInfo selectedTurret in dto.PlacedTurrets)
         {
-            TurretInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.TurretType == selectedTurret.TurretType);
-            TurretInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
+            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.TurretType == selectedTurret.TurretType);
+            TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
             placedTurret.transform.position = selectedTurret.Position;
             placedTurret.UpgradeTreeAsset.SetUnlockedUpgrades(selectedTurret.UnlockedUpgrades);
             placedTurret.FinalizeTowerPlacement();

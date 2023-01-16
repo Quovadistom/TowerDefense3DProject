@@ -50,7 +50,7 @@ public class TargetingDropDown : MonoBehaviour
     }
 
 
-    private void OnTurretChanged(TurretInfoComponent selectedTurret)
+    private void OnTurretChanged(TowerInfoComponent selectedTurret)
     {
         if (selectedTurret != null && selectedTurret.gameObject.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
         {

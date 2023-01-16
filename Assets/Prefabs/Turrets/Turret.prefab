@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_value: 100
   UpgradeTreeAsset: {fileID: 2748849763165245316}
-  TurretType: 0
+  TurretType: 1
   Draggable: {fileID: 2541083447428540421}
 --- !u!114 &8665493875791922090
 MonoBehaviour:
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_fireRate: 1
   m_projectileProfile:
     m_bulletSpeed: 15
-    m_bulletDamage: 100
+    m_bulletDamage: 10
     m_explosionRange: 0
 --- !u!1001 &1315660756473690195
 PrefabInstance:
@@ -744,7 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f88ad2b7eaf7884897bf357cb4370a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_upgradeName: d1d7f3a2-08cd-4939-a0f7-8bd581a131c4
+  m_upgradeName: Range1
   m_valueComponent: {fileID: 6700668100133648957}
   m_upgradeCost: 100
   m_turretMediator: {fileID: 8665493875791922090}
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad87b59bcd50504bb564f9413a545ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_upgradeName: 6832df2e-9ec4-4b41-9598-4879cbb86c1b
+  m_upgradeName: Firerate1
   m_valueComponent: {fileID: 6700668100133648957}
   m_upgradeCost: 200
   m_turretMediator: {fileID: 8741458935821981214}

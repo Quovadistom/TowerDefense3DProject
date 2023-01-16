@@ -17,7 +17,7 @@ public class TowerButtonCollection : MonoBehaviour
 
     private void Awake()
     {
-        foreach(TurretInfoComponent turretInfoComponent in m_turretCollection.TurretList)
+        foreach(TowerInfoComponent turretInfoComponent in m_turretCollection.TurretList)
         {
             SpawnTowerButton button = m_buttonFactory.Create();
             button.transform.SetParent(transform, false);

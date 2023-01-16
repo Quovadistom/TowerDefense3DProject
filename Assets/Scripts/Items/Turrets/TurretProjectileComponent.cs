@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-public class TurretProjectileComponent : AttackMethodComponent
+public class TurretProjectileComponent : AttackMethodComponent, ITowerComponent
 {
     [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
     [SerializeField] private ProjectileBase m_bulletPrefab;

@@ -17,14 +17,6 @@ public class UpgradeBase<T> : MonoBehaviour, IIDProvider where T : MonoBehaviour
 
     public string ID => m_upgradeName;
 
-    private void OnValidate()
-    {
-        if (string.IsNullOrEmpty(m_upgradeName))
-        {
-            m_upgradeName = Guid.NewGuid().ToString();
-        }
-    }
-
     public int UpgradeCost
     {
         get => m_upgradeCost * m_difficultyService.InflationPercentage;

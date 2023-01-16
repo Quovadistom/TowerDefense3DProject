@@ -33,7 +33,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<TowerService>().AsSingle().NonLazy();
 
         // Factories
-        Container.BindFactory<TurretInfoComponent, TurretInfoComponent, TurretInfoComponent.Factory>().FromFactory<PrefabFactory<TurretInfoComponent>>();
+        Container.BindFactory<TowerInfoComponent, TowerInfoComponent, TowerInfoComponent.Factory>().FromFactory<PrefabFactory<TowerInfoComponent>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
         Container.BindFactory<SpawnTowerButton, SpawnTowerButton.Factory>().FromComponentInNewPrefab(SpawnTurretButtonPrefab);
     }

@@ -6,4 +6,13 @@ public static class TransformExtensions
     {
         return new Vector2(transform.position.x, transform.position.y);
     }
+
+    public static Transform ClearChildren(this Transform transform)
+    {
+        foreach (Transform child in transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        return transform;
+    }
 }

@@ -6,8 +6,8 @@ public class SelectedTurretMenu : MonoBehaviour
 {
     private SelectionService m_selectionService;
 
-    public event Action<TurretInfoComponent> TurretDataChanged;
-    public TurretInfoComponent SelectedTurret { get; private set; }
+    public event Action<TowerInfoComponent> TurretDataChanged;
+    public TowerInfoComponent SelectedTurret { get; private set; }
 
     [Inject]
     public void Construct(SelectionService selectionService)
@@ -32,7 +32,7 @@ public class SelectedTurretMenu : MonoBehaviour
 
     private void OnObjectSelected(Component component)
     {
-        TurretInfoComponent turretBase = (TurretInfoComponent)component;
+        TowerInfoComponent turretBase = (TowerInfoComponent)component;
 
         SelectedTurret = turretBase;
 

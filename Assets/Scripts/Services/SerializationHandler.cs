@@ -6,10 +6,21 @@ using UnityEngine;
 
 public abstract class SerializationHandler<T> where T : new()
 {
+    private SerializationService m_serializationService;
+
     protected abstract Guid Id { get; }
     protected T Dto { get; set; }
 
     private string GetFilePath() => Path.Combine(Application.persistentDataPath, Id.ToString());
+
+    protected SerializationHandler(SerializationService serializationService)
+    {
+        m_serializationService = serializationService;
+
+        m_serializationService.SerializationRequested += OnSerializationRequested;
+    }
+
+    private void OnSerializationRequested() => Save();
 
     public void Save()
     {

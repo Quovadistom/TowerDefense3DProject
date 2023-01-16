@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_value: 100
   UpgradeTreeAsset: {fileID: 2748849763165245316}
-  TurretType: 2
+  TurretType: 3
   Draggable: {fileID: 2400669061940468392}
 --- !u!114 &8665493875791922090
 MonoBehaviour:

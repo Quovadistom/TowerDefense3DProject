@@ -8,14 +8,12 @@ using Zenject;
 public class SaveButton : MonoBehaviour
 {
     [SerializeField] Button m_saveButton;
-    private LevelService m_levelService;
-    private TowerService m_turretService;
+    private SerializationService m_serializationService;
 
     [Inject]
-    public void Construct(LevelService levelService, TowerService turretService)
+    public void Construct(SerializationService serializationService)
     {
-        m_levelService = levelService;
-        m_turretService = turretService;
+        m_serializationService = serializationService;
     }
 
     private void Awake()
@@ -25,8 +23,7 @@ public class SaveButton : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        m_levelService.Save();
-        m_turretService.Save();
+        m_serializationService.RequestSerialization();
     }
 
     private void OnDestroy()

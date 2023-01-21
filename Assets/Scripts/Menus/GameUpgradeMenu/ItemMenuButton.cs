@@ -12,10 +12,10 @@ public class ItemMenuButton : MonoBehaviour
     [SerializeField] Button m_button;
 
     private Action m_callback;
-    private ItemMenuService m_itemMenuService;
+    private MenuService m_itemMenuService;
 
     [Inject]
-    public void Construct(ItemMenuService itemMenuService)
+    public void Construct(MenuService itemMenuService)
     {
         m_itemMenuService = itemMenuService;
     }

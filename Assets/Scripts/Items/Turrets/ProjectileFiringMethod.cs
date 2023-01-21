@@ -41,11 +41,8 @@ public class ProjectileFiringMethod : IAttackMethod
 
         m_timerElapsed = false;
 
-        Debug.Log("Shoot extern");
-
         foreach (Transform spawnPoint in m_turretProjectileComponent.BulletSpawnPoints.SpawnPoints)
         {
-            Debug.Log("Shoot intern");
             m_bulletService.CreateNewBullet(m_turretProjectileComponent.BulletPrefab, spawnPoint.position, m_turretProjectileComponent.ProjectileProfile, target);
         }
 

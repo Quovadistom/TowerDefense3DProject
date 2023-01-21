@@ -7,10 +7,10 @@ public abstract class ServiceSerializationHandler<T> : SerializationHandler<T>, 
     {
     }
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         Dto = new T();
 
-        Read();
+        // Read();
     }
 }

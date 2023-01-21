@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 {
@@ -9,9 +10,24 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 
     private int m_health = 10;
     private int m_money = 1000;
+    private GameBoostService m_gameBoostService;
 
-    public LevelService(SerializationService serializationService) : base(serializationService)
+    public LevelService(GameBoostService gameBoostService, SerializationService serializationService) : base(serializationService)
     {
+        m_gameBoostService = gameBoostService;
+        m_gameBoostService.AllGameBoostsApplied += OnGameBoostsApplied;
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        m_gameBoostService.ApplyBoosts();
+    }
+
+    private void OnGameBoostsApplied(GameBoostValues gameBoostValues)
+    {
+        Health += gameBoostValues.Health;
     }
 
     public event Action<int> HealthChanged;

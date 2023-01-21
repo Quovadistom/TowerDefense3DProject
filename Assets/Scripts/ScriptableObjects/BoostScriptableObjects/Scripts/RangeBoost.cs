@@ -1,7 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "RangeBoost", menuName = "ScriptableObjects/Boosts/RangeBoost")]
 public class RangeBoost : TowerBoostBase
 {
     [SerializeField] private float m_percentage;

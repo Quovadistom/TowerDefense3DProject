@@ -9,14 +9,14 @@ using Zenject;
 public class TowerSelectionButton : MonoBehaviour
 {
     [SerializeField] Button m_button;
-    [SerializeField] TowerUpgradeCollection m_towerUpgradeCollection;
+    [SerializeField] TowerBoostCollection m_towerUpgradeCollection;
 
     private TurretCollection m_turretCollection;
     private TowerBoostService m_towerUpgradeService;
-    private ItemMenuService m_itemMenuService;
+    private MenuService m_itemMenuService;
 
     [Inject]
-    public void Construct(TurretCollection turretCollection, TowerBoostService towerUpgradeService, ItemMenuService itemMenuService)
+    public void Construct(TurretCollection turretCollection, TowerBoostService towerUpgradeService, MenuService itemMenuService)
     {
         m_turretCollection = turretCollection;
         m_towerUpgradeService = towerUpgradeService;

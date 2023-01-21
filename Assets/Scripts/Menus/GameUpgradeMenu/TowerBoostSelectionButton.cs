@@ -7,21 +7,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class TowerUpgradeSelectionButton : MonoBehaviour
+public class TowerBoostSelectionButton : MonoBehaviour
 {
-    [SerializeField] TowerUpgradeCollection m_towerUpgradeCollection;
+    [SerializeField] TowerBoostCollection m_towerUpgradeCollection;
     [SerializeField] Button m_button;
     [SerializeField] TMP_Text m_titleText;
 
     private TowerBoostService m_towerUpgradeService;
     private BoostAvailabilityService m_boostAvailabilityService;
-    private ItemMenuService m_itemMenuService;
+    private MenuService m_itemMenuService;
     private string m_upgradeID;
 
     private int m_index = 0;
 
     [Inject]
-    public void Construct(TowerBoostService towerUpgradeService, BoostAvailabilityService boostAvailabilityService, ItemMenuService itemMenuService)
+    public void Construct(TowerBoostService towerUpgradeService, BoostAvailabilityService boostAvailabilityService, MenuService itemMenuService)
     {
         m_towerUpgradeService = towerUpgradeService;
         m_boostAvailabilityService = boostAvailabilityService;
@@ -57,7 +57,7 @@ public class TowerUpgradeSelectionButton : MonoBehaviour
 
         foreach (KeyValuePair<string, int> boost in m_boostAvailabilityService.AvailableBoosts)
         {
-            if (m_boostAvailabilityService.TryGetBoostInformation(boost.Key, out TowerBoostBase boostInfo))
+            if (m_boostAvailabilityService.TryGetTowerBoostInformation(boost.Key, out TowerBoostBase boostInfo))
             {
                 if (towerComponents.FirstOrDefault(component => component.GetType() == boostInfo.TowerComponentType) != null)
                 {

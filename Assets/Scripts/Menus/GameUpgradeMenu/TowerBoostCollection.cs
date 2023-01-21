@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class TowerUpgradeCollection : MonoBehaviour
+public class TowerBoostCollection : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_itemTitle;
     [SerializeField] private Image m_itemIcon;

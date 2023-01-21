@@ -8,7 +8,7 @@ using Zenject;
 public class UpgradeMenu : MonoBehaviour
 {
     [SerializeField] private ItemsMenu m_itemsMenu;
-    [SerializeField] private List<TowerUpgradeCollection> m_towerUpgradeCollections;
+    [SerializeField] private List<TowerBoostCollection> m_towerUpgradeCollections;
     private TowerBoostService m_towerUpgradeService;
     private SerializationService m_serializationService;
 

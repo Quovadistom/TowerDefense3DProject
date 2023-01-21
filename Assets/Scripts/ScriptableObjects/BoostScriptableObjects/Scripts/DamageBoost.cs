@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public class DamageUpgradeTemplate : TowerBoostBase
+[CreateAssetMenu(fileName = "DamageBoost", menuName = "ScriptableObjects/Boosts/DamageBoost")]
+public class DamageBoost : TowerBoostBase
 {
     [SerializeField] private float m_percentage;
 

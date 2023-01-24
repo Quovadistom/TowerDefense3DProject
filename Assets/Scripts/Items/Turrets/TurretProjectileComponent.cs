@@ -2,8 +2,9 @@
 using UnityEngine;
 using Zenject;
 
-public class TurretProjectileComponent : AttackMethodComponent, ITowerComponent
+public class TurretProjectileComponent : ChangeVisualComponent, ITowerComponent
 {
+    [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
     [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
     [SerializeField] private ProjectileBase m_bulletPrefab;
     [SerializeField] private float m_fireRate;
@@ -22,11 +23,6 @@ public class TurretProjectileComponent : AttackMethodComponent, ITowerComponent
     {
         m_bulletService = bulletService;
         m_waveService = waveService;
-    }
-
-    protected void Start()
-    {
-        CurrentAttackMethod = new ProjectileFiringMethod(m_bulletService, this, m_waveService);
     }
 
     public BulletSpawnPoints BulletSpawnPoints

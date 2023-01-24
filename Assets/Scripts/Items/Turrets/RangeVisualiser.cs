@@ -1,15 +1,29 @@
+using System;
+using System.Drawing;
 using UnityEngine;
+using Zenject;
 
 public class RangeVisualiser : BaseVisualChanger<TurretRangeComponent>
 {
     [SerializeField] private SpriteRenderer m_renderer;
     [SerializeField] private SphereCollider m_rangeCollider;
+    [SerializeField] private Draggable m_draggable;
+
+    private ColorSettings m_colorSettings;
+
+    [Inject]
+    public void Construct(ColorSettings colorSettings)
+    {
+        m_colorSettings = colorSettings;
+    }
 
     protected override void Awake()
     {
         base.Awake();
 
         Component.RangeUpdated += OnRangeUpdated;
+        m_draggable.InvalidPlacementDetected += OnInvalidPlacementDetected;
+        m_draggable.ValidPlacementDetected += OnValidPlacementDetected;
     }
 
     protected override void OnDestroy()
@@ -17,6 +31,8 @@ public class RangeVisualiser : BaseVisualChanger<TurretRangeComponent>
         base.OnDestroy();
 
         Component.RangeUpdated -= OnRangeUpdated;
+        m_draggable.InvalidPlacementDetected -= OnInvalidPlacementDetected;
+        m_draggable.ValidPlacementDetected -= OnValidPlacementDetected;
     }
 
     private void OnRangeUpdated(float newRange)
@@ -25,8 +41,13 @@ public class RangeVisualiser : BaseVisualChanger<TurretRangeComponent>
         m_rangeCollider.radius = newRange;
     }
 
-    public void SetRangeColor(Color color)
+    private void OnInvalidPlacementDetected()
     {
-        m_renderer.color = color;
+        m_renderer.color = m_colorSettings.RangeBlockedToPlaceColor;
+    }
+
+    private void OnValidPlacementDetected()
+    {
+        m_renderer.color = m_colorSettings.RangeFreeToPlaceColor;
     }
 }

@@ -30,6 +30,6 @@ public class ChangeSceneButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        SceneManager.LoadScene(m_sceneCollection.LevelScene.name, LoadSceneMode.Single);
+        SceneManager.LoadScene(m_sceneCollection.LevelScene, LoadSceneMode.Single);
     }
 }

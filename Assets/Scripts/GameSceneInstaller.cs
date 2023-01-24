@@ -29,7 +29,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<BulletService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TouchInputService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<SelectionService>().AsSingle().NonLazy();
-        Container.BindInterfacesAndSelfTo<PlacementService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<DraggingService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TowerService>().AsSingle().NonLazy();
 
         // Factories

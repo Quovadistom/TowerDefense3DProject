@@ -1,3 +1,5 @@
+using NaughtyAttributes;
+using System.ComponentModel.Design;
 using UnityEngine;
 using Zenject;
 
@@ -16,31 +18,43 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
     public Draggable Draggable;
 
     private TowerService m_turretService;
+    private SelectionService m_selectionService;
 
     [Inject]
-    public void Construct(TowerService turretService)
+    public void Construct(TowerService turretService, SelectionService selectionService)
     {
         m_turretService = turretService;
+        m_selectionService = selectionService;
     }
 
-    public void Awake()
+    private void Awake()
     {
-        Draggable.TowerPlaced += OnTowerPlaced;
+        Draggable.PlacementRequested += OnTowerPlaced;
+    }
+
+    private void OnDestroy()
+    {
+        Draggable.PlacementRequested -= OnTowerPlaced;
     }
 
     private void OnTowerPlaced()
     {
+        m_selectionService.ForceSetSelected(transform);
+        Draggable.CanDrag = false;
         m_turretService.AddTower(this);
     }
 
-    public void StartTowerPlacemet()
+    [Button]
+    public void StartTowerPlacement()
     {
-        Draggable.StartDragging();
+        m_selectionService.ForceSetSelectedSilent(transform);
+        Draggable.CanDrag = true;
+        SubtractCost();
     }
 
     public void FinalizeTowerPlacement()
     {
-        Draggable.ForceEndDragging();
+        Draggable.CanDrag = false;
     }
 
     public class Factory : PlaceholderFactory<TowerInfoComponent, TowerInfoComponent>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class TurretLaserComponent : AttackMethodComponent, ITowerComponent
+public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
 {
     [SerializeField] private TurretRangeComponent m_turretRangeComponent;
     [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;
@@ -17,19 +17,6 @@ public class TurretLaserComponent : AttackMethodComponent, ITowerComponent
     public event Action<float> DamageRateChanged;
     public event Action<float> LaserLengthChanged;
     public event Action<float> LaserDamageChanged;
-
-    private LayerSettings m_layerSettings;
-
-    [Inject]
-    public void Construct(LayerSettings layerSettings)
-    {
-        m_layerSettings = layerSettings;
-    }
-
-    protected void Start()
-    {
-        CurrentAttackMethod = new LaserFiringMethod(m_layerSettings, this, m_turretRangeComponent);
-    }
 
     public LaserSpawnPoints LaserSpawnPoints
     {

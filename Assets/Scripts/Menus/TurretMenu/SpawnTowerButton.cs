@@ -12,7 +12,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
-    private PlacementService m_placementService;
+    private DraggingService m_draggingService;
 
     public TowerInfoComponent TurretToSpawn { get; set; }
 
@@ -21,19 +21,19 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         TouchInputService touchInputService, 
         LayerSettings layerSettings, 
         LevelService levelService, 
-        PlacementService placementService)
+        DraggingService draggingService)
     {
         m_turretFactory = turretFactory;
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
         m_levelService = levelService;
-        m_placementService = placementService;
+        m_draggingService = draggingService;
     }
 
     private void Awake()
     {
         m_levelService.MoneyChanged += OnMoneyChanged;
-        m_placementService.PlacementProgressChanged += OnPlacementProgressChanged;
+        m_draggingService.PlacementProgressChanged += OnPlacementProgressChanged;
     }
 
     private void OnDestroy()
@@ -54,7 +54,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     private bool IsButtonInteractable()
     {
         bool canBuyTurret = TurretToSpawn.Value <= m_levelService.Money;
-        bool canPlaceTurret = !m_placementService.IsPlacementInProgress;
+        bool canPlaceTurret = !m_draggingService.IsDraggingInProgress;
 
         return canBuyTurret && canPlaceTurret;
     }
@@ -67,7 +67,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         }
 
         TowerInfoComponent turret = m_turretFactory.Create(TurretToSpawn);
-        turret.StartTowerPlacemet();
+        turret.StartTowerPlacement();
 
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
         {

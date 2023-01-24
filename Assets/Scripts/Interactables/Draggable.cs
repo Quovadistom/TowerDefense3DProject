@@ -1,96 +1,89 @@
 using Assets.Scripts.Interactables;
+using NaughtyAttributes;
 using System;
 using System.ComponentModel.Design;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(Selectable))]
 public class Draggable : MonoBehaviour
 {
-    public Transform TransformToMove;
-    public RangeVisualiser RangeVisualiser;
-    [SerializeField] private ValueComponent m_valueComponent;
+    [SerializeField] private Transform m_transformToMove;
+    [Tag] public string[] InvalidTags;
 
-    private SelectionService m_selectionService;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
-    private ColorSettings m_colorSettings;
-    private PlacementService m_placementService;
-    private int m_pathColliderAmount;
-    private bool m_isPlaced = false;
-    private Selectable m_selectable;
+    private DraggingService m_draggingService;
+    private int m_invalidColliderAmount;
 
-    private bool m_allowDragging { get; set; } = true;
+    private bool m_canDrag;
+    public bool CanDrag
+    {
+        get
+        {
+            return m_canDrag;
+        }
+        set
+        {
+            if (value == true && m_draggingService.IsDraggingInProgress)
+            {
+                return;
+            }
+
+            m_draggingService.IsDraggingInProgress = value;
+            m_canDrag = value;
+        }
+    }
+
     public event Action TowerPlaced;
+    public event Action InvalidPlacementDetected;
+    public event Action ValidPlacementDetected;
+    public event Action PlacementRequested;
 
     [Inject]
-    private void Construct(SelectionService selectionService, TouchInputService touchInputService, LayerSettings layerSettings, ColorSettings colorSettings, PlacementService placementService)
+    public void Construct(TouchInputService touchInputService, LayerSettings layerSettings, DraggingService draggingService)
     {
-        m_selectionService = selectionService;
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
-        m_colorSettings = colorSettings;
-        m_placementService = placementService;
+        m_draggingService = draggingService;
     }
 
-    private void Awake()
+    private void Update()
     {
-        m_selectable = GetComponent<Selectable>();
-    }
-
-    void Update()
-    {     
-        if (m_touchInputService.TryGetTouchPhase(out TouchPhase touchPhase))
+        if (CanDrag && m_touchInputService.TryGetTouchPhase(out TouchPhase touchPhase))
         {
-            if (m_allowDragging && (touchPhase == TouchPhase.Began || touchPhase == TouchPhase.Moved))
+            if (touchPhase == TouchPhase.Began || touchPhase == TouchPhase.Moved)
             {
                 if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))
                 {
-                    TransformToMove.position = new Vector3(hit.point.x, 0, hit.point.z);
+                    m_transformToMove.position = new Vector3(hit.point.x, 0, hit.point.z);
                 }
             }
-
-            if (!m_isPlaced && m_pathColliderAmount == 0 && (touchPhase == TouchPhase.Ended || touchPhase == TouchPhase.Canceled))
+            else if (m_invalidColliderAmount == 0 && touchPhase == TouchPhase.Ended)
             {
-                ForceEndDragging();
-                m_valueComponent.SubtractCost();
-                m_selectionService.ForceSetSelected(this.transform);
+                PlacementRequested?.Invoke();
             }
         }
     }
 
-    public void StartDragging()
-    {
-        m_selectionService.ForceClearSelected();
-        m_placementService.IsPlacementInProgress = true;
-    }
-
-    public void ForceEndDragging()
-    {
-        m_selectable.SetSelected(false);
-        m_isPlaced = true;
-        m_allowDragging = false;
-        m_placementService.IsPlacementInProgress = false;
-        TowerPlaced?.Invoke();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Path") || other.CompareTag("Turret"))
+        if (InvalidTags.Contains(other.tag))
         {
-            RangeVisualiser.SetRangeColor(m_colorSettings.RangeBlockedToPlaceColor);
-            m_pathColliderAmount++;
+            InvalidPlacementDetected?.Invoke();
+            m_invalidColliderAmount++;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Path") || other.CompareTag("Turret"))
+        if (InvalidTags.Contains(other.tag))
         {
-            m_pathColliderAmount--;
-            if (m_pathColliderAmount == 0)
+            m_invalidColliderAmount--;
+
+            if (m_invalidColliderAmount == 0)
             {
-                RangeVisualiser.SetRangeColor(m_colorSettings.RangeFreeToPlaceColor);
+                ValidPlacementDetected?.Invoke();
             }
         }
     }

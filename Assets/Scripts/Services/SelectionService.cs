@@ -12,17 +12,29 @@ public class SelectionService : ITickable
 {
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
-
+    private DraggingService m_draggingService;
     private Selectable m_selected;
 
     public bool LockSelection { get; set; }
 
-    public event Action<Component> ObjectSelected;
+    /// <summary>
+    /// Event that fires when a gameobject is selected.
+    /// </summary>
+    public event Action<GameObject> GameObjectSelected;
+    /// <summary>
+    /// Event that fires when a gameobject is clicked, but was already selected.
+    /// </summary>
+    public event Action<GameObject> GameObjectClickedAgain;
+    /// <summary>
+    /// Event that fires when the selection is locked to a specific gameobject, but another gameobject is clicked on
+    /// </summary>
+    public event Action<GameObject> GameObjectClickedWhileSelectionLocked;
 
-    public SelectionService(TouchInputService touchInputService, LayerSettings layerSettings)
+    public SelectionService(TouchInputService touchInputService, DraggingService draggingService, LayerSettings layerSettings)
     {
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
+        m_draggingService = draggingService;
     }
 
     public void Tick()
@@ -32,12 +44,19 @@ public class SelectionService : ITickable
             Touch touch = Input.touches[0];
             if (touch.phase == TouchPhase.Began)
             {
-                if (!LockSelection && m_touchInputService.TryGetRaycast(m_layerSettings.SelectableLayer, out RaycastHit hit))
+                if (m_touchInputService.TryGetRaycast(m_layerSettings.SelectableLayer, out RaycastHit hit))
                 {
                     Selectable selected = hit.transform.GetComponent<Selectable>();
-                    SetSelected(selected);
+                    if (!LockSelection)
+                    {
+                        SetSelected(selected);
+                    }
+                    else if (LockSelection && m_selected != selected)
+                    {
+                        GameObjectClickedWhileSelectionLocked.Invoke(selected.GameObjectToSelect);
+                    }
                 }
-                else if (!LockSelection && !IsPointerOverUIObject())
+                else if (!LockSelection && !m_draggingService.IsDraggingInProgress && !IsPointerOverUIObject())
                 {
                     SetSelected(null);
                 }
@@ -54,16 +73,27 @@ public class SelectionService : ITickable
         return results.Count > 0;
     }
 
-    private void SetSelected(Selectable selectable)
+    private void SetSelected(Selectable selectable, bool silent = false)
     {
+        if (selectable != null && m_selected == selectable)
+        {
+            selectable.ClickAgain();
+            GameObjectClickedAgain?.Invoke(selectable.gameObject);
+            return;
+        }
+
         SetSelectedState(false);
 
         m_selected = selectable;
 
         SetSelectedState(true);
 
-        Component selectedComponent = m_selected == null ? null : m_selected.ComponentToSelect;
-        ObjectSelected?.Invoke(selectedComponent);
+        GameObject selectedGameObject = m_selected == null ? null : m_selected.GameObjectToSelect;
+
+        if (!silent)
+        {
+            GameObjectSelected?.Invoke(selectedGameObject);
+        }
     }
 
     private void SetSelectedState(bool state)
@@ -79,13 +109,19 @@ public class SelectionService : ITickable
         SetSelected(null);
     }
 
-    public void ForceSetSelected(Transform transformToSelect)
+    /// <summary>
+    /// Sets the object to selected without triggering GameObjectSelected.
+    /// </summary>
+    /// <param name="selectable"></param>
+    public void ForceSetSelectedSilent(Transform transformToSelect) => ForceSetSelected(transformToSelect, true);
+
+    public void ForceSetSelected(Transform transformToSelect, bool silent = false)
     {
         Selectable selectable = transformToSelect.GetComponentInChildren<Selectable>();
 
         if (selectable != null)
         {
-            SetSelected(selectable);
+            SetSelected(selectable, silent);
         }
         else
         {

@@ -1,31 +1,35 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using UnityEngine;
-using Zenject;
 
 namespace Assets.Scripts.Interactables
 {
     public class Selectable : MonoBehaviour
     {
-        public Component ComponentToSelect;
-        //public Outline Outline;
+        public GameObject GameObjectToSelect;
         public GameObject VisualsToShow;
 
         public bool IsSelected { get; private set; }
+
+        public event Action SelectedAgain;
 
         public void SetSelected(bool selected)
         {
             IsSelected = selected;
 
-            //if (Outline != null)
-            //{
-            //    Outline.enabled = selected;
-            //}
+            foreach (Outline outline in GameObjectToSelect.GetComponentsInChildren<Outline>())
+            {
+                outline.enabled = selected;
+            }
 
             if (VisualsToShow != null)
             {
                 VisualsToShow.SetActive(selected);
             }
+        }
+
+        public void ClickAgain()
+        {
+            SelectedAgain?.Invoke();
         }
     }
 }

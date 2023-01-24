@@ -15,7 +15,7 @@ public class BaseVisualChanger<T> : MonoBehaviour where T : ChangeVisualComponen
 
     protected virtual void OnDestroy()
     {
-        Component.VisualChanged += OnVisualUpdated;
+        Component.VisualChanged -= OnVisualUpdated;
     }
 
     private void OnVisualUpdated(Transform newVisual)

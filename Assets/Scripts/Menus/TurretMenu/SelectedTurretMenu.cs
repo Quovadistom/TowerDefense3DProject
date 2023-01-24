@@ -17,7 +17,7 @@ public class SelectedTurretMenu : MonoBehaviour
 
     private void Awake()
     {
-        m_selectionService.ObjectSelected += OnObjectSelected;
+        m_selectionService.GameObjectSelected += OnGameObjectSelected;
     }
 
     private void Start()
@@ -27,17 +27,22 @@ public class SelectedTurretMenu : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_selectionService.ObjectSelected -= OnObjectSelected;
+        m_selectionService.GameObjectSelected -= OnGameObjectSelected;
     }
 
-    private void OnObjectSelected(Component component)
+    private void OnGameObjectSelected(GameObject gameObject)
     {
-        TowerInfoComponent turretBase = (TowerInfoComponent)component;
+        if  (gameObject == null)
+        {
+            this.gameObject.SetActive(false);
+            return;
+        }
 
-        SelectedTurret = turretBase;
-
-        TurretDataChanged?.Invoke(SelectedTurret);
-
-        this.gameObject.SetActive(turretBase != null);
+        if (gameObject.TryGetComponent(out TowerInfoComponent towerInfoComponent))
+        {
+            SelectedTurret = towerInfoComponent;
+            TurretDataChanged?.Invoke(SelectedTurret);
+            this.gameObject.SetActive(true);
+        }
     }
 }

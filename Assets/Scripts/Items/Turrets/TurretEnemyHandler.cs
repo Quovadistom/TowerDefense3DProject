@@ -7,7 +7,6 @@ public class TurretEnemyHandler : MonoBehaviour
     [SerializeField] private TurretTargetingComponent m_turretMediator; 
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
-    private BasicEnemy m_target;
 
     private void Awake()
     {
@@ -29,17 +28,18 @@ public class TurretEnemyHandler : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        BasicEnemy enemy = other.attachedRigidbody.GetComponent<BasicEnemy>();
-        m_enemiesInRange.Remove(enemy);
+        if (other.attachedRigidbody != null && other.attachedRigidbody.TryGetComponent(out BasicEnemy enemy))
+        {
+            m_enemiesInRange.Remove(enemy);
+        }
     }
 
     public void CheckTargetValidity()
     {
-        if (m_target != null && (m_target.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
+        if (m_turretMediator.CurrentTarget != null && (m_turretMediator.CurrentTarget.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
         {
-            m_enemiesInRange.Remove(m_target);
-            m_target = null;
-            m_turretMediator.CurrentTarget = m_target;
+            m_enemiesInRange.Remove(m_turretMediator.CurrentTarget);
+            m_turretMediator.CurrentTarget = null;
         }
     }
 
@@ -53,8 +53,6 @@ public class TurretEnemyHandler : MonoBehaviour
         }
 
         m_turretMediator.CurrentTargetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
-
         m_turretMediator.CurrentTarget = enemy;
-        m_target = enemy;
     }
 }

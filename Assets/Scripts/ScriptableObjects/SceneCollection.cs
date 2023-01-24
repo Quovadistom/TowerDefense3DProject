@@ -1,11 +1,13 @@
-
+using NaughtyAttributes;
+using System;
 using UnityEditor;
-using UnityEditor.SearchService;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SceneCollection", menuName = "ScriptableObjects/SceneCollection")]
 public class SceneCollection : ScriptableObject
 {
-    public SceneAsset TownScene;
-    public SceneAsset LevelScene;
+    [Scene]
+    public string TownScene;
+    [Scene]
+    public string LevelScene;
 }

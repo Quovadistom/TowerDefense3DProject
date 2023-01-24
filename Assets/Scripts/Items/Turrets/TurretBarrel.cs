@@ -1,73 +1,46 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
-public class TurretBarrel : BaseVisualChanger<AttackMethodComponent>
+public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVisualComponent
 {
     [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
-    [SerializeField] private Transform m_barrelVisual;
 
-    private Transform m_targetTransform;
-    private BasicEnemy m_currentTarget;
+    private float m_elapsedTime;
 
-    protected override void Awake()
+    public BasicEnemy CurrentTarget => m_turretTargetingComponent.CurrentTarget;
+
+    public abstract float Interval { get; }
+    public float Accuracy = 0.99f;
+
+    protected virtual void Update()
     {
-        base.Awake();
+        m_elapsedTime += Time.deltaTime;
 
-        OnTargetLost();
-        m_turretTargetingComponent.TargetChanged += OnEnemyChanged;
-    }
-
-    private void Update()
-    {
-        if (m_currentTarget == null)
+        if (m_turretTargetingComponent.CurrentTarget == null)
         {
             return;
         }
 
-        m_targetTransform = m_currentTarget.EnemyMiddle;
-        var lookPos = m_targetTransform.position - transform.position;
+        var lookPos = m_turretTargetingComponent.CurrentTarget.EnemyMiddle.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretTargetingComponent.TurnSpeed);
 
-        LookAtTarget();
-    }
-
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-
-        m_turretTargetingComponent.TargetChanged -= OnEnemyChanged;
-    }
-
-    private void OnEnemyChanged(BasicEnemy newEnemy)
-    {
-        m_currentTarget = newEnemy;
-
-        if (newEnemy == null)
+        if (m_elapsedTime > Interval)
         {
-            OnTargetLost();
+            m_elapsedTime = 0;
+
+            if (m_turretTargetingComponent.CurrentTarget != null && IsLockedOnTarget())
+            {
+                DoDamage(m_turretTargetingComponent.CurrentTarget);
+            }
         }
     }
 
-    private void OnTargetLost()
-    {
-        Component.CurrentAttackMethod?.TargetLost();
-    }
+    public abstract void DoDamage(BasicEnemy currentTarget);
 
-    private void LookAtTarget()
+    protected bool IsLockedOnTarget()
     {
-        if (IsLockedOnTarget())
-        {
-            Component.CurrentAttackMethod?.Shoot(m_currentTarget);
-        }
-    }
-
-    private bool IsLockedOnTarget()
-    {
-        Vector3 dirFromAtoB = (m_targetTransform.position - transform.position).normalized;
+        Vector3 dirFromAtoB = (m_turretTargetingComponent.CurrentTarget.EnemyMiddle.position - transform.position).normalized;
         float dotProd = Vector3.Dot(dirFromAtoB, transform.forward);
-        return dotProd >= 0.99;
+        return dotProd >= Accuracy;
     }
 }

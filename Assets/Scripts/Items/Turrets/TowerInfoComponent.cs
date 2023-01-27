@@ -47,7 +47,7 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
     [Button]
     public void StartTowerPlacement()
     {
-        m_selectionService.ForceSetSelectedSilent(transform);
+        m_selectionService.ForceClearSelected();
         Draggable.CanDrag = true;
         SubtractCost();
     }

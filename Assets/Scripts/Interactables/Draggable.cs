@@ -1,4 +1,3 @@
-using Assets.Scripts.Interactables;
 using NaughtyAttributes;
 using System;
 using System.ComponentModel.Design;

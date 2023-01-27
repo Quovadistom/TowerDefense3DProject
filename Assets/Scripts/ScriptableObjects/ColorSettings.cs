@@ -7,4 +7,10 @@ public class ColorSettings : ScriptableObject
 {
     public Color RangeFreeToPlaceColor;
     public Color RangeBlockedToPlaceColor;
+
+    [Header("Outline Colors")]
+    public Color DefaultOutline;
+    public Color DoubleClickOutline;
+    public Color FocusOutline;
+    public Color ConnectedOutline;
 }

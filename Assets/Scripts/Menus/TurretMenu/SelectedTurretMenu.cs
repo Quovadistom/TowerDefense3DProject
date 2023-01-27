@@ -1,3 +1,4 @@
+using Assets.Scripts.Interactables;
 using System;
 using UnityEngine;
 using Zenject;
@@ -30,15 +31,15 @@ public class SelectedTurretMenu : MonoBehaviour
         m_selectionService.GameObjectSelected -= OnGameObjectSelected;
     }
 
-    private void OnGameObjectSelected(GameObject gameObject)
+    private void OnGameObjectSelected(Selectable selectable)
     {
-        if  (gameObject == null)
+        if  (selectable == null)
         {
             this.gameObject.SetActive(false);
             return;
         }
 
-        if (gameObject.TryGetComponent(out TowerInfoComponent towerInfoComponent))
+        if (selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent))
         {
             SelectedTurret = towerInfoComponent;
             TurretDataChanged?.Invoke(SelectedTurret);

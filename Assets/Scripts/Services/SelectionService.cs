@@ -20,15 +20,15 @@ public class SelectionService : ITickable
     /// <summary>
     /// Event that fires when a gameobject is selected.
     /// </summary>
-    public event Action<GameObject> GameObjectSelected;
+    public event Action<Selectable> GameObjectSelected;
     /// <summary>
     /// Event that fires when a gameobject is clicked, but was already selected.
     /// </summary>
-    public event Action<GameObject> GameObjectClickedAgain;
+    public event Action<Selectable> GameObjectClickedAgain;
     /// <summary>
     /// Event that fires when the selection is locked to a specific gameobject, but another gameobject is clicked on
     /// </summary>
-    public event Action<GameObject> GameObjectClickedWhileSelectionLocked;
+    public event Action<Selectable> GameObjectClickedWhileSelectionLocked;
 
     public SelectionService(TouchInputService touchInputService, DraggingService draggingService, LayerSettings layerSettings)
     {
@@ -51,12 +51,12 @@ public class SelectionService : ITickable
                     {
                         SetSelected(selected);
                     }
-                    else if (LockSelection && m_selected != selected)
+                    else if (LockSelection)
                     {
-                        GameObjectClickedWhileSelectionLocked.Invoke(selected.GameObjectToSelect);
+                        GameObjectClickedWhileSelectionLocked?.Invoke(selected);
                     }
                 }
-                else if (!LockSelection && !m_draggingService.IsDraggingInProgress && !IsPointerOverUIObject())
+                else if (!m_draggingService.IsDraggingInProgress && !IsPointerOverUIObject())
                 {
                     SetSelected(null);
                 }
@@ -78,7 +78,7 @@ public class SelectionService : ITickable
         if (selectable != null && m_selected == selectable)
         {
             selectable.ClickAgain();
-            GameObjectClickedAgain?.Invoke(selectable.gameObject);
+            GameObjectClickedAgain?.Invoke(selectable);
             return;
         }
 
@@ -88,11 +88,9 @@ public class SelectionService : ITickable
 
         SetSelectedState(true);
 
-        GameObject selectedGameObject = m_selected == null ? null : m_selected.GameObjectToSelect;
-
         if (!silent)
         {
-            GameObjectSelected?.Invoke(selectedGameObject);
+            GameObjectSelected?.Invoke(selectable);
         }
     }
 
@@ -106,6 +104,7 @@ public class SelectionService : ITickable
 
     public void ForceClearSelected()
     {
+        LockSelection = false;
         SetSelected(null);
     }
 
@@ -117,6 +116,8 @@ public class SelectionService : ITickable
 
     public void ForceSetSelected(Transform transformToSelect, bool silent = false)
     {
+        LockSelection = false;
+
         Selectable selectable = transformToSelect.GetComponentInChildren<Selectable>();
 
         if (selectable != null)

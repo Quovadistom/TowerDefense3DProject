@@ -34,7 +34,6 @@ public class Draggable : MonoBehaviour
         }
     }
 
-    public event Action TowerPlaced;
     public event Action InvalidPlacementDetected;
     public event Action ValidPlacementDetected;
     public event Action PlacementRequested;

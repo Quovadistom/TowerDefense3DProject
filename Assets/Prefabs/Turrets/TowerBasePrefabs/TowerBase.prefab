@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5337864521510864522
 Transform:
   m_ObjectHideFlags: 0
@@ -333,6 +333,7 @@ MonoBehaviour:
   m_value: 100
   UpgradeTreeAsset: {fileID: 2076628166115919224}
   TurretType: 1
+  Selectable: {fileID: 4022932716744111603}
   Draggable: {fileID: 1853222405557904121}
 --- !u!114 &4807116374305278294
 MonoBehaviour:
@@ -358,6 +359,7 @@ GameObject:
   - component: {fileID: 5903178294932769890}
   - component: {fileID: 2524494813484787468}
   - component: {fileID: 2927483342722670516}
+  - component: {fileID: 6345539683150753329}
   m_Layer: 0
   m_Name: TurretRangeController
   m_TagString: Untagged
@@ -411,6 +413,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6345539683150753329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6537610277282930375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c811c9925498af438996e41c23f843b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_selectable: {fileID: 4022932716744111603}
+  m_towerInfoComponent: {fileID: 7352623618096459969}
 --- !u!1001 &2933638206584894127
 PrefabInstance:
   m_ObjectHideFlags: 0

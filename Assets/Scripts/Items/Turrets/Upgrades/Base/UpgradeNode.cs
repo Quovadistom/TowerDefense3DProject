@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -21,6 +22,8 @@ public class UpgradeNode : MonoBehaviour
 
     [HideInInspector] public bool m_isVisible = true;
     [HideInInspector] public bool IsUnlocked = false;
+
+    public bool IsBought { get; private set; } = false;
 
     private int m_unlockSignals = 0;
 
@@ -64,14 +67,14 @@ public class UpgradeNode : MonoBehaviour
     public void OnButtonClick()
     {
         m_upgradeButton.interactable = false;
-
+        IsBought = true;
         ButtonClicked?.Invoke();
     }
 
     public void Unlock()
     {
         m_unlockSignals++;
-        
+
         if (!m_isVisible)
         {
             Debug.LogWarning("This node is hidden. Please show the node or remove dependency.", this);

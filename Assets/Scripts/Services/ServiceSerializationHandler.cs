@@ -11,6 +11,6 @@ public abstract class ServiceSerializationHandler<T> : SerializationHandler<T>, 
     {
         Dto = new T();
 
-        // Read();
+        Read();
     }
 }

@@ -31,7 +31,6 @@ public class ItemsMenu : MonoBehaviour
     {
         m_content.transform.ClearChildren();
         m_itemMenuService.ItemMenuRequested += OnRequestItemMenu;
-        m_itemMenuService.ItemMenuCloseRequested += OnCloseRequestItemMenu;
     }
 
     public void OnRequestItemMenu(List<ButtonInfo> items) => SetContent(items, new Vector2(m_standardItemSize.x, m_standardItemSize.y));
@@ -47,10 +46,5 @@ public class ItemsMenu : MonoBehaviour
             button.transform.SetParent(m_content.transform, false);
             button.SetContent(info);
         }
-    }
-
-    private void OnCloseRequestItemMenu()
-    {
-        m_content.transform.ClearChildren();
     }
 }

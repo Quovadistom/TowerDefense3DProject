@@ -15,7 +15,7 @@ public class TurretUpgradeTreeBase : MonoBehaviour
 
         UpgradeNode[] nodes = GetComponentsInChildren<UpgradeNode>(true);
 
-        foreach (UpgradeNode node in nodes.Where(node => node.IsUnlocked))
+        foreach (UpgradeNode node in nodes.Where(node => node.IsBought))
         {
             if (node.TryGetComponent(out IIDProvider idProvider))
             {

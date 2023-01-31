@@ -7,7 +7,6 @@ public class TurretRangeComponent : ChangeVisualComponent, ITowerComponent
     [SerializeField] private float m_range = 4;
 
     public event Action<float> RangeUpdated;
-    public event Action<GameObject> RangeVisualUpdated;
 
     protected virtual void Start()
     {

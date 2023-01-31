@@ -13,13 +13,19 @@ namespace Assets.Scripts.Interactables
         public bool IsSelected { get; private set; } = false;
         public bool IsSelectedAgain { get; private set; } = false;
 
-        public event Action Selected;
+        public event Action ObjectSelected;
         public event Action SelectedAgain;
+        public event Action<Selectable> Destroyed;
 
         [Inject]
         public void Construct(ColorSettings colorSettings)
         {
             m_colorSettings = colorSettings;
+        }
+
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
         }
 
         public void OutlineObject(bool enabled, Color color)
@@ -47,7 +53,10 @@ namespace Assets.Scripts.Interactables
                 VisualsToShow.SetActive(selected);
             }
 
-            Selected?.Invoke();
+            if (selected)
+            {
+                ObjectSelected?.Invoke();
+            }
         }
 
         public void ClickAgain()

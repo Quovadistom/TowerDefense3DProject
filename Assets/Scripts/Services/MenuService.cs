@@ -9,7 +9,6 @@ public class MenuService
     private List<MenuRequestHandler> m_menuRequestHandlers = new List<MenuRequestHandler>();
 
     public event Action<List<ButtonInfo>> ItemMenuRequested;
-    public event Action ItemMenuCloseRequested;
 
     public event Action<MenuRequestHandler> ShowMenuRequested;
     public event Action<MenuRequestHandler> HideMenuRequested;

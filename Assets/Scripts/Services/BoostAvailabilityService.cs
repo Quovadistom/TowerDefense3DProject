@@ -19,27 +19,27 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
     {
         m_boostCollection = boostCollection;
 
-        foreach (TowerBoostBase boost in m_boostCollection.TowerBoostList)
+        for (int i = 0; i < 10000; i++)
         {
-            m_availableBoosts.Add(boost.UpgradeID, 3);
-        }
-
-        foreach (GameBoostBase boost in m_boostCollection.GameBoostList)
-        {
-            m_availableBoosts.Add(boost.UpgradeID, 3);
+            Debug.LogError(boostCollection.GetRandomBoostWeighted(25).UpgradeName);
         }
     }
 
     public bool TryGetTowerBoostInformation(string id, out TowerBoostBase towerBoostBase)
     {
-        towerBoostBase = m_boostCollection.TowerBoostList.FirstOrDefault(boost => boost.UpgradeID == id);
+        towerBoostBase = m_boostCollection.TowerBoostList.FirstOrDefault(boost => boost.Boost.UpgradeID == id).Boost;
 
         return towerBoostBase != null;
     }
 
     public bool TryGetGameBoostInformation(string id, out GameBoostBase towerBoostBase)
     {
-        towerBoostBase = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.UpgradeID == id);
+        towerBoostBase = null;
+
+        if (!string.IsNullOrEmpty(id))
+        {
+            towerBoostBase = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.Boost.UpgradeID == id).Boost;
+        }
 
         return towerBoostBase != null;
     }

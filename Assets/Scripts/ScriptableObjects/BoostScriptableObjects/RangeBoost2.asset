@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d15bec49eb2f737429ec4136f3949683, type: 3}
-  m_Name: RangeBoost1
+  m_Name: RangeBoost2
   m_EditorClassIdentifier: 
-  UpgradeName: Range Boost 1
+  UpgradeName: Range Boost 2
   UpgradeVisual: {fileID: 0}
-  m_percentage: 10
+  m_percentage: 20

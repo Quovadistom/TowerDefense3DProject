@@ -73,7 +73,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         {
             foreach (string upgradeID in row.UpgradeIDs)
             {
-                TowerBoostBase upgrade = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.UpgradeID == upgradeID);
+                TowerBoostBase upgrade = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Boost.UpgradeID == upgradeID).Boost;
                 if (upgrade != null)
                 {
                     upgrade.ApplyBoost(towerInfoComponent);

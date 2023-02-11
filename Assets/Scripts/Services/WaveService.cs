@@ -7,6 +7,7 @@ using UnityEngine;
 public class WaveService
 {
     private WaveSettings m_waveSettings;
+    private SerializationService m_serializationService;
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
@@ -22,14 +23,21 @@ public class WaveService
             m_aliveEnemies = value;
             if (m_aliveEnemies == 0)
             {
-                WaveComplete.Invoke();
+                EndWave();
             }
         }
     }
 
-    public WaveService(WaveSettings waveSettings)
+    public void EndWave()
+    {
+        WaveComplete.Invoke();
+        // m_serializationService.RequestSerialization();
+    }
+
+    public WaveService(WaveSettings waveSettings, SerializationService serializationService)
     {
         m_waveSettings = waveSettings;
+        m_serializationService = serializationService;
     }
 
     public void StartNextWave()

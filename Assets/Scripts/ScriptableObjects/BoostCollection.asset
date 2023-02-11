@@ -13,7 +13,17 @@ MonoBehaviour:
   m_Name: BoostCollection
   m_EditorClassIdentifier: 
   m_towerBoostList:
-  - {fileID: 11400000, guid: 8f844246c07ab1a46b5f54aa50b37f17, type: 2}
-  - {fileID: 11400000, guid: e67655faa296cf8418ef325a1aa4930e, type: 2}
+  - Boost: {fileID: 11400000, guid: e67655faa296cf8418ef325a1aa4930e, type: 2}
+    Rarity: 0
+  - Boost: {fileID: 11400000, guid: 74b481df7fc2b9f4a9383039559933b9, type: 2}
+    Rarity: 1
+  - Boost: {fileID: 11400000, guid: b2fbe99eaacb93b4a9abdddc0271b1ab, type: 2}
+    Rarity: 2
+  - Boost: {fileID: 11400000, guid: 8bf3cbf588abe68479220bfa1246b605, type: 2}
+    Rarity: 3
   m_gameBoostList:
-  - {fileID: 11400000, guid: ab6f7bcd7b406594ca815390ddc0fbb8, type: 2}
+  - Boost: {fileID: 11400000, guid: ab6f7bcd7b406594ca815390ddc0fbb8, type: 2}
+    Rarity: 0
+  m_maxWaveForRarity: 125
+  m_rarityRangeCommon: {x: 100, y: 30}
+  m_rarityRangeLegendary: {x: 0, y: 180}

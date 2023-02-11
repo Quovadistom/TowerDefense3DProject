@@ -15,27 +15,18 @@ MonoBehaviour:
   Waves:
   - SlotName: Wave 1
     EnemyGroups:
-    - SlotName: Enemy Group 1 (BasicEnemy)
-      Enemy: {fileID: 9180935779869482348, guid: 4fd074ba08f86ec4589e5b8b1868a317, type: 3}
-      EnemyAmount: 10
-      EnemyDelayMilliSeconds: 500
-      GroupDelayMilliSeconds: 0
-  - SlotName: Wave 2
-    EnemyGroups:
     - SlotName: Enemy Group 1 (FastEnemy)
       Enemy: {fileID: 8024931116614574424, guid: 3bd2abaa90398214cbd53444ab900a2c, type: 3}
       EnemyAmount: 10
-      EnemyDelayMilliSeconds: 500
-      GroupDelayMilliSeconds: 0
-  - SlotName: Wave 3
-    EnemyGroups:
-    - SlotName: Enemy Group 1 (BasicEnemy)
+      EnemyDelay: 1
+      GroupDelay: 1
+    - SlotName: Enemy Group 2 (BasicEnemy)
       Enemy: {fileID: 9180935779869482348, guid: 4fd074ba08f86ec4589e5b8b1868a317, type: 3}
       EnemyAmount: 10
-      EnemyDelayMilliSeconds: 500
-      GroupDelayMilliSeconds: 2000
-    - SlotName: Enemy Group 2 (FastEnemy)
+      EnemyDelay: 1
+      GroupDelay: 5
+    - SlotName: Enemy Group 3 (FastEnemy)
       Enemy: {fileID: 8024931116614574424, guid: 3bd2abaa90398214cbd53444ab900a2c, type: 3}
       EnemyAmount: 10
-      EnemyDelayMilliSeconds: 500
-      GroupDelayMilliSeconds: 0
+      EnemyDelay: 1
+      GroupDelay: 0

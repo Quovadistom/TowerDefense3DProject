@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
@@ -7,6 +8,12 @@ public class WaveManager : MonoBehaviour
 {
     private EnemyService m_enemyService;
     private WaveService m_waveService;
+    private Wave m_currentWave;
+    private EnemyGroup m_currentEnemyGroup;
+    private int m_enemyGroupCount = 0;
+    private int m_spawnedEnemyCount = 0;
+    private bool m_waveActive = false;
+    private float m_elapsedTime;
 
     [Inject]
     public void Construct(EnemyService enemyService, WaveService waveService)
@@ -18,24 +25,50 @@ public class WaveManager : MonoBehaviour
     private void Awake()
     {
         m_waveService.StartWave += OnNextWaveStarted;
+        m_waveService.WaveComplete += OnWaveComplete;
     }
 
     private void OnDestroy()
     {
         m_waveService.StartWave -= OnNextWaveStarted;
+        m_waveService.WaveComplete -= OnWaveComplete;
     }
 
-    private async void OnNextWaveStarted(Wave wave)
+    private void Update()
     {
-        foreach (EnemyGroup enemyGroup in wave.EnemyGroups)
+        if (!m_waveActive || m_currentWave == null)
         {
-            for (int i = 0; i < enemyGroup.EnemyAmount; i++)
-            {
-                BasicEnemy basicEnemy = m_enemyService.CreateNewEnemy(enemyGroup.Enemy, transform.position);
-                await Task.Delay(enemyGroup.EnemyDelayMilliSeconds);
-            }
-
-            await Task.Delay(enemyGroup.GroupDelayMilliSeconds);
+            return;
         }
+
+        m_elapsedTime += Time.deltaTime;
+
+        if (m_currentEnemyGroup != null && m_elapsedTime > m_currentEnemyGroup.EnemyDelay && m_spawnedEnemyCount < m_currentEnemyGroup.EnemyAmount)
+        {
+            m_enemyService.CreateNewEnemy(m_currentEnemyGroup.Enemy, transform.position);
+            m_elapsedTime = 0;
+            m_spawnedEnemyCount++;
+        }
+        else if (m_currentEnemyGroup == null || 
+            (m_elapsedTime > m_currentEnemyGroup.GroupDelay &&
+            m_enemyGroupCount < m_currentWave.EnemyGroups.Count &&
+            m_spawnedEnemyCount == m_currentEnemyGroup.EnemyAmount))
+        {
+            m_currentEnemyGroup = m_currentWave.EnemyGroups[m_enemyGroupCount];
+            m_spawnedEnemyCount = 0; 
+            m_elapsedTime = 0;
+            m_enemyGroupCount++;
+        }
+    }
+
+    private void OnNextWaveStarted(Wave wave)
+    {
+        m_waveActive = true;
+        m_currentWave = wave;
+    }
+
+    private void OnWaveComplete()
+    {
+        m_waveActive = false;
     }
 }

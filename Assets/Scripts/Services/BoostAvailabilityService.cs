@@ -18,11 +18,6 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
     public BoostAvailabilityService(BoostCollection boostCollection, SerializationService serializationService) : base(serializationService)
     {
         m_boostCollection = boostCollection;
-
-        for (int i = 0; i < 10000; i++)
-        {
-            Debug.LogError(boostCollection.GetRandomBoostWeighted(25).UpgradeName);
-        }
     }
 
     public bool TryGetTowerBoostInformation(string id, out TowerBoostBase towerBoostBase)

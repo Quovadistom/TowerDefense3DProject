@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,13 +11,7 @@ using Zenject;
 public class ChangeSceneButton : MonoBehaviour
 {
     [SerializeField] private Button m_button;
-    private SceneCollection m_sceneCollection;
-
-    [Inject]
-    public void Construct(SceneCollection sceneCollection)
-    {
-        m_sceneCollection = sceneCollection;
-    }
+    [SerializeField][Scene] private string m_scene;
 
     private void Awake()
     {
@@ -30,6 +25,6 @@ public class ChangeSceneButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        SceneManager.LoadScene(m_sceneCollection.LevelScene, LoadSceneMode.Single);
+        SceneManager.LoadScene(m_scene, LoadSceneMode.Single);
     }
 }

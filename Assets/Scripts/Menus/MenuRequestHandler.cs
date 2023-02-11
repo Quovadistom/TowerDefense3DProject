@@ -76,7 +76,7 @@ public class MenuRequestHandler : MonoBehaviour
         m_menuService.RequestShowMenu(this);
         gameObject.SetActive(true);
         m_tween?.Kill();
-        m_tween = m_rectTransform.DOAnchorPos(Vector2.zero, m_movementDuration).SetEase(Ease.InOutQuad);
+        m_tween = m_rectTransform.DOAnchorPos(Vector2.zero, m_movementDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
     }
 
     public void HideMenu()
@@ -84,7 +84,7 @@ public class MenuRequestHandler : MonoBehaviour
         IsOpen = false;
         m_tween?.Kill();
         m_tween = m_rectTransform.DOAnchorPos(GetDisabledPosition(m_movementDirection), m_movementDuration)
-            .OnComplete(() => gameObject.SetActive(true)).SetEase(Ease.InOutQuad);
+            .OnComplete(() => gameObject.SetActive(true)).SetEase(Ease.InOutQuad).SetUpdate(true);
     }
 
     private Vector2 GetDisabledPosition(MenuDirection menuDirection)

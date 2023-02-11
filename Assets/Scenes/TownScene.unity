@@ -5720,6 +5720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_button: {fileID: 1643195070}
+  m_scene: LevelScene
 --- !u!1 &1698012099
 GameObject:
   m_ObjectHideFlags: 0

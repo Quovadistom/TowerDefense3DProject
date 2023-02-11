@@ -38,7 +38,7 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
         get { return m_health; }
         set
         {
-            m_health = value;
+            m_health = Mathf.Max(0, value);
             HealthChanged?.Invoke(m_health);
         }
     }

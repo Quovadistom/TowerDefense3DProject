@@ -39,6 +39,6 @@ public class EnemyGroup
     [HideInInspector] public string SlotName;
     public BasicEnemy Enemy;
     public int EnemyAmount;
-    public int EnemyDelayMilliSeconds;
-    public int GroupDelayMilliSeconds;
+    public int EnemyDelay;
+    public int GroupDelay;
 }

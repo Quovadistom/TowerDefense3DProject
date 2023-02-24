@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: TurretType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 758831392387326503, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

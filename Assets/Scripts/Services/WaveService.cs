@@ -8,9 +8,11 @@ public class WaveService
 {
     private WaveSettings m_waveSettings;
     private SerializationService m_serializationService;
+    private BoostCollection m_boostCollection;
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
+    public event Action<List<BoostBase>> BoostsDrawn;
 
     private int m_currentWaveIndex = 0;
 
@@ -28,16 +30,11 @@ public class WaveService
         }
     }
 
-    public void EndWave()
-    {
-        WaveComplete.Invoke();
-        // m_serializationService.RequestSerialization();
-    }
-
-    public WaveService(WaveSettings waveSettings, SerializationService serializationService)
+    public WaveService(WaveSettings waveSettings, SerializationService serializationService, BoostCollection boostCollection)
     {
         m_waveSettings = waveSettings;
         m_serializationService = serializationService;
+        m_boostCollection = boostCollection;
     }
 
     public void StartNextWave()
@@ -51,5 +48,24 @@ public class WaveService
         AliveEnemies = selectedWave.EnemyGroups.Sum(x => x.EnemyAmount);
         StartWave.Invoke(selectedWave);
         m_currentWaveIndex++;
+    }
+
+    public void EndWave()
+    {
+        WaveComplete.Invoke();
+
+        if (m_currentWaveIndex % m_boostCollection.Frequency == 0)
+        {
+            Debug.Log($"Boost Drawn for {m_currentWaveIndex}!");
+            List<BoostBase> boostList = new List<BoostBase>();
+            for (int i = 0; i < m_boostCollection.BoostAmount; i++)
+            {
+                boostList.Add(m_boostCollection.GetRandomBoostWeighted(m_currentWaveIndex));
+            }
+
+            BoostsDrawn?.Invoke(boostList);
+        }
+
+        // m_serializationService.RequestSerialization();
     }
 }

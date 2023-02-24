@@ -1,9 +1,6 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollectionServiceDto>
@@ -22,7 +19,11 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
 
     public bool TryGetTowerBoostInformation(string id, out TowerBoostBase towerBoostBase)
     {
-        towerBoostBase = m_boostCollection.TowerBoostList.FirstOrDefault(boost => boost.Boost.UpgradeID == id).Boost;
+        towerBoostBase = null;
+        if (!string.IsNullOrEmpty(id))
+        {
+            towerBoostBase = m_boostCollection.TowerBoostList.FirstOrDefault(boost => boost.Boost.BoostID == id)?.Boost;
+        }
 
         return towerBoostBase != null;
     }
@@ -33,7 +34,7 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
 
         if (!string.IsNullOrEmpty(id))
         {
-            towerBoostBase = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.Boost.UpgradeID == id).Boost;
+            towerBoostBase = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.Boost.BoostID == id)?.Boost;
         }
 
         return towerBoostBase != null;

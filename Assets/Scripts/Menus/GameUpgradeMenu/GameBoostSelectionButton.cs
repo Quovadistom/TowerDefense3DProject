@@ -69,7 +69,7 @@ public class GameBoostSelectionButton : MonoBehaviour
                     buttonInfos.Add(new ButtonInfo()
                     {
                         Title = boostInfo.UpgradeName,
-                        Callback = () => m_gameBoostService.AddBoost(m_index, boostInfo.UpgradeID)
+                        Callback = () => m_gameBoostService.AddBoost(m_index, boostInfo.BoostID)
                     });
                 }
             }

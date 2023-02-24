@@ -70,5 +70,6 @@ public class WaveManager : MonoBehaviour
     private void OnWaveComplete()
     {
         m_waveActive = false;
+        m_enemyGroupCount = 0;
     }
 }

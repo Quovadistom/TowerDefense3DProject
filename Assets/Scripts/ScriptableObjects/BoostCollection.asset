@@ -27,3 +27,5 @@ MonoBehaviour:
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}
   m_rarityRangeLegendary: {x: 0, y: 180}
+  m_frequency: 6
+  m_boostAmount: 3

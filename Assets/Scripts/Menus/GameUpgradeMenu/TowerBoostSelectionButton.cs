@@ -66,7 +66,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
                         buttonInfos.Add(new ButtonInfo()
                         {
                             Title = boostInfo.UpgradeName,
-                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TurretType, m_index, boostInfo.UpgradeID)
+                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TurretType, m_index, boostInfo.BoostID)
                         });
                     }
                 }

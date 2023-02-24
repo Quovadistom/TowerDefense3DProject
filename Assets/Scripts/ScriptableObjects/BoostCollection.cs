@@ -25,9 +25,18 @@ public class BoostCollection : ScriptableObject
 {
     [SerializeField] private List<BoostContainer<TowerBoostBase>> m_towerBoostList;
     [SerializeField] private List<BoostContainer<GameBoostBase>> m_gameBoostList;
+
+    [Header("Rarity Rates")]
     [SerializeField] private int m_maxWaveForRarity;
     [SerializeField] private Vector2 m_rarityRangeCommon;
     [SerializeField] private Vector2 m_rarityRangeLegendary;
+
+    [Header("Spawn Rates")]
+    [SerializeField] private int m_frequency;
+    [SerializeField] private int m_boostAmount;
+
+    public int Frequency => m_frequency;
+    public int BoostAmount => m_boostAmount;
 
     public IReadOnlyList<BoostContainer<TowerBoostBase>> TowerBoostList { get => m_towerBoostList; }
     public IReadOnlyList<BoostContainer<GameBoostBase>> GameBoostList { get => m_gameBoostList; }

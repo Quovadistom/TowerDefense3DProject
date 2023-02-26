@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf78d948d53671348b3b36eab1c8c602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerInfoComponent: {fileID: 0}
   m_turretTargetingComponent: {fileID: 7747534694848515654}
   m_bulletSpawnPoints: {fileID: 454259748352431594}
   m_bulletPrefab: {fileID: 4334808024718801613, guid: b8e6ecb4ae1520a44b0f3a6a431f4131, type: 3}

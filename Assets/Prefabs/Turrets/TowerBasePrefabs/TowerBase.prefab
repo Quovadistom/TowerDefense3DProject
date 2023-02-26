@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5337864521510864522
 Transform:
   m_ObjectHideFlags: 0
@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aee232ed27c55941aa36cda7a1af9f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerInfoComponent: {fileID: 7352623618096459969}
   m_range: 3
 --- !u!1 &6537610277282930375
 GameObject:
@@ -396,7 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Component: {fileID: 4807116374305278294}
-  m_baseVisualToChange: {fileID: 5337864521510864522}
+  m_baseVisualToChange: {fileID: 1707157865840974420}
   m_renderer: {fileID: 1258873128131073347}
   m_rangeCollider: {fileID: 2927483342722670516}
   m_draggable: {fileID: 1853222405557904121}

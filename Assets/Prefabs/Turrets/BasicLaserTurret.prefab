@@ -411,6 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ae207e0816eac4a96aca6584f7c89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerInfoComponent: {fileID: 0}
   m_turretRangeComponent: {fileID: 3691839824735434169}
   m_laserSpawnPoints: {fileID: 1364806056770929780}
   m_damageRate: 0.1

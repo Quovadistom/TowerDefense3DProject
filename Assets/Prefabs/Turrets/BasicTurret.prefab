@@ -107,6 +107,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1085822729885423296, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_turretMediator
+      value: 
+      objectReference: {fileID: 1466714435987409300}
+    - target: {fileID: 2343389344999702249, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: TowerInfoComponent
+      value: 
+      objectReference: {fileID: 1506783029256370189}
     - target: {fileID: 2569040278589954236, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -365,6 +373,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+--- !u!114 &1506783029256370189 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+  m_PrefabInstance: {fileID: 1212530398147034995}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4178290759201018276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2225750022896981442 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1022517378958568113, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
@@ -408,6 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf78d948d53671348b3b36eab1c8c602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerInfoComponent: {fileID: 1506783029256370189}
   m_turretTargetingComponent: {fileID: 6008479307151418500}
   m_bulletSpawnPoints: {fileID: 4231306636256174191}
   m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}

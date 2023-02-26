@@ -12,6 +12,7 @@ namespace Assets.Scripts.Interactables
 
         public bool IsSelected { get; private set; } = false;
         public bool IsSelectedAgain { get; private set; } = false;
+        public Color CurrentColor { get; private set; }
 
         public event Action ObjectSelected;
         public event Action SelectedAgain;
@@ -30,6 +31,8 @@ namespace Assets.Scripts.Interactables
 
         public void OutlineObject(bool enabled, Color color)
         {
+            CurrentColor = color;
+
             foreach (Outline outline in GameObjectToSelect.GetComponentsInChildren<Outline>())
             {
                 outline.OutlineColor = color;

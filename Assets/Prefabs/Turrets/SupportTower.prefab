@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e017adb313e1bb34a8c651aa734fb1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerInfoComponent: {fileID: 0}
   m_upgradePercentageSingleTower: 100
   m_sharedTowerFactor: 0.5
 --- !u!114 &1800307436574977321 stripped

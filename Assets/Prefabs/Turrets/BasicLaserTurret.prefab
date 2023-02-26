@@ -357,6 +357,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+--- !u!114 &1694345376940264494 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+  m_PrefabInstance: {fileID: 1421282551101295440}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4221817083577066887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2128477285230551521 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1022517378958568113, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
@@ -411,10 +422,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ae207e0816eac4a96aca6584f7c89a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TowerInfoComponent: {fileID: 0}
+  TowerInfoComponent: {fileID: 1694345376940264494}
   m_turretRangeComponent: {fileID: 3691839824735434169}
   m_laserSpawnPoints: {fileID: 1364806056770929780}
   m_damageRate: 0.1
+  m_laserDuration: 2
+  m_laserCooldownDuration: 2
   m_laserLength: 4
   m_laserDamage: 10
 --- !u!114 &5767076005361193127 stripped

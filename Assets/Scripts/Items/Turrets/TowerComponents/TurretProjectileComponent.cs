@@ -15,16 +15,6 @@ public class TurretProjectileComponent : ChangeVisualComponent, ITowerComponent
     public event Action<float> FirerateChanged;
     public event Action<ProjectileProfile> ProjectileProfileChanged;
 
-    private BulletService m_bulletService;
-    private WaveService m_waveService;
-
-    [Inject]
-    public void Construct(BulletService bulletService, WaveService waveService)
-    {
-        m_bulletService = bulletService;
-        m_waveService = waveService;
-    }
-
     public BulletSpawnPoints BulletSpawnPoints
     {
         get => m_bulletSpawnPoints;

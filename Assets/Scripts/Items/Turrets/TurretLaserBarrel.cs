@@ -1,17 +1,16 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI.Extensions;
 using Zenject;
-using static UnityEngine.GraphicsBuffer;
 
 public class TurretLaserBarrel : TurretBarrel<TurretLaserComponent>
 {
     private bool m_isLaserEnabled = true;
     private LayerSettings m_layerSettings;
     private List<RaycastHit>[] m_enemies;
+
+    private float m_activeLaserDuration = 0;
+    private float m_cooldownDuration = 0;
 
     public override float Interval => Component.DamageRate;
 
@@ -36,12 +35,34 @@ public class TurretLaserBarrel : TurretBarrel<TurretLaserComponent>
     {
         base.Update();
 
-        SetLaserState(CurrentTarget != null);
-
-        if (m_isLaserEnabled)
+        if (!m_isLaserEnabled)
         {
-            CreateLaser();
+            m_cooldownDuration += Time.deltaTime;
+
+            if (m_cooldownDuration <= Component.LaserCooldownDuration)
+            {
+                return;
+            }
         }
+
+        if (CurrentTarget == null)
+        {
+            SetLaserState(false);
+            return;
+        }
+
+        m_activeLaserDuration += Time.deltaTime;
+
+        if (m_activeLaserDuration <= Component.LaserDuration)
+        {
+            SetLaserState(true);
+            CreateLaser();
+            return;
+        }
+
+        m_cooldownDuration = 0;
+        m_activeLaserDuration = 0;
+        SetLaserState(false);
     }
 
     protected override void OnDestroy()
@@ -100,6 +121,11 @@ public class TurretLaserBarrel : TurretBarrel<TurretLaserComponent>
 
     public override void DoDamage(BasicEnemy target)
     {
+        if (!m_isLaserEnabled)
+        {
+            return;
+        }
+
         for (int i = 0; i < m_enemies.Length; i++)
         {
             if (m_enemies[i] == null)

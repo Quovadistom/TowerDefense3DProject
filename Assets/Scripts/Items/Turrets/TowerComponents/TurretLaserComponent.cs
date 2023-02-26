@@ -10,6 +10,8 @@ public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
     [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;
 
     [SerializeField] private float m_damageRate;
+    [SerializeField] private float m_laserDuration;
+    [SerializeField] private float m_laserCooldownDuration;
     [SerializeField] private float m_laserLength;
     [SerializeField] private float m_laserDamage;
 
@@ -17,6 +19,8 @@ public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
     public event Action<float> DamageRateChanged;
     public event Action<float> LaserLengthChanged;
     public event Action<float> LaserDamageChanged;
+    public event Action<float> LaserDurationChanged;
+    public event Action<float> LaserCooldownDurationChanged;
 
     public LaserSpawnPoints LaserSpawnPoints
     {
@@ -36,6 +40,26 @@ public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
         {
             m_damageRate = value;
             DamageRateChanged?.Invoke(m_damageRate);
+        }
+    }   
+    
+    public float LaserDuration
+    {
+        get => m_laserDuration;
+        set
+        {
+            m_laserDuration = value;
+            LaserDurationChanged?.Invoke(m_laserDuration);
+        }
+    } 
+    
+    public float LaserCooldownDuration
+    {
+        get => m_laserCooldownDuration;
+        set
+        {
+            m_laserCooldownDuration = value;
+            LaserCooldownDurationChanged?.Invoke(m_laserCooldownDuration);
         }
     }
 

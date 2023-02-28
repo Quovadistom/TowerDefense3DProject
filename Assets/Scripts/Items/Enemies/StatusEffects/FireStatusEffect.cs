@@ -2,14 +2,14 @@
 {
     private float m_damageAmount;
 
-    public FireStatusEffect(StatusContext statusContext, float damageRate, float damageAmount) : base(statusContext, damageRate) 
+    public FireStatusEffect(float damageAmount, float damageRate, BasicEnemy basicEnemy) : base(basicEnemy, damageRate)
     {
         m_damageAmount = damageAmount;
     }
 
     public override void ApplyEffect()
     {
-        StatusContext.Enemy.TakeDamage(m_damageAmount);
+        Enemy.TakeDamage(m_damageAmount);
     }
 
     public override void ChangeState(StatusEffect newStatusEffect)
@@ -18,7 +18,5 @@
         {
 
         }
-
-        StatusContext.StatusEffect = newStatusEffect;
     }
 }

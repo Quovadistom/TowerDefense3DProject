@@ -4,7 +4,7 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
 {
     [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
 
-    private float m_elapsedTime;
+    private float m_elapsedTime = Mathf.Infinity;
 
     public BasicEnemy CurrentTarget => m_turretTargetingComponent.CurrentTarget;
 
@@ -26,10 +26,9 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
 
         if (m_elapsedTime > Interval)
         {
-            m_elapsedTime = 0;
-
             if (m_turretTargetingComponent.CurrentTarget != null && IsLockedOnTarget())
             {
+                m_elapsedTime = 0;
                 DoDamage(m_turretTargetingComponent.CurrentTarget);
             }
         }

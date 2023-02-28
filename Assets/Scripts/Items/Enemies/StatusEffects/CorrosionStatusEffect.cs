@@ -1,6 +1,6 @@
 ﻿public class CorrosionStatusEffect : StatusEffect
 {
-    public CorrosionStatusEffect(StatusContext statusContext, float damageRate) : base(statusContext, damageRate)
+    public CorrosionStatusEffect(float damageRate, BasicEnemy basicEnemy) : base(basicEnemy, damageRate)
     {
     }
 
@@ -15,7 +15,5 @@
         {
 
         }
-
-        StatusContext.StatusEffect = newStatusEffect;
     }
 }

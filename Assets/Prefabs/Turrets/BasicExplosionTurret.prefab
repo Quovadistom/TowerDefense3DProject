@@ -393,7 +393,7 @@ MonoBehaviour:
   m_fireRate: 1
   m_projectileProfile:
     m_bulletSpeed: 10
-    m_bulletDamage: 10
+    m_bulletDamage: 50
     m_explosionRange: 5
 --- !u!1 &654832147985862850 stripped
 GameObject:

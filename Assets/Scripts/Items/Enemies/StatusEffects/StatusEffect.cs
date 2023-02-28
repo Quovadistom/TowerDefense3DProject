@@ -2,11 +2,11 @@ public abstract class StatusEffect
 {
     public float DamageRate { get; private set; }
 
-    protected StatusContext StatusContext;
+    public BasicEnemy Enemy { get; private set; }
 
-    public StatusEffect(StatusContext statusContext, float damageRate)
+    public StatusEffect(BasicEnemy basicEnemy, float damageRate)
     {
-        StatusContext = statusContext;
+        Enemy = basicEnemy;
         DamageRate = damageRate;
     }
 

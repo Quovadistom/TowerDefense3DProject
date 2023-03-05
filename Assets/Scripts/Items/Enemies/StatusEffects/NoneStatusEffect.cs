@@ -1,16 +1,18 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NoneStatusEffect : StatusEffect
 {
-    public NoneStatusEffect(BasicEnemy basicEnemy, float damageRate = 0) : base(basicEnemy, damageRate)
+    public override EffectType EffectTypeType => EffectType.NONE;
+
+    public NoneStatusEffect(float damageRate = 0, float effectTime = Mathf.Infinity) : base(damageRate, effectTime)
     {
     }
 
-    public override void ApplyEffect()
+    public override void RequestEffectChange(StatusEffect newStatusEffect)
     {
-        throw new System.NotImplementedException();
     }
 
-    public override void ChangeState(StatusEffect newStatusEffect) { }
+    public override void ApplyEffect(BasicEnemy basicEnemy)
+    {
+    }
 }

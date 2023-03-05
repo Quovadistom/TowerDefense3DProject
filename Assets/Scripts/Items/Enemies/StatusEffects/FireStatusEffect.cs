@@ -1,22 +1,24 @@
 ﻿public class FireStatusEffect : StatusEffect
 {
+    public override EffectType EffectTypeType => EffectType.FIRE;
+
     private float m_damageAmount;
 
-    public FireStatusEffect(float damageAmount, float damageRate, BasicEnemy basicEnemy) : base(basicEnemy, damageRate)
+    public FireStatusEffect(float damageAmount, float damageRate, float effectTime) : base(damageRate, effectTime)
     {
         m_damageAmount = damageAmount;
     }
 
-    public override void ApplyEffect()
+    public override void ApplyEffect(BasicEnemy basicEnemy)
     {
-        Enemy.TakeDamage(m_damageAmount);
+        basicEnemy.TakeDamage(m_damageAmount);
     }
 
-    public override void ChangeState(StatusEffect newStatusEffect)
+    public override void RequestEffectChange(StatusEffect newStatusEffect)
     {
-        if (newStatusEffect is CorrosionStatusEffect)
-        {
+        //if (newStatusEffect is CorrosionStatusEffect)
+        //{
 
-        }
+        //}
     }
 }

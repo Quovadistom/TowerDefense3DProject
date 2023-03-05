@@ -1,16 +1,31 @@
+using System;
+
+[Flags]
+public enum EffectType
+{
+    NONE = 0,
+    FIRE = 1,
+    CORROSION = 2,
+    WATER = 4,
+    ELECTRICITY = 8
+}
+
 public abstract class StatusEffect
 {
+    public abstract EffectType EffectTypeType { get; }
+
     public float DamageRate { get; private set; }
+    public float EffectTime { get; private set; }
 
-    public BasicEnemy Enemy { get; private set; }
+    public StatusEffectContext Context { get; set; }
 
-    public StatusEffect(BasicEnemy basicEnemy, float damageRate)
+    public StatusEffect(float damageRate, float effectTime)
     {
-        Enemy = basicEnemy;
         DamageRate = damageRate;
+        EffectTime = effectTime;
     }
 
-    public abstract void ApplyEffect();
+    public abstract void RequestEffectChange(StatusEffect newStatusEffect);
 
-    public abstract void ChangeState(StatusEffect newStatusEffect);
+    public abstract void ApplyEffect(BasicEnemy basicEnemy);
 }

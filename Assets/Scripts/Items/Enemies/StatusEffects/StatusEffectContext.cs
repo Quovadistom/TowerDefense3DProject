@@ -1,46 +1,20 @@
-using UnityEngine;
-
-[RequireComponent(typeof(BasicEnemy))]
-public class StatusEffectContext : MonoBehaviour
+﻿public class StatusEffectContext
 {
-    private float m_statusEffectCounter = 0;
-    private StatusEffect m_statusEffect;
+    public StatusEffect StatusEffect { get; private set; }
 
-    public StatusEffect StatusEffect
+    public StatusEffectContext(StatusEffect statusEffect)
     {
-        get => m_statusEffect;
-        private set => m_statusEffect = value;
+        StatusEffect = statusEffect;
     }
 
-    public BasicEnemy Enemy { get; private set; }
-
-    private void Awake()
+    public void RequestChangeState(EffectType m_resistAgainstEffectType, StatusEffect statusEffect)
     {
-        Enemy = GetComponent<BasicEnemy>();
-    }
+        statusEffect.RequestEffectChange(statusEffect);
 
-    private void OnEnable()
-    {
-        m_statusEffect = new NoneStatusEffect(Enemy);
-    }
-
-    private void Update()
-    {
-        m_statusEffectCounter += Time.deltaTime;
-
-        if (StatusEffect is not NoneStatusEffect)
+        // Can also change to reduction in effect instead of not applying the effect at all
+        if (!m_resistAgainstEffectType.HasFlag(statusEffect.EffectTypeType))
         {
-            if (m_statusEffectCounter >= StatusEffect.DamageRate)
-            {
-                StatusEffect.ApplyEffect();
-                m_statusEffectCounter = 0;
-            }
+            StatusEffect = statusEffect;
         }
-    }
-
-    public void ChangeStatusEffect(StatusEffect newStatusEffect)
-    {
-        StatusEffect.ChangeState(newStatusEffect);
-        StatusEffect = newStatusEffect;
     }
 }

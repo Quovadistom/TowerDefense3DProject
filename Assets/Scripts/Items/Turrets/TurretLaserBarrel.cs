@@ -119,7 +119,7 @@ public class TurretLaserBarrel : TurretBarrel<TurretLaserComponent>
         }
     }
 
-    public override void DoDamage(BasicEnemy target)
+    public override void TimeElapsed(BasicEnemy target)
     {
         if (!m_isLaserEnabled)
         {

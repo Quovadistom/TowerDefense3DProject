@@ -13,7 +13,7 @@ public class TurretProjectileBarrel : TurretBarrel<TurretProjectileComponent>
         m_bulletService = bulletService;
     }
 
-    public override void DoDamage(BasicEnemy basicEnemy)
+    public override void TimeElapsed(BasicEnemy basicEnemy)
     {
         foreach (Transform spawnPoint in Component.BulletSpawnPoints.SpawnPoints)
         {

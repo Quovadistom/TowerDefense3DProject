@@ -38,11 +38,15 @@ public class TargetingDropDown : MonoBehaviour
             m_targetingMethods.Add((ITargetMethod)Activator.CreateInstance(type));
         }
 
-        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+        m_targetingMethods = m_targetingMethods.OrderBy(method => method.Order).ToList();
+
+        List<TMP_Dropdown.OptionData> options = new();
         foreach (ITargetMethod method in m_targetingMethods)
         {
-            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData();
-            optionData.text = method.Name;
+            TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
+            {
+                text = method.Name
+            };
             options.Add(optionData);
         }
 

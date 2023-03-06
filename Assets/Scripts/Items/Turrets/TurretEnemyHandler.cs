@@ -1,10 +1,9 @@
 using System.Linq;
 using UnityEngine;
-using Zenject;
 
 public class TurretEnemyHandler : MonoBehaviour
 {
-    [SerializeField] private TurretTargetingComponent m_turretMediator; 
+    [SerializeField] private TurretTargetingComponent m_turretMediator;
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
 
@@ -52,7 +51,7 @@ public class TurretEnemyHandler : MonoBehaviour
             return;
         }
 
-        m_turretMediator.CurrentTargetMethod.TryGetTarget(m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        m_turretMediator.CurrentTargetMethod.TryGetTarget(this, m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
         m_turretMediator.CurrentTarget = enemy;
     }
 }

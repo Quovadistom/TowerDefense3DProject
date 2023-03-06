@@ -25,7 +25,8 @@ public abstract class StatusEffect
         EffectTime = effectTime;
     }
 
-    public abstract void RequestEffectChange(StatusEffect newStatusEffect);
+    // Bool because effect (e.g. frost) can block other effects from taking effect (e.g. corrosion)
+    public abstract bool RequestEffectChange(StatusEffect newStatusEffect);
 
     public abstract void ApplyEffect(BasicEnemy basicEnemy);
 }

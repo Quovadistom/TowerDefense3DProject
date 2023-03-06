@@ -409,6 +409,7 @@ MonoBehaviour:
   Component: {fileID: 1466714435987409300}
   m_baseVisualToChange: {fileID: 930714863459039059}
   m_turretTargetingComponent: {fileID: 6008479307151418500}
+  m_towerInfoComponent: {fileID: 1506783029256370189}
   Accuracy: 0.99
 --- !u!1 &4178290759201018276 stripped
 GameObject:

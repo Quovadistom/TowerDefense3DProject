@@ -8,8 +8,9 @@ public class NoneStatusEffect : StatusEffect
     {
     }
 
-    public override void RequestEffectChange(StatusEffect newStatusEffect)
+    public override bool RequestEffectChange(StatusEffect newStatusEffect)
     {
+        return true;
     }
 
     public override void ApplyEffect(BasicEnemy basicEnemy)

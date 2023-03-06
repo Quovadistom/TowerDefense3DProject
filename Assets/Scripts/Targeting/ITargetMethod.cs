@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public interface ITargetMethod
 {
-    string Name { get; }
+    public int Order { get; }
+    public string Name { get; }
 
-    public bool TryGetTarget(IReadOnlyList<BasicEnemy> enemies, out BasicEnemy enemy);
+    public bool TryGetTarget(TurretEnemyHandler turretEnemyHandler, IReadOnlyList<BasicEnemy> enemies, out BasicEnemy enemy);
 }

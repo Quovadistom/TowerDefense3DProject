@@ -1,5 +1,4 @@
 using Assets.Scripts.Interactables;
-using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +25,7 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
 
     public Guid TowerID { get; private set; }
     public List<Guid> ConnectedSupportTowers { get; set; } = new List<Guid>();
+    public bool IsTowerPlaced { get; private set; } = false;
 
     [Inject]
     public void Construct(TowerService turretService, SelectionService selectionService)
@@ -49,6 +49,7 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
         m_selectionService.ForceSetSelected(transform);
         Draggable.CanDrag = false;
         m_turretService.AddTower(this);
+        IsTowerPlaced = true;
     }
 
     public void EnableTowerDragging() => Draggable.CanDrag = true;

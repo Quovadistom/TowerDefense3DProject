@@ -415,12 +415,24 @@ MonoBehaviour:
   Component: {fileID: 3426367778808726439}
   m_baseVisualToChange: {fileID: 3467723466401481430}
   m_turretTargetingComponent: {fileID: 7747534694848515654}
+  m_towerInfoComponent: {fileID: 3174904658809836239}
   Accuracy: 0.99
 --- !u!4 &2739840055977312000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1022517378958568113, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
   m_PrefabInstance: {fileID: 2897336425162003889}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3174904658809836239 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+  m_PrefabInstance: {fileID: 2897336425162003889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79631679106792294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7747534694848515654 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4877871055376554999, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}

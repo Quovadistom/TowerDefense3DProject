@@ -14,11 +14,13 @@
         basicEnemy.TakeDamage(m_damageAmount);
     }
 
-    public override void RequestEffectChange(StatusEffect newStatusEffect)
+    public override bool RequestEffectChange(StatusEffect newStatusEffect)
     {
         //if (newStatusEffect is CorrosionStatusEffect)
         //{
 
         //}
+
+        return true;
     }
 }

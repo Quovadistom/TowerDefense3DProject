@@ -3,10 +3,12 @@
 public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVisualComponent
 {
     [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
+    [SerializeField] private TowerInfoComponent m_towerInfoComponent;
 
     private float m_elapsedTime = Mathf.Infinity;
 
-    public BasicEnemy CurrentTarget => m_turretTargetingComponent.CurrentTarget;
+    private BasicEnemy m_currentTarget = null;
+    public BasicEnemy CurrentTarget => m_currentTarget;
 
     public abstract float Interval { get; }
     public float Accuracy = 0.99f;
@@ -15,30 +17,42 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
     {
         m_elapsedTime += Time.deltaTime;
 
-        if (m_turretTargetingComponent.CurrentTarget == null)
+        if (!m_towerInfoComponent.IsTowerPlaced)
         {
             return;
         }
 
-        var lookPos = m_turretTargetingComponent.CurrentTarget.EnemyMiddle.position - transform.position;
+        if (m_currentTarget == null || m_turretTargetingComponent.CurrentTarget == null)
+        {
+            RefreshTarget();
+            return;
+        }
+
+        var lookPos = m_currentTarget.EnemyMiddle.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretTargetingComponent.TurnSpeed);
 
         if (m_elapsedTime > Interval)
         {
-            if (m_turretTargetingComponent.CurrentTarget != null && IsLockedOnTarget())
+            if (IsLockedOnTarget(m_currentTarget))
             {
                 m_elapsedTime = 0;
-                DoDamage(m_turretTargetingComponent.CurrentTarget);
+                TimeElapsed(m_currentTarget);
+                RefreshTarget();
             }
         }
     }
 
-    public abstract void DoDamage(BasicEnemy currentTarget);
-
-    protected bool IsLockedOnTarget()
+    private void RefreshTarget()
     {
-        Vector3 dirFromAtoB = (m_turretTargetingComponent.CurrentTarget.EnemyMiddle.position - transform.position).normalized;
+        m_currentTarget = m_turretTargetingComponent.CurrentTarget;
+    }
+
+    public abstract void TimeElapsed(BasicEnemy currentTarget);
+
+    protected bool IsLockedOnTarget(BasicEnemy target)
+    {
+        Vector3 dirFromAtoB = (target.EnemyMiddle.position - transform.position).normalized;
         float dotProd = Vector3.Dot(dirFromAtoB, transform.forward);
         return dotProd >= Accuracy;
     }

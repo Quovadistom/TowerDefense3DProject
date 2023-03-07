@@ -1,13 +1,9 @@
-using JetBrains.Annotations;
 using NaughtyAttributes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI.Extensions;
 
 public class UpgradeNode : MonoBehaviour
 {
@@ -43,11 +39,25 @@ public class UpgradeNode : MonoBehaviour
         {
             upgradeNode.ButtonClicked += Unlock;
         }
+
+        if (!m_treeBase.IsUpgradeLeft)
+        {
+            LockButton();
+        }
+
+        m_treeBase.AllUpgradesSpend += LockButton;
     }
 
     private void OnDestroy()
     {
         ButtonClicked = null;
+        m_treeBase.AllUpgradesSpend -= LockButton;
+    }
+
+    private void LockButton()
+    {
+        IsUnlocked = false;
+        m_upgradeButton.interactable = false;
     }
 
     [Button]
@@ -69,6 +79,7 @@ public class UpgradeNode : MonoBehaviour
         m_upgradeButton.interactable = false;
         IsBought = true;
         ButtonClicked?.Invoke();
+        m_treeBase.UpgradeBought();
     }
 
     public void Unlock()

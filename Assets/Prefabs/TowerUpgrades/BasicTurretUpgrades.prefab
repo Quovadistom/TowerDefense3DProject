@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083903980bd275d47b6cbf1a97720ea2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_upgradeComponent: {fileID: 0}
   m_lineRendererAsset: {fileID: 6448612103536033883, guid: 3304a624886be9045970f641a47881e5, type: 3}
   m_lineParent: {fileID: 4296816278403686636}
 --- !u!223 &1333006168846202067

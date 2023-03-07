@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(UpgradeNode))]
@@ -9,6 +7,7 @@ public class UpgradeBase<T> : MonoBehaviour, IIDProvider where T : MonoBehaviour
     [SerializeField] private string m_upgradeName;
     [SerializeField] private ValueComponent m_valueComponent;
     [SerializeField] private int m_upgradeCost;
+
     public T m_turretMediator;
 
     private UpgradeNode m_node;
@@ -51,7 +50,7 @@ public class UpgradeBase<T> : MonoBehaviour, IIDProvider where T : MonoBehaviour
 #endif
     }
 
-    protected virtual void OnUpgradeButtonClicked() 
+    protected virtual void OnUpgradeButtonClicked()
     {
         m_levelService.Money -= m_upgradeCost;
         m_valueComponent.Value += m_upgradeCost;

@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,8 +7,30 @@ using UnityEngine.UI.Extensions;
 
 public class TurretUpgradeTreeBase : MonoBehaviour
 {
-    [SerializeField] UILineRenderer m_lineRendererAsset;
-    [SerializeField] Transform m_lineParent;
+    [SerializeField] private TowerUpgradeComponent m_upgradeComponent;
+    [SerializeField] private UILineRenderer m_lineRendererAsset;
+    [SerializeField] private Transform m_lineParent;
+
+    public bool IsUpgradeLeft => m_upgradeComponent.TowerAvailableUpgradeCount >= 0;
+    public event Action AllUpgradesSpend;
+
+    private void Awake()
+    {
+        m_upgradeComponent.AvailableUpgradeCountChanged += OnAvailableUpgradeCountChanged;
+    }
+
+    private void OnAvailableUpgradeCountChanged(int count)
+    {
+        if (count == 0)
+        {
+            AllUpgradesSpend?.Invoke();
+        }
+    }
+
+    public void UpgradeBought()
+    {
+        m_upgradeComponent.TowerAvailableUpgradeCount--;
+    }
 
     public List<string> GetUnlockedUpgrades()
     {

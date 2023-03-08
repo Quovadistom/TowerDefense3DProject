@@ -79,7 +79,7 @@ public class UpgradeNode : MonoBehaviour
         m_upgradeButton.interactable = false;
         IsBought = true;
         ButtonClicked?.Invoke();
-        m_treeBase.UpgradeBought();
+        m_treeBase.LowerUpgradeCount();
     }
 
     public void Unlock()

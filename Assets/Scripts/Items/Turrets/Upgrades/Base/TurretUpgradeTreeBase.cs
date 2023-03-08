@@ -27,7 +27,7 @@ public class TurretUpgradeTreeBase : MonoBehaviour
         }
     }
 
-    public void UpgradeBought()
+    public void LowerUpgradeCount()
     {
         m_upgradeComponent.TowerAvailableUpgradeCount--;
     }

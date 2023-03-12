@@ -15,7 +15,8 @@ public enum TowerType
 
 public class TowerInfoComponent : ValueComponent, ITowerComponent
 {
-    public TurretUpgradeTreeBase UpgradeTreeAsset;
+    [SerializeField] private TowerUpgradeTreeData m_upgradeTreeData;
+
     public TowerType TurretType;
     public Selectable Selectable;
     public Draggable Draggable;
@@ -26,6 +27,8 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
     public Guid TowerID { get; private set; }
     public List<Guid> ConnectedSupportTowers { get; set; } = new List<Guid>();
     public bool IsTowerPlaced { get; private set; } = false;
+    public TowerUpgradeTreeData UpgradeTreeData { get; private set; }
+
 
     [Inject]
     public void Construct(TowerService turretService, SelectionService selectionService)
@@ -36,6 +39,9 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
 
     private void Awake()
     {
+        UpgradeTreeData = Instantiate(m_upgradeTreeData);
+        UpgradeTreeData.Initialize();
+
         Draggable.PlacementRequested += OnTowerPlaced;
     }
 
@@ -62,11 +68,11 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
         SubtractCost();
     }
 
-    public void PlaceNewTower(Guid towerID, Vector3 position, List<string> upgrades, List<Guid> connectedSupportTowers)
+    public void PlaceNewTower(Guid towerID, Vector3 position, TowerUpgradeTreeData treeData, List<Guid> connectedSupportTowers)
     {
         TowerID = towerID;
         transform.position = position;
-        UpgradeTreeAsset.SetUnlockedUpgrades(upgrades);
+        UpgradeTreeData.CopyTreeData(treeData, this);
         ConnectedSupportTowers = connectedSupportTowers;
         Draggable.CanDrag = false;
         m_turretService.AddTower(this);

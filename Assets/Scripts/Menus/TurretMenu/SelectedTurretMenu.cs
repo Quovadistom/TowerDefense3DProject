@@ -33,17 +33,14 @@ public class SelectedTurretMenu : MonoBehaviour
 
     private void OnGameObjectSelected(Selectable selectable)
     {
-        if  (selectable == null)
-        {
-            this.gameObject.SetActive(false);
-            return;
-        }
+        SelectedTurret = null;
 
-        if (selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent))
+        if (selectable != null && selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent))
         {
             SelectedTurret = towerInfoComponent;
-            TurretDataChanged?.Invoke(SelectedTurret);
-            this.gameObject.SetActive(true);
         }
+
+        this.gameObject.SetActive(SelectedTurret != null);
+        TurretDataChanged?.Invoke(SelectedTurret);
     }
 }

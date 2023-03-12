@@ -10,10 +10,16 @@ public class UpgradeTree : MonoBehaviour
     [SerializeField] RectTransform m_viewPort;
     [SerializeField] TMP_Text m_upgradeCountText;
 
+    [SerializeField] private Transform m_treeParent;
+    [SerializeField] private GameObject m_upgradeRow;
+    [SerializeField] private ButtonHelper m_upgradeButton;
+
     private TurretUpgradeTreeBase m_activeTurretUpgradeTreeBase;
     private TowerInfoComponent m_activeTurrentInfo;
 
     private Dictionary<TowerInfoComponent, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TowerInfoComponent, TurretUpgradeTreeBase>();
+
+    private List<ButtonHelper> m_buttonHelperList;
 
     void Awake()
     {
@@ -27,53 +33,35 @@ public class UpgradeTree : MonoBehaviour
 
     private void OnTurretChanged(TowerInfoComponent selectedTurret)
     {
-        TowerUpgradeComponent towerUpgradeComponent;
-
-        if (m_activeTurretUpgradeTreeBase != null)
+        if (selectedTurret != m_activeTurrentInfo)
         {
-            m_activeTurretUpgradeTreeBase.gameObject.SetActive(false);
-        }
-        if (m_activeTurrentInfo != null)
-        {
-            if (m_activeTurretUpgradeTreeBase.TryGetComponent(out towerUpgradeComponent))
+            foreach (Transform child in m_treeParent)
             {
-                towerUpgradeComponent.AvailableUpgradeCountChanged -= OnUpgradeCountChanged;
+                Destroy(child.gameObject);
             }
         }
 
         m_activeTurrentInfo = selectedTurret;
 
-        if (selectedTurret == null)
+        if (selectedTurret != null)
         {
-            return;
+            CreateTurretUpgradeMenu(selectedTurret);
         }
+    }
 
-        if (m_turretUpgradeTrees.TryGetValue(selectedTurret, out TurretUpgradeTreeBase upgradeTree))
+    private void CreateTurretUpgradeMenu(TowerInfoComponent selectedTurret)
+    {
+        TowerUpgradeTreeData towerUpgradeTreeData = selectedTurret.UpgradeTreeData;
+
+        foreach (TowerUpgradeTreeRow towerUpgradeTreeStructure in towerUpgradeTreeData.Structure)
         {
-            m_activeTurretUpgradeTreeBase = upgradeTree;
+            GameObject row = Instantiate(m_upgradeRow, m_treeParent, false);
+            foreach (TowerUpgradeData upgrade in towerUpgradeTreeStructure.TowerUpgrades)
+            {
+                ButtonHelper button = Instantiate(m_upgradeButton, row.transform, false);
+                button.SetButtonInfo(towerUpgradeTreeData, upgrade, selectedTurret);
+            }
         }
-        else
-        {
-            selectedTurret.UpgradeTreeAsset.transform.SetParent(m_viewPort, false);
-            m_activeTurretUpgradeTreeBase = selectedTurret.UpgradeTreeAsset;
-            m_turretUpgradeTrees.Add(selectedTurret, m_activeTurretUpgradeTreeBase);
-        }
-
-        if (selectedTurret.TryGetComponent(out towerUpgradeComponent))
-        {
-            OnUpgradeCountChanged(towerUpgradeComponent.TowerAvailableUpgradeCount);
-            towerUpgradeComponent.AvailableUpgradeCountChanged += OnUpgradeCountChanged;
-        }
-
-        m_scrollRect.StopMovement();
-        m_scrollRect.content = (RectTransform)m_activeTurretUpgradeTreeBase.transform;
-
-        if (m_activeTurretUpgradeTreeBase.TryGetComponent(out Canvas canvas))
-        {
-            Destroy(canvas);
-        }
-
-        m_activeTurretUpgradeTreeBase.gameObject.SetActive(true);
     }
 
     private void OnUpgradeCountChanged(int count)

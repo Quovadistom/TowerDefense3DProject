@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f84710c7b7f10d24cac1eac34b9a035c, type: 3}
+  m_Name: BasicTurretUpgradeTree
+  m_EditorClassIdentifier: 
+  Structure:
+  - TowerUpgrades:
+    - m_id: RangeUpgrade1
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
+    - m_id: RangeUpgrade2
+      IsBought: 0
+      RequiredFor:
+      - RangeUpgrade4
+      TowerUpgrade: {fileID: 11400000, guid: f9b940b3a98cd094eafe67b244ad5b55, type: 2}
+  - TowerUpgrades:
+    - m_id: RangeUpgrade3
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: b5a06f70a6ab7db4699640e1d754eacf, type: 2}
+    - m_id: RangeUpgrade4
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: 2e80785a7f6ae7b45bdd9f981fafcb96, type: 2}
+  - TowerUpgrades:
+    - m_id: RangeUpgrade5
+      IsBought: 0
+      RequiredFor:
+      - RangeUpgrade4
+      TowerUpgrade: {fileID: 11400000, guid: 42bb8a5119f27fb4bac6f532bb890ccb, type: 2}
+    - m_id: RangeUpgrade6
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: 6f569fc9e1ae5ec409ebb9fb8f0d872f, type: 2}

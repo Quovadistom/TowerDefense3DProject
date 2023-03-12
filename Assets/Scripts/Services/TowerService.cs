@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
-using Zenject;
 
 [Serializable]
 public class TurretInfo
 {
     public Guid TowerID { get; set; }
-    public TowerType TurretType{ get; set; }
+    public TowerType TurretType { get; set; }
     public Vector3 Position { get; set; }
-    public List<string> UnlockedUpgrades { get; set; }
+    public TowerUpgradeTreeData TowerUpgradeTree { get; set; }
     public List<Guid> ConnectedSupportTowers { get; set; }
 }
 
@@ -41,16 +39,16 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 
     protected override void ConvertDto()
     {
-        List<TurretInfo> placedTurrets= new List<TurretInfo>();
+        List<TurretInfo> placedTurrets = new List<TurretInfo>();
 
-        foreach(TowerInfoComponent placedTurret in m_placedTurrets)
+        foreach (TowerInfoComponent placedTurret in m_placedTurrets)
         {
             placedTurrets.Add(new TurretInfo()
             {
                 TowerID = placedTurret.TowerID,
                 TurretType = placedTurret.TurretType,
                 Position = placedTurret.transform.position,
-                UnlockedUpgrades = placedTurret.UpgradeTreeAsset.GetUnlockedUpgrades(),
+                TowerUpgradeTree = placedTurret.UpgradeTreeData,
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
             });
         }
@@ -64,7 +62,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
         {
             TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.TurretType == selectedTurret.TurretType);
             TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
-            placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.UnlockedUpgrades, selectedTurret.ConnectedSupportTowers);
+            placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
         }
     }
 }

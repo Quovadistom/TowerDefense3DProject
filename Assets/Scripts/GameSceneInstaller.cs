@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +11,7 @@ public class GameSceneInstaller : MonoInstaller
 
     [Header("Factory Assets")]
     public GameObject SpawnTurretButtonPrefab;
+    public TowerUpgradeButton UpgradeButtonPrefab;
 
     public override void InstallBindings()
     {
@@ -37,5 +36,6 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindFactory<TowerInfoComponent, TowerInfoComponent, TowerInfoComponent.Factory>().FromFactory<PrefabFactory<TowerInfoComponent>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
         Container.BindFactory<SpawnTowerButton, SpawnTowerButton.Factory>().FromComponentInNewPrefab(SpawnTurretButtonPrefab);
+        Container.BindFactory<TowerUpgradeButton, TowerUpgradeButton.Factory>().FromComponentInNewPrefab(UpgradeButtonPrefab);
     }
 }

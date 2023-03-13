@@ -2559,6 +2559,7 @@ MonoBehaviour:
   WaveSettings: {fileID: 11400000, guid: 39518cdd67c5911468e450c47d78876b, type: 2}
   PrefabCollection: {fileID: 11400000, guid: 6d83c8b507085454c86fec4169dcba75, type: 2}
   SpawnTurretButtonPrefab: {fileID: 6893870045112303542, guid: cd080d458d1ca554c9e1cd1fcd4dab74, type: 3}
+  UpgradeButtonPrefab: {fileID: 131612049855649567, guid: 1acf94216886354478c931ddc741a684, type: 3}
 --- !u!1 &1170270047
 GameObject:
   m_ObjectHideFlags: 0

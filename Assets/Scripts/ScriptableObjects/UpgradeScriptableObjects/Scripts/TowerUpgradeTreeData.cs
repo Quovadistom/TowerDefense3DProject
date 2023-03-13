@@ -10,6 +10,7 @@ public class TowerUpgradeData
 {
     [HideInInspector] public string m_id;
 
+    public int UpgradeCost = 100;
     public bool IsBought = false;
     [InfoBox("Select the ID of the upgrade(s) this one is required for. The next element in this row is already included!")]
     public List<string> RequiredFor = new();

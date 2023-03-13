@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class UpgradeTree : MonoBehaviour
 {
@@ -13,9 +14,9 @@ public class UpgradeTree : MonoBehaviour
 
     [SerializeField] private Transform m_treeParent;
     [SerializeField] private GameObject m_upgradeRow;
-    [SerializeField] private TowerUpgradeButton m_upgradeButton;
 
     private TowerInfoComponent m_activeTurrentInfo;
+    private TowerUpgradeButton.Factory m_towerUpgradeButtonFactory;
 
     public event Action<int> AvailableUpgradeCountChanged;
 
@@ -28,6 +29,12 @@ public class UpgradeTree : MonoBehaviour
             m_upgradeCountText.text = value.ToString();
             AvailableUpgradeCountChanged?.Invoke(value);
         }
+    }
+
+    [Inject]
+    private void Construct(TowerUpgradeButton.Factory towerUpgradeButtonFactory)
+    {
+        m_towerUpgradeButtonFactory = towerUpgradeButtonFactory;
     }
 
     void Awake()
@@ -73,7 +80,8 @@ public class UpgradeTree : MonoBehaviour
                     AvailableUpgradeCount--;
                 }
 
-                TowerUpgradeButton button = Instantiate(m_upgradeButton, row.transform, false);
+                TowerUpgradeButton button = m_towerUpgradeButtonFactory.Create();
+                button.transform.SetParent(row.transform, false);
                 button.SetButtonInfo(towerUpgradeTreeData, upgrade, selectedTurret, this);
             }
         }

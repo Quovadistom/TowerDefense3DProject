@@ -1,29 +1,39 @@
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpgradeTree : MonoBehaviour
 {
-    [SerializeField] SelectedTurretMenu m_selectedTurretMenu;
-    [SerializeField] ScrollRect m_scrollRect;
-    [SerializeField] RectTransform m_viewPort;
-    [SerializeField] TMP_Text m_upgradeCountText;
+    [SerializeField] private SelectedTurretMenu m_selectedTurretMenu;
+    [SerializeField] private ScrollRect m_scrollRect;
+    [SerializeField] private RectTransform m_viewPort;
+    [SerializeField] private TMP_Text m_upgradeCountText;
+    [SerializeField] private int m_availableUpgradeCount = 5;
 
     [SerializeField] private Transform m_treeParent;
     [SerializeField] private GameObject m_upgradeRow;
-    [SerializeField] private ButtonHelper m_upgradeButton;
+    [SerializeField] private TowerUpgradeButton m_upgradeButton;
 
-    private TurretUpgradeTreeBase m_activeTurretUpgradeTreeBase;
     private TowerInfoComponent m_activeTurrentInfo;
 
-    private Dictionary<TowerInfoComponent, TurretUpgradeTreeBase> m_turretUpgradeTrees = new Dictionary<TowerInfoComponent, TurretUpgradeTreeBase>();
+    public event Action<int> AvailableUpgradeCountChanged;
 
-    private List<ButtonHelper> m_buttonHelperList;
+    public int AvailableUpgradeCount
+    {
+        get => m_availableUpgradeCount;
+        set
+        {
+            m_availableUpgradeCount = value;
+            m_upgradeCountText.text = value.ToString();
+            AvailableUpgradeCountChanged?.Invoke(value);
+        }
+    }
 
     void Awake()
     {
         m_selectedTurretMenu.TurretDataChanged += OnTurretChanged;
+        AvailableUpgradeCount = m_availableUpgradeCount;
     }
 
     private void OnDestroy()
@@ -58,15 +68,14 @@ public class UpgradeTree : MonoBehaviour
             GameObject row = Instantiate(m_upgradeRow, m_treeParent, false);
             foreach (TowerUpgradeData upgrade in towerUpgradeTreeStructure.TowerUpgrades)
             {
-                ButtonHelper button = Instantiate(m_upgradeButton, row.transform, false);
-                button.SetButtonInfo(towerUpgradeTreeData, upgrade, selectedTurret);
+                if (upgrade.IsBought)
+                {
+                    AvailableUpgradeCount--;
+                }
+
+                TowerUpgradeButton button = Instantiate(m_upgradeButton, row.transform, false);
+                button.SetButtonInfo(towerUpgradeTreeData, upgrade, selectedTurret, this);
             }
         }
-    }
-
-    private void OnUpgradeCountChanged(int count)
-    {
-        m_upgradeCountText.text = count.ToString();
-        // Do something on count == 0?
     }
 }

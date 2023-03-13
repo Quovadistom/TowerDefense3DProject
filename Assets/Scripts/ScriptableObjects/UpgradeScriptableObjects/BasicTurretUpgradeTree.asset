@@ -20,9 +20,12 @@ MonoBehaviour:
       TowerUpgrade: {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     - m_id: RangeUpgrade2
       IsBought: 0
-      RequiredFor:
-      - RangeUpgrade4
+      RequiredFor: []
       TowerUpgrade: {fileID: 11400000, guid: f9b940b3a98cd094eafe67b244ad5b55, type: 2}
+    - m_id: RangeUpgrade7
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: f9ac408137a974c44a07d0993b404efa, type: 2}
   - TowerUpgrades:
     - m_id: RangeUpgrade3
       IsBought: 0
@@ -32,13 +35,20 @@ MonoBehaviour:
       IsBought: 0
       RequiredFor: []
       TowerUpgrade: {fileID: 11400000, guid: 2e80785a7f6ae7b45bdd9f981fafcb96, type: 2}
+    - m_id: RangeUpgrade8
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: 564d6f273ed54c74d8a36db111e11daf, type: 2}
   - TowerUpgrades:
     - m_id: RangeUpgrade5
       IsBought: 0
-      RequiredFor:
-      - RangeUpgrade4
+      RequiredFor: []
       TowerUpgrade: {fileID: 11400000, guid: 42bb8a5119f27fb4bac6f532bb890ccb, type: 2}
     - m_id: RangeUpgrade6
       IsBought: 0
       RequiredFor: []
       TowerUpgrade: {fileID: 11400000, guid: 6f569fc9e1ae5ec409ebb9fb8f0d872f, type: 2}
+    - m_id: RangeUpgrade9
+      IsBought: 0
+      RequiredFor: []
+      TowerUpgrade: {fileID: 11400000, guid: 709633af7f136cf44881ba0114999090, type: 2}

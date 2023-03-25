@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23704d3143ef2634d83bd158aa2360e0, type: 3}
   m_Name: TowerRangeUpgrade 1
   m_EditorClassIdentifier: 
-  m_upgradeName: RangeUpgrade2
-  m_upgradeCost: 100
+  m_id: e00893fb-4af2-4c71-9cb5-ef70b41e7089
+  m_upgradeName: Range 2
   m_newVisual: {fileID: 5751905902034225220, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
   m_increasePercentage: 100

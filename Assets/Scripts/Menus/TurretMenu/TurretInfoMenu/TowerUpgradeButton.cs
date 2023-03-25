@@ -38,7 +38,7 @@ public class TowerUpgradeButton : MonoBehaviour
         TowerInfoComponent towerInfoComponent,
         UpgradeTree upgradeTree)
     {
-        m_textObject.text = towerUpgradeData.m_id;
+        m_textObject.text = towerUpgradeData.TowerUpgrade.Name;
         TowerUpgradeTree = towerUpgradeTreeStructure;
         TowerUpgradeData = towerUpgradeData;
         UpgradeTree = upgradeTree;

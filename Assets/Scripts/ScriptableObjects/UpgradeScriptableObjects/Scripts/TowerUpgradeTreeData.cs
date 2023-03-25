@@ -8,14 +8,16 @@ using UnityEngine;
 [Serializable]
 public class TowerUpgradeData
 {
-    [HideInInspector] public string m_id;
+    [AllowNesting][ReadOnly][SerializeField] private string m_name;
+    [AllowNesting][ReadOnly][SerializeField] private string m_id;
 
+    public string ID => m_id;
     public int UpgradeCost = 100;
     public bool IsBought = false;
     [InfoBox("Select the ID of the upgrade(s) this one is required for. The next element in this row is already included!")]
     public List<string> RequiredFor = new();
 
-    [JsonIgnore][AllowNesting][OnValueChanged("ValidateID")] public TowerUpgradeBase TowerUpgrade;
+    [JsonIgnore][AllowNesting][OnValueChanged(nameof(ValidateTower))] public TowerUpgradeBase TowerUpgrade;
 
     private int m_unlockSignals;
     public int UnlockSignals
@@ -27,11 +29,13 @@ public class TowerUpgradeData
             UnlockSignalsChanged?.Invoke(m_unlockSignals == 0);
         }
     }
+
     public event Action<bool> UnlockSignalsChanged;
 
-    public void ValidateID()
+    public void ValidateTower()
     {
         m_id = TowerUpgrade != null ? TowerUpgrade.ID : "No upgrade added!";
+        m_name = TowerUpgrade != null ? TowerUpgrade.Name : string.Empty;
     }
 
     public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerInfoComponent towerInfoComponent)
@@ -79,7 +83,7 @@ public class TowerUpgradeTreeData : ScriptableObject
 
                 if (i + 1 < towerUpgradeTreeRow.TowerUpgrades.Count)
                 {
-                    towerUpgradeData.RequiredFor.Add(towerUpgradeTreeRow.TowerUpgrades[i + 1].m_id);
+                    towerUpgradeData.RequiredFor.Add(towerUpgradeTreeRow.TowerUpgrades[i + 1].ID);
                 }
 
                 foreach (TowerUpgradeData upgradeData in GetTowerUpgradesDatas(towerUpgradeData.RequiredFor))
@@ -105,7 +109,7 @@ public class TowerUpgradeTreeData : ScriptableObject
 
         foreach (TowerUpgradeTreeRow row in Structure)
         {
-            data = row.TowerUpgrades.FirstOrDefault(upgrade => upgrade.m_id == ID);
+            data = row.TowerUpgrades.FirstOrDefault(upgrade => upgrade.ID == ID);
             if (data != null)
             {
                 return true;

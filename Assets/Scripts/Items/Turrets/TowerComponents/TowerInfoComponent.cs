@@ -24,6 +24,7 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
     private TowerService m_turretService;
     private SelectionService m_selectionService;
 
+    public int AvailableUpgradeAmount = 5;
     public Guid TowerID { get; private set; }
     public List<Guid> ConnectedSupportTowers { get; set; } = new List<Guid>();
     public bool IsTowerPlaced { get; private set; } = false;

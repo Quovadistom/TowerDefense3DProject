@@ -69,6 +69,7 @@ public class UpgradeTree : MonoBehaviour
     private void CreateTurretUpgradeMenu(TowerInfoComponent selectedTurret)
     {
         TowerUpgradeTreeData towerUpgradeTreeData = selectedTurret.UpgradeTreeData;
+        AvailableUpgradeCount = selectedTurret.AvailableUpgradeAmount;
 
         foreach (TowerUpgradeTreeRow towerUpgradeTreeStructure in towerUpgradeTreeData.Structure)
         {

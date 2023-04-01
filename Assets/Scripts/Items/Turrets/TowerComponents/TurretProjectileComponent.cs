@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Zenject;
 
 public class TurretProjectileComponent : ChangeVisualComponent, ITowerComponent
 {

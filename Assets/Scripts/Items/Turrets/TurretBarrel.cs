@@ -13,6 +13,20 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
     public abstract float Interval { get; }
     public float Accuracy = 0.99f;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        m_turretTargetingComponent.TargetChanged += RefreshTarget;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        m_turretTargetingComponent.TargetChanged -= RefreshTarget;
+    }
+
     protected virtual void Update()
     {
         m_elapsedTime += Time.deltaTime;
@@ -24,7 +38,6 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
 
         if (m_currentTarget == null || m_turretTargetingComponent.CurrentTarget == null)
         {
-            RefreshTarget();
             return;
         }
 
@@ -38,14 +51,13 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
             {
                 m_elapsedTime = 0;
                 TimeElapsed(m_currentTarget);
-                RefreshTarget();
             }
         }
     }
 
-    private void RefreshTarget()
+    private void RefreshTarget(BasicEnemy basicEnemy)
     {
-        m_currentTarget = m_turretTargetingComponent.CurrentTarget;
+        m_currentTarget = basicEnemy;
     }
 
     public abstract void TimeElapsed(BasicEnemy currentTarget);

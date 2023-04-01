@@ -7,10 +7,10 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
 {
     private string[] m_gameBoosts = new string[5];
     private BoostAvailabilityService m_boostAvailabilityService;
-    private GameBoostValues m_gameBoostValues;
+    private GameUpgradeValues m_gameBoostValues;
 
     public event Action<int, string> GameBoostActivated;
-    public event Action<GameBoostValues> AllGameBoostsApplied;
+    public event Action<GameUpgradeValues> AllGameBoostsApplied;
 
     public ICollection<string> GameBoosts => m_gameBoosts.AsReadOnlyCollection();
 
@@ -35,7 +35,7 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
         {
             if (m_boostAvailabilityService.TryGetGameBoostInformation(boostID, out var boostInfo))
             {
-                boostInfo.ApplyBoost(ref m_gameBoostValues);
+                m_gameBoostValues = boostInfo.ApplyUpgrade(m_gameBoostValues);
             }
         }
 

@@ -2,22 +2,12 @@
 using System;
 using UnityEngine;
 
-public abstract class TowerUpgradeBase : ScriptableObject, IIDProvider
+public abstract class TowerUpgradeBase : UpgradeBase
 {
-    [ReadOnly][SerializeField] private string m_id;
-
-    [SerializeField] protected string m_upgradeName;
+    [InfoBox("Select the new visual (optional)")]
     [SerializeField] protected Transform m_newVisual;
 
-    public string ID => m_id.ToString();
+    public abstract Type TowerComponentType { get; }
 
-    public string Name => m_upgradeName;
-
-    private void Reset()
-    {
-        m_id = Guid.NewGuid().ToString();
-    }
-
-    public abstract void TryApplyUpdate(TowerInfoComponent towerInfoComponent);
+    public abstract void TryApplyUpgrade(TowerInfoComponent towerInfoComponent);
 }
-

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -57,7 +55,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
 
         foreach (KeyValuePair<string, int> boost in m_boostAvailabilityService.AvailableBoosts)
         {
-            if (m_boostAvailabilityService.TryGetTowerBoostInformation(boost.Key, out TowerBoostBase boostInfo))
+            if (m_boostAvailabilityService.TryGetTowerBoostInformation(boost.Key, out TowerUpgradeBase boostInfo))
             {
                 if (towerComponents.FirstOrDefault(component => component.GetType() == boostInfo.TowerComponentType) != null)
                 {
@@ -65,8 +63,8 @@ public class TowerBoostSelectionButton : MonoBehaviour
                     {
                         buttonInfos.Add(new ButtonInfo()
                         {
-                            Title = boostInfo.UpgradeName,
-                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TurretType, m_index, boostInfo.BoostID)
+                            Title = boostInfo.Name,
+                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TurretType, m_index, boostInfo.ID)
                         });
                     }
                 }

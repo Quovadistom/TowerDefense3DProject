@@ -25,7 +25,7 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
         m_gameBoostService.ApplyBoosts();
     }
 
-    private void OnGameBoostsApplied(GameBoostValues gameBoostValues)
+    private void OnGameBoostsApplied(GameUpgradeValues gameBoostValues)
     {
         Health += gameBoostValues.Health;
     }

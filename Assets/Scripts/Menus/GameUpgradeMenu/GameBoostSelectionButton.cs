@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -30,7 +28,7 @@ public class GameBoostSelectionButton : MonoBehaviour
         m_button.onClick.AddListener(OnButtonClicked);
         m_index = transform.GetSiblingIndex();
 
-        if (m_boostAvailabilityService.TryGetGameBoostInformation(m_gameBoostService.GameBoosts.ElementAt(m_index), out GameBoostBase gameBoostBase))
+        if (m_boostAvailabilityService.TryGetGameBoostInformation(m_gameBoostService.GameBoosts.ElementAt(m_index), out GameUpgradeBase gameBoostBase))
         {
             SetButtonInfo(gameBoostBase.name);
         }
@@ -62,14 +60,14 @@ public class GameBoostSelectionButton : MonoBehaviour
 
         foreach (KeyValuePair<string, int> boost in m_boostAvailabilityService.AvailableBoosts)
         {
-            if (m_boostAvailabilityService.TryGetGameBoostInformation(boost.Key, out GameBoostBase boostInfo))
+            if (m_boostAvailabilityService.TryGetGameBoostInformation(boost.Key, out GameUpgradeBase boostInfo))
             {
                 for (int i = 0; i < boost.Value; i++)
                 {
                     buttonInfos.Add(new ButtonInfo()
                     {
-                        Title = boostInfo.UpgradeName,
-                        Callback = () => m_gameBoostService.AddBoost(m_index, boostInfo.BoostID)
+                        Title = boostInfo.Name,
+                        Callback = () => m_gameBoostService.AddBoost(m_index, boostInfo.ID)
                     });
                 }
             }

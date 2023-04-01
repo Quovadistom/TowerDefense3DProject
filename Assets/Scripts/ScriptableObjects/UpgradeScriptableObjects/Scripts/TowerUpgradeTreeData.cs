@@ -47,7 +47,7 @@ public class TowerUpgradeData
 
             if (IsBought)
             {
-                TowerUpgrade.TryApplyUpdate(towerInfoComponent);
+                TowerUpgrade.TryApplyUpgrade(towerInfoComponent);
             }
         }
     }

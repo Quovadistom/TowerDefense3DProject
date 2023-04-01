@@ -58,7 +58,7 @@ public class TowerUpgradeButton : MonoBehaviour
     {
         TowerUpgradeData.IsBought = true;
         SetButtonState(false);
-        towerUpgradeData.TowerUpgrade.TryApplyUpdate(towerInfoComponent);
+        towerUpgradeData.TowerUpgrade.TryApplyUpgrade(towerInfoComponent);
         foreach (var towerData in LockedTowerUpgrades)
         {
             towerData.UnlockSignals--;

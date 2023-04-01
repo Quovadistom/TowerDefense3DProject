@@ -1,4 +1,4 @@
-﻿public struct GameBoostValues
+﻿public struct GameUpgradeValues
 {
     public int Health { get; set; }
 }

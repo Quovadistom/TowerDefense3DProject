@@ -8,7 +8,11 @@ public class TowerRangeUpgrade : TowerUpgrade<TurretRangeComponent>
     protected override void ApplyUpdate(TurretRangeComponent turretComponent)
     {
         turretComponent.Range = turretComponent.Range.AddPercentage(m_increasePercentage);
-        turretComponent.Visual = m_newVisual;
+
+        if (m_newVisual != null)
+        {
+            turretComponent.Visual = m_newVisual;
+        }
     }
 }
 

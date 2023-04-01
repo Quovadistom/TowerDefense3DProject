@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +11,7 @@ public class WaveService
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
-    public event Action<List<BoostBase>> BoostsDrawn;
+    public event Action<List<UpgradeBase>> BoostsDrawn;
 
     private int m_currentWaveIndex = 0;
 
@@ -57,7 +56,7 @@ public class WaveService
         if (m_currentWaveIndex % m_boostCollection.Frequency == 0)
         {
             Debug.Log($"Boost Drawn for {m_currentWaveIndex}!");
-            List<BoostBase> boostList = new List<BoostBase>();
+            List<UpgradeBase> boostList = new List<UpgradeBase>();
             for (int i = 0; i < m_boostCollection.BoostAmount; i++)
             {
                 boostList.Add(m_boostCollection.GetRandomBoostWeighted(m_currentWaveIndex));

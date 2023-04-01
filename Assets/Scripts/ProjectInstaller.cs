@@ -7,6 +7,7 @@ public class ProjectInstaller : MonoInstaller
     public SceneCollection SceneCollection;
     public TurretCollection TurretCollection;
     public BoostCollection UpgradesCollection;
+    public DebugSettings DebugSettings;
 
     [Header("Factory Assets")]
     public ItemMenuButton ItemMenuButtonPrefab;
@@ -17,6 +18,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<SceneCollection>().FromInstance(SceneCollection);
         Container.BindInterfacesAndSelfTo<TurretCollection>().FromInstance(TurretCollection);
         Container.BindInterfacesAndSelfTo<BoostCollection>().FromInstance(UpgradesCollection);
+        Container.BindInterfacesAndSelfTo<DebugSettings>().FromInstance(DebugSettings);
 
         // Services
         Container.BindInterfacesAndSelfTo<SerializationService>().AsSingle().NonLazy();

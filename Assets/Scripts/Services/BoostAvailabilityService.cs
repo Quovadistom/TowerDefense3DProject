@@ -12,9 +12,22 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
 
     protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
 
-    public BoostAvailabilityService(BoostCollection boostCollection, SerializationService serializationService) : base(serializationService)
+    public BoostAvailabilityService(BoostCollection boostCollection, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_boostCollection = boostCollection;
+
+        if (m_debugSettings.EnableAllBoosts)
+        {
+            foreach (var boost in m_boostCollection.TowerBoostList)
+            {
+                AddAvailableBoost(boost.Boost.ID);
+            }
+
+            foreach (var boost in m_boostCollection.GameBoostList)
+            {
+                AddAvailableBoost(boost.Boost.ID);
+            }
+        }
     }
 
     public bool TryGetTowerBoostInformation(string id, out TowerUpgradeBase towerBoostBase)

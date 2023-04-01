@@ -16,7 +16,7 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
 
     protected override Guid Id => Guid.Parse("0afb0eb2-09db-4a9c-92f9-9a20adc4a339");
 
-    public GameBoostService(BoostAvailabilityService boostAvailabilityService, SerializationService serializationService) : base(serializationService)
+    public GameBoostService(BoostAvailabilityService boostAvailabilityService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_boostAvailabilityService = boostAvailabilityService;
     }
@@ -26,6 +26,7 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
     public void AddBoost(int index, string boostID)
     {
         m_gameBoosts[index] = boostID;
+        m_boostAvailabilityService.RemoveAvailableBoost(boostID);
         GameBoostActivated?.Invoke(index, boostID);
     }
 

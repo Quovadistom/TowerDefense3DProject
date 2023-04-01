@@ -6,15 +6,17 @@ using UnityEngine;
 public abstract class SerializationHandler<T> where T : new()
 {
     private SerializationService m_serializationService;
+    protected DebugSettings m_debugSettings;
 
     protected abstract Guid Id { get; }
     protected T Dto { get; set; }
 
     private string GetFilePath() => Path.Combine(Application.persistentDataPath, Id.ToString());
 
-    protected SerializationHandler(SerializationService serializationService)
+    protected SerializationHandler(SerializationService serializationService, DebugSettings debugSettings)
     {
         m_serializationService = serializationService;
+        m_debugSettings = debugSettings;
 
         m_serializationService.SerializationRequested += OnSerializationRequested;
     }
@@ -23,6 +25,8 @@ public abstract class SerializationHandler<T> where T : new()
 
     public void Save()
     {
+        if (!m_debugSettings.UseSerialization) return;
+
         ConvertDto();
         string json = JsonConvert.SerializeObject(Dto, Formatting.None,
                         new JsonSerializerSettings()
@@ -35,6 +39,8 @@ public abstract class SerializationHandler<T> where T : new()
 
     protected void Read()
     {
+        if (!m_debugSettings.UseSerialization) return;
+
         if (File.Exists(GetFilePath()))
         {
             string json = File.ReadAllText(GetFilePath());

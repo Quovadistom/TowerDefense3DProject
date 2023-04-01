@@ -37,7 +37,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
 
     protected override Guid Id => Guid.Parse("fd1c3b87-e564-4187-8cc5-4a5688c953ba");
 
-    public TowerBoostService(BoostCollection boostCollection, BoostAvailabilityService boostAvailabilityService, SerializationService serializationService) : base(serializationService)
+    public TowerBoostService(BoostCollection boostCollection, BoostAvailabilityService boostAvailabilityService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_boostCollection = boostCollection;
         m_boostAvailabilityService = boostAvailabilityService;
@@ -73,10 +73,13 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         {
             foreach (string upgradeID in row.UpgradeIDs)
             {
-                TowerUpgradeBase upgrade = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Boost.ID == upgradeID).Boost;
-                if (upgrade != null)
+                if (!string.IsNullOrEmpty(upgradeID))
                 {
-                    upgrade.TryApplyUpgrade(towerInfoComponent);
+                    TowerUpgradeBase upgrade = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Boost.ID == upgradeID).Boost;
+                    if (upgrade != null)
+                    {
+                        upgrade.TryApplyUpgrade(towerInfoComponent);
+                    }
                 }
             }
         }

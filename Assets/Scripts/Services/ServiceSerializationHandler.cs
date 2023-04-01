@@ -1,9 +1,8 @@
-﻿using System;
-using Zenject;
+﻿using Zenject;
 
 public abstract class ServiceSerializationHandler<T> : SerializationHandler<T>, IInitializable where T : new()
 {
-    protected ServiceSerializationHandler(SerializationService serializationService) : base(serializationService)
+    protected ServiceSerializationHandler(SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
     }
 

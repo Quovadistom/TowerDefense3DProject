@@ -19,7 +19,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     private TurretCollection m_turretCollection;
     private TowerInfoComponent.Factory m_turretFactory;
 
-    public TowerService(TurretCollection turretCollection, TowerInfoComponent.Factory turretFactory, SerializationService serializationService) : base(serializationService)
+    public TowerService(TurretCollection turretCollection, TowerInfoComponent.Factory turretFactory, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_turretCollection = turretCollection;
         m_turretFactory = turretFactory;

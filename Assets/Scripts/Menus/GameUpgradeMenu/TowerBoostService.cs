@@ -27,8 +27,8 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         new TowerBoostRow()
     };
 
-    private BoostCollection m_boostCollection;
-    private BoostAvailabilityService m_boostAvailabilityService;
+    private readonly BoostCollection m_boostCollection;
+    private readonly BoostAvailabilityService m_boostAvailabilityService;
 
     public event Action<int, TowerType> TurretTypeChanged;
     public event Action<TowerType, int, string> TurretUpgradeChanged;

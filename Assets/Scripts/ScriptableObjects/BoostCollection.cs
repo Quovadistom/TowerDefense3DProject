@@ -38,7 +38,6 @@ public class BoostCollection : ScriptableObject
 
     public IReadOnlyList<BoostContainer<TowerUpgradeBase>> TowerBoostList { get => m_towerBoostList; }
     public IReadOnlyList<BoostContainer<GameUpgradeBase>> GameBoostList { get => m_gameBoostList; }
-
     private int GetWeight(Rarity rarity, int wave)
     {
         // If above a certain wave, keep the same chances
@@ -78,7 +77,7 @@ public class BoostCollection : ScriptableObject
             calculatedWeights[i] = GetWeight(rarities[i], wave) + accumulatedWeight;
         }
 
-        int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[calculatedWeights.Length - 1]);
+        int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
 
         int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
         return m_towerBoostList.Select(boost => (UpgradeBase)boost.Boost).Concat(m_gameBoostList.Select(boost => (UpgradeBase)boost.Boost)).ToList()[randomIndex];

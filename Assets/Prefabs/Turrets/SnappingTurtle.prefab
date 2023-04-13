@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7095166975848920777}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: -0.037, z: 1.257}
+  m_LocalPosition: {x: -0, y: -0.037, z: 1.188}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f88f13e13c82443a28e66870a03a71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_turretCloseRange: {fileID: 7818143028644773805}
 --- !u!1001 &1279102157903292265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,6 +122,10 @@ PrefabInstance:
       propertyPath: m_upgradeTreeData
       value: 
       objectReference: {fileID: 11400000, guid: d04fc8e73a809f94ba384299e5a3aead, type: 2}
+    - target: {fileID: 599941985644238354, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.063
+      objectReference: {fileID: 0}
     - target: {fileID: 653922362738063837, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -168,6 +173,26 @@ PrefabInstance:
     - target: {fileID: 887952624899476864, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722538965320486120, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_Height
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722538965320486120, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_Radius
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722538965320486120, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_Center.x
+      value: 0.00000011920929
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722538965320486120, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_Center.z
+      value: 0.225811
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722538965320486120, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_Direction
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2906436275946987310, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_IsActive
@@ -224,6 +249,7 @@ MonoBehaviour:
   m_conversionFactor: 29
   m_sphereCollider: {fileID: 1891905085666536789}
   m_skinnedMeshRenderer: {fileID: 8163296313784264072}
+  IsMovingToTarget: 0
 --- !u!1 &4102717779752323518 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2967732206594944727, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}

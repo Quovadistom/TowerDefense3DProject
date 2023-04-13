@@ -8,8 +8,10 @@ public class TurretCloseRange : TurretBarrel<TurretCloseRangeComponent>
     [SerializeField] private SkinnedMeshRenderer m_skinnedMeshRenderer;
 
     public override float Interval => Component.Firerate;
+    public bool IsMovingToTarget = false;
 
     private Vector3 m_basePosition;
+    private Sequence m_sequence;
 
     protected override void Awake()
     {
@@ -26,10 +28,27 @@ public class TurretCloseRange : TurretBarrel<TurretCloseRangeComponent>
         m_skinnedMeshRenderer.SetBlendShapeWeight(0, distance * m_conversionFactor);
     }
 
+    public void Retract()
+    {
+        m_sequence?.Kill();
+        m_sequence = DOTween.Sequence();
+
+        IsMovingToTarget = false;
+
+        m_sequence.Append(m_sphereCollider.DOLocalMove(m_basePosition, Component.Firerate / 5)).
+            AppendCallback(() => UpdateAndFollowTarget = true);
+    }
+
     public override void TimeElapsed(BasicEnemy basicEnemy)
     {
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(m_sphereCollider.DOMove(basicEnemy.EnemyMiddle.position, Component.Firerate / 5)).
-            Append(m_sphereCollider.DOLocalMove(m_basePosition, Component.Firerate / 5));
+        m_sequence?.Kill();
+        m_sequence = DOTween.Sequence();
+        UpdateAndFollowTarget = false;
+        IsMovingToTarget = true;
+
+        m_sequence.Append(m_sphereCollider.DOMove(basicEnemy.EnemyMiddle.position, Component.Firerate / 5)).
+            AppendCallback(() => IsMovingToTarget = false).
+            Append(m_sphereCollider.DOLocalMove(m_basePosition, Component.Firerate / 5)).
+            AppendCallback(() => UpdateAndFollowTarget = true);
     }
 }

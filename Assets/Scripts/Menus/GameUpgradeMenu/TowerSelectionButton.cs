@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,15 +36,15 @@ public class TowerSelectionButton : MonoBehaviour
     {
         List<ButtonInfo> buttonInfos = new List<ButtonInfo>();
 
-        IEnumerable<TowerType> nonAvailableTowerTypes = m_towerUpgradeService.TowerBoostRows.Select(x => x.TowerType);
-        IEnumerable<TowerInfoComponent> nonAvailableTowers = m_turretCollection.TurretList.Where(x => nonAvailableTowerTypes.Contains(x.TurretType));
+        IEnumerable<string> nonAvailableTowerTypes = m_towerUpgradeService.TowerBoostRows.Select(x => x.TowerType);
+        IEnumerable<TowerInfoComponent> nonAvailableTowers = m_turretCollection.TurretList.Where(x => nonAvailableTowerTypes.Contains(x.TowerTypeID));
 
         foreach (TowerInfoComponent infoComponent in m_turretCollection.TurretList.Except(nonAvailableTowers))
         {
             buttonInfos.Add(new ButtonInfo()
             {
                 Title = infoComponent.gameObject.name,
-                Callback = () => m_towerUpgradeService.UpdateTowerUpgradeCollection(m_towerUpgradeCollection.Index, infoComponent.TurretType)
+                Callback = () => m_towerUpgradeService.UpdateTowerUpgradeCollection(m_towerUpgradeCollection.Index, infoComponent.TowerTypeID)
             });
         }
 

@@ -7,10 +7,11 @@ using UnityEngine;
 public class TurretInfo
 {
     public Guid TowerID { get; set; }
-    public TowerType TurretType { get; set; }
+    public string TurretName { get; set; }
     public Vector3 Position { get; set; }
     public TowerUpgradeTreeData TowerUpgradeTree { get; set; }
     public List<Guid> ConnectedSupportTowers { get; set; }
+    public string TargetMethodName { get; set; }
 }
 
 public class TowerService : ServiceSerializationHandler<TurretServiceDto>
@@ -39,18 +40,25 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 
     protected override void ConvertDto()
     {
-        List<TurretInfo> placedTurrets = new List<TurretInfo>();
+        List<TurretInfo> placedTurrets = new();
 
         foreach (TowerInfoComponent placedTurret in m_placedTurrets)
         {
-            placedTurrets.Add(new TurretInfo()
+            TurretInfo turretInfo = new TurretInfo()
             {
                 TowerID = placedTurret.TowerID,
-                TurretType = placedTurret.TurretType,
+                TurretName = placedTurret.TowerTypeID,
                 Position = placedTurret.transform.position,
                 TowerUpgradeTree = placedTurret.UpgradeTreeData,
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
-            });
+            };
+
+            if (placedTurret.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
+            {
+                turretInfo.TargetMethodName = turretTargetingComponent.CurrentTargetMethod.Name;
+            }
+
+            placedTurrets.Add(turretInfo);
         }
 
         Dto.PlacedTurrets = placedTurrets;
@@ -60,9 +68,14 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         foreach (TurretInfo selectedTurret in dto.PlacedTurrets)
         {
-            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.TurretType == selectedTurret.TurretType);
+            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.TowerTypeID == selectedTurret.TurretName);
             TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
             placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
+
+            if (placedTurret.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
+            {
+                turretTargetingComponent.CurrentTargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName);
+            }
         }
     }
 }

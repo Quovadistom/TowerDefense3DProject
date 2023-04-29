@@ -263,6 +263,10 @@ PrefabInstance:
       propertyPath: TurretType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7352623618096459969, guid: 9d367549d7ada3f46a2bf1a4dfd84540, type: 3}
+      propertyPath: TowerTypeID
+      value: 5421e526-8d91-4bef-99c0-bffd7e883e91
+      objectReference: {fileID: 0}
     - target: {fileID: 7544870571874653592, guid: 9d367549d7ada3f46a2bf1a4dfd84540, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

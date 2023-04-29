@@ -35,7 +35,7 @@ public class SelectedTurretMenu : MonoBehaviour
     {
         SelectedTurret = null;
 
-        if (selectable != null && selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent))
+        if (selectable != null && selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent) && towerInfoComponent.IsTowerPlaced)
         {
             SelectedTurret = towerInfoComponent;
         }

@@ -1,18 +1,21 @@
-
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 public class TargetingDropDown : MonoBehaviour
 {
     public SelectedTurretMenu SelectedTurretMenu;
 
     private TMP_Dropdown m_dropdown;
-    private List<ITargetMethod> m_targetingMethods = new List<ITargetMethod>();
+    private TurretCollection m_turretCollection;
+
+    [Inject]
+    private void Construct(TurretCollection turretCollection)
+    {
+        m_turretCollection = turretCollection;
+    }
 
     void Awake()
     {
@@ -31,17 +34,8 @@ public class TargetingDropDown : MonoBehaviour
 
     private void FillDropdown()
     {
-        var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(type => type.GetInterfaces().Contains(typeof(ITargetMethod)));
-
-        foreach (var type in types)
-        {
-            m_targetingMethods.Add((ITargetMethod)Activator.CreateInstance(type));
-        }
-
-        m_targetingMethods = m_targetingMethods.OrderBy(method => method.Order).ToList();
-
         List<TMP_Dropdown.OptionData> options = new();
-        foreach (ITargetMethod method in m_targetingMethods)
+        foreach (ITargetMethod method in m_turretCollection.TargetMethodList)
         {
             TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData
             {
@@ -58,7 +52,7 @@ public class TargetingDropDown : MonoBehaviour
     {
         if (selectedTurret != null && selectedTurret.gameObject.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
         {
-            m_dropdown.value = m_targetingMethods.IndexOf(m_targetingMethods.First(x => x.GetType() == turretTargetingComponent.CurrentTargetMethod.GetType()));
+            m_dropdown.value = m_dropdown.options.Select((info, index) => (info, index)).First(x => x.info.text == turretTargetingComponent.CurrentTargetMethod.Name).index;
             m_dropdown.gameObject.SetActive(true);
         }
         else
@@ -71,7 +65,7 @@ public class TargetingDropDown : MonoBehaviour
     {
         if (SelectedTurretMenu.SelectedTurret.gameObject.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
         {
-            turretTargetingComponent.CurrentTargetMethod = m_targetingMethods[index];
+            turretTargetingComponent.CurrentTargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == m_dropdown.options[index].text);
         }
     }
 }

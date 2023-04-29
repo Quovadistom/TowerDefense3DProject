@@ -64,7 +64,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
                         buttonInfos.Add(new ButtonInfo()
                         {
                             Title = boostInfo.Name,
-                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TurretType, m_index, boostInfo.ID)
+                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TowerTypeID, m_index, boostInfo.ID)
                         });
                     }
                 }
@@ -74,14 +74,14 @@ public class TowerBoostSelectionButton : MonoBehaviour
         m_itemMenuService.RequestItemMenu(buttonInfos);
     }
 
-    private void OnTurretBoostChanged(TowerType towerType, int index, string upgradeID)
+    private void OnTurretBoostChanged(string towerType, int index, string upgradeID)
     {
         if (m_towerUpgradeCollection.LinkedTower == null || string.IsNullOrEmpty(upgradeID))
         {
             return;
         }
 
-        if (m_towerUpgradeCollection.LinkedTower.TurretType == towerType && m_index == index)
+        if (m_towerUpgradeCollection.LinkedTower.TowerTypeID == towerType && m_index == index)
         {
             m_upgradeID = upgradeID;
             m_titleText.text = upgradeID;

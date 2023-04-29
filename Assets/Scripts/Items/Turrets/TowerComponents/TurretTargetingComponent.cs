@@ -1,5 +1,4 @@
-﻿using NaughtyAttributes;
-using System;
+﻿using System;
 using UnityEngine;
 
 public class TurretTargetingComponent : MonoBehaviour, ITowerComponent
@@ -15,7 +14,7 @@ public class TurretTargetingComponent : MonoBehaviour, ITowerComponent
 
     protected void Start()
     {
-        CurrentTargetMethod = new TargetFirstEnemy();
+        CurrentTargetMethod ??= new TargetFirstEnemy();
     }
 
     public BasicEnemy CurrentTarget
@@ -36,7 +35,7 @@ public class TurretTargetingComponent : MonoBehaviour, ITowerComponent
             m_currentTargetMethod = value;
             TargetMethodChanged?.Invoke(m_currentTargetMethod);
         }
-    }    
+    }
 
     public float TurnSpeed
     {

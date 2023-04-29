@@ -3809,6 +3809,22 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4153604017449787921, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153604017449787921, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153604017449787921, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153604017449787921, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8565161220799351746, guid: e2419258f08069b4d97833c81a08deff, type: 3}
       propertyPath: m_Name
       value: UpgradesLeftText

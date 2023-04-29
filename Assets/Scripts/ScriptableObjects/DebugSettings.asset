@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63404f2cbd0d954d96202aa74afdf39, type: 3}
   m_Name: DebugSettings
   m_EditorClassIdentifier: 
-  UseSerialization: 0
+  UseSerialization: 1
   EnableAllBoosts: 1

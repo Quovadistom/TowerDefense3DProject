@@ -2,11 +2,8 @@
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
 public class TargetCloseEnemy : ITargetMethod
 {
-    public int Order => 2;
-
     public string Name { get { return "Closest"; } }
 
     public bool TryGetTarget(TurretEnemyHandler turretEnemyHandler, IReadOnlyList<BasicEnemy> enemies, out BasicEnemy enemy)

@@ -1,23 +1,15 @@
 using Assets.Scripts.Interactables;
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public enum TowerType
-{
-    NONE = 0,
-    STANDARD = 1,
-    EXPLOSION = 2,
-    LASER = 3,
-    SUPPORT = 4
-}
-
 public class TowerInfoComponent : ValueComponent, ITowerComponent
 {
     [SerializeField] private TowerUpgradeTreeData m_upgradeTreeData;
 
-    public TowerType TurretType;
+    [ReadOnly] public string TowerTypeID;
     public Selectable Selectable;
     public Draggable Draggable;
 
@@ -30,6 +22,11 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
     public bool IsTowerPlaced { get; private set; } = false;
     public TowerUpgradeTreeData UpgradeTreeData { get; private set; }
 
+    [Button]
+    public void GenerateID()
+    {
+        TowerTypeID = Guid.NewGuid().ToString();
+    }
 
     [Inject]
     public void Construct(TowerService turretService, SelectionService selectionService)
@@ -53,10 +50,11 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
 
     private void OnTowerPlaced()
     {
-        m_selectionService.ForceSetSelected(transform);
         Draggable.CanDrag = false;
         m_turretService.AddTower(this);
         IsTowerPlaced = true;
+
+        m_selectionService.ForceSetSelected(transform);
     }
 
     public void EnableTowerDragging() => Draggable.CanDrag = true;
@@ -78,6 +76,7 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
         Draggable.CanDrag = false;
         m_turretService.AddTower(this);
         Selectable.SetSelected(false);
+        IsTowerPlaced = true;
     }
 
     public class Factory : PlaceholderFactory<TowerInfoComponent, TowerInfoComponent>

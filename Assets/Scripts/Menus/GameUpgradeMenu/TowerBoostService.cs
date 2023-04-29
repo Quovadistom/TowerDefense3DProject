@@ -7,7 +7,7 @@ using UnityEngine;
 [Serializable]
 public class TowerBoostRow
 {
-    public TowerType TowerType = TowerType.NONE;
+    public string TowerType = string.Empty;
     public string[] UpgradeIDs = new string[3]
     {
         string.Empty,
@@ -30,8 +30,8 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
     private readonly BoostCollection m_boostCollection;
     private readonly BoostAvailabilityService m_boostAvailabilityService;
 
-    public event Action<int, TowerType> TurretTypeChanged;
-    public event Action<TowerType, int, string> TurretUpgradeChanged;
+    public event Action<int, string> TurretTypeChanged;
+    public event Action<string, int, string> TurretUpgradeChanged;
 
     public ICollection<TowerBoostRow> TowerBoostRows => m_towerBoostRows.AsReadOnlyCollection();
 
@@ -43,7 +43,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         m_boostAvailabilityService = boostAvailabilityService;
     }
 
-    public void UpdateTowerUpgradeCollection(int upgradeIndex, TowerType turretType)
+    public void UpdateTowerUpgradeCollection(int upgradeIndex, string turretType)
     {
         m_towerBoostRows[upgradeIndex].TowerType = turretType;
         m_towerBoostRows[upgradeIndex].UpgradeIDs = new string[3];
@@ -51,7 +51,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         TurretTypeChanged?.Invoke(upgradeIndex, turretType);
     }
 
-    public void UpdateTowerBoostCollection(TowerType towerType, int upgradeIndex, string upgradeID)
+    public void UpdateTowerBoostCollection(string towerType, int upgradeIndex, string upgradeID)
     {
         TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerType);
         if (row != null)
@@ -68,7 +68,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
 
     public void SetTowerBoosts(TowerInfoComponent towerInfoComponent)
     {
-        TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerInfoComponent.TurretType);
+        TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerInfoComponent.TowerTypeID);
         if (row != null)
         {
             foreach (string upgradeID in row.UpgradeIDs)

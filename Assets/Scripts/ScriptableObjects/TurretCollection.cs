@@ -7,11 +7,20 @@ public class TurretCollection : ScriptableObject
 {
     [SerializeField] private List<TowerInfoComponent> m_turretList;
 
-    public IReadOnlyList<TowerInfoComponent> TurretList { get => m_turretList; }
-
-    public bool TryGetTowerPrefab(TowerType turretType, out TowerInfoComponent towerInfoComponent)
+    // Unity does not serialize interfaces or abstract classes, so add this manually
+    private ITargetMethod[] m_targetMethodList = new ITargetMethod[3]
     {
-        towerInfoComponent = TurretList.FirstOrDefault(tower => tower.TurretType == turretType);
+        new TargetFirstEnemy(),
+        new TargetCloseEnemy(),
+        new TargetLastEnemy()
+    };
+
+    public IReadOnlyList<TowerInfoComponent> TurretList { get => m_turretList; }
+    public IReadOnlyList<ITargetMethod> TargetMethodList { get => m_targetMethodList; }
+
+    public bool TryGetTowerPrefab(string turretType, out TowerInfoComponent towerInfoComponent)
+    {
+        towerInfoComponent = TurretList.FirstOrDefault(tower => tower.TowerTypeID == turretType);
         return towerInfoComponent != null;
     }
 }

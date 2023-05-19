@@ -79,3 +79,4 @@ MonoBehaviour:
   UpgradesCollection: {fileID: 11400000, guid: f38a2b08171561648a85fdecf765d17b, type: 2}
   DebugSettings: {fileID: 11400000, guid: ffb0a100a14f00a47a570debdeaec4d5, type: 2}
   ItemMenuButtonPrefab: {fileID: 225751326240966841, guid: 9c71385897edaa1429a56475e6c829c0, type: 3}
+  TowerBoostCollection: {fileID: 0}

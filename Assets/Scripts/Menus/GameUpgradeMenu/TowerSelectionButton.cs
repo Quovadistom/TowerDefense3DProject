@@ -12,14 +12,12 @@ public class TowerSelectionButton : MonoBehaviour
 
     private TurretCollection m_turretCollection;
     private TowerBoostService m_towerUpgradeService;
-    private MenuService m_itemMenuService;
 
     [Inject]
-    public void Construct(TurretCollection turretCollection, TowerBoostService towerUpgradeService, MenuService itemMenuService)
+    public void Construct(TurretCollection turretCollection, TowerBoostService towerUpgradeService)
     {
         m_turretCollection = turretCollection;
         m_towerUpgradeService = towerUpgradeService;
-        m_itemMenuService = itemMenuService;
     }
 
     private void Awake()
@@ -44,10 +42,14 @@ public class TowerSelectionButton : MonoBehaviour
             buttonInfos.Add(new ButtonInfo()
             {
                 Title = infoComponent.gameObject.name,
-                Callback = () => m_towerUpgradeService.UpdateTowerUpgradeCollection(m_towerUpgradeCollection.Index, infoComponent.TowerTypeID)
+                Callback = () =>
+                {
+                    m_towerUpgradeService.UpdateTowerUpgradeCollection(m_towerUpgradeCollection.Index, infoComponent.TowerTypeID);
+                    m_towerUpgradeCollection.UpgradeMenu.CloseItemMenu();
+                }
             });
         }
 
-        m_itemMenuService.RequestItemMenu(buttonInfos);
+        m_towerUpgradeCollection.UpgradeMenu.OpenItemMenu(buttonInfos);
     }
 }

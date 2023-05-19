@@ -13,17 +13,15 @@ public class TowerBoostSelectionButton : MonoBehaviour
 
     private TowerBoostService m_towerUpgradeService;
     private BoostAvailabilityService m_boostAvailabilityService;
-    private MenuService m_itemMenuService;
     private string m_upgradeID;
 
     private int m_index = 0;
 
     [Inject]
-    public void Construct(TowerBoostService towerUpgradeService, BoostAvailabilityService boostAvailabilityService, MenuService itemMenuService)
+    public void Construct(TowerBoostService towerUpgradeService, BoostAvailabilityService boostAvailabilityService)
     {
         m_towerUpgradeService = towerUpgradeService;
         m_boostAvailabilityService = boostAvailabilityService;
-        m_itemMenuService = itemMenuService;
     }
 
     private void Awake()
@@ -32,12 +30,16 @@ public class TowerBoostSelectionButton : MonoBehaviour
         m_button.interactable = false;
         m_index = transform.GetSiblingIndex();
 
-        m_button.interactable = m_towerUpgradeCollection.LinkedTower != null;
-        TowerBoostRow towerUpgradeRow = m_towerUpgradeService.TowerBoostRows.ToArray()[m_towerUpgradeCollection.Index];
-        OnTurretBoostChanged(towerUpgradeRow.TowerType, m_index, towerUpgradeRow.UpgradeIDs[m_index]);
-
         m_towerUpgradeService.TurretUpgradeChanged += OnTurretBoostChanged;
         m_towerUpgradeCollection.TowerSet += OnTowerSet;
+    }
+
+    private void OnEnable()
+    {
+        m_button.interactable = m_towerUpgradeCollection.LinkedTower != null;
+        TowerBoostRow towerUpgradeRow = m_towerUpgradeService.TowerBoostRows.ToArray()[m_towerUpgradeCollection.Index];
+        m_towerUpgradeService.TryGetTowerUpgradeInfo(towerUpgradeRow.UpgradeIDs[m_index], out TowerUpgradeBase towerUpgradeBase);
+        OnTurretBoostChanged(towerUpgradeRow.TowerType, m_index, towerUpgradeBase);
     }
 
     private void OnDestroy()
@@ -64,27 +66,31 @@ public class TowerBoostSelectionButton : MonoBehaviour
                         buttonInfos.Add(new ButtonInfo()
                         {
                             Title = boostInfo.Name,
-                            Callback = () => m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TowerTypeID, m_index, boostInfo.ID)
+                            Callback = () =>
+                            {
+                                m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TowerTypeID, m_index, boostInfo);
+                                m_towerUpgradeCollection.UpgradeMenu.CloseItemMenu();
+                            }
                         });
                     }
                 }
             }
         }
 
-        m_itemMenuService.RequestItemMenu(buttonInfos);
+        m_towerUpgradeCollection.UpgradeMenu.OpenItemMenu(buttonInfos);
     }
 
-    private void OnTurretBoostChanged(string towerType, int index, string upgradeID)
+    private void OnTurretBoostChanged(string towerType, int index, TowerUpgradeBase upgrade)
     {
-        if (m_towerUpgradeCollection.LinkedTower == null || string.IsNullOrEmpty(upgradeID))
+        if (m_towerUpgradeCollection.LinkedTower == null || upgrade == null)
         {
             return;
         }
 
         if (m_towerUpgradeCollection.LinkedTower.TowerTypeID == towerType && m_index == index)
         {
-            m_upgradeID = upgradeID;
-            m_titleText.text = upgradeID;
+            m_upgradeID = upgrade.ID;
+            m_titleText.text = upgrade.Name;
         }
     }
 

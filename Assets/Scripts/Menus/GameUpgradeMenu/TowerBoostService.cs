@@ -31,7 +31,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
     private readonly BoostAvailabilityService m_boostAvailabilityService;
 
     public event Action<int, string> TurretTypeChanged;
-    public event Action<string, int, string> TurretUpgradeChanged;
+    public event Action<string, int, TowerUpgradeBase> TurretUpgradeChanged;
 
     public ICollection<TowerBoostRow> TowerBoostRows => m_towerBoostRows.AsReadOnlyCollection();
 
@@ -43,6 +43,12 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         m_boostAvailabilityService = boostAvailabilityService;
     }
 
+    public bool TryGetTowerUpgradeInfo(string id, out TowerUpgradeBase towerUpgradeBase)
+    {
+        towerUpgradeBase = m_boostCollection.TowerBoostList.Select(x => x.Boost).FirstOrDefault(x => x.ID == id);
+        return towerUpgradeBase != null;
+    }
+
     public void UpdateTowerUpgradeCollection(int upgradeIndex, string turretType)
     {
         m_towerBoostRows[upgradeIndex].TowerType = turretType;
@@ -51,14 +57,14 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         TurretTypeChanged?.Invoke(upgradeIndex, turretType);
     }
 
-    public void UpdateTowerBoostCollection(string towerType, int upgradeIndex, string upgradeID)
+    public void UpdateTowerBoostCollection(string towerType, int upgradeIndex, TowerUpgradeBase upgrade)
     {
         TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerType);
         if (row != null)
         {
-            row.UpgradeIDs[upgradeIndex] = upgradeID;
-            m_boostAvailabilityService.RemoveAvailableBoost(upgradeID);
-            TurretUpgradeChanged?.Invoke(towerType, upgradeIndex, upgradeID);
+            row.UpgradeIDs[upgradeIndex] = upgrade.ID;
+            m_boostAvailabilityService.RemoveAvailableBoost(upgrade.ID);
+            TurretUpgradeChanged?.Invoke(towerType, upgradeIndex, upgrade);
         }
         else
         {

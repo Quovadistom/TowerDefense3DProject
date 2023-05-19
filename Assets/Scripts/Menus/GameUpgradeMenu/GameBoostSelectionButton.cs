@@ -7,20 +7,19 @@ using Zenject;
 
 public class GameBoostSelectionButton : MonoBehaviour
 {
+    [SerializeField] UpgradeMenu m_upgradeMenu;
     [SerializeField] Button m_button;
     [SerializeField] TMP_Text m_titleText;
     private BoostAvailabilityService m_boostAvailabilityService;
     private GameBoostService m_gameBoostService;
-    private MenuService m_itemMenuService;
 
     private int m_index;
 
     [Inject]
-    public void Construct(BoostAvailabilityService boostAvailabilityService, GameBoostService gameBoostService, MenuService itemMenuService)
+    public void Construct(BoostAvailabilityService boostAvailabilityService, GameBoostService gameBoostService)
     {
         m_boostAvailabilityService = boostAvailabilityService;
         m_gameBoostService = gameBoostService;
-        m_itemMenuService = itemMenuService;
     }
 
     private void Awake()
@@ -67,12 +66,16 @@ public class GameBoostSelectionButton : MonoBehaviour
                     buttonInfos.Add(new ButtonInfo()
                     {
                         Title = boostInfo.Name,
-                        Callback = () => m_gameBoostService.AddBoost(m_index, boostInfo.ID)
+                        Callback = () =>
+                        {
+                            m_gameBoostService.AddBoost(m_index, boostInfo);
+                            m_upgradeMenu.CloseItemMenu();
+                        }
                     });
                 }
             }
         }
 
-        m_itemMenuService.RequestItemMenu(buttonInfos);
+        m_upgradeMenu.OpenItemMenu(buttonInfos);
     }
 }

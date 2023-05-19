@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class MenuRequestButton : MonoBehaviour
+public class ToggleMenuButton : MonoBehaviour
 {
-    [SerializeField] private MenuRequestHandler m_menuRequestHandler;
+    [SerializeField] private MenuController m_menuController;
+    [SerializeField] private MenuPage m_pageToToggle;
 
     private Button m_button;
 
@@ -24,13 +22,6 @@ public class MenuRequestButton : MonoBehaviour
 
     private void OnbuttonClick()
     {
-        if (m_menuRequestHandler.IsOpen)
-        {
-            m_menuRequestHandler.HideMenu();
-        }
-        else
-        {
-            m_menuRequestHandler.ShowMenu();
-        }
+        m_menuController.PushOrPopMenuPage(m_pageToToggle);
     }
 }

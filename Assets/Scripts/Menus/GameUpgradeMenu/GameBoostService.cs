@@ -21,13 +21,13 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
         m_boostAvailabilityService = boostAvailabilityService;
     }
 
-    public void RemoveBoost(int index) => AddBoost(index, string.Empty);
+    public void RemoveBoost(int index) => AddBoost(index, null);
 
-    public void AddBoost(int index, string boostID)
+    public void AddBoost(int index, GameUpgradeBase boost)
     {
-        m_gameBoosts[index] = boostID;
-        m_boostAvailabilityService.RemoveAvailableBoost(boostID);
-        GameBoostActivated?.Invoke(index, boostID);
+        m_gameBoosts[index] = boost.ID;
+        m_boostAvailabilityService.RemoveAvailableBoost(boost.ID);
+        GameBoostActivated?.Invoke(index, boost.Name);
     }
 
     public void ApplyBoosts()

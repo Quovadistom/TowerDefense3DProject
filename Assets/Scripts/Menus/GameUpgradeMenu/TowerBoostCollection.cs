@@ -7,6 +7,8 @@ using Zenject;
 
 public class TowerBoostCollection : MonoBehaviour
 {
+    public UpgradeMenu UpgradeMenu;
+
     [SerializeField] private TMP_Text m_itemTitle;
     [SerializeField] private Image m_itemIcon;
 
@@ -25,13 +27,17 @@ public class TowerBoostCollection : MonoBehaviour
         m_towerCollection = towerCollection;
     }
 
-    public void Awake()
+    private void Awake()
     {
         Index = transform.GetSiblingIndex();
-        TowerBoostRow towerUpgradeRow = m_towerUpgradeService.TowerBoostRows.ToArray()[Index];
-        OnTurretTypeChanged(Index, towerUpgradeRow.TowerType);
 
         m_towerUpgradeService.TurretTypeChanged += OnTurretTypeChanged;
+    }
+
+    private void OnEnable()
+    {
+        TowerBoostRow towerUpgradeRow = m_towerUpgradeService.TowerBoostRows.ToArray()[Index];
+        OnTurretTypeChanged(Index, towerUpgradeRow.TowerType);
     }
 
     private void OnDestroy()
@@ -53,4 +59,6 @@ public class TowerBoostCollection : MonoBehaviour
         m_itemTitle.text = tower.gameObject.name;
         TowerSet?.Invoke();
     }
+
+    public class Factory : PlaceholderFactory<TowerBoostCollection> { }
 }

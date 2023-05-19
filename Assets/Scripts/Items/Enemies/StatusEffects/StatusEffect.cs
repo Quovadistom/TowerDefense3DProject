@@ -13,6 +13,7 @@ public enum EffectType
 public abstract class StatusEffect
 {
     public abstract EffectType EffectTypeType { get; }
+    public abstract string EffectName { get; }
 
     public float DamageRate { get; private set; }
     public float EffectTime { get; private set; }

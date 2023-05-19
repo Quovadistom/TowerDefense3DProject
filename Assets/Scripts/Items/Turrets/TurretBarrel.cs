@@ -4,6 +4,9 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
 {
     [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
     [SerializeField] private TowerInfoComponent m_towerInfoComponent;
+    [SerializeField] private TurretStatusEffectComponent m_turretStatusEffectComponent;
+
+    public TurretStatusEffectComponent TurretStatusEffectComponent => m_turretStatusEffectComponent;
 
     private float m_elapsedTime = Mathf.Infinity;
 

@@ -5,9 +5,9 @@ public class ProjectileBase : AttackBase
     private Vector3 m_direction;
     private float m_distanceThisFrame;
 
-    public override void SetEnemy(BasicEnemy target)
+    public override void Initialize(BasicEnemy target, ProjectileProfile bulletProfile, StatusEffect statusEffect)
     {
-        base.SetEnemy(target);
+        base.Initialize(target, bulletProfile, statusEffect);
         m_direction = target.EnemyMiddle.transform.position - this.transform.position;
     }
 

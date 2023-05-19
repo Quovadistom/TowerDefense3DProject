@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletService
@@ -16,12 +14,11 @@ public class BulletService
         Bullets = new Bullets();
     }
 
-    public ProjectileBase CreateNewBullet(ProjectileBase bulletPrefab, Vector3 position, ProjectileProfile bulletProfile, BasicEnemy enemy)
+    public ProjectileBase CreateNewBullet(ProjectileBase bulletPrefab, Vector3 position, ProjectileProfile bulletProfile, BasicEnemy enemy, StatusEffect statusEffect)
     {
-        ProjectileBase newBullet = (ProjectileBase) m_poolingService.GetPooledObject(bulletPrefab);
-        newBullet.SetProfile(bulletProfile);
+        ProjectileBase newBullet = (ProjectileBase)m_poolingService.GetPooledObject(bulletPrefab);
+        newBullet.Initialize(enemy, bulletProfile, statusEffect);
         newBullet.transform.position = position;
-        newBullet.SetEnemy(enemy);
         return newBullet;
     }
 }

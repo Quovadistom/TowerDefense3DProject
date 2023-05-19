@@ -17,7 +17,7 @@ public class TurretProjectileBarrel : TurretBarrel<TurretProjectileComponent>
     {
         foreach (Transform spawnPoint in Component.BulletSpawnPoints.SpawnPoints)
         {
-            m_bulletService.CreateNewBullet(Component.BulletPrefab, spawnPoint.position, Component.ProjectileProfile, basicEnemy);
+            m_bulletService.CreateNewBullet(Component.BulletPrefab, spawnPoint.position, Component.ProjectileProfile, basicEnemy, TurretStatusEffectComponent.StatusEffect);
         }
     }
 }

@@ -4,6 +4,8 @@ public class NoneStatusEffect : StatusEffect
 {
     public override EffectType EffectTypeType => EffectType.NONE;
 
+    public override string EffectName => "None";
+
     public NoneStatusEffect(float damageRate = 0, float effectTime = Mathf.Infinity) : base(damageRate, effectTime)
     {
     }

@@ -2,6 +2,8 @@
 {
     public override EffectType EffectTypeType => EffectType.FIRE;
 
+    public override string EffectName => "Fire";
+
     private float m_damageAmount;
 
     public FireStatusEffect(float damageAmount, float damageRate, float effectTime) : base(damageRate, effectTime)

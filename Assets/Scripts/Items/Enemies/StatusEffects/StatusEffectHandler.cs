@@ -9,18 +9,17 @@ public class StatusEffectHandler : MonoBehaviour
     private float m_statusDamageTime = 0;
     private StatusEffectContext m_statusEffectContext;
 
-    public BasicEnemy Enemy { get; private set; }
+    private BasicEnemy m_enemy;
 
     private void Awake()
     {
-        Enemy = GetComponent<BasicEnemy>();
+        m_enemy = GetComponent<BasicEnemy>();
     }
 
     private void OnEnable()
     {
         m_statusEffectContext = new StatusEffectContext(new NoneStatusEffect());
     }
-
 
     private void Update()
     {
@@ -32,7 +31,7 @@ public class StatusEffectHandler : MonoBehaviour
         {
             if (m_statusEffectCounter >= statusEffect.DamageRate)
             {
-                statusEffect.ApplyEffect(Enemy);
+                statusEffect.ApplyEffect(m_enemy);
                 m_statusEffectCounter = 0;
             }
 

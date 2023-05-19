@@ -5,6 +5,7 @@ public class AttackBase : Poolable
     protected BasicEnemy m_target;
 
     public ProjectileProfile ProjectileProfile { get; private set; }
+    public StatusEffect StatusEffect { get; private set; }
 
     public virtual void Update()
     {
@@ -26,13 +27,10 @@ public class AttackBase : Poolable
     {
     }
 
-    public virtual void SetEnemy(BasicEnemy target)
+    public virtual void Initialize(BasicEnemy target, ProjectileProfile bulletProfile, StatusEffect statusEffect)
     {
         m_target = target;
-    }
-
-    internal void SetProfile(ProjectileProfile bulletProfile)
-    {
         ProjectileProfile = bulletProfile;
+        StatusEffect = statusEffect;
     }
 }

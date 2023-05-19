@@ -942,6 +942,7 @@ GameObject:
   - component: {fileID: 7467617011191364943}
   - component: {fileID: 6559148782362434571}
   - component: {fileID: 2630456992574591144}
+  - component: {fileID: 4936744801291009006}
   m_Layer: 5
   m_Name: EffectDropdown
   m_TagString: Untagged
@@ -1064,6 +1065,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_AlphaFadeSpeed: 0.15
+--- !u!114 &4936744801291009006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7245118793571499509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712f89c2d0902194cbf5f3b8d1830335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedTurretMenu: {fileID: 8565161222687111146}
 --- !u!1 &7852873622063377371
 GameObject:
   m_ObjectHideFlags: 0

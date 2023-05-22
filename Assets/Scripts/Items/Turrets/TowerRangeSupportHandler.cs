@@ -1,9 +1,4 @@
-﻿using Assets.Scripts.Interactables;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TowerRangeSupportHandler : TowerFloatSupportHandler<TurretRangeComponent>
+﻿public class TowerRangeSupportHandler : TowerFloatSupportHandler<TurretRangeComponent>
 {
     protected override float GetFloat(TurretRangeComponent component) => component.Range;
 

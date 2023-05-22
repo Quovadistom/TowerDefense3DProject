@@ -8,8 +8,6 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
     private BoostCollection m_boostCollection;
     private Dictionary<string, int> m_availableBoosts = new();
 
-    public IReadOnlyDictionary<string, int> AvailableBoosts => m_availableBoosts;
-
     protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
 
     public BoostAvailabilityService(BoostCollection boostCollection, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
@@ -30,27 +28,37 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         }
     }
 
-    public bool TryGetTowerBoostInformation(string id, out TowerUpgradeBase towerBoostBase)
+    public Dictionary<TowerUpgradeBase, int> GetAvailableTowerBoosts() => GetAvailableBoostList(m_boostCollection.TowerBoostList);
+    public Dictionary<GameUpgradeBase, int> GetAvailableGameBoosts() => GetAvailableBoostList(m_boostCollection.GameBoostList);
+
+    public Dictionary<T, int> GetAvailableBoostList<T>(IReadOnlyList<BoostContainer<T>> boostContainerList) where T : UpgradeBase
     {
-        towerBoostBase = null;
-        if (!string.IsNullOrEmpty(id))
+        Dictionary<T, int> keyValuePairs = new();
+
+        foreach (var boost in m_availableBoosts)
         {
-            towerBoostBase = m_boostCollection.TowerBoostList.FirstOrDefault(boost => boost.Boost.ID == id)?.Boost;
+            if (TryGetBoost(boost.Key, boostContainerList, out T towerBoostBase))
+            {
+                keyValuePairs.Add(towerBoostBase, boost.Value);
+            }
         }
 
-        return towerBoostBase != null;
+        return keyValuePairs;
     }
 
-    public bool TryGetGameBoostInformation(string id, out GameUpgradeBase towerBoostBase)
+    public bool TryGetTowerBoost(string id, out TowerUpgradeBase gameUpgradeBase) => TryGetBoost(id, m_boostCollection.TowerBoostList, out gameUpgradeBase);
+    public bool TryGetGameBoost(string id, out GameUpgradeBase gameUpgradeBase) => TryGetBoost(id, m_boostCollection.GameBoostList, out gameUpgradeBase);
+
+    public bool TryGetBoost<T>(string id, IReadOnlyList<BoostContainer<T>> boostContainerList, out T boost) where T : UpgradeBase
     {
-        towerBoostBase = null;
+        boost = null;
 
         if (!string.IsNullOrEmpty(id))
         {
-            towerBoostBase = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.Boost.ID == id)?.Boost;
+            boost = boostContainerList.FirstOrDefault(boost => boost.Boost.ID == id)?.Boost;
         }
 
-        return towerBoostBase != null;
+        return boost != null;
     }
 
     public void AddAvailableBoost(string boostID)

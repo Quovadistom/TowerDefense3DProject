@@ -12,8 +12,8 @@ public class SupportTowerSelector : MonoBehaviour
 
     private SelectionService m_selectionService;
     private ColorSettings m_colorSettings;
-    private List<Type> m_suitableTowerTypes = new();
     private List<Selectable> m_suitableTowers = new();
+    private List<Func<TowerInfoComponent, bool>> m_suitableTowerArguments = new();
 
     public event Action<Selectable> TowerClicked;
     public event Action<Selectable> SerializedTowerAdded;
@@ -32,26 +32,27 @@ public class SupportTowerSelector : MonoBehaviour
         m_selectable.ObjectSelected += OnSelected;
     }
 
-    protected virtual void OnDestroy()
-    {
-        CancelTowerSelection();
-        m_selectable.ObjectSelected -= OnSelected;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out Selectable selectable) && selectable != m_selectable)
         {
-            if (selectable.GameObjectToSelect.GetComponents<ITowerComponent>().Any(component => m_suitableTowerTypes.Contains(component.GetType())))
+            if (!selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent))
             {
-                selectable.Destroyed += RemoveTower;
+                return;
+            }
 
-                m_suitableTowers.Add(selectable);
+            if (m_suitableTowerArguments.All(isTowerSuitable => !isTowerSuitable.Invoke(towerInfoComponent)))
+            {
+                return;
+            }
 
-                if (selectable.GameObjectToSelect.GetComponent<TowerInfoComponent>().ConnectedSupportTowers.Contains(m_towerInfoComponent.TowerID))
-                {
-                    SerializedTowerAdded?.Invoke(selectable);
-                }
+            selectable.Destroyed += RemoveTower;
+
+            m_suitableTowers.Add(selectable);
+
+            if (towerInfoComponent.ConnectedSupportTowers.Contains(m_towerInfoComponent.TowerID))
+            {
+                SerializedTowerAdded?.Invoke(selectable);
             }
         }
     }
@@ -66,13 +67,19 @@ public class SupportTowerSelector : MonoBehaviour
         }
     }
 
+    protected virtual void OnDestroy()
+    {
+        CancelTowerSelection();
+        m_selectable.ObjectSelected -= OnSelected;
+    }
+
+    public void AddArgument(Func<TowerInfoComponent, bool> func) => m_suitableTowerArguments.Add(func);
+
     private void RemoveTower(Selectable selectable)
     {
         m_suitableTowers.TryRemove(selectable);
         TowerRemoved?.Invoke(selectable);
     }
-
-    public void AddSuitableType<T>() => m_suitableTowerTypes.Add(typeof(T));
 
     private void OnSelected()
     {

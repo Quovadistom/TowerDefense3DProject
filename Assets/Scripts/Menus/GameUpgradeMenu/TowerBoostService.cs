@@ -45,7 +45,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
 
     public bool TryGetTowerUpgradeInfo(string id, out TowerUpgradeBase towerUpgradeBase)
     {
-        towerUpgradeBase = m_boostCollection.TowerBoostList.Select(x => x.Boost).FirstOrDefault(x => x.ID == id);
+        towerUpgradeBase = (TowerUpgradeBase)m_boostCollection.TowerBoostList.Select(x => x.Boost).FirstOrDefault(x => x.ID == id);
         return towerUpgradeBase != null;
     }
 
@@ -81,7 +81,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
             {
                 if (!string.IsNullOrEmpty(upgradeID))
                 {
-                    TowerUpgradeBase upgrade = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Boost.ID == upgradeID).Boost;
+                    TowerUpgradeBase upgrade = (TowerUpgradeBase)m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Boost.ID == upgradeID).Boost;
                     if (upgrade != null)
                     {
                         upgrade.TryApplyUpgrade(towerInfoComponent);

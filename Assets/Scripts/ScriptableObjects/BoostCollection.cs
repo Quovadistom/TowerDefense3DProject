@@ -12,7 +12,7 @@ public enum Rarity
 }
 
 [Serializable]
-public class BoostContainer<T>
+public class BoostContainer<T> where T : UpgradeBase
 {
     public T Boost;
     public Rarity Rarity = Rarity.COMMON;
@@ -38,6 +38,7 @@ public class BoostCollection : ScriptableObject
 
     public IReadOnlyList<BoostContainer<TowerUpgradeBase>> TowerBoostList { get => m_towerBoostList; }
     public IReadOnlyList<BoostContainer<GameUpgradeBase>> GameBoostList { get => m_gameBoostList; }
+
     private int GetWeight(Rarity rarity, int wave)
     {
         // If above a certain wave, keep the same chances

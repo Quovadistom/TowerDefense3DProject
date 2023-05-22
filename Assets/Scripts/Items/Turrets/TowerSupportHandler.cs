@@ -30,7 +30,12 @@ public abstract class TowerSupportHandler<T> : MonoBehaviour where T : MonoBehav
         m_supportTowerSelector.TowerRemoved += OnTowerRemoved;
         m_supportTowerSelector.ThisTowerSelected += OnThisTowerSelected;
 
-        m_supportTowerSelector.AddSuitableType<T>();
+        AddArgument((tower) => tower.GetComponent<T>() != null);
+    }
+
+    protected void AddArgument(Func<TowerInfoComponent, bool> argument)
+    {
+        m_supportTowerSelector.AddArgument(argument);
     }
 
     protected virtual void OnDestroy()

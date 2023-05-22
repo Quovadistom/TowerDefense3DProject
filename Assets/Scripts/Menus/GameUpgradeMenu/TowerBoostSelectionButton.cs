@@ -55,26 +55,22 @@ public class TowerBoostSelectionButton : MonoBehaviour
 
         ITowerComponent[] towerComponents = m_towerUpgradeCollection.LinkedTower.GetComponents<ITowerComponent>();
 
-        foreach (KeyValuePair<string, int> boost in m_boostAvailabilityService.AvailableBoosts)
+        IEnumerable<KeyValuePair<TowerUpgradeBase, int>> suitableBoosts = m_boostAvailabilityService.GetAvailableTowerBoosts().Where(boost =>
         {
-            if (m_boostAvailabilityService.TryGetTowerBoostInformation(boost.Key, out TowerUpgradeBase boostInfo))
+            return boost.Key.IsTowerSuitable(m_towerUpgradeCollection.LinkedTower);
+        });
+
+        foreach (var boost in suitableBoosts)
+        {
+            buttonInfos.Add(new ButtonInfo()
             {
-                if (towerComponents.FirstOrDefault(component => component.GetType() == boostInfo.TowerComponentType) != null)
+                Title = boost.Key.Name,
+                Callback = () =>
                 {
-                    for (int i = 0; i < boost.Value; i++)
-                    {
-                        buttonInfos.Add(new ButtonInfo()
-                        {
-                            Title = boostInfo.Name,
-                            Callback = () =>
-                            {
-                                m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TowerTypeID, m_index, boostInfo);
-                                m_towerUpgradeCollection.UpgradeMenu.CloseItemMenu();
-                            }
-                        });
-                    }
+                    m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TowerTypeID, m_index, boost.Key);
+                    m_towerUpgradeCollection.UpgradeMenu.CloseItemMenu();
                 }
-            }
+            });
         }
 
         m_towerUpgradeCollection.UpgradeMenu.OpenItemMenu(buttonInfos);

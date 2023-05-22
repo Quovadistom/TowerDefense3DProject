@@ -4,7 +4,7 @@ using UnityEngine;
 public class TowerSupportComponent : ChangeVisualComponent, ITowerComponent
 {
     [SerializeField] private float m_upgradePercentageSingleTower = 100;
-    [Range(0, 1)] [SerializeField] private float m_sharedTowerFactor = 1;
+    [Range(0, 1)][SerializeField] private float m_sharedTowerFactor = 1;
 
     public event Action<float> UpgradePercentageUpdated;
     public event Action<float> SharedTowerFactorUpdated;

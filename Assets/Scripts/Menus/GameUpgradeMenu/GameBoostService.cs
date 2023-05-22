@@ -34,7 +34,7 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
     {
         foreach (string boostID in m_gameBoosts.Where(id => !string.IsNullOrEmpty(id)))
         {
-            if (m_boostAvailabilityService.TryGetGameBoostInformation(boostID, out var boostInfo))
+            if (m_boostAvailabilityService.TryGetGameBoost(boostID, out var boostInfo))
             {
                 m_gameBoostValues = boostInfo.ApplyUpgrade(m_gameBoostValues);
             }

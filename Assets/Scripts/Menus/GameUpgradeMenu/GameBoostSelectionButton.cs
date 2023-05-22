@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,10 +26,10 @@ public class GameBoostSelectionButton : MonoBehaviour
         m_button.onClick.AddListener(OnButtonClicked);
         m_index = transform.GetSiblingIndex();
 
-        if (m_boostAvailabilityService.TryGetGameBoostInformation(m_gameBoostService.GameBoosts.ElementAt(m_index), out GameUpgradeBase gameBoostBase))
-        {
-            SetButtonInfo(gameBoostBase.name);
-        }
+        //if (m_boostAvailabilityService.TryGetGameBoostInformation(m_gameBoostService.GameBoosts.ElementAt(m_index), out GameUpgradeBase gameBoostBase))
+        //{
+        //    SetButtonInfo(gameBoostBase.name);
+        //}
 
         m_gameBoostService.GameBoostActivated += OnGameBoostActivated;
     }
@@ -55,24 +54,21 @@ public class GameBoostSelectionButton : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        List<ButtonInfo> buttonInfos = new List<ButtonInfo>();
+        List<ButtonInfo> buttonInfos = new();
 
-        foreach (KeyValuePair<string, int> boost in m_boostAvailabilityService.AvailableBoosts)
+        foreach (KeyValuePair<GameUpgradeBase, int> boost in m_boostAvailabilityService.GetAvailableGameBoosts())
         {
-            if (m_boostAvailabilityService.TryGetGameBoostInformation(boost.Key, out GameUpgradeBase boostInfo))
+            for (int i = 0; i < boost.Value; i++)
             {
-                for (int i = 0; i < boost.Value; i++)
+                buttonInfos.Add(new ButtonInfo()
                 {
-                    buttonInfos.Add(new ButtonInfo()
+                    Title = boost.Key.Name,
+                    Callback = () =>
                     {
-                        Title = boostInfo.Name,
-                        Callback = () =>
-                        {
-                            m_gameBoostService.AddBoost(m_index, boostInfo);
-                            m_upgradeMenu.CloseItemMenu();
-                        }
-                    });
-                }
+                        m_gameBoostService.AddBoost(m_index, boost.Key);
+                        m_upgradeMenu.CloseItemMenu();
+                    }
+                });
             }
         }
 

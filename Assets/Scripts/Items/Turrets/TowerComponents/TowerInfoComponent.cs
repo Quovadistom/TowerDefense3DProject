@@ -37,8 +37,11 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
 
     private void Awake()
     {
-        UpgradeTreeData = Instantiate(m_upgradeTreeData);
-        UpgradeTreeData.Initialize();
+        if (UpgradeTreeData != null)
+        {
+            UpgradeTreeData = Instantiate(m_upgradeTreeData);
+            UpgradeTreeData.Initialize();
+        }
 
         Draggable.PlacementRequested += OnTowerPlaced;
     }

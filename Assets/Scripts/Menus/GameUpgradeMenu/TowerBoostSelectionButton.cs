@@ -38,8 +38,8 @@ public class TowerBoostSelectionButton : MonoBehaviour
     {
         m_button.interactable = m_towerUpgradeCollection.LinkedTower != null;
         TowerBoostRow towerUpgradeRow = m_towerUpgradeService.TowerBoostRows.ToArray()[m_towerUpgradeCollection.Index];
-        m_towerUpgradeService.TryGetTowerUpgradeInfo(towerUpgradeRow.UpgradeIDs[m_index], out TowerUpgradeBase towerUpgradeBase);
-        OnTurretBoostChanged(towerUpgradeRow.TowerType, m_index, towerUpgradeBase);
+        m_towerUpgradeService.TryGetTowerUpgradeInfo(towerUpgradeRow.UpgradeIDs[m_index], out BoostContainer boostContainer);
+        OnTurretBoostChanged(towerUpgradeRow.TowerType, m_index, boostContainer);
     }
 
     private void OnDestroy()
@@ -51,13 +51,11 @@ public class TowerBoostSelectionButton : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        List<ButtonInfo> buttonInfos = new List<ButtonInfo>();
+        List<ButtonInfo> buttonInfos = new();
 
-        ITowerComponent[] towerComponents = m_towerUpgradeCollection.LinkedTower.GetComponents<ITowerComponent>();
-
-        IEnumerable<KeyValuePair<TowerUpgradeBase, int>> suitableBoosts = m_boostAvailabilityService.GetAvailableTowerBoosts().Where(boost =>
+        IEnumerable<KeyValuePair<BoostContainer, int>> suitableBoosts = m_boostAvailabilityService.GetAvailableBoostList().Where(boost =>
         {
-            return boost.Key.IsTowerSuitable(m_towerUpgradeCollection.LinkedTower);
+            return boost.Key.IsBoostSuitable(m_towerUpgradeCollection.LinkedTower);
         });
 
         foreach (var boost in suitableBoosts)
@@ -67,7 +65,9 @@ public class TowerBoostSelectionButton : MonoBehaviour
                 Title = boost.Key.Name,
                 Callback = () =>
                 {
-                    m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.TowerTypeID, m_index, boost.Key);
+                    m_boostAvailabilityService.AddAvailableBoost(m_upgradeID);
+                    boost.Key.TargetObjectID = m_towerUpgradeCollection.LinkedTower.ComponentID;
+                    m_towerUpgradeService.UpdateTowerBoostCollection(m_towerUpgradeCollection.LinkedTower.ComponentID, m_index, boost.Key);
                     m_towerUpgradeCollection.UpgradeMenu.CloseItemMenu();
                 }
             });
@@ -76,16 +76,16 @@ public class TowerBoostSelectionButton : MonoBehaviour
         m_towerUpgradeCollection.UpgradeMenu.OpenItemMenu(buttonInfos);
     }
 
-    private void OnTurretBoostChanged(string towerType, int index, TowerUpgradeBase upgrade)
+    private void OnTurretBoostChanged(string towerType, int index, BoostContainer upgrade)
     {
         if (m_towerUpgradeCollection.LinkedTower == null || upgrade == null)
         {
             return;
         }
 
-        if (m_towerUpgradeCollection.LinkedTower.TowerTypeID == towerType && m_index == index)
+        if (m_towerUpgradeCollection.LinkedTower.ComponentID == towerType && m_index == index)
         {
-            m_upgradeID = upgrade.ID;
+            m_upgradeID = upgrade.Name;
             m_titleText.text = upgrade.Name;
         }
     }

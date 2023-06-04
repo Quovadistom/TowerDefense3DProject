@@ -1,7 +1,4 @@
 using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -23,20 +20,17 @@ public class GameOverScreen : MonoBehaviour
         m_canvasGroup.gameObject.SetActive(false);
         m_canvasGroup.alpha = 0f;
 
-        m_levelService.HealthChanged += OnHealthChanged;
+        m_levelService.GameOverRequested += OnHealthChanged;
     }
 
     private void OnDestroy()
     {
-        m_levelService.HealthChanged -= OnHealthChanged;
+        m_levelService.GameOverRequested -= OnHealthChanged;
     }
 
-    private void OnHealthChanged(int health)
+    private void OnHealthChanged()
     {
-        if (health == 0)
-        {
-            m_canvasGroup.gameObject.SetActive(true);
-            m_canvasGroup.DOFade(1, m_fadeInTime).SetUpdate(true);
-        }
+        m_canvasGroup.gameObject.SetActive(true);
+        m_canvasGroup.DOFade(1, m_fadeInTime).SetUpdate(true);
     }
 }

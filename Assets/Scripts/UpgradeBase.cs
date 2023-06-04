@@ -1,19 +1,8 @@
-﻿using NaughtyAttributes;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class UpgradeBase : ScriptableObject
+public abstract class UpgradeBase : ScriptableObject
 {
-    [ReadOnly][SerializeField] private string m_id;
+    public abstract bool IsObjectSuitable(ComponentParent componentParent);
 
-    [SerializeField] protected string m_upgradeName;
-
-    public string ID => m_id.ToString();
-
-    public string Name => m_upgradeName;
-
-    private void Reset()
-    {
-        m_id = Guid.NewGuid().ToString();
-    }
+    public abstract void TryApplyUpgrade(ComponentParent componentParent);
 }

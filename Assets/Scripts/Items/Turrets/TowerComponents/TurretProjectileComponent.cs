@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public class TurretProjectileComponent : ChangeVisualComponent, ITowerComponent
+public class TurretProjectileComponent : ChangeVisualComponent
 {
-    [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
     [SerializeField] private BulletSpawnPoints m_bulletSpawnPoints;
     [SerializeField] private ProjectileBase m_bulletPrefab;
     [SerializeField] private float m_fireRate;

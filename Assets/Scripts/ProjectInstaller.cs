@@ -24,6 +24,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<SerializationService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<DifficultyService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TowerBoostService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<BoostService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<BoostAvailabilityService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<GameBoostService>().AsSingle().NonLazy();
 

@@ -1,14 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using Zenject;
 
-public class HealthCounter : MonoBehaviour
+public class HealthCounter : ComponentWithUpgradeBase
 {
     public TMP_Text m_text;
     private LevelService m_levelService;
+
+    public HealthComponent HealthComponent;
 
     [Inject]
     public void Construct(LevelService levelService)
@@ -16,19 +14,28 @@ public class HealthCounter : MonoBehaviour
         m_levelService = levelService;
     }
 
-    private void Awake()
+    protected void Awake()
     {
-        OnHealthChanged(m_levelService.Health);
-        m_levelService.HealthChanged += OnHealthChanged;
+        OnHealthComponentUpdated(HealthComponent.Health);
+        HealthComponent.OnHealthChange += OnHealthComponentUpdated;
     }
 
     private void OnDestroy()
     {
-        m_levelService.HealthChanged -= OnHealthChanged;
+        HealthComponent.OnHealthChange -= OnHealthComponentUpdated;
     }
 
-    private void OnHealthChanged(int currentHealth)
+    private void OnHealthComponentUpdated(int health)
     {
-        m_text.text = currentHealth.ToString();
+        if (health == 0)
+        {
+            m_levelService.SetGameOver();
+        }
+        else if (health < 0)
+        {
+            return;
+        }
+
+        m_text.text = health.ToString();
     }
 }

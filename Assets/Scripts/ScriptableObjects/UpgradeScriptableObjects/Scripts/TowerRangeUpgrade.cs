@@ -1,18 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "TowerRangeUpgrade", menuName = "ScriptableObjects/Upgrades/TowerRangeUpgrade")]
-public class TowerRangeUpgrade : TowerUpgrade<TurretRangeComponent>
+public class TowerRangeUpgrade : Upgrade<RangeComponent>
 {
     [SerializeField] private float m_increasePercentage;
 
-    protected override void ApplyUpdate(TurretRangeComponent turretComponent)
+    public override Action<RangeComponent> ComponentAction
     {
-        turretComponent.Range = turretComponent.Range.AddPercentage(m_increasePercentage);
-
-        if (m_newVisual != null)
+        get
         {
-            turretComponent.Visual = m_newVisual;
+            return (component) =>
+            {
+                component.Range = component.Range.AddPercentage(m_increasePercentage);
+            };
         }
     }
 }
-

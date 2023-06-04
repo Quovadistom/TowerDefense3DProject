@@ -9,38 +9,15 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 
     private int m_health = 10;
     private int m_money = 1000;
-    private GameBoostService m_gameBoostService;
+    private BoostService m_boostService;
 
-    public LevelService(GameBoostService gameBoostService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public LevelService(BoostService boostService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
-        m_gameBoostService = gameBoostService;
-        m_gameBoostService.AllGameBoostsApplied += OnGameBoostsApplied;
+        m_boostService = boostService;
     }
 
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        m_gameBoostService.ApplyBoosts();
-    }
-
-    private void OnGameBoostsApplied(GameUpgradeValues gameBoostValues)
-    {
-        Health += gameBoostValues.Health;
-    }
-
-    public event Action<int> HealthChanged;
     public event Action<int> MoneyChanged;
-
-    public int Health
-    {
-        get { return m_health; }
-        set
-        {
-            m_health = Mathf.Max(0, value);
-            HealthChanged?.Invoke(m_health);
-        }
-    }
+    public event Action GameOverRequested;
 
     public int Money
     {
@@ -61,14 +38,17 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 
     protected override void ConvertDtoBack(LevelServiceDTO dto)
     {
-        Health = dto.Health;
         Money = dto.Money;
     }
 
     protected override void ConvertDto()
     {
-        Dto.Health = Health;
         Dto.Money = Money;
+    }
+
+    public void SetGameOver()
+    {
+        GameOverRequested?.Invoke();
     }
 }
 

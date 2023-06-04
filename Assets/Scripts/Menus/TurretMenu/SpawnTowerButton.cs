@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -17,10 +15,10 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     public TowerInfoComponent TurretToSpawn { get; set; }
 
     [Inject]
-    public void Construct(TowerInfoComponent.Factory turretFactory, 
-        TouchInputService touchInputService, 
-        LayerSettings layerSettings, 
-        LevelService levelService, 
+    public void Construct(TowerInfoComponent.Factory turretFactory,
+        TouchInputService touchInputService,
+        LayerSettings layerSettings,
+        LevelService levelService,
         DraggingService draggingService)
     {
         m_turretFactory = turretFactory;
@@ -53,7 +51,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 
     private bool IsButtonInteractable()
     {
-        bool canBuyTurret = TurretToSpawn.Value <= m_levelService.Money;
+        bool canBuyTurret = true; // TurretToSpawn.Value <= m_levelService.Money;
         bool canPlaceTurret = !m_draggingService.IsDraggingInProgress;
 
         return canBuyTurret && canPlaceTurret;

@@ -14,23 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Structure:
   - TowerUpgrades:
-    - m_name: Range 1
-      m_id: 79b2e835-e0f7-40e1-b860-f7dab45f7c2b
+    - m_upgradeName: 
       UpgradeCost: 0
       IsBought: 0
       RequiredFor: []
-      TowerUpgrade: {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
-  - TowerUpgrades:
-    - m_name: Range 2
-      m_id: e00893fb-4af2-4c71-9cb5-ef70b41e7089
-      UpgradeCost: 0
-      IsBought: 0
-      RequiredFor: []
-      TowerUpgrade: {fileID: 11400000, guid: 2ee6e63eedafba64db390ae9540a835a, type: 2}
-  - TowerUpgrades:
-    - m_name: Range 3
-      m_id: 465fb437-d3ba-4da1-9474-3b7cf7371e67
-      UpgradeCost: 0
-      IsBought: 0
-      RequiredFor: []
-      TowerUpgrade: {fileID: 11400000, guid: 8d6ba8126374a95428dd2baac8bde64d, type: 2}
+      TowerUpgrades:
+      - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}

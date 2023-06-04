@@ -1,13 +1,13 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class TurretCloseRange : TurretBarrel<TurretCloseRangeComponent>
+public class TurretCloseRange : TurretBarrel
 {
     [SerializeField] private float m_conversionFactor;
     [SerializeField] private Transform m_sphereCollider;
     [SerializeField] private SkinnedMeshRenderer m_skinnedMeshRenderer;
 
-    public override float Interval => Component.Firerate;
+    public override float Interval => 0.5f; //Component.Firerate;
     public bool IsMovingToTarget = false;
 
     private Vector3 m_basePosition;
@@ -35,7 +35,7 @@ public class TurretCloseRange : TurretBarrel<TurretCloseRangeComponent>
 
         IsMovingToTarget = false;
 
-        m_sequence.Append(m_sphereCollider.DOLocalMove(m_basePosition, Component.Firerate / 5)).
+        m_sequence.Append(m_sphereCollider.DOLocalMove(m_basePosition, 0.5f / 5)).
             AppendCallback(() => UpdateAndFollowTarget = true);
     }
 
@@ -46,9 +46,9 @@ public class TurretCloseRange : TurretBarrel<TurretCloseRangeComponent>
         UpdateAndFollowTarget = false;
         IsMovingToTarget = true;
 
-        m_sequence.Append(m_sphereCollider.DOMove(basicEnemy.EnemyMiddle.position, Component.Firerate / 5)).
+        m_sequence.Append(m_sphereCollider.DOMove(basicEnemy.EnemyMiddle.position, 0.5f / 5)).
             AppendCallback(() => IsMovingToTarget = false).
-            Append(m_sphereCollider.DOLocalMove(m_basePosition, Component.Firerate / 5)).
+            Append(m_sphereCollider.DOLocalMove(m_basePosition, 0.5f / 5)).
             AppendCallback(() => UpdateAndFollowTarget = true);
     }
 }

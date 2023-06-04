@@ -1,15 +1,13 @@
 using Assets.Scripts.Interactables;
-using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class TowerInfoComponent : ValueComponent, ITowerComponent
+public class TowerInfoComponent : ComponentParent
 {
     [SerializeField] private TowerUpgradeTreeData m_upgradeTreeData;
 
-    [ReadOnly] public string TowerTypeID;
     public Selectable Selectable;
     public Draggable Draggable;
 
@@ -17,27 +15,24 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
     private SelectionService m_selectionService;
 
     public int AvailableUpgradeAmount = 5;
+
     public Guid TowerID { get; private set; }
     public List<Guid> ConnectedSupportTowers { get; set; } = new List<Guid>();
     public bool IsTowerPlaced { get; private set; } = false;
     public TowerUpgradeTreeData UpgradeTreeData { get; private set; }
 
-    [Button]
-    public void GenerateID()
-    {
-        TowerTypeID = Guid.NewGuid().ToString();
-    }
-
     [Inject]
-    public void Construct(TowerService turretService, SelectionService selectionService)
+    private void Construct(TowerService turretService, SelectionService selectionService)
     {
         m_turretService = turretService;
         m_selectionService = selectionService;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (UpgradeTreeData != null)
+        base.Awake();
+
+        if (m_upgradeTreeData != null)
         {
             UpgradeTreeData = Instantiate(m_upgradeTreeData);
             UpgradeTreeData.Initialize();
@@ -67,7 +62,7 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
         TowerID = Guid.NewGuid();
         m_selectionService.ForceClearSelected();
         EnableTowerDragging();
-        SubtractCost();
+        //SubtractCost();
     }
 
     public void PlaceNewTower(Guid towerID, Vector3 position, TowerUpgradeTreeData treeData, List<Guid> connectedSupportTowers)
@@ -84,18 +79,5 @@ public class TowerInfoComponent : ValueComponent, ITowerComponent
 
     public class Factory : PlaceholderFactory<TowerInfoComponent, TowerInfoComponent>
     {
-        private TowerBoostService m_towerUpgradeService;
-
-        public Factory(TowerBoostService towerUpgradeService)
-        {
-            m_towerUpgradeService = towerUpgradeService;
-        }
-
-        public override TowerInfoComponent Create(TowerInfoComponent param)
-        {
-            TowerInfoComponent tower = base.Create(param);
-            m_towerUpgradeService.SetTowerBoosts(tower);
-            return tower;
-        }
     }
 }

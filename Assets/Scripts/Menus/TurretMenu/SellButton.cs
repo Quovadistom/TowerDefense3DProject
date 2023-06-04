@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -24,8 +21,8 @@ public class SellButton : MonoBehaviour
     private void Awake()
     {
         m_button.onClick.AddListener(OnButtonClick);
-    }    
-    
+    }
+
     private void OnDestroy()
     {
         m_button.onClick.RemoveListener(OnButtonClick);
@@ -33,7 +30,7 @@ public class SellButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        m_levelService.Money += m_selectedTurretMenu.SelectedTurret.Value; // TODO: Times a sellback factor?
+        //m_levelService.Money += m_selectedTurretMenu.SelectedTurret.Value; // TODO: Times a sellback factor?
         m_towerService.RemoveTower(m_selectedTurretMenu.SelectedTurret);
         Destroy(m_selectedTurretMenu.SelectedTurret.gameObject);
     }

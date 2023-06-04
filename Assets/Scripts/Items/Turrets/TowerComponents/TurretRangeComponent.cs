@@ -1,8 +1,7 @@
-﻿using NaughtyAttributes;
-using System;
+﻿using System;
 using UnityEngine;
 
-public class TurretRangeComponent : ChangeVisualComponent, ITowerComponent
+public class TurretRangeComponent : ChangeVisualComponent
 {
     [SerializeField] private float m_range = 4;
 

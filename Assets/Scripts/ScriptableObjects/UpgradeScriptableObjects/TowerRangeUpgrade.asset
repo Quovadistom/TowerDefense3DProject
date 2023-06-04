@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_id: 79b2e835-e0f7-40e1-b860-f7dab45f7c2b
   m_upgradeName: Range 1
-  m_newVisual: {fileID: 5751905902034225220, guid: 89f860ecdba9a9c4db38a42bcb84a5f0, type: 3}
   m_increasePercentage: 100
+  m_newBarrel: {fileID: 8245188047922882460, guid: f300a9e34a7570747bbfee6db180856f, type: 3}

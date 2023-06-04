@@ -8,16 +8,13 @@ using UnityEngine;
 [Serializable]
 public class TowerUpgradeData
 {
-    [AllowNesting][ReadOnly][SerializeField] private string m_name;
-    [AllowNesting][ReadOnly][SerializeField] private string m_id;
-
-    public string ID => m_id;
+    [SerializeField] private string m_upgradeName;
+    public string Name => m_upgradeName;
     public int UpgradeCost = 100;
     public bool IsBought = false;
-    [InfoBox("Select the ID of the upgrade(s) this one is required for. The next element in this row is already included!")]
     public List<string> RequiredFor = new();
 
-    [JsonIgnore][AllowNesting][OnValueChanged(nameof(ValidateTower))] public TowerUpgradeBase TowerUpgrade;
+    [JsonIgnore][Expandable] public UpgradeBase[] TowerUpgrades;
 
     private int m_unlockSignals;
     public int UnlockSignals
@@ -32,23 +29,25 @@ public class TowerUpgradeData
 
     public event Action<bool> UnlockSignalsChanged;
 
-    public void ValidateTower()
-    {
-        m_id = TowerUpgrade != null ? TowerUpgrade.ID : "No upgrade added!";
-        m_name = TowerUpgrade != null ? TowerUpgrade.Name : string.Empty;
-    }
-
     public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerInfoComponent towerInfoComponent)
     {
-        if (treeToCopy.TryGetTowerUpgradeData(m_id, out TowerUpgradeData towerUpgradeData))
+        if (treeToCopy.TryGetTowerUpgradeData(Name, out TowerUpgradeData towerUpgradeData))
         {
             IsBought = towerUpgradeData.IsBought;
             UnlockSignals = towerUpgradeData.UnlockSignals;
 
             if (IsBought)
             {
-                TowerUpgrade.TryApplyUpgrade(towerInfoComponent);
+                ApplyUpgrades(towerInfoComponent);
             }
+        }
+    }
+
+    public void ApplyUpgrades(TowerInfoComponent towerInfoComponent)
+    {
+        foreach (UpgradeBase upgradeData in TowerUpgrades)
+        {
+            upgradeData.TryApplyUpgrade(towerInfoComponent);
         }
     }
 }
@@ -83,7 +82,7 @@ public class TowerUpgradeTreeData : ScriptableObject
 
                 if (i + 1 < towerUpgradeTreeRow.TowerUpgrades.Count)
                 {
-                    towerUpgradeData.RequiredFor.Add(towerUpgradeTreeRow.TowerUpgrades[i + 1].ID);
+                    towerUpgradeData.RequiredFor.Add(towerUpgradeTreeRow.TowerUpgrades[i + 1].Name);
                 }
 
                 foreach (TowerUpgradeData upgradeData in GetTowerUpgradesDatas(towerUpgradeData.RequiredFor))
@@ -109,7 +108,7 @@ public class TowerUpgradeTreeData : ScriptableObject
 
         foreach (TowerUpgradeTreeRow row in Structure)
         {
-            data = row.TowerUpgrades.FirstOrDefault(upgrade => upgrade.ID == ID);
+            data = row.TowerUpgrades.FirstOrDefault(upgrade => upgrade.Name == ID);
             if (data != null)
             {
                 return true;

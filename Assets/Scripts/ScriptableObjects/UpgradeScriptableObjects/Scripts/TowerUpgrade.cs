@@ -1,24 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
 
-public abstract class TowerUpgrade<T> : TowerUpgradeBase where T : Component
+public abstract class Upgrade<T> : UpgradeBase where T : ComponentBase
 {
-    public override bool IsTowerSuitable(TowerInfoComponent component)
+    public abstract Action<T> ComponentAction { get; }
+
+    public override bool IsObjectSuitable(ComponentParent component)
     {
-        return component.TryGetComponent(out T foundComponent);
+        return component.HasComponent<T>();
     }
 
-    public override void TryApplyUpgrade(TowerInfoComponent towerInfoComponent)
+    public override void TryApplyUpgrade(ComponentParent towerInfoComponent)
     {
-        if (towerInfoComponent.TryGetComponent(out T turretComponent))
-        {
-            ApplyUpdate(turretComponent);
-        }
-        else
-        {
-            Debug.LogError($"This tower does not contain type {typeof(T)}, unable to apply update!");
-        }
+        towerInfoComponent.TryFindAndActOnComponent<T>(ComponentAction);
     }
-
-    protected abstract void ApplyUpdate(T turretComponent);
 }
-

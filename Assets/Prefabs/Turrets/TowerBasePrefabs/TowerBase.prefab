@@ -291,8 +291,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7953795489164966463}
   - component: {fileID: 7352623618096459969}
-  - component: {fileID: 4807116374305278294}
-  - component: {fileID: 8049537585830810393}
   m_Layer: 0
   m_Name: TowerBase
   m_TagString: Untagged
@@ -336,33 +334,6 @@ MonoBehaviour:
   Selectable: {fileID: 4022932716744111603}
   Draggable: {fileID: 1853222405557904121}
   AvailableUpgradeAmount: 5
---- !u!114 &4807116374305278294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5412388154942003560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aee232ed27c55941aa36cda7a1af9f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TowerInfoComponent: {fileID: 7352623618096459969}
-  m_range: 3
---- !u!114 &8049537585830810393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5412388154942003560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d34ed272e577924b81c8099092ca43f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_towerAvailableUpgradeCount: 5
 --- !u!1 &6537610277282930375
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,11 +380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aa92bfabc834a9419a50b181f23c72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Component: {fileID: 4807116374305278294}
-  m_baseVisualToChange: {fileID: 1707157865840974420}
   m_renderer: {fileID: 1258873128131073347}
   m_rangeCollider: {fileID: 2927483342722670516}
   m_draggable: {fileID: 1853222405557904121}
+  RangeInformation:
+    m_range: 0
 --- !u!135 &2927483342722670516
 SphereCollider:
   m_ObjectHideFlags: 0

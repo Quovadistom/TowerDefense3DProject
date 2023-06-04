@@ -16,6 +16,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: ComponentID
+      value: f5701840-5340-4ed2-b151-6f7e5464722d
+      objectReference: {fileID: 0}
+    - target: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: TowerTypeID
       value: 254c4d95-6915-479d-9b17-5649c80632db
       objectReference: {fileID: 0}
@@ -118,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 1085822729885423296, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_turretMediator
       value: 
-      objectReference: {fileID: 1466714435987409300}
+      objectReference: {fileID: 0}
     - target: {fileID: 2343389344999702249, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: TowerInfoComponent
       value: 
@@ -175,10 +179,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4700601626872369331, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: RangeComponent.m_range
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700601626872369331, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: RangeInformation.m_range
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4959804140836949282, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: Component
       value: 
-      objectReference: {fileID: 1466714435987409300}
+      objectReference: {fileID: 0}
     - target: {fileID: 4959804140836949282, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_baseVisualToChange
       value: 
@@ -186,7 +198,11 @@ PrefabInstance:
     - target: {fileID: 4959804140836949282, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_turretTargetingComponent
       value: 
-      objectReference: {fileID: 6008479307151418500}
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250898264978859632, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_towerInfoComponent
+      value: 
+      objectReference: {fileID: 1506783029256370189}
     - target: {fileID: 6258903579901043165, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -386,7 +402,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 304818534142379902, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
   m_PrefabInstance: {fileID: 1212530398147034995}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4178290759201018276}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
@@ -414,48 +430,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c0624a29c6cd14996c7efd4a6bc35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Component: {fileID: 1466714435987409300}
-  m_baseVisualToChange: {fileID: 930714863459039059}
-  m_turretTargetingComponent: {fileID: 6008479307151418500}
   m_towerInfoComponent: {fileID: 1506783029256370189}
   Accuracy: 0.99
---- !u!1 &4178290759201018276 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2967732206594944727, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
-  m_PrefabInstance: {fileID: 1212530398147034995}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1466714435987409300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4178290759201018276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf78d948d53671348b3b36eab1c8c602, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TowerInfoComponent: {fileID: 1506783029256370189}
-  m_turretTargetingComponent: {fileID: 6008479307151418500}
-  m_bulletSpawnPoints: {fileID: 4231306636256174191}
-  m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
-  m_fireRate: 1
-  m_projectileProfile:
+  TargetingComponent:
+    m_turnSpeed: 100
+  m_projectileComponent:
+    m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
     m_bulletSpeed: 10
-    m_bulletDamage: 10
     m_explosionRange: 0
---- !u!114 &6008479307151418500 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4877871055376554999, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
-  m_PrefabInstance: {fileID: 1212530398147034995}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4178290759201018276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e98e8b1da67fa14e9f2612f61952014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_fireRateComponent:
+    m_fireRate: 0.5
+  m_damageComponent:
+    m_damage: 10
+  m_bulletBarrelComponent:
+    m_visual: {fileID: 4231306636256174191}
 --- !u!1001 &5247912029375694835
 PrefabInstance:
   m_ObjectHideFlags: 0

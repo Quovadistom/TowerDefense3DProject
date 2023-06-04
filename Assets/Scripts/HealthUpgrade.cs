@@ -1,13 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "HealthBoost", menuName = "ScriptableObjects/Boosts/GameBoosts/HealthBoost")]
-public class HealthUpgrade : GameUpgradeBase
+public class HealthUpgrade : Upgrade<HealthComponent>
 {
     [SerializeField] private int m_healthBoost;
 
-    public override GameUpgradeValues ApplyUpgrade(GameUpgradeValues gameBoostValues)
+    public override Action<HealthComponent> ComponentAction => (component) =>
     {
-        gameBoostValues.Health += m_healthBoost;
-        return gameBoostValues;
-    }
+        component.Health += m_healthBoost;
+    };
 }

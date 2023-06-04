@@ -15,10 +15,14 @@ public class ProjectileBase : AttackBase
     {
         base.Update();
 
+        m_direction = m_target.EnemyMiddle.transform.position - this.transform.position;
+
         if (m_direction != default)
         {
             m_distanceThisFrame = ProjectileProfile.Speed * Time.deltaTime;
             transform.Translate(m_direction.normalized * m_distanceThisFrame, Space.World);
+
+            Debug.DrawLine(this.transform.position, m_direction.normalized * m_distanceThisFrame, Color.green, 2);
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
 
-public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVisualComponent
+public abstract class TurretBarrel : ComponentWithUpgradeBase
 {
-    [SerializeField] private TurretTargetingComponent m_turretTargetingComponent;
     [SerializeField] private TowerInfoComponent m_towerInfoComponent;
-    [SerializeField] private TurretStatusEffectComponent m_turretStatusEffectComponent;
-
-    public TurretStatusEffectComponent TurretStatusEffectComponent => m_turretStatusEffectComponent;
 
     private float m_elapsedTime = Mathf.Infinity;
 
@@ -16,6 +12,8 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
     public abstract float Interval { get; }
     public float Accuracy = 0.99f;
 
+    public TargetingComponent TargetingComponent;
+
     private bool m_updateAndFollowTarget = true;
     public bool UpdateAndFollowTarget
     {
@@ -24,25 +22,21 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
         {
             if (value)
             {
-                m_currentTarget = m_turretTargetingComponent.CurrentTarget;
+                m_currentTarget = TargetingComponent.Target;
             }
 
             m_updateAndFollowTarget = value;
         }
     }
 
-    protected override void Awake()
+    protected virtual void Awake()
     {
-        base.Awake();
-
-        m_turretTargetingComponent.TargetChanged += RefreshTarget;
+        TargetingComponent.TargetChanged += RefreshTarget;
     }
 
-    protected override void OnDestroy()
+    protected void OnDestroy()
     {
-        base.OnDestroy();
-
-        m_turretTargetingComponent.TargetChanged -= RefreshTarget;
+        TargetingComponent.TargetChanged -= RefreshTarget;
     }
 
     protected virtual void Update()
@@ -51,7 +45,7 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
 
         if (!m_towerInfoComponent.IsTowerPlaced ||
             m_currentTarget == null ||
-            m_turretTargetingComponent.CurrentTarget == null ||
+            TargetingComponent.Target == null ||
             !UpdateAndFollowTarget)
         {
             return;
@@ -59,7 +53,7 @@ public abstract class TurretBarrel<T> : BaseVisualChanger<T> where T : ChangeVis
 
         var lookPos = m_currentTarget.EnemyMiddle.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * m_turretTargetingComponent.TurnSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * TargetingComponent.TurnSpeed);
 
         if (m_elapsedTime > Interval)
         {

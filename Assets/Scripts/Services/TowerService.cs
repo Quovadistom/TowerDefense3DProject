@@ -47,16 +47,13 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
             TurretInfo turretInfo = new TurretInfo()
             {
                 TowerID = placedTurret.TowerID,
-                TurretName = placedTurret.TowerTypeID,
+                TurretName = placedTurret.ComponentID,
                 Position = placedTurret.transform.position,
                 TowerUpgradeTree = placedTurret.UpgradeTreeData,
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
             };
 
-            if (placedTurret.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
-            {
-                turretInfo.TargetMethodName = turretTargetingComponent.CurrentTargetMethod.Name;
-            }
+            placedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) => turretInfo.TargetMethodName = component.TargetMethod.Name);
 
             placedTurrets.Add(turretInfo);
         }
@@ -68,14 +65,12 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         foreach (TurretInfo selectedTurret in dto.PlacedTurrets)
         {
-            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.TowerTypeID == selectedTurret.TurretName);
+            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.ComponentID == selectedTurret.TurretName);
             TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
             placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
 
-            if (placedTurret.TryGetComponent(out TurretTargetingComponent turretTargetingComponent))
-            {
-                turretTargetingComponent.CurrentTargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName);
-            }
+            placedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) =>
+            component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName));
         }
     }
 }

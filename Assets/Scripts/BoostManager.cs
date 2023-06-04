@@ -37,14 +37,14 @@ public class BoostManager : MonoBehaviour
         m_button.onClick.RemoveListener(OnButtonClicked);
     }
 
-    private void OnBoostsDrawn(List<UpgradeBase> boostList)
+    private void OnBoostsDrawn(List<BoostContainer> boostList)
     {
         m_canvasGroup.gameObject.SetActive(true);
         m_canvasGroup.DOFade(1, m_fadeTime).SetUpdate(true).OnComplete(() =>
         {
             foreach (var boost in boostList)
             {
-                m_boostAvailabilityService.AddAvailableBoost(boost.ID);
+                m_boostAvailabilityService.AddAvailableBoost(boost.Name);
                 ItemMenuButton spawnedButton = Instantiate(m_prefab, m_boostParent);
                 spawnedButton.SetContent(new ButtonInfo()
                 {

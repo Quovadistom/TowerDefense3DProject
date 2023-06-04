@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TowerUpgradeComponent : MonoBehaviour, ITowerComponent
+public class TowerUpgradeComponent : MonoBehaviour
 {
     [SerializeField] private int m_towerAvailableUpgradeCount;
 

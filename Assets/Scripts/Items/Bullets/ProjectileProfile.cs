@@ -1,28 +1,15 @@
-﻿using System;
-using UnityEngine;
-
-[Serializable]
-public class ProjectileProfile
+﻿public class ProjectileProfile
 {
-    [SerializeField] private float m_bulletSpeed;
-    [SerializeField] private float m_bulletDamage;
-    [SerializeField] private float m_explosionRange;
-
-    public float Speed
+    public ProjectileProfile(float speed, float damage, float explosionRange = 0)
     {
-        get => m_bulletSpeed;
-        set => m_bulletSpeed = value;
+        Speed = speed;
+        Damage = damage;
+        ExplosionRange = explosionRange;
     }
 
-    public float Damage
-    {
-        get => m_bulletDamage;
-        set => m_bulletDamage = value;
-    }
+    public float Speed { get; set; }
 
-    public float ExplosionRange
-    {
-        get => m_explosionRange;
-        set => m_explosionRange = value;
-    }
+    public float Damage { get; set; }
+
+    public float ExplosionRange { get; set; }
 }

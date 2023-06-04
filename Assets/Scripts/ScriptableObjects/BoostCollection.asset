@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb477860988e2a0449bdda8bafb48ee9, type: 3}
   m_Name: BoostCollection
   m_EditorClassIdentifier: 
-  m_towerBoostList:
-  - Boost: {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
+  m_towerUpgradeList:
+  - m_name: Range 1
+    Upgrades:
+    - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
-  m_gameBoostList:
-  - Boost: {fileID: 11400000, guid: fa9552e0b56d2e541aff0b54aa661993, type: 2}
+  m_gameUpgradeList:
+  - m_name: Health 1
+    Upgrades:
+    - {fileID: 11400000, guid: fa9552e0b56d2e541aff0b54aa661993, type: 2}
     Rarity: 0
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,7 +57,7 @@ public class GameBoostSelectionButton : MonoBehaviour
     {
         List<ButtonInfo> buttonInfos = new();
 
-        foreach (KeyValuePair<GameUpgradeBase, int> boost in m_boostAvailabilityService.GetAvailableGameBoosts())
+        foreach (KeyValuePair<BoostContainer, int> boost in m_boostAvailabilityService.GetAvailableBoostList().Where(boost => string.IsNullOrEmpty(boost.Key.TargetObjectID)))
         {
             for (int i = 0; i < boost.Value; i++)
             {

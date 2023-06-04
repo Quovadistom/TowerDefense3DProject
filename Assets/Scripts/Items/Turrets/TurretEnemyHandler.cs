@@ -1,13 +1,26 @@
 using System.Linq;
 using UnityEngine;
 
-public class TurretEnemyHandler : MonoBehaviour
+public class TurretEnemyHandler : ComponentWithUpgradeBase
 {
-    [SerializeField] private TurretTargetingComponent m_turretMediator;
+    [SerializeField] private TowerInfoComponent m_towerInfoComponent;
+
+    public TargetMethodComponent TargetMethodComponent = new();
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
 
-    private void Awake()
+    private BasicEnemy m_currentTarget = null;
+    public BasicEnemy CurrentTarget
+    {
+        get => m_currentTarget;
+        set
+        {
+            m_currentTarget = value;
+            m_towerInfoComponent.TryFindAndActOnComponent<TargetingComponent>((component) => component.Target = value);
+        }
+    }
+
+    protected void Awake()
     {
         m_enemiesInRange = new GenericRepository<BasicEnemy>();
     }
@@ -35,10 +48,10 @@ public class TurretEnemyHandler : MonoBehaviour
 
     public void CheckTargetValidity()
     {
-        if (m_turretMediator.CurrentTarget != null && (m_turretMediator.CurrentTarget.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
+        if (CurrentTarget != null && (CurrentTarget.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
         {
-            m_enemiesInRange.Remove(m_turretMediator.CurrentTarget);
-            m_turretMediator.CurrentTarget = null;
+            m_enemiesInRange.Remove(CurrentTarget);
+            CurrentTarget = null;
         }
     }
 
@@ -51,7 +64,7 @@ public class TurretEnemyHandler : MonoBehaviour
             return;
         }
 
-        m_turretMediator.CurrentTargetMethod.TryGetTarget(this, m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
-        m_turretMediator.CurrentTarget = enemy;
+        TargetMethodComponent.TargetMethod.TryGetTarget(this, m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        CurrentTarget = enemy;
     }
 }

@@ -29,24 +29,30 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
 
     private readonly BoostCollection m_boostCollection;
     private readonly BoostAvailabilityService m_boostAvailabilityService;
+    private readonly BoostService m_boostService;
 
     public event Action<int, string> TurretTypeChanged;
-    public event Action<string, int, TowerUpgradeBase> TurretUpgradeChanged;
+    public event Action<string, int, BoostContainer> TurretUpgradeChanged;
 
     public ICollection<TowerBoostRow> TowerBoostRows => m_towerBoostRows.AsReadOnlyCollection();
 
     protected override Guid Id => Guid.Parse("fd1c3b87-e564-4187-8cc5-4a5688c953ba");
 
-    public TowerBoostService(BoostCollection boostCollection, BoostAvailabilityService boostAvailabilityService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public TowerBoostService(BoostCollection boostCollection,
+        BoostAvailabilityService boostAvailabilityService,
+        SerializationService serializationService,
+        DebugSettings debugSettings,
+        BoostService boostService) : base(serializationService, debugSettings)
     {
         m_boostCollection = boostCollection;
         m_boostAvailabilityService = boostAvailabilityService;
+        m_boostService = boostService;
     }
 
-    public bool TryGetTowerUpgradeInfo(string id, out TowerUpgradeBase towerUpgradeBase)
+    public bool TryGetTowerUpgradeInfo(string name, out BoostContainer boostContainer)
     {
-        towerUpgradeBase = (TowerUpgradeBase)m_boostCollection.TowerBoostList.Select(x => x.Boost).FirstOrDefault(x => x.ID == id);
-        return towerUpgradeBase != null;
+        boostContainer = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Name == name);
+        return boostContainer != null;
     }
 
     public void UpdateTowerUpgradeCollection(int upgradeIndex, string turretType)
@@ -57,37 +63,19 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         TurretTypeChanged?.Invoke(upgradeIndex, turretType);
     }
 
-    public void UpdateTowerBoostCollection(string towerType, int upgradeIndex, TowerUpgradeBase upgrade)
+    public void UpdateTowerBoostCollection(string towerType, int upgradeIndex, BoostContainer upgrade)
     {
         TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerType);
         if (row != null)
         {
-            row.UpgradeIDs[upgradeIndex] = upgrade.ID;
-            m_boostAvailabilityService.RemoveAvailableBoost(upgrade.ID);
+            row.UpgradeIDs[upgradeIndex] = upgrade.Name;
+            m_boostAvailabilityService.RemoveAvailableBoost(upgrade.Name);
+            m_boostService.AddUpgrade(upgrade);
             TurretUpgradeChanged?.Invoke(towerType, upgradeIndex, upgrade);
         }
         else
         {
             Debug.LogWarning($"No row with tower type {towerType} found!");
-        }
-    }
-
-    public void SetTowerBoosts(TowerInfoComponent towerInfoComponent)
-    {
-        TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerInfoComponent.TowerTypeID);
-        if (row != null)
-        {
-            foreach (string upgradeID in row.UpgradeIDs)
-            {
-                if (!string.IsNullOrEmpty(upgradeID))
-                {
-                    TowerUpgradeBase upgrade = (TowerUpgradeBase)m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Boost.ID == upgradeID).Boost;
-                    if (upgrade != null)
-                    {
-                        upgrade.TryApplyUpgrade(towerInfoComponent);
-                    }
-                }
-            }
         }
     }
 

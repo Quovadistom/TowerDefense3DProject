@@ -11,7 +11,7 @@ public class WaveService
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
-    public event Action<List<UpgradeBase>> BoostsDrawn;
+    public event Action<List<BoostContainer>> BoostsDrawn;
 
     private int m_currentWaveIndex = 0;
 
@@ -56,7 +56,7 @@ public class WaveService
         if (m_currentWaveIndex % m_boostCollection.Frequency == 0)
         {
             Debug.Log($"Boost Drawn for {m_currentWaveIndex}!");
-            List<UpgradeBase> boostList = new List<UpgradeBase>();
+            List<BoostContainer> boostList = new List<BoostContainer>();
             for (int i = 0; i < m_boostCollection.BoostAmount; i++)
             {
                 boostList.Add(m_boostCollection.GetRandomBoostWeighted(m_currentWaveIndex));

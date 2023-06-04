@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
-public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
+public class TurretLaserComponent : ChangeVisualComponent
 {
     [SerializeField] private TurretRangeComponent m_turretRangeComponent;
     [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;
@@ -41,8 +38,8 @@ public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
             m_damageRate = value;
             DamageRateChanged?.Invoke(m_damageRate);
         }
-    }   
-    
+    }
+
     public float LaserDuration
     {
         get => m_laserDuration;
@@ -51,8 +48,8 @@ public class TurretLaserComponent : ChangeVisualComponent, ITowerComponent
             m_laserDuration = value;
             LaserDurationChanged?.Invoke(m_laserDuration);
         }
-    } 
-    
+    }
+
     public float LaserCooldownDuration
     {
         get => m_laserCooldownDuration;

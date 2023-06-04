@@ -35,7 +35,7 @@ public class TowerSelectionButton : MonoBehaviour
         List<ButtonInfo> buttonInfos = new List<ButtonInfo>();
 
         IEnumerable<string> nonAvailableTowerTypes = m_towerUpgradeService.TowerBoostRows.Select(x => x.TowerType);
-        IEnumerable<TowerInfoComponent> nonAvailableTowers = m_turretCollection.TurretList.Where(x => nonAvailableTowerTypes.Contains(x.TowerTypeID));
+        IEnumerable<TowerInfoComponent> nonAvailableTowers = m_turretCollection.TurretList.Where(x => nonAvailableTowerTypes.Contains(x.ComponentID));
 
         foreach (TowerInfoComponent infoComponent in m_turretCollection.TurretList.Except(nonAvailableTowers))
         {
@@ -44,7 +44,7 @@ public class TowerSelectionButton : MonoBehaviour
                 Title = infoComponent.gameObject.name,
                 Callback = () =>
                 {
-                    m_towerUpgradeService.UpdateTowerUpgradeCollection(m_towerUpgradeCollection.Index, infoComponent.TowerTypeID);
+                    m_towerUpgradeService.UpdateTowerUpgradeCollection(m_towerUpgradeCollection.Index, infoComponent.ComponentID);
                     m_towerUpgradeCollection.UpgradeMenu.CloseItemMenu();
                 }
             });

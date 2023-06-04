@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TowerSupportComponent : ChangeVisualComponent, ITowerComponent
+public class TowerSupportComponent : ChangeVisualComponent
 {
     [SerializeField] private float m_upgradePercentageSingleTower = 100;
     [Range(0, 1)][SerializeField] private float m_sharedTowerFactor = 1;

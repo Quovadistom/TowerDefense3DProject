@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class BasicEnemy : Poolable
@@ -15,13 +13,15 @@ public class BasicEnemy : Poolable
     private Transform m_target;
     private LevelService m_levelService;
     private WaveService m_waveService;
+    private BoostService m_boostService;
     private float m_currentHealth;
 
     [Inject]
-    public void Construct(LevelService levelService, WaveService waveService)
+    public void Construct(LevelService levelService, WaveService waveService, BoostService boostService)
     {
         m_levelService = levelService;
         m_waveService = waveService;
+        m_boostService = boostService;
     }
 
     private void Awake()
@@ -54,7 +54,13 @@ public class BasicEnemy : Poolable
         }
         else
         {
-            m_levelService.Health--;
+            UpgradeContainer<HealthComponent> upgradeContainer = new UpgradeContainer<HealthComponent>((component) =>
+            {
+                component.Health--;
+            });
+
+            m_boostService.SendBoost(upgradeContainer);
+
             m_waveService.AliveEnemies--;
             m_poolingService.ReturnPooledObject(this);
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class TurretStatusEffectComponent : MonoBehaviour, ITowerComponent
+public class TurretStatusEffectComponent : MonoBehaviour
 {
     private StatusEffect m_currentStatusEffect;
 

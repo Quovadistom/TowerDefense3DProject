@@ -23,7 +23,7 @@ public class RangeVisualiser : ComponentWithUpgradeBase
         m_draggable.ValidPlacementDetected += OnValidPlacementDetected;
         RangeComponent.RangeChanged += OnRangeChanged;
 
-        OnRangeChanged(RangeComponent.Range);
+        OnRangeChanged(RangeComponent.BaseRange);
     }
 
     protected void OnDestroy()

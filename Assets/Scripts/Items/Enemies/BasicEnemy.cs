@@ -54,10 +54,8 @@ public class BasicEnemy : Poolable
         }
         else
         {
-            UpgradeContainer<HealthComponent> upgradeContainer = new UpgradeContainer<HealthComponent>((component) =>
-            {
-                component.Health--;
-            });
+            HealthUpgrade upgradeContainer = ScriptableObject.CreateInstance<HealthUpgrade>();
+            upgradeContainer.HealthBoost = -1;
 
             m_boostService.SendBoost(upgradeContainer);
 

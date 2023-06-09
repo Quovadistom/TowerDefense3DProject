@@ -1,6 +1,9 @@
-﻿public class TowerRangeSupportHandler : TowerFloatSupportHandler<TurretRangeComponent>
-{
-    protected override float GetFloat(TurretRangeComponent component) => component.Range;
+﻿using System;
 
-    protected override void SetFLoat(TurretRangeComponent component, float value) => component.Range = value;
+public class TowerRangeSupportHandler : TowerFloatSupportHandler<RangeComponent>
+{
+    protected override Action<RangeComponent, float> ComponentFunc => (component, value) =>
+    {
+        component.BuffPercentage += value;
+    };
 }

@@ -5,14 +5,8 @@ public class TowerDamageUpgrade : Upgrade<DamageComponent>
 {
     [SerializeField] private float m_increasePercentage;
 
-    public override Action<DamageComponent> ComponentAction
-    {
-        get
-        {
-            return (component) =>
+    protected override Action<DamageComponent> ComponentAction => (component) =>
             {
                 component.Damage = component.Damage.AddPercentage(20);
             };
-        }
-    }
 }

@@ -10,15 +10,18 @@ public class SupportTowerSelector : MonoBehaviour
     [SerializeField] private Selectable m_selectable;
     [SerializeField] private TowerInfoComponent m_towerInfoComponent;
 
+    public SupportSelectorComponent SupportSelectorComponent;
+
     private SelectionService m_selectionService;
     private ColorSettings m_colorSettings;
     private List<Selectable> m_suitableTowers = new();
     private List<Func<TowerInfoComponent, bool>> m_suitableTowerArguments = new();
 
-    public event Action<Selectable> TowerClicked;
-    public event Action<Selectable> SerializedTowerAdded;
+    public List<Selectable> ConnectedTowers { get; private set; } = new();
+    public int ConnectedTowerCount => ConnectedTowers.Count;
+
+    public event Action<Selectable> TowerAdded;
     public event Action<Selectable> TowerRemoved;
-    public event Action ThisTowerSelected;
 
     [Inject]
     public void Construct(SelectionService selectionService, ColorSettings colorSettings)
@@ -49,11 +52,6 @@ public class SupportTowerSelector : MonoBehaviour
             selectable.Destroyed += RemoveTower;
 
             m_suitableTowers.Add(selectable);
-
-            if (towerInfoComponent.ConnectedSupportTowers.Contains(m_towerInfoComponent.TowerID))
-            {
-                SerializedTowerAdded?.Invoke(selectable);
-            }
         }
     }
 
@@ -78,7 +76,12 @@ public class SupportTowerSelector : MonoBehaviour
     private void RemoveTower(Selectable selectable)
     {
         m_suitableTowers.TryRemove(selectable);
-        TowerRemoved?.Invoke(selectable);
+
+        if (ConnectedTowers.Contains(selectable))
+        {
+            ConnectedTowers.Remove(selectable);
+            TowerRemoved?.Invoke(selectable);
+        }
     }
 
     private void OnSelected()
@@ -87,12 +90,22 @@ public class SupportTowerSelector : MonoBehaviour
         m_selectionService.GameObjectSelected += OnGameObjectSelected;
         m_selectionService.GameObjectClickedWhileSelectionLocked += OnGameObjectSelectedWhileLocked;
 
-        foreach (Selectable selectable in m_suitableTowers)
-        {
-            selectable.OutlineObject(true, m_colorSettings.FocusOutline);
-        }
+        ShowAvailableTowers();
 
-        ThisTowerSelected?.Invoke();
+        foreach (Selectable selectable in ConnectedTowers)
+        {
+            selectable.OutlineObject(true, m_colorSettings.ConnectedOutline);
+        }
+    }
+
+    private void ShowAvailableTowers()
+    {
+        foreach (Selectable selectable in m_suitableTowers.Where(tower => !ConnectedTowers.Contains(tower)))
+        {
+            bool focusTower = ConnectedTowerCount < SupportSelectorComponent.AllowedTowerAmount;
+            Color color = focusTower ? m_colorSettings.FocusOutline : m_colorSettings.DefaultOutline;
+            selectable.OutlineObject(focusTower, color);
+        }
     }
 
     private void CancelTowerSelection()
@@ -122,6 +135,31 @@ public class SupportTowerSelector : MonoBehaviour
             return;
         }
 
-        TowerClicked?.Invoke(selectable);
+        TowerClicked(selectable);
+    }
+
+    private void TowerClicked(Selectable selectable)
+    {
+        if (!ConnectedTowers.Contains(selectable))
+        {
+            if (ConnectedTowerCount == SupportSelectorComponent.AllowedTowerAmount)
+            {
+                return;
+            }
+
+            selectable.OutlineObject(true, m_colorSettings.ConnectedOutline);
+            selectable.GameObjectToSelect.GetComponent<TowerInfoComponent>().ConnectedSupportTowers.AddSafely(m_towerInfoComponent.TowerID);
+            ConnectedTowers.Add(selectable);
+            TowerAdded?.Invoke(selectable);
+        }
+        else if (ConnectedTowers.Contains(selectable))
+        {
+            selectable.OutlineObject(true, m_colorSettings.FocusOutline);
+            selectable.GameObjectToSelect.GetComponent<TowerInfoComponent>().ConnectedSupportTowers.Remove(m_towerInfoComponent.TowerID);
+            ConnectedTowers.Remove(selectable);
+            TowerRemoved?.Invoke(selectable);
+        }
+
+        ShowAvailableTowers();
     }
 }

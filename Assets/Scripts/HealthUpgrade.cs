@@ -4,10 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HealthBoost", menuName = "ScriptableObjects/Boosts/GameBoosts/HealthBoost")]
 public class HealthUpgrade : Upgrade<HealthComponent>
 {
-    [SerializeField] private int m_healthBoost;
+    public int HealthBoost;
 
-    public override Action<HealthComponent> ComponentAction => (component) =>
+    protected override Action<HealthComponent> ComponentAction => (component) =>
     {
-        component.Health += m_healthBoost;
+        component.Health += HealthBoost;
     };
 }

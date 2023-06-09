@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_turretList:
   - {fileID: 1506783029256370189, guid: 7c1cb0f68d097ff43bb73545afbcee29, type: 3}
+  - {fileID: 4342720139270870206, guid: 6a73397b0da9afe43997b3c7f89a2d3b, type: 3}

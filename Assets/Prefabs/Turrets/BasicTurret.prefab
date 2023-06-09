@@ -187,6 +187,10 @@ PrefabInstance:
       propertyPath: RangeInformation.m_range
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4700601626872369331, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: RangeComponent.m_baseRange
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4959804140836949282, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: Component
       value: 

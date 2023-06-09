@@ -1,68 +1,72 @@
 ﻿using Assets.Scripts.Interactables;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where T : MonoBehaviour
+public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where T : ComponentBase
 {
-    [SerializeField] protected T m_supportComponent;
-    [SerializeField] private TowerSupportComponent m_towerSupportComponent;
+    [SerializeField] private SupportComponent m_towerSupportComponent;
 
-    private Dictionary<T, float> m_appliedValues = new();
+    protected abstract Action<T, float> ComponentFunc { get; }
 
-    protected override void RecalculateValues(T removedTower = null)
+    private float m_currentBuff = 0;
+
+    protected override void AddTowerBuff(ComponentParent componentParent)
     {
-        base.RecalculateValues(removedTower);
+        float newBuff = GetPercentageForOneTower();
 
-        if (removedTower != null)
+        foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
         {
-            if (m_appliedValues.TryGetValue(removedTower, out float oldPercentage))
+            if (tower.GameObjectToSelect.TryGetComponent(out ComponentParent towerComponentParent))
             {
-                SetFLoat(removedTower, GetFloat(removedTower) - GetFloat(removedTower) * oldPercentage);
-                m_appliedValues.Remove(removedTower);
+                float buff = towerComponentParent != componentParent ? newBuff - m_currentBuff : newBuff;
+                BuffComponent(towerComponentParent, buff);
             }
         }
 
-        if (m_connectedTowers.Count > 0)
+        m_currentBuff = newBuff;
+    }
+
+    protected override void RemoveTowerBuff(ComponentParent componentParent)
+    {
+        BuffComponent(componentParent, -m_currentBuff);
+
+        float newBuff = GetPercentageForOneTower();
+
+        foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
         {
-            float newPercentage = GetPercentageForOneTower(m_towerSupportComponent.UpgradePercentage, m_towerSupportComponent.SharedTowerFactor);
-
-            foreach (Selectable tower in m_connectedTowers)
+            if (tower.GameObjectToSelect.TryGetComponent(out ComponentParent towerComponentParent) && towerComponentParent != componentParent)
             {
-                T component = tower.GameObjectToSelect.GetComponent<T>();
-
-                if (m_appliedValues.TryGetValue(component, out float oldPercentage))
-                {
-                    SetFLoat(component, GetFloat(component) - GetFloat(component) * oldPercentage);
-                }
-
-                float valueAdded = GetFloat(component).PercentageOf(newPercentage);
-                SetFLoat(component, GetFloat(component) + valueAdded);
-                float partOfTotal = valueAdded / GetFloat(component);
-                m_appliedValues.AddOrOverwriteKey(component, partOfTotal);
+                BuffComponent(towerComponentParent, newBuff - m_currentBuff);
             }
         }
+
+        m_currentBuff = newBuff;
+    }
+
+    protected void BuffComponent(ComponentParent componentParent, float buffPercentage)
+    {
+        componentParent.TryFindAndActOnComponent<T>((component) => ComponentFunc?.Invoke(component, buffPercentage));
     }
 
     protected override void ResetConnectedTowers()
     {
-        foreach (Selectable selectable in m_connectedTowers)
+        foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
         {
-            T component = selectable.GameObjectToSelect.GetComponent<T>();
-
-            if (m_appliedValues.TryGetValue(component, out float oldPercentage))
+            if (tower.GameObjectToSelect.TryGetComponent(out ComponentParent towerComponentParent))
             {
-                SetFLoat(component, GetFloat(component) - GetFloat(component) * oldPercentage);
+                BuffComponent(towerComponentParent, -m_currentBuff);
             }
         }
     }
 
-    protected abstract float GetFloat(T component);
-    protected abstract void SetFLoat(T component, float value);
-
-    private float GetPercentageForOneTower(float availablePercentage, float factor)
+    private float GetPercentageForOneTower()
     {
-        float totalPercentagePool = availablePercentage + ((float)ConnectedTowerCount - 1) * factor * availablePercentage;
-        return totalPercentagePool * (1 / (float)ConnectedTowerCount);
+        if (m_supportTowerSelector.ConnectedTowerCount == 0)
+        {
+            return m_towerSupportComponent.UpgradePercentage;
+        }
+
+        float totalPercentagePool = m_towerSupportComponent.UpgradePercentage + (m_supportTowerSelector.ConnectedTowerCount - 1) * m_towerSupportComponent.SharedTowerFactor * m_towerSupportComponent.UpgradePercentage;
+        return totalPercentagePool * (1 / ((float)m_supportTowerSelector.ConnectedTowerCount));
     }
 }

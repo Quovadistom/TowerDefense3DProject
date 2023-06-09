@@ -2,7 +2,7 @@
 
 public abstract class Upgrade<T> : UpgradeBase where T : ComponentBase
 {
-    public abstract Action<T> ComponentAction { get; }
+    protected abstract Action<T> ComponentAction { get; }
 
     public override bool IsObjectSuitable(ComponentParent component)
     {

@@ -15,17 +15,17 @@ public class RangeComponent : ComponentBase
         set
         {
             m_buffPercentage = value;
-            RangeChanged?.Invoke(BaseRange);
+            RangeChanged?.Invoke(BaseRange.AddPercentage(BuffPercentage));
         }
     }
 
     public float BaseRange
     {
-        get { return m_baseRange.AddPercentage(BuffPercentage); }
+        get { return m_baseRange; }
         set
         {
             m_baseRange = value;
-            RangeChanged?.Invoke(BaseRange);
+            RangeChanged?.Invoke(m_baseRange.AddPercentage(BuffPercentage));
         }
     }
 

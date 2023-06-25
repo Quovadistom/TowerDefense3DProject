@@ -8,6 +8,6 @@ public class TowerRangeUpgrade : Upgrade<RangeComponent>
 
     protected override Action<RangeComponent> ComponentAction => (component) =>
             {
-                component.BaseRange = component.BaseRange.AddPercentage(Percentage);
+                component.RangeValue.BaseValue = component.RangeValue.BaseValue.AddPercentage(Percentage);
             };
 }

@@ -155,6 +155,10 @@ PrefabInstance:
       propertyPath: RangeComponent.m_baseRange
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2524494813484787468, guid: 9d367549d7ada3f46a2bf1a4dfd84540, type: 3}
+      propertyPath: RangeComponent.RangeValue.m_baseValue
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3804022022206299016, guid: 9d367549d7ada3f46a2bf1a4dfd84540, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -388,7 +392,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_towerInfoComponent: {fileID: 4342720139270870206}
   m_towerSupportComponent:
-    m_upgradePercentageSingleTower: 100
+    UpgradePercentage:
+      m_value: 100
     m_sharedTowerFactor: 0
 --- !u!114 &5890521157782230871
 MonoBehaviour:

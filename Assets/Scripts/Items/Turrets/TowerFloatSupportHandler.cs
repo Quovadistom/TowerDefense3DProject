@@ -43,11 +43,6 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
         m_currentBuff = newBuff;
     }
 
-    protected void BuffComponent(ComponentParent componentParent, float buffPercentage)
-    {
-        componentParent.TryFindAndActOnComponent<T>((component) => ComponentFunc?.Invoke(component, buffPercentage));
-    }
-
     protected override void ResetConnectedTowers()
     {
         foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
@@ -59,14 +54,19 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
         }
     }
 
+    protected void BuffComponent(ComponentParent componentParent, float buffPercentage)
+    {
+        componentParent.TryFindAndActOnComponent<T>((component) => ComponentFunc?.Invoke(component, buffPercentage));
+    }
+
     private float GetPercentageForOneTower()
     {
         if (m_supportTowerSelector.ConnectedTowerCount == 0)
         {
-            return m_towerSupportComponent.UpgradePercentage;
+            return m_towerSupportComponent.UpgradePercentage.Value;
         }
 
-        float totalPercentagePool = m_towerSupportComponent.UpgradePercentage + (m_supportTowerSelector.ConnectedTowerCount - 1) * m_towerSupportComponent.SharedTowerFactor * m_towerSupportComponent.UpgradePercentage;
+        float totalPercentagePool = m_towerSupportComponent.UpgradePercentage.Value + (m_supportTowerSelector.ConnectedTowerCount - 1) * m_towerSupportComponent.SharedTowerFactor * m_towerSupportComponent.UpgradePercentage.Value;
         return totalPercentagePool * (1 / ((float)m_supportTowerSelector.ConnectedTowerCount));
     }
 }

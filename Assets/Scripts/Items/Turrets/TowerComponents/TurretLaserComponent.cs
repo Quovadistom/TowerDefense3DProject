@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class TurretLaserComponent : ChangeVisualComponent
+public class TurretLaserComponent : MonoBehaviour
 {
-    [SerializeField] private TurretRangeComponent m_turretRangeComponent;
+    [SerializeField] private RangeComponent m_turretRangeComponent;
     [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;
 
     [SerializeField] private float m_damageRate;
@@ -18,17 +18,6 @@ public class TurretLaserComponent : ChangeVisualComponent
     public event Action<float> LaserDamageChanged;
     public event Action<float> LaserDurationChanged;
     public event Action<float> LaserCooldownDurationChanged;
-
-    public LaserSpawnPoints LaserSpawnPoints
-    {
-        get => m_laserSpawnPoints;
-        set
-        {
-            Visual = value.transform;
-            m_laserSpawnPoints = Visual.GetComponent<LaserSpawnPoints>();
-            LaserSpawnPointsChanged?.Invoke(m_laserSpawnPoints);
-        }
-    }
 
     public float DamageRate
     {

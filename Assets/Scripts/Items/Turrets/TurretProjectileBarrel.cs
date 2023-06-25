@@ -6,11 +6,11 @@ public class TurretProjectileBarrel : TurretBarrel
     public ProjectileComponent m_projectileComponent;
     public FireRateComponent m_fireRateComponent;
     public DamageComponent m_damageComponent;
-    public BulletBarrelComponent m_bulletBarrelComponent;
+    public ComponentDataTypeVisual<BulletSpawnPoints> m_bulletBarrelComponent;
 
     private BulletService m_bulletService;
 
-    public override float Interval => m_fireRateComponent.FireRate;
+    public override float Interval => m_fireRateComponent.FireRate.Value;
 
     [Inject]
     public void Construct(BulletService bulletService)
@@ -22,8 +22,8 @@ public class TurretProjectileBarrel : TurretBarrel
     {
         foreach (Transform spawnPoint in m_bulletBarrelComponent.Visual.SpawnPoints)
         {
-            ProjectileProfile projectileProfile = new ProjectileProfile(m_projectileComponent.BulletSpeed, m_damageComponent.Damage);
-            m_bulletService.CreateNewBullet(m_projectileComponent.BulletPrefab, spawnPoint.position, projectileProfile, basicEnemy, null);
+            ProjectileProfile projectileProfile = new ProjectileProfile(m_projectileComponent.BulletSpeed.Value, m_damageComponent.Damage.Value);
+            m_bulletService.CreateNewBullet(m_projectileComponent.BulletPrefab.Value, spawnPoint.position, projectileProfile, basicEnemy, null);
         }
     }
 }

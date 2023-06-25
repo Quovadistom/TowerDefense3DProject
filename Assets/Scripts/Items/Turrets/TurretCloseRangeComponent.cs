@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class TurretCloseRangeComponent : ChangeVisualComponent
+public class TurretCloseRangeComponent : MonoBehaviour
 {
     [SerializeField] private float m_fireRate;
 

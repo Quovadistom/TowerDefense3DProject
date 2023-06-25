@@ -7,6 +7,6 @@ public class TowerDamageUpgrade : Upgrade<DamageComponent>
 
     protected override Action<DamageComponent> ComponentAction => (component) =>
             {
-                component.Damage = component.Damage.AddPercentage(20);
+                component.Damage.Value = component.Damage.Value.AddPercentage(20);
             };
 }

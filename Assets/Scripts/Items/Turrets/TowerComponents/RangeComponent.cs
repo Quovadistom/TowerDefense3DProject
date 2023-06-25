@@ -4,30 +4,6 @@ using UnityEngine;
 [Serializable]
 public class RangeComponent : ComponentBase
 {
-    [SerializeField] private float m_baseRange;
-    public Action<float> RangeChanged;
-
-    private float m_buffPercentage = 0;
-
-    public float BuffPercentage
-    {
-        get => m_buffPercentage;
-        set
-        {
-            m_buffPercentage = value;
-            RangeChanged?.Invoke(BaseRange.AddPercentage(BuffPercentage));
-        }
-    }
-
-    public float BaseRange
-    {
-        get { return m_baseRange; }
-        set
-        {
-            m_baseRange = value;
-            RangeChanged?.Invoke(m_baseRange.AddPercentage(BuffPercentage));
-        }
-    }
-
-    public VisualComponent<Transform> VisualComponent;
+    public ComponentDataTypeFloatWithBuff RangeValue;
+    public ComponentDataTypeVisual<Transform> VisualComponent;
 }

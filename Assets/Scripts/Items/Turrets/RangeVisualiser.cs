@@ -21,16 +21,16 @@ public class RangeVisualiser : ComponentWithUpgradeBase
     {
         m_draggable.InvalidPlacementDetected += OnInvalidPlacementDetected;
         m_draggable.ValidPlacementDetected += OnValidPlacementDetected;
-        RangeComponent.RangeChanged += OnRangeChanged;
+        RangeComponent.RangeValue.ValueChanged += OnRangeChanged;
 
-        OnRangeChanged(RangeComponent.BaseRange);
+        OnRangeChanged(RangeComponent.RangeValue.BaseValue);
     }
 
     protected void OnDestroy()
     {
         m_draggable.InvalidPlacementDetected -= OnInvalidPlacementDetected;
         m_draggable.ValidPlacementDetected -= OnValidPlacementDetected;
-        RangeComponent.RangeChanged -= OnRangeChanged;
+        RangeComponent.RangeValue.ValueChanged -= OnRangeChanged;
     }
 
     protected void OnRangeChanged(float newRange)

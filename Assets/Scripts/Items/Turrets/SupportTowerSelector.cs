@@ -37,18 +37,11 @@ public class SupportTowerSelector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out Selectable selectable) && selectable != m_selectable)
+        if (other.gameObject.TryGetComponent(out Selectable selectable) &&
+            selectable != m_selectable &&
+            selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent) &&
+            m_suitableTowerArguments.All(isTowerSuitable => isTowerSuitable.Invoke(towerInfoComponent)))
         {
-            if (!selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent))
-            {
-                return;
-            }
-
-            if (m_suitableTowerArguments.All(isTowerSuitable => !isTowerSuitable.Invoke(towerInfoComponent)))
-            {
-                return;
-            }
-
             selectable.Destroyed += RemoveTower;
 
             m_suitableTowers.Add(selectable);
@@ -77,9 +70,8 @@ public class SupportTowerSelector : MonoBehaviour
     {
         m_suitableTowers.TryRemove(selectable);
 
-        if (ConnectedTowers.Contains(selectable))
+        if (ConnectedTowers.TryRemove(selectable))
         {
-            ConnectedTowers.Remove(selectable);
             TowerRemoved?.Invoke(selectable);
         }
     }
@@ -102,7 +94,7 @@ public class SupportTowerSelector : MonoBehaviour
     {
         foreach (Selectable selectable in m_suitableTowers.Where(tower => !ConnectedTowers.Contains(tower)))
         {
-            bool focusTower = ConnectedTowerCount < SupportSelectorComponent.AllowedTowerAmount;
+            bool focusTower = ConnectedTowerCount < SupportSelectorComponent.AllowedTowerAmountChanged.Value;
             Color color = focusTower ? m_colorSettings.FocusOutline : m_colorSettings.DefaultOutline;
             selectable.OutlineObject(focusTower, color);
         }
@@ -142,7 +134,7 @@ public class SupportTowerSelector : MonoBehaviour
     {
         if (!ConnectedTowers.Contains(selectable))
         {
-            if (ConnectedTowerCount == SupportSelectorComponent.AllowedTowerAmount)
+            if (ConnectedTowerCount == SupportSelectorComponent.AllowedTowerAmountChanged.Value)
             {
                 return;
             }

@@ -4,22 +4,11 @@ using UnityEngine;
 [Serializable]
 public class SupportComponent : ComponentBase
 {
-    [SerializeField] private float m_upgradePercentageSingleTower = 100;
+    public ComponentDataTypeWithEvent<float> UpgradePercentage;
+
     [Range(0, 1)][SerializeField] private float m_sharedTowerFactor = 1;
 
-    public event Action<float> UpgradePercentageUpdated;
     public event Action<float> SharedTowerFactorUpdated;
-
-    public float UpgradePercentage
-    {
-        get => m_upgradePercentageSingleTower;
-        set
-        {
-            m_upgradePercentageSingleTower = value;
-            UpgradePercentageUpdated?.Invoke(m_upgradePercentageSingleTower);
-        }
-    }
-
     /// <summary>
     /// Factor that runs from 0 - 1
     /// </summary>

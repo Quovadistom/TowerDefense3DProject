@@ -191,6 +191,10 @@ PrefabInstance:
       propertyPath: RangeComponent.m_baseRange
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4700601626872369331, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: RangeComponent.RangeValue.m_baseValue
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4959804140836949282, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: Component
       value: 
@@ -439,13 +443,18 @@ MonoBehaviour:
   TargetingComponent:
     m_turnSpeed: 100
   m_projectileComponent:
-    m_bulletPrefab: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
-    m_bulletSpeed: 10
-    m_explosionRange: 0
+    BulletPrefab:
+      m_value: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
+    BulletSpeed:
+      m_value: 10
+    EplosionRange:
+      m_value: 0
   m_fireRateComponent:
-    m_fireRate: 0.5
+    FireRate:
+      m_value: 0.5
   m_damageComponent:
-    m_damage: 10
+    Damage:
+      m_value: 20
   m_bulletBarrelComponent:
     m_visual: {fileID: 4231306636256174191}
 --- !u!1001 &5247912029375694835

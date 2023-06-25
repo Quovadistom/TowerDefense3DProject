@@ -16,7 +16,7 @@ public class TurretEnemyHandler : ComponentWithUpgradeBase
         set
         {
             m_currentTarget = value;
-            m_towerInfoComponent.TryFindAndActOnComponent<TargetingComponent>((component) => component.Target = value);
+            m_towerInfoComponent.TryFindAndActOnComponent<TargetingComponent>((component) => component.Target.Value = value);
         }
     }
 

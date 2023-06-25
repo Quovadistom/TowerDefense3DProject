@@ -22,7 +22,7 @@ public abstract class TurretBarrel : ComponentWithUpgradeBase
         {
             if (value)
             {
-                m_currentTarget = TargetingComponent.Target;
+                m_currentTarget = TargetingComponent.Target.Value;
             }
 
             m_updateAndFollowTarget = value;
@@ -31,12 +31,12 @@ public abstract class TurretBarrel : ComponentWithUpgradeBase
 
     protected virtual void Awake()
     {
-        TargetingComponent.TargetChanged += RefreshTarget;
+        TargetingComponent.Target.ValueChanged += RefreshTarget;
     }
 
     protected void OnDestroy()
     {
-        TargetingComponent.TargetChanged -= RefreshTarget;
+        TargetingComponent.Target.ValueChanged -= RefreshTarget;
     }
 
     protected virtual void Update()
@@ -53,7 +53,7 @@ public abstract class TurretBarrel : ComponentWithUpgradeBase
 
         var lookPos = m_currentTarget.EnemyMiddle.position - transform.position;
         var rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * TargetingComponent.TurnSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * TargetingComponent.TurnSpeed.Value);
 
         if (m_elapsedTime > Interval)
         {

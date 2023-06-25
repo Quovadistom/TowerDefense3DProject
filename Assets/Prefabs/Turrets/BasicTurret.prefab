@@ -441,7 +441,10 @@ MonoBehaviour:
   m_towerInfoComponent: {fileID: 1506783029256370189}
   Accuracy: 0.99
   TargetingComponent:
-    m_turnSpeed: 100
+    Target:
+      m_value: {fileID: 0}
+    TurnSpeed:
+      m_value: 100
   m_projectileComponent:
     BulletPrefab:
       m_value: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}

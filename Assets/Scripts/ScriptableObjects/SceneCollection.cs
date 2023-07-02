@@ -1,6 +1,4 @@
 using NaughtyAttributes;
-using System;
-using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SceneCollection", menuName = "ScriptableObjects/SceneCollection")]

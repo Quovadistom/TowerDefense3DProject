@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HealthBoost", menuName = "ScriptableObjects/Boosts/GameBoosts/HealthBoost")]
-public class HealthUpgrade : Upgrade<HealthComponent>
+public class HealthUpgrade : TownUpgrade<HealthComponent>
 {
     public int HealthBoost;
 

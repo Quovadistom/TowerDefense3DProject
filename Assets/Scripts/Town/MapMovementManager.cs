@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MapMovementManager : MonoBehaviour
+public class MapMovementManager : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     [SerializeField] private Vector2 m_movementBounds;
     [SerializeField] private Vector2 m_scalingBounds;
@@ -12,18 +13,34 @@ public class MapMovementManager : MonoBehaviour
     private Vector3 m_oldPosition;
     private float m_fingerDistance = 0;
     private bool m_resetRequired;
+    private bool m_allowMove;
 
     private Vector3 m_calculatedPosition;
     private Vector3 m_calculatedScale;
 
-    private void Start()
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        m_allowMove = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        m_allowMove = false;
+    }
+
+    private void Awake()
     {
         m_camera = Camera.main;
         m_cameraAngle = m_camera.transform.parent.localEulerAngles.x;
     }
 
-    void Update()
+    private void Update()
     {
+        if (!m_allowMove)
+        {
+            return;
+        }
+
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);

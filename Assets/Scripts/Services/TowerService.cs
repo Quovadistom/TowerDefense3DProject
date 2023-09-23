@@ -16,7 +16,7 @@ public class TurretInfo
 
 public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 {
-    private List<TowerInfoComponent> m_placedTurrets = new List<TowerInfoComponent>();
+    private List<TowerInfoComponent> m_placedTurrets = new();
     private TurretCollection m_turretCollection;
     private TowerInfoComponent.Factory m_turretFactory;
 

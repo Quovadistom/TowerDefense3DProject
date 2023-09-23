@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: TurretCollection
   m_EditorClassIdentifier: 
   m_turretList:
-  - {fileID: 1506783029256370189, guid: 7c1cb0f68d097ff43bb73545afbcee29, type: 3}
-  - {fileID: 4342720139270870206, guid: 6a73397b0da9afe43997b3c7f89a2d3b, type: 3}
+  - TowerPrefab: {fileID: 1506783029256370189, guid: 7c1cb0f68d097ff43bb73545afbcee29, type: 3}
+    TurretVisualPrefab: {fileID: 0}
+    HousingPrefab: {fileID: 3089907692032091951, guid: ce7d5af2a740a484c90d8ce567aa17e2, type: 3}
+    m_isStartingTower: 1

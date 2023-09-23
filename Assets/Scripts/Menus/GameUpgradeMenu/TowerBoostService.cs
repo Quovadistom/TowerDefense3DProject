@@ -51,7 +51,7 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
 
     public bool TryGetTowerUpgradeInfo(string name, out BoostContainer boostContainer)
     {
-        boostContainer = m_boostCollection.TowerBoostList.FirstOrDefault(x => x.Name == name);
+        boostContainer = m_boostCollection.BoostList.FirstOrDefault(x => x.Name == name);
         return boostContainer != null;
     }
 

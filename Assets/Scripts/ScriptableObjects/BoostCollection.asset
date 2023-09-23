@@ -22,10 +22,12 @@ MonoBehaviour:
     Upgrades:
     - {fileID: 11400000, guid: fa9552e0b56d2e541aff0b54aa661993, type: 2}
     Rarity: 0
+    Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
   - m_name: Global Tower Range
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
+    Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}
   m_rarityRangeLegendary: {x: 0, y: 180}

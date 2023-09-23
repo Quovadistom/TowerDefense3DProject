@@ -17,9 +17,14 @@ public class MenuController : MonoBehaviour
 
     public void PushMenuPage(MenuPage page)
     {
+        if (m_pageStack.TryPeek(out MenuPage currentPage) && currentPage == page)
+        {
+            return;
+        }
+
         page.Enter();
 
-        if (m_pageStack.TryPeek(out MenuPage currentPage) && !currentPage.KeepPageOpen)
+        if (currentPage != null && !currentPage.KeepPageOpen)
         {
             currentPage.Exit();
         }

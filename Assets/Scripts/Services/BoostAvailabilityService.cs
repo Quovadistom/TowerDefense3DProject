@@ -16,7 +16,7 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
 
         if (m_debugSettings.EnableAllBoosts)
         {
-            foreach (var boost in m_boostCollection.TowerBoostList)
+            foreach (var boost in m_boostCollection.BoostList)
             {
                 AddAvailableBoost(boost.Name);
             }
@@ -44,7 +44,7 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
 
         if (!string.IsNullOrEmpty(name))
         {
-            boost = m_boostCollection.TowerBoostList.FirstOrDefault(boost => boost.Name == name);
+            boost = m_boostCollection.BoostList.FirstOrDefault(boost => boost.Name == name);
         }
 
         return boost != null;

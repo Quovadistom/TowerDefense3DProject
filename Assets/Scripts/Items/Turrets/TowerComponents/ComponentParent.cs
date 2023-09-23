@@ -24,7 +24,6 @@ public class ComponentParent : MonoBehaviour
         }
     }
 
-
     public string ComponentID = null;
 
     [Inject]

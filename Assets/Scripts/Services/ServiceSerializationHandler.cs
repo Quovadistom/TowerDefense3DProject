@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using System;
+using Zenject;
 
 public abstract class ServiceSerializationHandler<T> : SerializationHandler<T>, IInitializable where T : new()
 {
@@ -6,10 +7,14 @@ public abstract class ServiceSerializationHandler<T> : SerializationHandler<T>, 
     {
     }
 
+    public event Action ServiceRead;
+
     public virtual void Initialize()
     {
         Dto = new T();
 
         Read();
+
+        ServiceRead?.Invoke();
     }
 }

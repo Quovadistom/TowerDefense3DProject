@@ -36,11 +36,17 @@ public class BoostContainer
     }
 }
 
+[Serializable]
+public class GameBoostContainer : BoostContainer
+{
+    public GameObject Visual;
+}
+
 [CreateAssetMenu(fileName = "UpgradesCollection", menuName = "ScriptableObjects/UpgradesCollection")]
 public class BoostCollection : ScriptableObject
 {
     [SerializeField] private List<BoostContainer> m_towerUpgradeList;
-    [SerializeField] private List<BoostContainer> m_gameUpgradeList;
+    [SerializeField] private List<GameBoostContainer> m_gameUpgradeList;
 
     [Header("Rarity Rates")]
     [SerializeField] private int m_maxWaveForRarity;
@@ -54,7 +60,9 @@ public class BoostCollection : ScriptableObject
     public int Frequency => m_frequency;
     public int BoostAmount => m_boostAmount;
 
-    public IReadOnlyList<BoostContainer> TowerBoostList { get => m_towerUpgradeList.Concat(m_gameUpgradeList).ToList().AsReadOnly(); }
+    public IReadOnlyList<BoostContainer> TowerBoostList => m_towerUpgradeList;
+    public IReadOnlyList<GameBoostContainer> GameBoostList => m_gameUpgradeList;
+    public IReadOnlyList<BoostContainer> BoostList { get => m_towerUpgradeList.Concat(m_gameUpgradeList).ToList().AsReadOnly(); }
 
     private int GetWeight(Rarity rarity, int wave)
     {

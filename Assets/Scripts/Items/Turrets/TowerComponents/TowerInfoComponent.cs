@@ -41,8 +41,10 @@ public class TowerInfoComponent : ComponentParent
         Draggable.PlacementRequested += OnTowerPlaced;
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         Draggable.PlacementRequested -= OnTowerPlaced;
     }
 

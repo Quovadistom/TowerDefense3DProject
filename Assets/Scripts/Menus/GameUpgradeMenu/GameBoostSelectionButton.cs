@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -35,11 +36,11 @@ public class GameBoostSelectionButton : MonoBehaviour
         m_gameBoostService.GameBoostActivated += OnGameBoostActivated;
     }
 
-    private void OnGameBoostActivated(int index, string title)
+    private void OnGameBoostActivated(int index, Guid title)
     {
         if (m_index == index)
         {
-            SetButtonInfo(title);
+            SetButtonInfo(title.ToString());
         }
     }
 
@@ -57,13 +58,13 @@ public class GameBoostSelectionButton : MonoBehaviour
     {
         List<ButtonInfo> buttonInfos = new();
 
-        foreach (KeyValuePair<BoostContainer, int> boost in m_boostAvailabilityService.GetAvailableBoostList().Where(boost => string.IsNullOrEmpty(boost.Key.TargetObjectID)))
+        foreach (KeyValuePair<BoostContainer, int> boost in m_boostAvailabilityService.GetAvailableBoostList().Where(boost => boost.Key.TargetObjectID != Guid.Empty))
         {
             for (int i = 0; i < boost.Value; i++)
             {
                 buttonInfos.Add(new ButtonInfo()
                 {
-                    Title = boost.Key.Name,
+                    Title = boost.Key.Name.ToString(),
                     Callback = () =>
                     {
                         m_gameBoostService.AddBoost(m_index, boost.Key);

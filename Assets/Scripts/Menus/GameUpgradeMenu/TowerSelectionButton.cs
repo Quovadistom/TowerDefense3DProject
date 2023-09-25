@@ -34,7 +34,7 @@ public class TowerSelectionButton : MonoBehaviour
     {
         List<ButtonInfo> buttonInfos = new List<ButtonInfo>();
 
-        IEnumerable<string> nonAvailableTowerTypes = m_towerUpgradeService.TowerBoostRows.Select(x => x.TowerType);
+        IEnumerable<Guid> nonAvailableTowerTypes = m_towerUpgradeService.TowerBoostRows.Select(x => x.TowerType);
         IEnumerable<TowerInfoComponent> nonAvailableTowers = m_turretCollection.TurretList.Where(x => nonAvailableTowerTypes.Contains(x.ComponentID));
 
         foreach (TowerInfoComponent infoComponent in m_turretCollection.TurretList.Except(nonAvailableTowers))

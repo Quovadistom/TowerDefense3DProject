@@ -15,7 +15,10 @@ public class ProjectileBase : AttackBase
     {
         base.Update();
 
-        m_direction = m_target.EnemyMiddle.transform.position - this.transform.position;
+        if (m_target != null)
+        {
+            m_direction = m_target.EnemyMiddle.transform.position - this.transform.position;
+        }
 
         if (m_direction != default)
         {

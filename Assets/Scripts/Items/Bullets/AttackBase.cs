@@ -12,6 +12,7 @@ public class AttackBase : Poolable
         if (m_target != null && m_target.IsPooled)
         {
             m_target = null;
+            return;
         }
     }
 

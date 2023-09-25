@@ -7,7 +7,7 @@ using UnityEngine;
 public class TurretInfo
 {
     public Guid TowerID { get; set; }
-    public string TurretName { get; set; }
+    public Guid TurretName { get; set; }
     public Vector3 Position { get; set; }
     public TowerUpgradeTreeData TowerUpgradeTree { get; set; }
     public List<Guid> ConnectedSupportTowers { get; set; }
@@ -65,7 +65,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         foreach (TurretInfo selectedTurret in dto.PlacedTurrets)
         {
-            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.ComponentID == selectedTurret.TurretName);
+            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => (Guid)turret.ComponentID == selectedTurret.TurretName);
             TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
             placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
 

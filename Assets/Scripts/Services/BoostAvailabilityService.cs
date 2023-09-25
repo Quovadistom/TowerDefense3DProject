@@ -6,7 +6,7 @@ using UnityEngine;
 public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollectionServiceDto>
 {
     private BoostCollection m_boostCollection;
-    private Dictionary<string, int> m_availableBoosts = new();
+    private Dictionary<Guid, int> m_availableBoosts = new();
 
     protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
 
@@ -38,11 +38,11 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         return keyValuePairs;
     }
 
-    public bool TryGetBoost(string name, out BoostContainer boost)
+    public bool TryGetBoost(Guid name, out BoostContainer boost)
     {
         boost = null;
 
-        if (!string.IsNullOrEmpty(name))
+        if (name != Guid.Empty)
         {
             boost = m_boostCollection.BoostList.FirstOrDefault(boost => boost.Name == name);
         }
@@ -50,9 +50,9 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         return boost != null;
     }
 
-    public void AddAvailableBoost(string boostID)
+    public void AddAvailableBoost(Guid boostID)
     {
-        if (string.IsNullOrEmpty(boostID))
+        if (boostID != Guid.Empty)
         {
             return;
         }
@@ -67,7 +67,7 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         }
     }
 
-    public void RemoveAvailableBoost(string boostID)
+    public void RemoveAvailableBoost(Guid boostID)
     {
         if (m_availableBoosts.ContainsKey(boostID))
         {
@@ -92,5 +92,5 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
 
 public class BoostCollectionServiceDto
 {
-    public Dictionary<string, int> AvailableBoosts;
+    public Dictionary<Guid, int> AvailableBoosts;
 }

@@ -13,18 +13,18 @@ public class TileUpgradeMenu : MonoBehaviour
     [SerializeField] private Button m_previousTile;
     [SerializeField] private Slider m_slider;
 
-    private TownTileService m_tileService;
     private float m_tileItemWidth;
+    private TownHousingService m_townHousingService;
 
     [Inject]
-    private void Construct(TownTileService tileService)
+    private void Construct(TownHousingService townHousingService)
     {
-        m_tileService = tileService;
+        m_townHousingService = townHousingService;
     }
 
     private void Awake()
     {
-        m_tileService.TileUpgradeRequested += OnTileUpgradeRequested;
+        m_townHousingService.TileHousingUpgradeRequested += OnTileUpgradeRequested;
         m_nextTile.onClick.AddListener(OnNextTile);
         m_previousTile.onClick.AddListener(OnPreviousTile);
         m_slider.onValueChanged.AddListener(OnSliderValueChanged);
@@ -40,13 +40,13 @@ public class TileUpgradeMenu : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_tileService.TileUpgradeRequested -= OnTileUpgradeRequested;
+        m_townHousingService.TileHousingUpgradeRequested -= OnTileUpgradeRequested;
         m_nextTile.onClick.RemoveListener(OnNextTile);
         m_previousTile.onClick.RemoveListener(OnPreviousTile);
         m_slider.onValueChanged.RemoveListener(OnSliderValueChanged);
     }
 
-    private void OnTileUpgradeRequested(TownTile obj)
+    private void OnTileUpgradeRequested(HousingData obj)
     {
         m_menuController.PushMenuPage(m_menuPage);
     }

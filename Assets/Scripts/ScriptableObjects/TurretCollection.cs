@@ -20,9 +20,9 @@ public class TurretCollection : ScriptableObject
     public IReadOnlyList<TowerInfoComponent> TurretList { get => m_turretList.Select(towerAssets => towerAssets.TowerPrefab).ToList(); }
     public IReadOnlyList<ITargetMethod> TargetMethodList { get => m_targetMethodList; }
 
-    public bool TryGetTowerPrefab(string turretType, out TowerInfoComponent towerInfoComponent)
+    public bool TryGetTowerPrefab(Guid turretType, out TowerInfoComponent towerInfoComponent)
     {
-        towerInfoComponent = TurretList.FirstOrDefault(tower => tower.ComponentID == turretType);
+        towerInfoComponent = TurretList.FirstOrDefault(tower => (Guid)tower.ComponentID == turretType);
         return towerInfoComponent != null;
     }
 }

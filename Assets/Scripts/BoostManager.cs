@@ -48,7 +48,7 @@ public class BoostManager : MonoBehaviour
                 ItemMenuButton spawnedButton = Instantiate(m_prefab, m_boostParent);
                 spawnedButton.SetContent(new ButtonInfo()
                 {
-                    Title = boost.Name
+                    Title = boost.Name.ToString()
                 });
             }
         });

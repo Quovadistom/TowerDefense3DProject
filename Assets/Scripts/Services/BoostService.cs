@@ -22,13 +22,13 @@ public class BoostService
     public void ApplyUpgradesToObject(ComponentParent componentParent)
     {
         var boost1 = m_upgradesToApplyOnGameLoad.Where(upgrade =>
-        string.IsNullOrEmpty(upgrade.TargetObjectID) || upgrade.TargetObjectID == componentParent.ComponentID).ToList();
+        upgrade.TargetObjectID == Guid.Empty || upgrade.TargetObjectID == (Guid)componentParent.ComponentID).ToList();
 
         var boost2 = m_upgradesToApplyOnGameLoad.Where(upgrade =>
         upgrade.IsBoostSuitable(componentParent)).Count();
 
         foreach (BoostContainer upgrade in m_upgradesToApplyOnGameLoad.Where(upgrade =>
-        (string.IsNullOrEmpty(upgrade.TargetObjectID) || upgrade.TargetObjectID == componentParent.ComponentID) &&
+        (upgrade.TargetObjectID == Guid.Empty || upgrade.TargetObjectID == (Guid)componentParent.ComponentID) &&
         upgrade.IsBoostSuitable(componentParent)))
         {
             upgrade.ApplyUpgrades(componentParent);

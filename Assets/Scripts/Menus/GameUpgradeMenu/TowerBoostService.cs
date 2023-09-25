@@ -7,12 +7,12 @@ using UnityEngine;
 [Serializable]
 public class TowerBoostRow
 {
-    public string TowerType = string.Empty;
-    public string[] UpgradeIDs = new string[3]
+    public Guid TowerType = Guid.Empty;
+    public Guid[] UpgradeIDs = new Guid[3]
     {
-        string.Empty,
-        string.Empty,
-        string.Empty,
+        Guid.Empty,
+        Guid.Empty,
+        Guid.Empty,
     };
 }
 
@@ -31,8 +31,8 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
     private readonly BoostAvailabilityService m_boostAvailabilityService;
     private readonly BoostService m_boostService;
 
-    public event Action<int, string> TurretTypeChanged;
-    public event Action<string, int, BoostContainer> TurretUpgradeChanged;
+    public event Action<int, Guid> TurretTypeChanged;
+    public event Action<Guid, int, BoostContainer> TurretUpgradeChanged;
 
     public ICollection<TowerBoostRow> TowerBoostRows => m_towerBoostRows.AsReadOnlyCollection();
 
@@ -49,21 +49,21 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         m_boostService = boostService;
     }
 
-    public bool TryGetTowerUpgradeInfo(string name, out BoostContainer boostContainer)
+    public bool TryGetTowerUpgradeInfo(Guid name, out BoostContainer boostContainer)
     {
         boostContainer = m_boostCollection.BoostList.FirstOrDefault(x => x.Name == name);
         return boostContainer != null;
     }
 
-    public void UpdateTowerUpgradeCollection(int upgradeIndex, string turretType)
+    public void UpdateTowerUpgradeCollection(int upgradeIndex, Guid turretType)
     {
         m_towerBoostRows[upgradeIndex].TowerType = turretType;
-        m_towerBoostRows[upgradeIndex].UpgradeIDs = new string[3];
+        m_towerBoostRows[upgradeIndex].UpgradeIDs = new Guid[3];
 
         TurretTypeChanged?.Invoke(upgradeIndex, turretType);
     }
 
-    public void UpdateTowerBoostCollection(string towerType, int upgradeIndex, BoostContainer upgrade)
+    public void UpdateTowerBoostCollection(Guid towerType, int upgradeIndex, BoostContainer upgrade)
     {
         TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerType);
         if (row != null)

@@ -10,12 +10,14 @@ public class TileContextMenu : MonoBehaviour
     [SerializeField] private Button m_upgradeButton;
 
     private TownTileService m_tileService;
+    private TownHousingService m_townHousingService;
     private RectTransform m_rectTransform;
 
     [Inject]
-    private void Construct(TownTileService tileService)
+    private void Construct(TownTileService tileService, TownHousingService townHousingService)
     {
         m_tileService = tileService;
+        m_townHousingService = townHousingService;
     }
 
     private void Awake()
@@ -54,7 +56,7 @@ public class TileContextMenu : MonoBehaviour
 
     private void UpgradeTile()
     {
-        m_tileService.UpgradeActiveTile();
+        m_townHousingService.UpgradeActiveTile(m_tileService.ActiveTownTile.TownTileData.ConnectedTowerID);
     }
 
     private void OnTileSelected(TownTile tile)

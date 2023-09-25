@@ -45,7 +45,7 @@ public class TowerBoostCollection : MonoBehaviour
         m_towerUpgradeService.TurretTypeChanged -= OnTurretTypeChanged;
     }
 
-    private void OnTurretTypeChanged(int index, string type)
+    private void OnTurretTypeChanged(int index, Guid type)
     {
         if (Index == index && m_towerCollection.TryGetTowerPrefab(type, out TowerInfoComponent towerInfoComponent))
         {

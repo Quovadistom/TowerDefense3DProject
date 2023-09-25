@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -13,7 +14,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
 
     private TowerBoostService m_towerUpgradeService;
     private BoostAvailabilityService m_boostAvailabilityService;
-    private string m_upgradeID;
+    private Guid m_upgradeID;
 
     private int m_index = 0;
 
@@ -62,7 +63,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
         {
             buttonInfos.Add(new ButtonInfo()
             {
-                Title = boost.Key.Name,
+                Title = boost.Key.Name.ToString(),
                 Callback = () =>
                 {
                     m_boostAvailabilityService.AddAvailableBoost(m_upgradeID);
@@ -76,24 +77,24 @@ public class TowerBoostSelectionButton : MonoBehaviour
         m_towerUpgradeCollection.UpgradeMenu.OpenItemMenu(buttonInfos);
     }
 
-    private void OnTurretBoostChanged(string towerType, int index, BoostContainer upgrade)
+    private void OnTurretBoostChanged(Guid towerType, int index, BoostContainer upgrade)
     {
         if (m_towerUpgradeCollection.LinkedTower == null || upgrade == null)
         {
             return;
         }
 
-        if (m_towerUpgradeCollection.LinkedTower.ComponentID == towerType && m_index == index)
+        if ((Guid)m_towerUpgradeCollection.LinkedTower.ComponentID == towerType && m_index == index)
         {
             m_upgradeID = upgrade.Name;
-            m_titleText.text = upgrade.Name;
+            m_titleText.text = upgrade.Name.ToString();
         }
     }
 
     private void OnTowerSet()
     {
         m_titleText.text = "Select Upgrade";
-        m_upgradeID = string.Empty;
+        m_upgradeID = Guid.Empty;
         m_button.interactable = true;
     }
 }

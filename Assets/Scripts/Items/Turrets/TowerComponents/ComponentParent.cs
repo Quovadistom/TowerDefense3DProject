@@ -24,7 +24,7 @@ public class ComponentParent : MonoBehaviour
         }
     }
 
-    public string ComponentID = null;
+    public SerializableGuid ComponentID = Guid.Empty;
 
     [Inject]
     private void Construct(BoostService boostService)

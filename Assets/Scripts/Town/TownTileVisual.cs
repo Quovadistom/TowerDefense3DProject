@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using Zenject;
@@ -15,7 +16,7 @@ public class TownTileVisual : MonoBehaviour
         m_boostCollection = boostCollection;
     }
 
-    public void SetTileUpgrades(string[] updates)
+    public void SetTileUpgrades(Guid[] updates)
     {
         for (int i = 0; i < updates.Length; i++)
         {

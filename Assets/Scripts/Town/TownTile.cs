@@ -1,5 +1,6 @@
 using DG.Tweening;
 using NaughtyAttributes;
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,39 +22,23 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
     private Sequence m_sequence;
 
     private HousingData m_housingData;
-    public HousingData HousingData
-    {
-        get => m_housingData;
-        set
-        {
-            if (m_housingData != null)
-            {
-                m_housingData.TileUpdated -= OnTileUpdated;
-            }
-
-            m_housingData = value;
-
-            if (m_housingData != null)
-            {
-                m_housingData.TileUpdated += OnTileUpdated;
-            }
-        }
-    }
 
     public TownTileData TownTileData { get; private set; } = new();
 
     public string Coordinates { get; private set; }
 
     private TownTileService m_townTileService;
+    private TownHousingService m_townHousingService;
     private TurretCollection m_towerCollection;
     private TownTileVisual.Factory m_townTileVisualFactory;
     private bool m_dragged;
     private TowerAssets m_currentContent;
 
     [Inject]
-    private void Construct(TownTileService townTileService, TurretCollection towerCollection, TownTileVisual.Factory townTileVisualFactory)
+    private void Construct(TownTileService townTileService, TownHousingService townHousingService, TurretCollection towerCollection, TownTileVisual.Factory townTileVisualFactory)
     {
         m_townTileService = townTileService;
+        m_townHousingService = townHousingService;
         m_towerCollection = towerCollection;
         m_townTileVisualFactory = townTileVisualFactory;
     }
@@ -118,14 +103,14 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
 
         m_sequence?.Kill(true);
 
-        HousingData = towerAssets == null ? null : m_townTileService.GetHousingData(towerAssets.TowerPrefab.ComponentID);
+        m_housingData = towerAssets == null ? null : m_townHousingService.GetHousingData(towerAssets.TowerPrefab.ComponentID);
 
         if (towerAssets?.HousingPrefab != null)
         {
             Transform bottomSide = m_tile.localEulerAngles.z > 95 ? m_tileSideHead : m_tileSideTail;
             TownTileVisual visual = m_townTileVisualFactory.Create(towerAssets.HousingPrefab);
             visual.transform.SetParent(bottomSide, false);
-            visual.SetTileUpgrades(HousingData.ActiveUpgrades);
+            visual.SetTileUpgrades(m_housingData.ActiveUpgrades);
         }
 
         m_sequence = DOTween.Sequence();
@@ -136,7 +121,7 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
                 bottomSide.ClearChildren();
             });
 
-        TownTileData.IsOccupied = towerAssets != null;
+        TownTileData.ConnectedTowerID = towerAssets != null ? towerAssets.TowerPrefab.ComponentID : Guid.Empty;
     }
 
     public void OnDrag(PointerEventData eventData)

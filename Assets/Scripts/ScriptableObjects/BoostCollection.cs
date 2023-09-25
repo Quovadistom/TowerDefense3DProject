@@ -14,12 +14,12 @@ public enum Rarity
 [Serializable]
 public class BoostContainer
 {
-    [SerializeField] private string m_name;
+    [SerializeField] private SerializableGuid m_name;
 
-    public string TargetObjectID { get; set; } = null;
+    public Guid TargetObjectID { get; set; } = Guid.Empty;
 
     public UpgradeBase[] Upgrades;
-    public string Name => m_name;
+    public Guid Name => m_name;
     public Rarity Rarity = Rarity.COMMON;
 
     public bool IsBoostSuitable(ComponentParent towerInfoComponent)

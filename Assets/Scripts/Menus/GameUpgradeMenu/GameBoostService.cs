@@ -4,13 +4,13 @@ using Unity.VisualScripting;
 
 public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
 {
-    private string[] m_gameBoosts = new string[5];
+    private Guid[] m_gameBoosts = new Guid[5];
     private BoostService m_boostService;
     private BoostAvailabilityService m_boostAvailabilityService;
 
-    public event Action<int, string> GameBoostActivated;
+    public event Action<int, Guid> GameBoostActivated;
 
-    public ICollection<string> GameBoosts => m_gameBoosts.AsReadOnlyCollection();
+    public ICollection<Guid> GameBoosts => m_gameBoosts.AsReadOnlyCollection();
 
     protected override Guid Id => Guid.Parse("0afb0eb2-09db-4a9c-92f9-9a20adc4a339");
 
@@ -43,5 +43,5 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
 
 public class GameBoostServiceDto
 {
-    public string[] SelectedGameBoosts;
+    public Guid[] SelectedGameBoosts;
 }

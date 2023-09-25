@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7953795489164966463}
-  - component: {fileID: 7352623618096459969}
+  - component: {fileID: 3024794025693742440}
   m_Layer: 0
   m_Name: TowerBase
   m_TagString: Untagged
@@ -316,7 +316,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7352623618096459969
+--- !u!114 &3024794025693742440
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,9 +328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41495e1652079c24da8646bf23fd278f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_value: 100
+  ComponentID:
+    serializedGuid: 00000000-0000-0000-0000-000000000000
   m_upgradeTreeData: {fileID: 0}
-  TowerTypeID: 
   Selectable: {fileID: 4022932716744111603}
   Draggable: {fileID: 1853222405557904121}
   AvailableUpgradeAmount: 5
@@ -383,8 +383,11 @@ MonoBehaviour:
   m_renderer: {fileID: 1258873128131073347}
   m_rangeCollider: {fileID: 2927483342722670516}
   m_draggable: {fileID: 1853222405557904121}
-  RangeInformation:
-    m_range: 0
+  RangeComponent:
+    RangeValue:
+      m_baseValue: 0
+    VisualComponent:
+      m_visual: {fileID: 0}
 --- !u!135 &2927483342722670516
 SphereCollider:
   m_ObjectHideFlags: 0

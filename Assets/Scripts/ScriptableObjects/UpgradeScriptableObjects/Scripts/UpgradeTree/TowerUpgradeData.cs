@@ -13,7 +13,11 @@ public class TowerUpgradeData
     public bool IsBought = false;
     public List<string> RequiredFor = new();
 
-    public Guid TowerUpgradeID => m_towerUpgradeID;
+    public Guid TowerUpgradeID
+    {
+        get => m_towerUpgradeID;
+        set => m_towerUpgradeID = (SerializableGuid)value;
+    }
 
     [JsonIgnore][Expandable] public UpgradeBase[] TowerUpgrades;
 

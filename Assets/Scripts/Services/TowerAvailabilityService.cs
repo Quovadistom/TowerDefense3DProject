@@ -27,6 +27,12 @@ public class TowerAvailabilityService : ServiceSerializationHandler<TowerAvailab
         m_towerAssetsCollection = m_turretCollection.TurretAssetsList.Select(tower => new TowerAssetsAvailibilityWrapper(tower, tower.IsStartingTower));
     }
 
+    public bool TryGetTowerAssets(Guid towerID, out TowerAssets towerAssets)
+    {
+        towerAssets = AvailableTowers.FirstOrDefault(tower => tower.TowerPrefab.ComponentID == towerID);
+        return towerAssets != null;
+    }
+
     protected override Guid Id => Guid.Parse("d1284628-cd1a-4995-be56-6874c69ba45e");
 
     protected override void ConvertDto()

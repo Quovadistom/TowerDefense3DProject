@@ -7,6 +7,7 @@ public class TileUpgradeMenu : MonoBehaviour
 {
     [SerializeField] private MenuController m_menuController;
     [SerializeField] private MenuPage m_menuPage;
+    [SerializeField] private TileUpgradeMenuItem m_tileUpgradeMenuItemPrefab;
 
     [SerializeField] private RectTransform m_container;
     [SerializeField] private Button m_nextTile;
@@ -15,11 +16,14 @@ public class TileUpgradeMenu : MonoBehaviour
 
     private float m_tileItemWidth;
     private TownHousingService m_townHousingService;
+    private TowerAvailabilityService m_towerAvailabilityService;
+    private TileUpgradeMenuItem.Factory m_tileUpgradeMenuItemFactory;
 
     [Inject]
-    private void Construct(TownHousingService townHousingService)
+    private void Construct(TownHousingService townHousingService, TileUpgradeMenuItem.Factory tileUpgradeMenuItemFactory)
     {
         m_townHousingService = townHousingService;
+        m_tileUpgradeMenuItemFactory = tileUpgradeMenuItemFactory;
     }
 
     private void Awake()
@@ -29,13 +33,21 @@ public class TileUpgradeMenu : MonoBehaviour
         m_previousTile.onClick.AddListener(OnPreviousTile);
         m_slider.onValueChanged.AddListener(OnSliderValueChanged);
 
-        m_tileItemWidth = m_container.GetChild(0).GetComponent<RectTransform>().sizeDelta.x;
+        m_tileItemWidth = m_tileUpgradeMenuItemPrefab.GetComponent<RectTransform>().sizeDelta.x;
     }
 
     private void OnEnable()
     {
         m_container.localPosition = new Vector3(-m_tileItemWidth / 2, 0, 0);
         m_slider.maxValue = m_container.childCount - 1;
+
+        m_container.ClearChildren();
+        foreach (HousingData housingData in m_townHousingService.AvailableHousingData)
+        {
+            TileUpgradeMenuItem tile = m_tileUpgradeMenuItemFactory.Create();
+            tile.transform.SetParent(m_container.transform, false);
+            tile.SetHousingInfo(housingData);
+        }
     }
 
     private void OnDestroy()

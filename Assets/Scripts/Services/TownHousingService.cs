@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
+[Serializable]
 public class HousingData
 {
     public HousingData(Guid towerTypeGuid)
@@ -18,11 +20,21 @@ public class HousingData
 
 public class TownHousingService : ServiceSerializationHandler<TownHousingServiceDTO>
 {
+    public IReadOnlyList<HousingData> AvailableHousingData => m_housingData.Values.ToList();
+
     private Dictionary<Guid, HousingData> m_housingData = new();
+    private TowerAvailabilityService m_towerAvailabilityService;
+
     public event Action<HousingData> TileHousingUpgradeRequested;
 
-    public TownHousingService(SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public TownHousingService(SerializationService serializationService, DebugSettings debugSettings, TowerAvailabilityService towerAvailabilityService) : base(serializationService, debugSettings)
     {
+        m_towerAvailabilityService = towerAvailabilityService;
+
+        foreach (TowerAssets tower in m_towerAvailabilityService.AvailableTowers)
+        {
+            m_housingData.Add(tower.TowerPrefab.ComponentID, new HousingData(tower.TowerPrefab.ComponentID));
+        }
     }
 
 
@@ -47,7 +59,17 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     protected override void ConvertDtoBack(TownHousingServiceDTO dto)
     {
-        m_housingData = dto.HousingData;
+        foreach (KeyValuePair<Guid, HousingData> housingData in dto.HousingData)
+        {
+            if (m_housingData.ContainsKey(housingData.Key))
+            {
+                m_housingData[housingData.Key] = housingData.Value;
+            }
+            else
+            {
+                m_housingData.Add(housingData.Key, housingData.Value);
+            }
+        }
     }
 }
 

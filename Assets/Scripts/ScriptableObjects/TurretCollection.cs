@@ -22,7 +22,7 @@ public class TurretCollection : ScriptableObject
 
     public bool TryGetTowerPrefab(Guid turretType, out TowerInfoComponent towerInfoComponent)
     {
-        towerInfoComponent = TurretList.FirstOrDefault(tower => (Guid)tower.ComponentID == turretType);
+        towerInfoComponent = TurretList.FirstOrDefault(tower => tower.ComponentID == turretType);
         return towerInfoComponent != null;
     }
 }

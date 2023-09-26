@@ -52,8 +52,8 @@ public struct SerializableGuid : ISerializationCallbackReceiver
 
     public static bool operator ==(SerializableGuid a, SerializableGuid b) => a.guid == b.guid;
     public static bool operator !=(SerializableGuid a, SerializableGuid b) => a.guid != b.guid;
-    public static implicit operator SerializableGuid(Guid guid) => new SerializableGuid(guid);
+    public static explicit operator SerializableGuid(Guid guid) => new(guid);
     public static implicit operator Guid(SerializableGuid serializable) => serializable.guid;
-    public static implicit operator SerializableGuid(string serializedGuid) => new SerializableGuid(Guid.Parse(serializedGuid));
+    public static implicit operator SerializableGuid(string serializedGuid) => new(Guid.Parse(serializedGuid));
     public static implicit operator string(SerializableGuid serializedGuid) => serializedGuid.ToString();
 }

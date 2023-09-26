@@ -65,7 +65,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         foreach (TurretInfo selectedTurret in dto.PlacedTurrets)
         {
-            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => (Guid)turret.ComponentID == selectedTurret.TurretName);
+            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.ComponentID == selectedTurret.TurretName);
             TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
             placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
 

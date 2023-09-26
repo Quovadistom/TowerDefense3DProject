@@ -84,7 +84,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
             return;
         }
 
-        if ((Guid)m_towerUpgradeCollection.LinkedTower.ComponentID == towerType && m_index == index)
+        if (m_towerUpgradeCollection.LinkedTower.ComponentID == towerType && m_index == index)
         {
             m_upgradeID = upgrade.Name;
             m_titleText.text = upgrade.Name.ToString();

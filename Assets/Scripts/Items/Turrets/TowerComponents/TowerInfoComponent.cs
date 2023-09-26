@@ -6,7 +6,7 @@ using Zenject;
 
 public class TowerInfoComponent : ComponentParent
 {
-    [SerializeField] private TowerUpgradeTreeData m_upgradeTreeData;
+    [SerializeField] private TowerUpgradeTree m_upgradeTreeData;
 
     public Selectable Selectable;
     public Draggable Draggable;
@@ -34,7 +34,7 @@ public class TowerInfoComponent : ComponentParent
 
         if (m_upgradeTreeData != null)
         {
-            UpgradeTreeData = Instantiate(m_upgradeTreeData);
+            UpgradeTreeData = Instantiate(m_upgradeTreeData).TowerUpgradeTreeData;
             UpgradeTreeData.Initialize();
         }
 

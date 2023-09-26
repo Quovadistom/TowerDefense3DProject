@@ -24,7 +24,7 @@ public class ComponentParent : MonoBehaviour
         }
     }
 
-    public SerializableGuid ComponentID = Guid.Empty;
+    public SerializableGuid ComponentID = (SerializableGuid)Guid.Empty;
 
     [Inject]
     private void Construct(BoostService boostService)
@@ -58,7 +58,12 @@ public class ComponentParent : MonoBehaviour
         bool upgradeSucces = false;
         foreach (ComponentWithUpgradeBase upgradable in UpgradableComponents)
         {
-            upgradeSucces = upgradable.TryFindAndActOnComponent(func);
+            if (!upgradable.TryFindAndActOnComponent(func))
+            {
+                continue;
+            }
+
+            upgradeSucces = true;
         }
 
         if (!upgradeSucces)

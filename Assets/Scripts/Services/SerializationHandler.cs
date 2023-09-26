@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Text;
 using UnityEngine;
 
 public abstract class SerializationHandler<T> where T : new()
@@ -34,8 +33,8 @@ public abstract class SerializationHandler<T> where T : new()
                         {
                             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                         });
-        //File.WriteAllText(GetFilePath(), json);
-        File.WriteAllText(GetFilePath(), Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
+        File.WriteAllText(GetFilePath(), json);
+        //File.WriteAllText(GetFilePath(), Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
     }
 
     protected void Read()
@@ -46,8 +45,8 @@ public abstract class SerializationHandler<T> where T : new()
         {
             string json = File.ReadAllText(GetFilePath());
             string json2 = JsonConvert.SerializeObject(json);
-            //Dto = JsonConvert.DeserializeObject<T>(json);
-            Dto = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Convert.FromBase64String(json)));
+            Dto = JsonConvert.DeserializeObject<T>(json);
+            //Dto = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(Convert.FromBase64String(json)));
             ConvertDtoBack(Dto);
         }
     }

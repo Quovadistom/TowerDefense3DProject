@@ -3,13 +3,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 [Serializable]
 public class TowerUpgradeData
 {
-    [SerializeField] private string m_upgradeName;
-    public string Name => m_upgradeName;
+    public string Name;
     public int UpgradeCost = 100;
     public bool IsBought = false;
     public List<string> RequiredFor = new();
@@ -67,8 +65,7 @@ public class TowerUpgradeTreeRow
 }
 
 [Serializable]
-[CreateAssetMenu(fileName = "TowerUpgradeTreeData", menuName = "ScriptableObjects/Upgrades/TowerUpgradeTreeData")]
-public class TowerUpgradeTreeData : ScriptableObject
+public class TowerUpgradeTreeData
 {
     public List<TowerUpgradeTreeRow> Structure;
 

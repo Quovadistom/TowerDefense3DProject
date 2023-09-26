@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84710c7b7f10d24cac1eac34b9a035c, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a322798d06342b4cb189445192f4196, type: 3}
   m_Name: BasicTurretUpgradeTree
   m_EditorClassIdentifier: 
-  Structure:
-  - TowerUpgrades:
-    - m_upgradeName: 
-      UpgradeCost: 0
-      IsBought: 0
-      RequiredFor: []
-      TowerUpgrades:
-      - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
+  TowerUpgradeTreeData:
+    Structure:
+    - TowerUpgrades:
+      - Name: Range
+        UpgradeCost: 0
+        IsBought: 0
+        RequiredFor: []
+        TowerUpgrades:
+        - {fileID: 11400000, guid: 2ee6e63eedafba64db390ae9540a835a, type: 2}

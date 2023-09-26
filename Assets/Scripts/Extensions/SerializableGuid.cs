@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using UnityEngine;
 
@@ -11,12 +12,14 @@ using UnityEngine;
 public struct SerializableGuid : ISerializationCallbackReceiver
 {
     private Guid guid;
-    [SerializeField] private string serializedGuid;
+    [AllowNesting, Label(""), SerializeField, ReadOnly] private string serializedGuid;
+    [SerializeField] private bool m_isLocked;
 
     public SerializableGuid(Guid guid)
     {
         this.guid = guid;
         serializedGuid = null;
+        m_isLocked = false;
     }
 
     public override bool Equals(object obj)

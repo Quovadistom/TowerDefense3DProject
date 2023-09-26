@@ -16,6 +16,9 @@ MonoBehaviour:
     Structure:
     - TowerUpgrades:
       - Name: Range
+        TowerUpgradeID:
+          serializedGuid: 761a0f48-2f45-4943-baee-ef55a9095927
+          m_isLocked: 1
         UpgradeCost: 0
         IsBought: 0
         RequiredFor: []

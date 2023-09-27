@@ -24,10 +24,10 @@ public class GameBoostService : ServiceSerializationHandler<GameBoostServiceDto>
 
     public void AddBoost(int index, BoostContainer boost)
     {
-        m_gameBoosts[index] = boost.Name;
-        m_boostAvailabilityService.RemoveAvailableBoost(boost.Name);
+        m_gameBoosts[index] = boost.ID;
+        m_boostAvailabilityService.RemoveAvailableBoost(boost.ID);
         m_boostService.AddUpgrade(boost);
-        GameBoostActivated?.Invoke(index, boost.Name);
+        GameBoostActivated?.Invoke(index, boost.ID);
     }
 
     protected override void ConvertDto()

@@ -13,22 +13,25 @@ MonoBehaviour:
   m_Name: BoostCollection
   m_EditorClassIdentifier: 
   m_towerUpgradeList:
-  - m_name:
-      serializedGuid: 20c39b91-26ed-4af6-8866-e41c3eec9ba9
+  - m_name: Range 1
+    m_id:
+      serializedGuid: 6cb5924e-0e02-4591-8ffa-45d7b7a583e9
       m_isLocked: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
   m_gameUpgradeList:
-  - m_name:
-      serializedGuid: 10aa3f80-5ee4-4d28-8979-25e304799a24
+  - m_name: Health 1
+    m_id:
+      serializedGuid: 32166d44-7027-4d65-9271-55f6024a310d
       m_isLocked: 1
     Upgrades:
     - {fileID: 11400000, guid: fa9552e0b56d2e541aff0b54aa661993, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
-  - m_name:
-      serializedGuid: 3f61c907-40db-48ee-920a-e014edc8f9bd
+  - m_name: Game Range 1
+    m_id:
+      serializedGuid: 6b7d07f7-dd3e-4eac-a5be-992437e6f36e
       m_isLocked: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}

@@ -44,11 +44,11 @@ public class BoostManager : MonoBehaviour
         {
             foreach (var boost in boostList)
             {
-                m_boostAvailabilityService.AddAvailableBoost(boost.Name);
+                m_boostAvailabilityService.AddAvailableBoost(boost.ID);
                 ItemMenuButton spawnedButton = Instantiate(m_prefab, m_boostParent);
                 spawnedButton.SetContent(new ButtonInfo()
                 {
-                    Title = boost.Name.ToString()
+                    Title = boost.Name
                 });
             }
         });

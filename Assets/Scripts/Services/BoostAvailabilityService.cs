@@ -18,7 +18,7 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         {
             foreach (var boost in m_boostCollection.BoostList)
             {
-                AddAvailableBoost(boost.Name);
+                AddAvailableBoost(boost.ID);
             }
         }
     }
@@ -38,13 +38,13 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         return keyValuePairs;
     }
 
-    public bool TryGetBoost(Guid name, out BoostContainer boost)
+    public bool TryGetBoost(Guid id, out BoostContainer boost)
     {
         boost = null;
 
-        if (name != Guid.Empty)
+        if (id != Guid.Empty)
         {
-            boost = m_boostCollection.BoostList.FirstOrDefault(boost => boost.Name == name);
+            boost = m_boostCollection.BoostList.FirstOrDefault(boost => boost.ID == id);
         }
 
         return boost != null;

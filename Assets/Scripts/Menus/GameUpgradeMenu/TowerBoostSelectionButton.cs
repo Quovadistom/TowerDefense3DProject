@@ -63,7 +63,7 @@ public class TowerBoostSelectionButton : MonoBehaviour
         {
             buttonInfos.Add(new ButtonInfo()
             {
-                Title = boost.Key.Name.ToString(),
+                Title = boost.Key.Name,
                 Callback = () =>
                 {
                     m_boostAvailabilityService.AddAvailableBoost(m_upgradeID);
@@ -86,8 +86,8 @@ public class TowerBoostSelectionButton : MonoBehaviour
 
         if (m_towerUpgradeCollection.LinkedTower.ComponentID == towerType && m_index == index)
         {
-            m_upgradeID = upgrade.Name;
-            m_titleText.text = upgrade.Name.ToString();
+            m_upgradeID = upgrade.ID;
+            m_titleText.text = upgrade.Name;
         }
     }
 

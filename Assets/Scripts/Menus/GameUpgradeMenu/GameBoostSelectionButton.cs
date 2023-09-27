@@ -64,7 +64,7 @@ public class GameBoostSelectionButton : MonoBehaviour
             {
                 buttonInfos.Add(new ButtonInfo()
                 {
-                    Title = boost.Key.Name.ToString(),
+                    Title = boost.Key.Name,
                     Callback = () =>
                     {
                         m_gameBoostService.AddBoost(m_index, boost.Key);

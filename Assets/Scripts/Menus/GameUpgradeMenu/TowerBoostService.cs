@@ -49,9 +49,9 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         m_boostService = boostService;
     }
 
-    public bool TryGetTowerUpgradeInfo(Guid name, out BoostContainer boostContainer)
+    public bool TryGetTowerUpgradeInfo(Guid id, out BoostContainer boostContainer)
     {
-        boostContainer = m_boostCollection.BoostList.FirstOrDefault(x => x.Name == name);
+        boostContainer = m_boostCollection.BoostList.FirstOrDefault(x => x.ID == id);
         return boostContainer != null;
     }
 
@@ -68,8 +68,8 @@ public class TowerBoostService : ServiceSerializationHandler<TowerBoostServiceDt
         TowerBoostRow row = m_towerBoostRows.FirstOrDefault(x => x.TowerType == towerType);
         if (row != null)
         {
-            row.UpgradeIDs[upgradeIndex] = upgrade.Name;
-            m_boostAvailabilityService.RemoveAvailableBoost(upgrade.Name);
+            row.UpgradeIDs[upgradeIndex] = upgrade.ID;
+            m_boostAvailabilityService.RemoveAvailableBoost(upgrade.ID);
             m_boostService.AddUpgrade(upgrade);
             TurretUpgradeChanged?.Invoke(towerType, upgradeIndex, upgrade);
         }

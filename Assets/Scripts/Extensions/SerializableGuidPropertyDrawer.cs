@@ -37,6 +37,7 @@ public class SerializableGuidPropertyDrawer : PropertyDrawer
         if (!lockedProperty.boolValue && GUI.Button(new Rect(position.xMin + buttonSize, position.yMin, buttonSize, ySep - 2), "New"))
         {
             serializedGuid.stringValue = Guid.NewGuid().ToString();
+            lockedProperty.boolValue = true;
         }
         if (!lockedProperty.boolValue && GUI.Button(new Rect(position.xMin + buttonSize * 2, position.yMin, buttonSize, ySep - 2), "Empty"))
         {

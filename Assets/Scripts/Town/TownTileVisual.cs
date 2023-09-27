@@ -22,7 +22,7 @@ public class TownTileVisual : MonoBehaviour
         {
             if (updates[i] != null)
             {
-                GameObject visual = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.Name == updates[i])?.Visual;
+                GameObject visual = m_boostCollection.GameBoostList.FirstOrDefault(boost => boost.ID == updates[i])?.Visual;
                 if (visual != null)
                 {
                     Instantiate(visual, m_updateLocations[i]);

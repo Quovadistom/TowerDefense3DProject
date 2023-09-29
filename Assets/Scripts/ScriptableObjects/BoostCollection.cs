@@ -23,6 +23,7 @@ public class BoostContainer
     public string Name => m_name;
     public Guid ID => m_id;
     public Rarity Rarity = Rarity.COMMON;
+    public GameObject Visual;
 
     public bool IsBoostSuitable(ComponentParent towerInfoComponent)
     {
@@ -38,17 +39,11 @@ public class BoostContainer
     }
 }
 
-[Serializable]
-public class GameBoostContainer : BoostContainer
-{
-    public GameObject Visual;
-}
-
 [CreateAssetMenu(fileName = "UpgradesCollection", menuName = "ScriptableObjects/UpgradesCollection")]
 public class BoostCollection : ScriptableObject
 {
-    [SerializeField] private List<BoostContainer> m_towerUpgradeList;
-    [SerializeField] private List<GameBoostContainer> m_gameUpgradeList;
+    [SerializeField] private List<BoostContainer> m_towerBoostList;
+    [SerializeField] private List<BoostContainer> m_gameBoostList;
 
     [Header("Rarity Rates")]
     [SerializeField] private int m_maxWaveForRarity;
@@ -62,9 +57,9 @@ public class BoostCollection : ScriptableObject
     public int Frequency => m_frequency;
     public int BoostAmount => m_boostAmount;
 
-    public IReadOnlyList<BoostContainer> TowerBoostList => m_towerUpgradeList;
-    public IReadOnlyList<GameBoostContainer> GameBoostList => m_gameUpgradeList;
-    public IReadOnlyList<BoostContainer> BoostList { get => m_towerUpgradeList.Concat(m_gameUpgradeList).ToList().AsReadOnly(); }
+    public IReadOnlyList<BoostContainer> TowerBoostList => m_towerBoostList;
+    public IReadOnlyList<BoostContainer> GameBoostList => m_gameBoostList;
+    public IReadOnlyList<BoostContainer> BoostList { get => m_towerBoostList.Concat(m_gameBoostList).ToList().AsReadOnly(); }
 
     private int GetWeight(Rarity rarity, int wave)
     {
@@ -95,7 +90,7 @@ public class BoostCollection : ScriptableObject
 
     public BoostContainer GetRandomBoostWeighted(int wave)
     {
-        IEnumerable<Rarity> rarities = m_gameUpgradeList.Select(boost => boost.Rarity);
+        IEnumerable<Rarity> rarities = m_gameBoostList.Select(boost => boost.Rarity);
 
         int[] calculatedWeights = new int[rarities.Count()];
 
@@ -108,6 +103,6 @@ public class BoostCollection : ScriptableObject
         int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
 
         int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
-        return m_gameUpgradeList[randomIndex];
+        return m_gameBoostList[randomIndex];
     }
 }

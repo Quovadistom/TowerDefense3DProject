@@ -12,29 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb477860988e2a0449bdda8bafb48ee9, type: 3}
   m_Name: BoostCollection
   m_EditorClassIdentifier: 
-  m_towerUpgradeList:
-  - m_name: Range 1
+  m_towerBoostList:
+  - m_name: Range
     m_id:
-      serializedGuid: 6cb5924e-0e02-4591-8ffa-45d7b7a583e9
+      serializedGuid: 3849f891-a909-45cb-b8b3-33426b1d7399
       m_isLocked: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
-    Rarity: 0
-  m_gameUpgradeList:
-  - m_name: Health 1
-    m_id:
-      serializedGuid: 32166d44-7027-4d65-9271-55f6024a310d
-      m_isLocked: 1
-    Upgrades:
-    - {fileID: 11400000, guid: fa9552e0b56d2e541aff0b54aa661993, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
-  - m_name: Game Range 1
+  m_gameBoostList:
+  - m_name: Range Global
     m_id:
-      serializedGuid: 6b7d07f7-dd3e-4eac-a5be-992437e6f36e
+      serializedGuid: dc3816e2-3b13-46da-b43c-55caf88a5378
       m_isLocked: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
+    Rarity: 0
+    Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
+  - m_name: Health
+    m_id:
+      serializedGuid: 22d1bd24-4417-4584-9ecf-dda6a090b929
+      m_isLocked: 1
+    Upgrades:
+    - {fileID: 11400000, guid: c32a6defbcee92d46abd55b4ce09042c, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
   m_maxWaveForRarity: 125

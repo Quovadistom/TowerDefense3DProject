@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 
-public class BoostService
+public class EnhancementService
 {
     private Dictionary<Guid, int> m_upgradesToApplyOnGameLoad = new();
-    private BoostAvailabilityService m_boostAvailabilityService;
+    private EnhancementAvailabilityService m_enhancementAvailabilityService;
 
     public event Action<UpgradeBase> UpgradeReceived;
 
-    public BoostService(BoostAvailabilityService boostAvailabilityService)
+    public EnhancementService(EnhancementAvailabilityService enhancementAvailabilityService)
     {
-        m_boostAvailabilityService = boostAvailabilityService;
+        m_enhancementAvailabilityService = enhancementAvailabilityService;
     }
 
     public void AddUpgrade(Guid upgradeID)
@@ -37,20 +37,20 @@ public class BoostService
     {
         foreach (KeyValuePair<Guid, int> keyValuePair in m_upgradesToApplyOnGameLoad)
         {
-            if (m_boostAvailabilityService.TryGetBoost(keyValuePair.Key, out var boost) &&
-                boost.IsBoostSuitable(componentParent) &&
-                (boost.TargetObjectID == componentParent.ID ||
-                boost.TargetObjectID == Guid.Empty))
+            if (m_enhancementAvailabilityService.TryGetEnhancement(keyValuePair.Key, out var enhancement) &&
+                enhancement.IsEnhancementSuitable(componentParent) &&
+                (enhancement.TargetObjectID == componentParent.ID ||
+                enhancement.TargetObjectID == Guid.Empty))
             {
                 for (int i = 0; i <= keyValuePair.Value; i++)
                 {
-                    boost.ApplyUpgrades(componentParent);
+                    enhancement.ApplyUpgrades(componentParent);
                 }
             }
         }
     }
 
-    public void SendBoost(UpgradeBase upgradeContainer)
+    public void SendEnhancement(UpgradeBase upgradeContainer)
     {
         UpgradeReceived?.Invoke(upgradeContainer);
     }

@@ -11,43 +11,16 @@ public enum Rarity
     Legendary
 }
 
-public enum BoostType
+public enum EnhancementType
 {
-    GameBoost,
-    TowerBoost
-}
-
-[Serializable]
-public class BoostContainer
-{
-    [SerializeField] private string m_name;
-    [SerializeField] private SerializableGuid m_id;
-    [SerializeField] private BoostType m_boostType;
-
-    public Guid TargetObjectID { get; set; } = Guid.Empty;
-    public BoostType BoostType => m_boostType;
-
-    public UpgradeBase[] Upgrades;
-    public string Name => m_name;
-    public Guid ID => m_id;
-    public Rarity Rarity = Rarity.Common;
-    public GameObject Visual;
-
-    public bool IsBoostSuitable(ComponentParent towerInfoComponent) => Upgrades.All(x => x.IsObjectSuitable(towerInfoComponent));
-
-    public void ApplyUpgrades(ComponentParent towerInfoComponent)
-    {
-        foreach (UpgradeBase upgrade in Upgrades)
-        {
-            upgrade.TryApplyUpgrade(towerInfoComponent);
-        }
-    }
+    GameEnhancement,
+    TowerEnhancement
 }
 
 [CreateAssetMenu(fileName = "UpgradesCollection", menuName = "ScriptableObjects/UpgradesCollection")]
-public class BoostCollection : ScriptableObject
+public class EnhancementCollection : ScriptableObject
 {
-    [SerializeField] private List<BoostContainer> m_boostList;
+    [SerializeField] private List<EnhancementContainer> m_enhancementList;
 
     [Header("Rarity Rates")]
     [SerializeField] private int m_maxWaveForRarity;
@@ -56,11 +29,11 @@ public class BoostCollection : ScriptableObject
 
     [Header("Spawn Rates")]
     [SerializeField] private int m_frequency;
-    [SerializeField] private int m_boostAmount;
+    [SerializeField] private int m_enhancementAmount;
 
     public int Frequency => m_frequency;
-    public int BoostAmount => m_boostAmount;
-    public IReadOnlyList<BoostContainer> BoostList => m_boostList;
+    public int EnhancementAmount => m_enhancementAmount;
+    public IReadOnlyList<EnhancementContainer> EnhancementList => m_enhancementList;
 
     private int GetWeight(Rarity rarity, int wave)
     {
@@ -89,9 +62,9 @@ public class BoostCollection : ScriptableObject
         return Mathf.FloorToInt(startingValue + (commonRarityValue + rarityLevel * step) * wave);
     }
 
-    public BoostContainer GetRandomBoostWeighted(int wave)
+    public EnhancementContainer GetRandomEnhancementWeighted(int wave)
     {
-        IEnumerable<Rarity> rarities = BoostList.Select(boost => boost.Rarity);
+        IEnumerable<Rarity> rarities = EnhancementList.Select(enhancement => enhancement.Rarity);
 
         int[] calculatedWeights = new int[rarities.Count()];
 
@@ -104,6 +77,6 @@ public class BoostCollection : ScriptableObject
         int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
 
         int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
-        return BoostList[randomIndex];
+        return EnhancementList[randomIndex];
     }
 }

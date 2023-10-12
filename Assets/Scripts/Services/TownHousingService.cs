@@ -30,7 +30,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     private Dictionary<Guid, HousingData> m_housingData = new();
     private TowerAvailabilityService m_towerAvailabilityService;
-    private BoostService m_boostService;
+    private EnhancementService m_enhancementService;
 
     public event Action<HousingData> TileHousingUpgradeRequested;
     public event Action<HousingData, int> TileUpgradeApplied;
@@ -38,10 +38,10 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
     public TownHousingService(SerializationService serializationService,
         DebugSettings debugSettings,
         TowerAvailabilityService towerAvailabilityService,
-        BoostService boostService) : base(serializationService, debugSettings)
+        EnhancementService enhancementService) : base(serializationService, debugSettings)
     {
         m_towerAvailabilityService = towerAvailabilityService;
-        m_boostService = boostService;
+        m_enhancementService = enhancementService;
 
         foreach (TowerAssets towerAssets in m_towerAvailabilityService.AvailableTowers)
         {
@@ -61,18 +61,18 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     public void RequestTileUpgrade(Guid guid) => TileHousingUpgradeRequested?.Invoke(m_housingData[guid]);
 
-    public void UpgradeTile(Guid tileID, BoostContainer upgrade, int location)
+    public void UpgradeTile(Guid tileID, EnhancementContainer upgrade, int location)
     {
         HousingData housingData = GetHousingData(tileID);
 
         if (housingData.ActiveUpgrades[location] != Guid.Empty)
         {
-            m_boostService.RemoveUpgrade(housingData.ActiveUpgrades[location]);
+            m_enhancementService.RemoveUpgrade(housingData.ActiveUpgrades[location]);
         }
 
         housingData.ActiveUpgrades[location] = upgrade.ID;
 
-        m_boostService.AddUpgrade(upgrade.ID);
+        m_enhancementService.AddUpgrade(upgrade.ID);
         TileUpgradeApplied?.Invoke(housingData, location);
     }
 

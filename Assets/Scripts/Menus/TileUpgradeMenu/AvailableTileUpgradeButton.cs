@@ -7,12 +7,12 @@ using Zenject;
 public class AvailableTileUpgradeButton : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_text;
-    [SerializeField] private TMP_Text m_boostAmountText;
+    [SerializeField] private TMP_Text m_enhancementAmountText;
     [SerializeField] private Button m_button;
     [SerializeField] private GameObject m_upgradeAppliedCheck;
 
-    private BoostContainer m_connectedBoost;
-    private int m_boostAmount;
+    private EnhancementContainer m_connectedEnhancement;
+    private int m_enhancementAmount;
     private TownHousingService m_townHousingService;
     private Guid m_id;
     private int m_connectedLocation;
@@ -37,26 +37,26 @@ public class AvailableTileUpgradeButton : MonoBehaviour
 
     private void OnTileUpgradeApplied(HousingData housingData, int location)
     {
-        m_upgradeAppliedCheck.SetActive(housingData.ActiveUpgrades[location] == m_connectedBoost.ID);
+        m_upgradeAppliedCheck.SetActive(housingData.ActiveUpgrades[location] == m_connectedEnhancement.ID);
     }
 
-    public void SetButtonInfo(BoostContainer connectedBoost, int boostAmount, int connectedLocation)
+    public void SetButtonInfo(EnhancementContainer connectedEnhancement, int enhancementAmount, int connectedLocation)
     {
-        m_connectedBoost = connectedBoost;
-        m_boostAmount = boostAmount;
-        m_text.text = m_connectedBoost.Name;
+        m_connectedEnhancement = connectedEnhancement;
+        m_enhancementAmount = enhancementAmount;
+        m_text.text = m_connectedEnhancement.Name;
         m_connectedLocation = connectedLocation;
 
         m_button.onClick.AddListener(OnButtonClicked);
 
-        m_boostAmountText.text = boostAmount.ToString();
+        m_enhancementAmountText.text = enhancementAmount.ToString();
 
-        m_upgradeAppliedCheck.SetActive(m_townHousingService.GetHousingData(m_id).ActiveUpgrades[m_connectedLocation] == m_connectedBoost.ID);
+        m_upgradeAppliedCheck.SetActive(m_townHousingService.GetHousingData(m_id).ActiveUpgrades[m_connectedLocation] == m_connectedEnhancement.ID);
     }
 
     private void OnButtonClicked()
     {
-        m_townHousingService.UpgradeTile(m_id, m_connectedBoost, m_connectedLocation);
+        m_townHousingService.UpgradeTile(m_id, m_connectedEnhancement, m_connectedLocation);
     }
 
     public class Factory : PlaceholderFactory<Guid, AvailableTileUpgradeButton> { }

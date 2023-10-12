@@ -1,13 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HealthBoost", menuName = "ScriptableObjects/Boosts/GameBoosts/HealthBoost")]
+[CreateAssetMenu(fileName = "HealthEnhancement", menuName = "ScriptableObjects/Enhancements/GameEnhancements/HealthEnhancement")]
 public class HealthUpgrade : TownUpgrade<HealthComponent>
 {
-    public int HealthBoost;
+    public int HealthEnhancement;
 
     protected override Action<HealthComponent> ComponentAction => (component) =>
     {
-        component.Health += HealthBoost;
+        component.Health += HealthEnhancement;
     };
 }

@@ -6,17 +6,17 @@ using Zenject;
 public class TowerTileVisual : MonoBehaviour
 {
     [SerializeField] private Transform[] m_updateLocations = new Transform[4];
-    private BoostCollection m_boostCollection;
+    private EnhancementCollection m_enhancementCollection;
 
     public Guid ID;
     private TownHousingService m_townHousingService;
 
     [Inject]
-    private void Construct(Guid m_id, TownHousingService townHousingService, BoostCollection boostCollection)
+    private void Construct(Guid m_id, TownHousingService townHousingService, EnhancementCollection enhancementCollection)
     {
         ID = m_id;
         m_townHousingService = townHousingService;
-        m_boostCollection = boostCollection;
+        m_enhancementCollection = enhancementCollection;
     }
 
     private void Awake()
@@ -38,11 +38,11 @@ public class TowerTileVisual : MonoBehaviour
         {
             m_updateLocations[location].ClearChildren();
 
-            BoostContainer boostContainer = m_boostCollection.BoostList.FirstOrDefault(boost => boost.ID == housingData.ActiveUpgrades[location]);
+            EnhancementContainer enhancementContainer = m_enhancementCollection.EnhancementList.FirstOrDefault(enhancement => enhancement.ID == housingData.ActiveUpgrades[location]);
 
-            if (boostContainer != null)
+            if (enhancementContainer != null)
             {
-                Instantiate(boostContainer.Visual, m_updateLocations[location], false);
+                Instantiate(enhancementContainer.Visual, m_updateLocations[location], false);
             }
         }
     }
@@ -53,7 +53,7 @@ public class TowerTileVisual : MonoBehaviour
         {
             if (updates[i] != Guid.Empty)
             {
-                GameObject visual = m_boostCollection.BoostList.FirstOrDefault(boost => boost.ID == updates[i] && boost.BoostType == BoostType.TowerBoost)?.Visual;
+                GameObject visual = m_enhancementCollection.EnhancementList.FirstOrDefault(enhancement => enhancement.ID == updates[i] && enhancement.EnhancementType == EnhancementType.TowerEnhancement)?.Visual;
                 if (visual != null)
                 {
                     Instantiate(visual, m_updateLocations[i]);

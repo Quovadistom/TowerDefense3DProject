@@ -7,11 +7,11 @@ public class WaveService
 {
     private WaveSettings m_waveSettings;
     private SerializationService m_serializationService;
-    private BoostCollection m_boostCollection;
+    private EnhancementCollection m_enhancementCollection;
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
-    public event Action<List<BoostContainer>> BoostsDrawn;
+    public event Action<List<EnhancementContainer>> EnhancementsDrawn;
 
     private int m_currentWaveIndex = 0;
 
@@ -29,11 +29,11 @@ public class WaveService
         }
     }
 
-    public WaveService(WaveSettings waveSettings, SerializationService serializationService, BoostCollection boostCollection)
+    public WaveService(WaveSettings waveSettings, SerializationService serializationService, EnhancementCollection enhancementCollection)
     {
         m_waveSettings = waveSettings;
         m_serializationService = serializationService;
-        m_boostCollection = boostCollection;
+        m_enhancementCollection = enhancementCollection;
     }
 
     public void StartNextWave()
@@ -53,16 +53,16 @@ public class WaveService
     {
         WaveComplete.Invoke();
 
-        if (m_currentWaveIndex % m_boostCollection.Frequency == 0)
+        if (m_currentWaveIndex % m_enhancementCollection.Frequency == 0)
         {
-            Debug.Log($"Boost Drawn for {m_currentWaveIndex}!");
-            List<BoostContainer> boostList = new List<BoostContainer>();
-            for (int i = 0; i < m_boostCollection.BoostAmount; i++)
+            Debug.Log($"Enhancement Drawn for {m_currentWaveIndex}!");
+            List<EnhancementContainer> enhancementList = new List<EnhancementContainer>();
+            for (int i = 0; i < m_enhancementCollection.EnhancementAmount; i++)
             {
-                boostList.Add(m_boostCollection.GetRandomBoostWeighted(m_currentWaveIndex));
+                enhancementList.Add(m_enhancementCollection.GetRandomEnhancementWeighted(m_currentWaveIndex));
             }
 
-            BoostsDrawn?.Invoke(boostList);
+            EnhancementsDrawn?.Invoke(enhancementList);
         }
 
         // m_serializationService.RequestSerialization();

@@ -7,7 +7,7 @@ using Zenject;
 public class ComponentParent : MonoBehaviour
 {
     private List<ComponentWithUpgradeBase> m_upgradableComponents = new();
-    private BoostService m_boostService;
+    private EnhancementService m_enhancementService;
     private bool m_isInitialized = false;
 
     public List<ComponentWithUpgradeBase> UpgradableComponents
@@ -27,20 +27,20 @@ public class ComponentParent : MonoBehaviour
     public Guid ID { get; set; }
 
     [Inject]
-    private void Construct(BoostService boostService)
+    private void Construct(EnhancementService enhancementService)
     {
-        m_boostService = boostService;
+        m_enhancementService = enhancementService;
     }
 
     protected virtual void Awake()
     {
-        m_boostService.ApplyUpgradesToObject(this);
-        m_boostService.UpgradeReceived += OnUpgradeReceived;
+        m_enhancementService.ApplyUpgradesToObject(this);
+        m_enhancementService.UpgradeReceived += OnUpgradeReceived;
     }
 
     protected virtual void OnDestroy()
     {
-        m_boostService.UpgradeReceived -= OnUpgradeReceived;
+        m_enhancementService.UpgradeReceived -= OnUpgradeReceived;
     }
 
     private void OnUpgradeReceived(UpgradeBase upgrade)

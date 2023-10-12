@@ -9,14 +9,14 @@ public class AvailableUpgradesMenu : MonoBehaviour
     [SerializeField] private AvailableTileUpgradeButton m_availableTileUpgradeButton;
     [SerializeField] private RectTransform m_buttonParent;
 
-    private BoostAvailabilityService m_boostAvailabilityService;
+    private EnhancementAvailabilityService m_enhancementAvailabilityService;
     private TurretCollection m_towerCollection;
     private AvailableTileUpgradeButton.Factory m_buttonFactory;
 
     [Inject]
-    private void Construct(BoostAvailabilityService boostAvailabilityService, TurretCollection towerCollection, AvailableTileUpgradeButton.Factory buttonFactory)
+    private void Construct(EnhancementAvailabilityService enhancementAvailabilityService, TurretCollection towerCollection, AvailableTileUpgradeButton.Factory buttonFactory)
     {
-        m_boostAvailabilityService = boostAvailabilityService;
+        m_enhancementAvailabilityService = enhancementAvailabilityService;
         m_towerCollection = towerCollection;
         m_buttonFactory = buttonFactory;
     }
@@ -27,13 +27,13 @@ public class AvailableUpgradesMenu : MonoBehaviour
 
         if (m_towerCollection.TryGetAssets(m_selectedTileGuid, out TowerAssets towerAssets))
         {
-            Dictionary<BoostContainer, int> availableBoosts = m_boostAvailabilityService.GetBoostsForComponentParent(towerAssets.TowerPrefab, BoostType.TowerBoost);
+            Dictionary<EnhancementContainer, int> availableEnhancements = m_enhancementAvailabilityService.GetEnhancementsForComponentParent(towerAssets.TowerPrefab, EnhancementType.TowerEnhancement);
 
-            for (int i = 0; i < availableBoosts.Count(); i++)
+            for (int i = 0; i < availableEnhancements.Count(); i++)
             {
                 AvailableTileUpgradeButton availableTileUpgradeButton = m_buttonFactory.Create(m_selectedTileGuid);
                 availableTileUpgradeButton.transform.SetParent(m_buttonParent, false);
-                availableTileUpgradeButton.SetButtonInfo(availableBoosts.ElementAt(i).Key, availableBoosts.ElementAt(i).Value, buttonIndex);
+                availableTileUpgradeButton.SetButtonInfo(availableEnhancements.ElementAt(i).Key, availableEnhancements.ElementAt(i).Value, buttonIndex);
             }
         }
     }

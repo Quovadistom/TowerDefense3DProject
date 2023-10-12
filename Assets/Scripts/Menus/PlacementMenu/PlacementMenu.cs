@@ -25,7 +25,7 @@ public class PlacementMenu : MonoBehaviour
 
     private void OnTileSelected(TownTile tile)
     {
-        if (tile.TownTileData.IsCaptured && !tile.TownTileData.IsOccupied)
+        if (tile.IsCaptured && !tile.IsOccupied)
         {
             m_buttonParent.ClearChildren();
             m_menuController.PushMenuPage(m_menuPage);

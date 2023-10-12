@@ -7,17 +7,12 @@ public class TownTileData
     /// <summary>
     /// Is the tile under the players control
     /// </summary>
-    public bool IsCaptured { get; set; } = false;
+    public bool IsCaptured { get; set; }
 
     /// <summary>
     /// The Guid of the connecting tower
     /// </summary>
     public Guid ConnectedTowerID { get; set; }
-
-    /// <summary>
-    /// Is the tile empty or does it have a building
-    /// </summary>
-    public bool IsOccupied => ConnectedTowerID != Guid.Empty;
 }
 
 public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
@@ -41,9 +36,13 @@ public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
         }
     }
 
-    public void UpdateTile(string coordinates, TownTileData townTileData)
+    public void UpdateTile(string coordinates, TownTile townTile)
     {
-        m_townTileData.AddOrOverwriteKey(coordinates, townTileData);
+        m_townTileData.AddOrOverwriteKey(coordinates, new TownTileData()
+        {
+            IsCaptured = townTile.IsCaptured,
+            ConnectedTowerID = townTile.ConnectedTowerID
+        });
     }
 
     public bool TryGetTileData(string coordinate, out TownTileData townTileSetup) => m_townTileData.TryGetValue(coordinate, out townTileSetup);
@@ -53,7 +52,6 @@ public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
     protected override void ConvertDto()
     {
         Dto.TownTileData = m_townTileData;
-
     }
 
     protected override void ConvertDtoBack(TownTileServiceDTO dto)
@@ -66,5 +64,4 @@ public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
 public class TownTileServiceDTO
 {
     public Dictionary<string, TownTileData> TownTileData = new();
-    public Dictionary<string, HousingData> HousingData = new();
 }

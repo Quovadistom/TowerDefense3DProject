@@ -22,8 +22,9 @@ public class TowerInfoComponent : ComponentParent
     public TowerUpgradeTreeData UpgradeTreeData { get; private set; }
 
     [Inject]
-    private void Construct(TowerService turretService, SelectionService selectionService)
+    private void Construct(Guid id, TowerService turretService, SelectionService selectionService)
     {
+        ID = id;
         m_turretService = turretService;
         m_selectionService = selectionService;
     }
@@ -79,7 +80,7 @@ public class TowerInfoComponent : ComponentParent
         IsTowerPlaced = true;
     }
 
-    public class Factory : PlaceholderFactory<TowerInfoComponent, TowerInfoComponent>
+    public class Factory : PlaceholderFactory<TowerInfoComponent, Guid, TowerInfoComponent>
     {
     }
 }

@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class TowerButtonCollection : MonoBehaviour
 {
-    private TurretCollection m_turretCollection;
+    private TowerAvailabilityService m_towerAvailabilityService;
     private SpawnTowerButton.Factory m_buttonFactory;
 
     [Inject]
-    public void Construct(TurretCollection turretCollection, SpawnTowerButton.Factory factory)
+    public void Construct(TowerAvailabilityService towerAvailabilityService, SpawnTowerButton.Factory factory)
     {
-        m_turretCollection = turretCollection;
+        m_towerAvailabilityService = towerAvailabilityService;
         m_buttonFactory = factory;
     }
 
     private void Awake()
     {
-        foreach(TowerInfoComponent turretInfoComponent in m_turretCollection.TurretList)
+        foreach (TowerAssets towerAssets in m_towerAvailabilityService.AvailableTowers)
         {
             SpawnTowerButton button = m_buttonFactory.Create();
             button.transform.SetParent(transform, false);
-            button.TurretToSpawn = turretInfoComponent;
+            button.TurretAssets = towerAssets;
         }
     }
 }

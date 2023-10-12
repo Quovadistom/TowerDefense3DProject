@@ -56,12 +56,12 @@ public class TileContextMenu : MonoBehaviour
 
     private void UpgradeTile()
     {
-        m_townHousingService.UpgradeActiveTile(m_tileService.ActiveTownTile.TownTileData.ConnectedTowerID);
+        m_townHousingService.RequestTileUpgrade(m_tileService.ActiveTownTile.ConnectedTowerID);
     }
 
     private void OnTileSelected(TownTile tile)
     {
-        if (tile.TownTileData.IsOccupied)
+        if (tile.IsOccupied)
         {
             SetMenuToGameObjectPosition(tile);
 

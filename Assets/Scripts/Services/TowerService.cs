@@ -6,8 +6,8 @@ using UnityEngine;
 [Serializable]
 public class TurretInfo
 {
-    public Guid TowerID { get; set; }
-    public Guid TurretName { get; set; }
+    public Guid UniqueTowerID { get; set; }
+    public Guid TurretTypeID { get; set; }
     public Vector3 Position { get; set; }
     public TowerUpgradeTreeData TowerUpgradeTree { get; set; }
     public List<Guid> ConnectedSupportTowers { get; set; }
@@ -46,8 +46,8 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
         {
             TurretInfo turretInfo = new TurretInfo()
             {
-                TowerID = placedTurret.TowerID,
-                TurretName = placedTurret.ComponentID,
+                UniqueTowerID = placedTurret.TowerID,
+                TurretTypeID = placedTurret.ID,
                 Position = placedTurret.transform.position,
                 TowerUpgradeTree = placedTurret.UpgradeTreeData,
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
@@ -65,12 +65,20 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         foreach (TurretInfo selectedTurret in dto.PlacedTurrets)
         {
-            TowerInfoComponent turretPrefab = m_turretCollection.TurretList.FirstOrDefault(turret => turret.ComponentID == selectedTurret.TurretName);
-            TowerInfoComponent placedTurret = m_turretFactory.Create(turretPrefab);
-            placedTurret.PlaceNewTower(selectedTurret.TowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
+            TowerAssets assets = m_turretCollection.TurretAssetsList.FirstOrDefault(assets => assets.ID == selectedTurret.TurretTypeID);
 
-            placedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) =>
-            component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName));
+            if (assets != null)
+            {
+                TowerInfoComponent placedTurret = m_turretFactory.Create(assets.TowerPrefab, assets.ID);
+                placedTurret.PlaceNewTower(selectedTurret.UniqueTowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
+
+                placedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) =>
+                component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName));
+            }
+            else
+            {
+                Debug.LogError($"The turret of type {selectedTurret.TurretTypeID} does not exist! Check if the GUID has changed.");
+            }
         }
     }
 }

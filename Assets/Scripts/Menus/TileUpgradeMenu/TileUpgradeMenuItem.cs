@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -6,14 +7,13 @@ public class TileUpgradeMenuItem : MonoBehaviour
     [SerializeField] private RectTransform m_content;
     [SerializeField] private Transform m_tile;
 
-    private HousingData m_housingData;
+    public Guid TileGuid = Guid.Empty;
 
-    private RectTransform m_parent;
     private TowerAvailabilityService m_towerAvailabilityService;
-    private TownTileVisual.Factory m_townTileVisualFactory;
+    private TowerTileVisual.Factory m_townTileVisualFactory;
 
     [Inject]
-    private void Construct(TowerAvailabilityService towerAvailabilityService, TownTileVisual.Factory townTileVisualFactory)
+    private void Construct(TowerAvailabilityService towerAvailabilityService, TowerTileVisual.Factory townTileVisualFactory)
     {
         m_towerAvailabilityService = towerAvailabilityService;
         m_townTileVisualFactory = townTileVisualFactory;
@@ -21,12 +21,11 @@ public class TileUpgradeMenuItem : MonoBehaviour
 
     public void SetHousingInfo(HousingData housingData)
     {
-        m_parent = transform.parent.GetComponent<RectTransform>();
-        m_housingData = housingData;
+        TileGuid = housingData.TowerTypeGuid;
 
         if (m_towerAvailabilityService.TryGetTowerAssets(housingData.TowerTypeGuid, out TowerAssets towerAssets))
         {
-            TownTileVisual visual = m_townTileVisualFactory.Create(towerAssets.HousingPrefab);
+            TowerTileVisual visual = m_townTileVisualFactory.Create(towerAssets.HousingPrefab, towerAssets.ID);
             visual.transform.SetParent(m_tile, false);
         }
     }

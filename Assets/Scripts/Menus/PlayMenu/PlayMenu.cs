@@ -30,13 +30,13 @@ public class PlayMenu : MonoBehaviour
 
     private void StartLevel()
     {
-        m_tileService.ActiveTownTile.TownTileData.IsCaptured = true;
+        m_tileService.ActiveTownTile.IsCaptured = true;
         m_menuController.PopMenuPage();
     }
 
     private void OnTileSelected(TownTile tile)
     {
-        if (!tile.TownTileData.IsCaptured)
+        if (!tile.IsCaptured)
         {
             m_menuController.PushMenuPage(m_menuPage);
         }

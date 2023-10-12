@@ -1,41 +1,56 @@
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class BoostService
 {
-    private List<BoostContainer> m_upgradesToApplyOnGameLoad = new();
+    private Dictionary<Guid, int> m_upgradesToApplyOnGameLoad = new();
+    private BoostAvailabilityService m_boostAvailabilityService;
 
     public event Action<UpgradeBase> UpgradeReceived;
 
-    public void AddUpgrade(BoostContainer upgrade)
+    public BoostService(BoostAvailabilityService boostAvailabilityService)
     {
-        m_upgradesToApplyOnGameLoad.Add(upgrade);
+        m_boostAvailabilityService = boostAvailabilityService;
     }
 
-    public void RemoveUpgrade(BoostContainer upgrade)
+    public void AddUpgrade(Guid upgradeID)
     {
-        m_upgradesToApplyOnGameLoad.Remove(upgrade);
+        if (m_upgradesToApplyOnGameLoad.ContainsKey(upgradeID))
+        {
+            m_upgradesToApplyOnGameLoad[upgradeID] += 1;
+        }
+        else
+        {
+            m_upgradesToApplyOnGameLoad.Add(upgradeID, 1);
+        }
+    }
+
+    public void RemoveUpgrade(Guid upgradeID)
+    {
+        if (m_upgradesToApplyOnGameLoad.ContainsKey(upgradeID))
+        {
+            m_upgradesToApplyOnGameLoad[upgradeID] -= 1;
+        }
     }
 
     public void ApplyUpgradesToObject(ComponentParent componentParent)
     {
-        var boost1 = m_upgradesToApplyOnGameLoad.Where(upgrade =>
-        upgrade.TargetObjectID == Guid.Empty || upgrade.TargetObjectID == componentParent.ComponentID).ToList();
-
-        var boost2 = m_upgradesToApplyOnGameLoad.Where(upgrade =>
-        upgrade.IsBoostSuitable(componentParent)).Count();
-
-        foreach (BoostContainer upgrade in m_upgradesToApplyOnGameLoad.Where(upgrade =>
-        (upgrade.TargetObjectID == Guid.Empty || upgrade.TargetObjectID == componentParent.ComponentID) &&
-        upgrade.IsBoostSuitable(componentParent)))
+        foreach (KeyValuePair<Guid, int> keyValuePair in m_upgradesToApplyOnGameLoad)
         {
-            upgrade.ApplyUpgrades(componentParent);
+            if (m_boostAvailabilityService.TryGetBoost(keyValuePair.Key, out var boost) &&
+                boost.IsBoostSuitable(componentParent) &&
+                (boost.TargetObjectID == componentParent.ID ||
+                boost.TargetObjectID == Guid.Empty))
+            {
+                for (int i = 0; i <= keyValuePair.Value; i++)
+                {
+                    boost.ApplyUpgrades(componentParent);
+                }
+            }
         }
     }
 
-    internal void SendBoost(UpgradeBase upgradeContainer)
+    public void SendBoost(UpgradeBase upgradeContainer)
     {
         UpgradeReceived?.Invoke(upgradeContainer);
     }

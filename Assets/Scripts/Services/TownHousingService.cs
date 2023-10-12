@@ -15,7 +15,13 @@ public class HousingData
     /// <summary>
     /// Active upgrades on this tile. There are a maximum of 4 available slots to upgrade from
     /// </summary>
-    public Guid[] ActiveUpgrades { get; set; } = new Guid[4];
+    public Guid[] ActiveUpgrades { get; set; } = new Guid[4]
+    {
+        Guid.Empty,
+        Guid.Empty,
+        Guid.Empty,
+        Guid.Empty,
+    };
 }
 
 public class TownHousingService : ServiceSerializationHandler<TownHousingServiceDTO>
@@ -24,19 +30,24 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     private Dictionary<Guid, HousingData> m_housingData = new();
     private TowerAvailabilityService m_towerAvailabilityService;
+    private BoostService m_boostService;
 
     public event Action<HousingData> TileHousingUpgradeRequested;
+    public event Action<HousingData, int> TileUpgradeApplied;
 
-    public TownHousingService(SerializationService serializationService, DebugSettings debugSettings, TowerAvailabilityService towerAvailabilityService) : base(serializationService, debugSettings)
+    public TownHousingService(SerializationService serializationService,
+        DebugSettings debugSettings,
+        TowerAvailabilityService towerAvailabilityService,
+        BoostService boostService) : base(serializationService, debugSettings)
     {
         m_towerAvailabilityService = towerAvailabilityService;
+        m_boostService = boostService;
 
-        foreach (TowerAssets tower in m_towerAvailabilityService.AvailableTowers)
+        foreach (TowerAssets towerAssets in m_towerAvailabilityService.AvailableTowers)
         {
-            m_housingData.Add(tower.TowerPrefab.ComponentID, new HousingData(tower.TowerPrefab.ComponentID));
+            m_housingData.Add(towerAssets.ID, new HousingData(towerAssets.ID));
         }
     }
-
 
     public HousingData GetHousingData(Guid guid)
     {
@@ -48,7 +59,22 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
         return m_housingData[guid];
     }
 
-    public void UpgradeActiveTile(Guid guid) => TileHousingUpgradeRequested?.Invoke(m_housingData[guid]);
+    public void RequestTileUpgrade(Guid guid) => TileHousingUpgradeRequested?.Invoke(m_housingData[guid]);
+
+    public void UpgradeTile(Guid tileID, BoostContainer upgrade, int location)
+    {
+        HousingData housingData = GetHousingData(tileID);
+
+        if (housingData.ActiveUpgrades[location] != Guid.Empty)
+        {
+            m_boostService.RemoveUpgrade(housingData.ActiveUpgrades[location]);
+        }
+
+        housingData.ActiveUpgrades[location] = upgrade.ID;
+
+        m_boostService.AddUpgrade(upgrade.ID);
+        TileUpgradeApplied?.Invoke(housingData, location);
+    }
 
     protected override Guid Id => Guid.Parse("89ffe769-ce80-42ca-b8e2-9eb55a8adef8");
 
@@ -61,14 +87,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
     {
         foreach (KeyValuePair<Guid, HousingData> housingData in dto.HousingData)
         {
-            if (m_housingData.ContainsKey(housingData.Key))
-            {
-                m_housingData[housingData.Key] = housingData.Value;
-            }
-            else
-            {
-                m_housingData.Add(housingData.Key, housingData.Value);
-            }
+            m_housingData.AddOrOverwriteKey(housingData.Key, housingData.Value);
         }
     }
 }

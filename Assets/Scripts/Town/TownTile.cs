@@ -21,25 +21,22 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
 
     private Sequence m_sequence;
 
-    private HousingData m_housingData;
-
-    public TownTileData TownTileData { get; private set; } = new();
-
     public string Coordinates { get; private set; }
+    public Guid ConnectedTowerID { get; private set; } = Guid.Empty;
+    public bool IsCaptured { get; set; }
+    public bool IsOccupied => ConnectedTowerID != Guid.Empty;
 
     private TownTileService m_townTileService;
-    private TownHousingService m_townHousingService;
-    private TurretCollection m_towerCollection;
-    private TownTileVisual.Factory m_townTileVisualFactory;
+    private TowerAvailabilityService m_towerAvailabilityService;
+    private TowerTileVisual.Factory m_townTileVisualFactory;
     private bool m_dragged;
     private TowerAssets m_currentContent;
 
     [Inject]
-    private void Construct(TownTileService townTileService, TownHousingService townHousingService, TurretCollection towerCollection, TownTileVisual.Factory townTileVisualFactory)
+    private void Construct(TownTileService townTileService, TowerAvailabilityService towerAvailabilityService, TowerTileVisual.Factory townTileVisualFactory)
     {
         m_townTileService = townTileService;
-        m_townHousingService = townHousingService;
-        m_towerCollection = towerCollection;
+        m_towerAvailabilityService = towerAvailabilityService;
         m_townTileVisualFactory = townTileVisualFactory;
     }
 
@@ -57,15 +54,15 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
 
     private void OnServiceRead()
     {
-        if (m_townTileService.TryGetTileData(Coordinates, out TownTileData townTileData))
+        if (m_townTileService.TryGetTileData(Coordinates, out var tileData))
         {
-            TownTileData = townTileData;
+            IsCaptured = tileData.IsCaptured;
+            ConnectedTowerID = tileData.ConnectedTowerID;
+        }
 
-            // TODO: Change Add HousingData and read after service read is complete
-            //if (TownTileData.IsOccupied)
-            //{
-            //    SetVisual(m_towerCollection.TurretAssetsList.FirstOrDefault(assets => assets.TowerPrefab.ComponentID == TownTileData.TowerTypeGuid)?.HousingPrefab);
-            //}
+        if (ConnectedTowerID != Guid.Empty && m_towerAvailabilityService.TryGetTowerAssets(ConnectedTowerID, out TowerAssets towerAssets))
+        {
+            UpdateTile(towerAssets);
         }
     }
 
@@ -89,7 +86,7 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
     public void UpdateTile(TowerAssets turretAssets)
     {
         SetTileContent(turretAssets);
-        m_townTileService.UpdateTile(Coordinates, TownTileData);
+        // m_townTileService.UpdateTile(Coordinates, TownTileData);
     }
 
     private void OnTileUpdated()
@@ -103,14 +100,11 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
 
         m_sequence?.Kill(true);
 
-        m_housingData = towerAssets == null ? null : m_townHousingService.GetHousingData(towerAssets.TowerPrefab.ComponentID);
-
         if (towerAssets?.HousingPrefab != null)
         {
             Transform bottomSide = m_tile.localEulerAngles.z > 95 ? m_tileSideHead : m_tileSideTail;
-            TownTileVisual visual = m_townTileVisualFactory.Create(towerAssets.HousingPrefab);
+            TowerTileVisual visual = m_townTileVisualFactory.Create(towerAssets.HousingPrefab, towerAssets.ID);
             visual.transform.SetParent(bottomSide, false);
-            visual.SetTileUpgrades(m_housingData.ActiveUpgrades);
         }
 
         m_sequence = DOTween.Sequence();
@@ -121,7 +115,7 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
                 bottomSide.ClearChildren();
             });
 
-        TownTileData.ConnectedTowerID = towerAssets != null ? towerAssets.TowerPrefab.ComponentID : Guid.Empty;
+        ConnectedTowerID = towerAssets != null ? towerAssets.ID : Guid.Empty;
     }
 
     public void OnDrag(PointerEventData eventData)

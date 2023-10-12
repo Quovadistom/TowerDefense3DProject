@@ -17,12 +17,11 @@ public class TurretCollection : ScriptableObject
     };
 
     public IReadOnlyList<TowerAssets> TurretAssetsList { get => m_turretList; }
-    public IReadOnlyList<TowerInfoComponent> TurretList { get => m_turretList.Select(towerAssets => towerAssets.TowerPrefab).ToList(); }
     public IReadOnlyList<ITargetMethod> TargetMethodList { get => m_targetMethodList; }
 
-    public bool TryGetTowerPrefab(Guid turretType, out TowerInfoComponent towerInfoComponent)
+    public bool TryGetAssets(Guid turretType, out TowerAssets towerInfoComponent)
     {
-        towerInfoComponent = TurretList.FirstOrDefault(tower => tower.ComponentID == turretType);
+        towerInfoComponent = TurretAssetsList.FirstOrDefault(assets => assets.ID == turretType);
         return towerInfoComponent != null;
     }
 }
@@ -30,10 +29,18 @@ public class TurretCollection : ScriptableObject
 [Serializable]
 public class TowerAssets
 {
-    public TowerInfoComponent TowerPrefab;
-    public GameObject TurretVisualPrefab;
-    public TownTileVisual HousingPrefab;
+    [SerializeField] private SerializableGuid m_id;
+    [SerializeField] private TowerInfoComponent m_towerPrefab;
+    [SerializeField] private GameObject m_turretVisualPrefab;
+    [SerializeField] private TowerTileVisual m_housingPrefab;
 
     [SerializeField] private bool m_isStartingTower;
+
+    public Guid ID => m_id;
+
+    public TowerInfoComponent TowerPrefab => m_towerPrefab;
+
+    public TowerTileVisual HousingPrefab => m_housingPrefab;
+
     public bool IsStartingTower => m_isStartingTower;
 }

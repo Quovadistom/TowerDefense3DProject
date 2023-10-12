@@ -6,7 +6,7 @@ using UnityEngine;
 public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollectionServiceDto>
 {
     private BoostCollection m_boostCollection;
-    private Dictionary<Guid, int> m_availableBoosts = new();
+    private Dictionary<BoostContainer, int> m_availableBoosts = new();
 
     protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
 
@@ -18,22 +18,14 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         {
             foreach (var boost in m_boostCollection.BoostList)
             {
-                AddAvailableBoost(boost.ID);
+                AddAvailableBoost(boost);
             }
         }
     }
 
     public Dictionary<BoostContainer, int> GetAvailableBoostList()
     {
-        Dictionary<BoostContainer, int> keyValuePairs = new();
-
-        foreach (var boost in m_availableBoosts.Where(x => x.Value > 0))
-        {
-            if (TryGetBoost(boost.Key, out BoostContainer towerBoostBase))
-            {
-                keyValuePairs.Add(towerBoostBase, boost.Value);
-            }
-        }
+        Dictionary<BoostContainer, int> keyValuePairs = (Dictionary<BoostContainer, int>)m_availableBoosts.Where(x => x.Value > 0);
 
         return keyValuePairs;
     }
@@ -50,43 +42,49 @@ public class BoostAvailabilityService : ServiceSerializationHandler<BoostCollect
         return boost != null;
     }
 
-    public void AddAvailableBoost(Guid boostID)
+    public void AddAvailableBoost(BoostContainer boostContainer)
     {
-        if (boostID != Guid.Empty)
+        if (m_availableBoosts.Keys.Contains(boostContainer))
         {
-            return;
-        }
-
-        if (m_availableBoosts.ContainsKey(boostID))
-        {
-            m_availableBoosts[boostID]++;
+            m_availableBoosts[boostContainer]++;
         }
         else
         {
-            m_availableBoosts.Add(boostID, 1);
+            m_availableBoosts.Add(boostContainer, 1);
         }
     }
 
-    public void RemoveAvailableBoost(Guid boostID)
+    public void RemoveAvailableBoost(BoostContainer boostContainer)
     {
-        if (m_availableBoosts.ContainsKey(boostID))
+        if (m_availableBoosts.ContainsKey(boostContainer))
         {
-            m_availableBoosts[boostID]--;
+            m_availableBoosts[boostContainer]--;
         }
         else
         {
-            Debug.LogWarning($"Could not remove boost with ID {boostID}");
+            Debug.LogWarning($"Could not remove boost with ID {boostContainer.ID}");
         }
+    }
+
+    public Dictionary<BoostContainer, int> GetBoostsForComponentParent(ComponentParent componentParent, BoostType boostType)
+    {
+        return m_availableBoosts.Where(boost => boost.Key.BoostType == boostType && boost.Key.IsBoostSuitable(componentParent)).ToDictionary(x => x.Key, x => x.Value);
     }
 
     protected override void ConvertDto()
     {
-        Dto.AvailableBoosts = m_availableBoosts;
+        Dto.AvailableBoosts = m_availableBoosts.ToDictionary(boost => boost.Key.ID, boost => boost.Value);
     }
 
     protected override void ConvertDtoBack(BoostCollectionServiceDto dto)
     {
-        m_availableBoosts = Dto.AvailableBoosts;
+        foreach (KeyValuePair<Guid, int> pair in dto.AvailableBoosts)
+        {
+            if (TryGetBoost(pair.Key, out BoostContainer boost))
+            {
+                m_availableBoosts.Add(boost, pair.Value);
+            }
+        }
     }
 }
 

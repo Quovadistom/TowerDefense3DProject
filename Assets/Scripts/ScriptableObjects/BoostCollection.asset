@@ -12,32 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb477860988e2a0449bdda8bafb48ee9, type: 3}
   m_Name: BoostCollection
   m_EditorClassIdentifier: 
-  m_towerBoostList:
+  m_boostList:
   - m_name: Range
     m_id:
-      serializedGuid: 3849f891-a909-45cb-b8b3-33426b1d7399
+      serializedGuid: 53b8c607-ab91-4499-8d93-5012323cee52
       m_isLocked: 1
+    m_boostType: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
-  m_gameBoostList:
-  - m_name: Range Global
+  - m_name: Range 2
     m_id:
-      serializedGuid: dc3816e2-3b13-46da-b43c-55caf88a5378
+      serializedGuid: 2341027d-63cc-4d58-b0ad-cf7320a355a2
       m_isLocked: 1
+    m_boostType: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
-    Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
-  - m_name: Health
-    m_id:
-      serializedGuid: 22d1bd24-4417-4584-9ecf-dda6a090b929
-      m_isLocked: 1
-    Upgrades:
-    - {fileID: 11400000, guid: c32a6defbcee92d46abd55b4ce09042c, type: 2}
-    Rarity: 0
-    Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
+    Visual: {fileID: 1179993806073376038, guid: c24e01f0a7013ea408d776bb7c6eb7d9, type: 3}
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}
   m_rarityRangeLegendary: {x: 0, y: 180}

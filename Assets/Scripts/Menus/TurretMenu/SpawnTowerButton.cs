@@ -12,7 +12,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     private LevelService m_levelService;
     private DraggingService m_draggingService;
 
-    public TowerInfoComponent TurretToSpawn { get; set; }
+    public TowerAssets TurretAssets { get; set; }
 
     [Inject]
     public void Construct(TowerInfoComponent.Factory turretFactory,
@@ -64,7 +64,8 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
             return;
         }
 
-        TowerInfoComponent turret = m_turretFactory.Create(TurretToSpawn);
+        TowerInfoComponent turret = m_turretFactory.Create(TurretAssets.TowerPrefab, TurretAssets.ID);
+
         turret.StartTowerPlacement();
 
         if (m_touchInputService.TryGetRaycast(m_layerSettings.GameBoardLayer, out RaycastHit hit))

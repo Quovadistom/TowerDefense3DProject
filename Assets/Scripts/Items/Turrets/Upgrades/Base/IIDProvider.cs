@@ -1,4 +1,6 @@
-﻿public interface IIDProvider
+﻿using System;
+
+public interface IIDProvider
 {
-    string ID { get; }
+    public Guid ID { get; }
 }

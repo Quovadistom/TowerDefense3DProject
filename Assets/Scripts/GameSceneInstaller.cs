@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -33,7 +34,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<TowerService>().AsSingle().NonLazy();
 
         // Factories
-        Container.BindFactory<TowerInfoComponent, TowerInfoComponent, TowerInfoComponent.Factory>().FromFactory<PrefabFactory<TowerInfoComponent>>();
+        Container.BindFactory<TowerInfoComponent, Guid, TowerInfoComponent, TowerInfoComponent.Factory>().FromFactory<PrefabFactory<Guid, TowerInfoComponent>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
         Container.BindFactory<SpawnTowerButton, SpawnTowerButton.Factory>().FromComponentInNewPrefab(SpawnTurretButtonPrefab);
         Container.BindFactory<TowerUpgradeButton, TowerUpgradeButton.Factory>().FromComponentInNewPrefab(UpgradeButtonPrefab);

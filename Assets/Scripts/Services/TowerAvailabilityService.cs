@@ -17,8 +17,8 @@ public class TowerAssetsAvailibilityWrapper
 public class TowerAvailabilityService : ServiceSerializationHandler<TowerAvailabilityServiceDto>
 {
     private TurretCollection m_turretCollection;
-
     private IEnumerable<TowerAssetsAvailibilityWrapper> m_towerAssetsCollection;
+
     public IReadOnlyList<TowerAssets> AvailableTowers => m_towerAssetsCollection.Where(tower => tower.IsAvailable).Select(tower => tower.TowerAssets).ToList();
 
     public TowerAvailabilityService(SerializationService serializationService, DebugSettings debugSettings, TurretCollection turretCollection) : base(serializationService, debugSettings)
@@ -29,7 +29,7 @@ public class TowerAvailabilityService : ServiceSerializationHandler<TowerAvailab
 
     public bool TryGetTowerAssets(Guid towerID, out TowerAssets towerAssets)
     {
-        towerAssets = AvailableTowers.FirstOrDefault(tower => tower.TowerPrefab.ComponentID == towerID);
+        towerAssets = AvailableTowers.FirstOrDefault(tower => tower.ID == towerID);
         return towerAssets != null;
     }
 
@@ -37,7 +37,7 @@ public class TowerAvailabilityService : ServiceSerializationHandler<TowerAvailab
 
     protected override void ConvertDto()
     {
-        Dto.AvailableTowerID = AvailableTowers.Select(tower => tower.TowerPrefab.TowerID);
+        Dto.AvailableTowerID = AvailableTowers.Select(tower => tower.TowerPrefab.ID);
     }
 
     protected override void ConvertDtoBack(TowerAvailabilityServiceDto dto)
@@ -46,7 +46,7 @@ public class TowerAvailabilityService : ServiceSerializationHandler<TowerAvailab
         {
             foreach (TowerAssetsAvailibilityWrapper item in m_towerAssetsCollection)
             {
-                item.IsAvailable = dto.AvailableTowerID.Contains(item.TowerAssets.TowerPrefab.TowerID);
+                item.IsAvailable = dto.AvailableTowerID.Contains(item.TowerAssets.TowerPrefab.ID);
             }
         }
     }

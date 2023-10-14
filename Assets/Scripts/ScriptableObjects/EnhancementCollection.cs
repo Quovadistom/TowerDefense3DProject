@@ -35,6 +35,36 @@ public class EnhancementCollection : ScriptableObject
     public int EnhancementAmount => m_enhancementAmount;
     public IReadOnlyList<EnhancementContainer> EnhancementList => m_enhancementList;
 
+    public bool TryGetEnhancement(Guid id, out EnhancementContainer enhancement)
+    {
+        enhancement = null;
+
+        if (id != Guid.Empty)
+        {
+            enhancement = EnhancementList.FirstOrDefault(enhancement => enhancement.ID == id);
+        }
+
+        return enhancement != null;
+    }
+
+    public EnhancementContainer GetRandomEnhancementWeighted(int wave)
+    {
+        IEnumerable<Rarity> rarities = EnhancementList.Select(enhancement => enhancement.Rarity);
+
+        int[] calculatedWeights = new int[rarities.Count()];
+
+        for (int i = 0; i < rarities.Count(); i++)
+        {
+            int accumulatedWeight = i > 0 ? calculatedWeights[i - 1] : 0;
+            calculatedWeights[i] = GetWeight(rarities.ElementAt(i), wave) + accumulatedWeight;
+        }
+
+        int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
+
+        int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
+        return EnhancementList[randomIndex];
+    }
+
     private int GetWeight(Rarity rarity, int wave)
     {
         // If above a certain wave, keep the same chances
@@ -60,23 +90,5 @@ public class EnhancementCollection : ScriptableObject
         float startingValue = m_rarityRangeCommon.x - ((m_rarityRangeCommon.x - m_rarityRangeLegendary.x) / (enumCount - 1)) * rarityLevel;
 
         return Mathf.FloorToInt(startingValue + (commonRarityValue + rarityLevel * step) * wave);
-    }
-
-    public EnhancementContainer GetRandomEnhancementWeighted(int wave)
-    {
-        IEnumerable<Rarity> rarities = EnhancementList.Select(enhancement => enhancement.Rarity);
-
-        int[] calculatedWeights = new int[rarities.Count()];
-
-        for (int i = 0; i < rarities.Count(); i++)
-        {
-            int accumulatedWeight = i > 0 ? calculatedWeights[i - 1] : 0;
-            calculatedWeights[i] = GetWeight(rarities.ElementAt(i), wave) + accumulatedWeight;
-        }
-
-        int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
-
-        int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
-        return EnhancementList[randomIndex];
     }
 }

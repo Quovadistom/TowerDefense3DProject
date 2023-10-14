@@ -1,8 +1,8 @@
 ﻿using System;
 
-public class TowerRangeSupportHandler : TowerFloatSupportHandler<RangeComponent>
+public class TowerRangeSupportHandler : TowerFloatSupportHandler<RangeModule>
 {
-    protected override Action<RangeComponent, float> ComponentFunc => (component, value) =>
+    protected override Action<RangeModule, float> ComponentFunc => (component, value) =>
     {
         component.RangeValue.BuffPercentage += value;
     };

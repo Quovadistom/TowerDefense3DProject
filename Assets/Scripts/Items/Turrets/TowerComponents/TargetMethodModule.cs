@@ -1,4 +1,4 @@
-﻿public class TargetMethodComponent : ComponentBase
+﻿public class TargetMethodModule : ModuleBase
 {
     private ITargetMethod m_targetMethod = new TargetFirstEnemy();
 

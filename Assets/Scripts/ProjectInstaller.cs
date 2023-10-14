@@ -23,7 +23,7 @@ public class ProjectInstaller : MonoInstaller
         // Services
         Container.BindInterfacesAndSelfTo<SerializationService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<DifficultyService>().AsSingle().NonLazy();
-        Container.BindInterfacesAndSelfTo<EnhancementService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<ModuleModificationService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<EnhancementAvailabilityService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TowerAvailabilityService>().AsSingle().NonLazy();
 

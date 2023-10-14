@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class TowerInfoComponent : ComponentParent
+public class TowerModule : ModuleParent
 {
     [SerializeField] private TowerUpgradeTree m_upgradeTreeData;
 
@@ -80,7 +80,7 @@ public class TowerInfoComponent : ComponentParent
         IsTowerPlaced = true;
     }
 
-    public class Factory : PlaceholderFactory<TowerInfoComponent, Guid, TowerInfoComponent>
+    public class Factory : PlaceholderFactory<TowerModule, Guid, TowerModule>
     {
     }
 }

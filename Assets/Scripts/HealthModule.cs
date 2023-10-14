@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class HealthComponent : ComponentBase
+public class HealthModule : ModuleBase
 {
     [SerializeField] private int m_health;
 

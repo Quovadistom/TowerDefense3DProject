@@ -12,17 +12,17 @@ public class EnhancementContainer
     public Guid TargetObjectID { get; set; } = Guid.Empty;
     public EnhancementType EnhancementType => m_enhancementType;
 
-    public UpgradeBase[] Upgrades;
+    public ModuleModificationBase[] Upgrades;
     public string Name => m_name;
     public Guid ID => m_id;
     public Rarity Rarity = Rarity.Common;
     public GameObject Visual;
 
-    public bool IsEnhancementSuitable(ComponentParent towerInfoComponent) => Upgrades.All(x => x.IsObjectSuitable(towerInfoComponent));
+    public bool IsEnhancementSuitable(ModuleParent towerInfoComponent) => Upgrades.All(x => x.IsObjectSuitable(towerInfoComponent));
 
-    public void ApplyUpgrades(ComponentParent towerInfoComponent)
+    public void ApplyUpgrades(ModuleParent towerInfoComponent)
     {
-        foreach (UpgradeBase upgrade in Upgrades)
+        foreach (ModuleModificationBase upgrade in Upgrades)
         {
             upgrade.TryApplyUpgrade(towerInfoComponent);
         }

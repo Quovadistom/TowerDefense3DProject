@@ -522,7 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52104542e4516934dbc198fa0f1e93e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_towerInfoComponent: {fileID: 5460914499701273303}
+  m_towerModule: {fileID: 5460914499701273303}
 --- !u!114 &5460914499701273303 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3024794025693742440, guid: 9d367549d7ada3f46a2bf1a4dfd84540, type: 3}

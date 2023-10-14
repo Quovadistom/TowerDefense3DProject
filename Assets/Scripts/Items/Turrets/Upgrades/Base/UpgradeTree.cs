@@ -15,7 +15,7 @@ public class UpgradeTree : MonoBehaviour
     [SerializeField] private Transform m_treeParent;
     [SerializeField] private GameObject m_upgradeRow;
 
-    private TowerInfoComponent m_activeTurrentInfo;
+    private TowerModule m_activeTurrentInfo;
     private TowerUpgradeButton.Factory m_towerUpgradeButtonFactory;
 
     public event Action<int> AvailableUpgradeCountChanged;
@@ -48,7 +48,7 @@ public class UpgradeTree : MonoBehaviour
         m_selectedTurretMenu.TurretDataChanged -= OnTurretChanged;
     }
 
-    private void OnTurretChanged(TowerInfoComponent selectedTurret)
+    private void OnTurretChanged(TowerModule selectedTurret)
     {
         if (selectedTurret != m_activeTurrentInfo)
         {
@@ -66,7 +66,7 @@ public class UpgradeTree : MonoBehaviour
         }
     }
 
-    private void CreateTurretUpgradeMenu(TowerInfoComponent selectedTurret)
+    private void CreateTurretUpgradeMenu(TowerModule selectedTurret)
     {
         TowerUpgradeTreeData towerUpgradeTreeData = selectedTurret.UpgradeTreeData;
 

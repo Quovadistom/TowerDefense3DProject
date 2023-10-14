@@ -2,21 +2,21 @@
 using System;
 using UnityEngine;
 
-public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where T : ComponentBase
+public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where T : ModuleBase
 {
-    [SerializeField] private SupportComponent m_towerSupportComponent;
+    [SerializeField] private SupportModule m_towerSupportComponent;
 
     protected abstract Action<T, float> ComponentFunc { get; }
 
     private float m_currentBuff = 0;
 
-    protected override void AddTowerBuff(ComponentParent componentParent)
+    protected override void AddTowerBuff(ModuleParent componentParent)
     {
         float newBuff = GetPercentageForOneTower();
 
         foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
         {
-            if (tower.GameObjectToSelect.TryGetComponent(out ComponentParent towerComponentParent))
+            if (tower.GameObjectToSelect.TryGetComponent(out ModuleParent towerComponentParent))
             {
                 float buff = towerComponentParent != componentParent ? newBuff - m_currentBuff : newBuff;
                 BuffComponent(towerComponentParent, buff);
@@ -26,7 +26,7 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
         m_currentBuff = newBuff;
     }
 
-    protected override void RemoveTowerBuff(ComponentParent componentParent)
+    protected override void RemoveTowerBuff(ModuleParent componentParent)
     {
         BuffComponent(componentParent, -m_currentBuff);
 
@@ -34,7 +34,7 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
 
         foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
         {
-            if (tower.GameObjectToSelect.TryGetComponent(out ComponentParent towerComponentParent) && towerComponentParent != componentParent)
+            if (tower.GameObjectToSelect.TryGetComponent(out ModuleParent towerComponentParent) && towerComponentParent != componentParent)
             {
                 BuffComponent(towerComponentParent, newBuff - m_currentBuff);
             }
@@ -47,14 +47,14 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
     {
         foreach (Selectable tower in m_supportTowerSelector.ConnectedTowers)
         {
-            if (tower.GameObjectToSelect.TryGetComponent(out ComponentParent towerComponentParent))
+            if (tower.GameObjectToSelect.TryGetComponent(out ModuleParent towerComponentParent))
             {
                 BuffComponent(towerComponentParent, -m_currentBuff);
             }
         }
     }
 
-    protected void BuffComponent(ComponentParent componentParent, float buffPercentage)
+    protected void BuffComponent(ModuleParent componentParent, float buffPercentage)
     {
         componentParent.TryFindAndActOnComponent<T>((component) => ComponentFunc?.Invoke(component, buffPercentage));
     }

@@ -1,12 +1,12 @@
 using TMPro;
 using Zenject;
 
-public class HealthCounter : ComponentWithUpgradeBase
+public class HealthCounter : ModuleWithModificationBase
 {
     public TMP_Text m_text;
     private LevelService m_levelService;
 
-    public HealthComponent HealthComponent;
+    public HealthModule HealthComponent;
 
     [Inject]
     public void Construct(LevelService levelService)

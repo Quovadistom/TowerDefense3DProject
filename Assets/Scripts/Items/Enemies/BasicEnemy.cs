@@ -13,11 +13,11 @@ public class BasicEnemy : Poolable
     private Transform m_target;
     private LevelService m_levelService;
     private WaveService m_waveService;
-    private EnhancementService m_enhancementService;
+    private ModuleModificationService m_enhancementService;
     private float m_currentHealth;
 
     [Inject]
-    public void Construct(LevelService levelService, WaveService waveService, EnhancementService enhancementService)
+    public void Construct(LevelService levelService, WaveService waveService, ModuleModificationService enhancementService)
     {
         m_levelService = levelService;
         m_waveService = waveService;

@@ -4,19 +4,19 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 
-public class ComponentParent : MonoBehaviour
+public class ModuleParent : MonoBehaviour
 {
-    private List<ComponentWithUpgradeBase> m_upgradableComponents = new();
-    private EnhancementService m_enhancementService;
+    private List<ModuleWithModificationBase> m_upgradableComponents = new();
+    private ModuleModificationService m_enhancementService;
     private bool m_isInitialized = false;
 
-    public List<ComponentWithUpgradeBase> UpgradableComponents
+    public List<ModuleWithModificationBase> UpgradableComponents
     {
         get
         {
             if (!m_isInitialized || gameObject.scene == default)
             {
-                m_upgradableComponents = gameObject.GetComponentsInChildren<ComponentWithUpgradeBase>(true).ToList();
+                m_upgradableComponents = gameObject.GetComponentsInChildren<ModuleWithModificationBase>(true).ToList();
                 m_isInitialized = true;
             }
 
@@ -27,14 +27,14 @@ public class ComponentParent : MonoBehaviour
     public Guid ID { get; set; }
 
     [Inject]
-    private void Construct(EnhancementService enhancementService)
+    private void Construct(ModuleModificationService enhancementService)
     {
         m_enhancementService = enhancementService;
     }
 
     protected virtual void Awake()
     {
-        m_enhancementService.ApplyUpgradesToObject(this);
+        m_enhancementService.ApplyEnhancementsToObject(this);
         m_enhancementService.UpgradeReceived += OnUpgradeReceived;
     }
 
@@ -43,7 +43,7 @@ public class ComponentParent : MonoBehaviour
         m_enhancementService.UpgradeReceived -= OnUpgradeReceived;
     }
 
-    private void OnUpgradeReceived(UpgradeBase upgrade)
+    private void OnUpgradeReceived(ModuleModificationBase upgrade)
     {
         if (upgrade.IsObjectSuitable(this))
         {
@@ -56,7 +56,7 @@ public class ComponentParent : MonoBehaviour
     public bool TryFindAndActOnComponent<T>(Action<T> func)
     {
         bool upgradeSucces = false;
-        foreach (ComponentWithUpgradeBase upgradable in UpgradableComponents)
+        foreach (ModuleWithModificationBase upgradable in UpgradableComponents)
         {
             if (!upgradable.TryFindAndActOnComponent(func))
             {

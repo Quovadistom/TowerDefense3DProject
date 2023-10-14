@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 [Serializable]
-public class ComponentDataTypeVisual<T> : ComponentBase where T : Component
+public class ModuleDataTypeVisual<T> : ModuleBase where T : Component
 {
     [SerializeField] private T m_visual;
     public Action<T> VisualChanged;
@@ -21,7 +21,7 @@ public class ComponentDataTypeVisual<T> : ComponentBase where T : Component
 
             if (m_visual.gameObject.TryGetComponent(out Outline outline))
             {
-                TowerInfoComponent towerInfoComponent = newBarrel.GetComponentInParent<TowerInfoComponent>(true);
+                TowerModule towerInfoComponent = newBarrel.GetComponentInParent<TowerModule>(true);
                 outline.OutlineColor = towerInfoComponent.Selectable.CurrentColor;
             }
 

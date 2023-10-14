@@ -1,11 +1,11 @@
 using System.Linq;
 using UnityEngine;
 
-public class TurretEnemyHandler : ComponentWithUpgradeBase
+public class TurretEnemyHandler : ModuleWithModificationBase
 {
-    [SerializeField] private TowerInfoComponent m_towerInfoComponent;
+    [SerializeField] private TowerModule m_towerModule;
 
-    public TargetMethodComponent TargetMethodComponent = new();
+    public TargetMethodModule TargetMethodModule = new();
 
     private GenericRepository<BasicEnemy> m_enemiesInRange;
 
@@ -16,7 +16,7 @@ public class TurretEnemyHandler : ComponentWithUpgradeBase
         set
         {
             m_currentTarget = value;
-            m_towerInfoComponent.TryFindAndActOnComponent<TargetingComponent>((component) => component.Target.Value = value);
+            m_towerModule.TryFindAndActOnComponent<TargetingModule>((component) => component.Target.Value = value);
         }
     }
 
@@ -64,7 +64,7 @@ public class TurretEnemyHandler : ComponentWithUpgradeBase
             return;
         }
 
-        TargetMethodComponent.TargetMethod.TryGetTarget(this, m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        TargetMethodModule.TargetMethod.TryGetTarget(this, m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
         CurrentTarget = enemy;
     }
 }

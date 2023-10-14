@@ -20,31 +20,3 @@ MonoBehaviour:
     m_turretVisualPrefab: {fileID: 0}
     m_housingPrefab: {fileID: 3089907692032091951, guid: ce7d5af2a740a484c90d8ce567aa17e2, type: 3}
     m_isStartingTower: 1
-  - m_id:
-      serializedGuid: 387256bc-b32e-4b4e-b6ce-6093571f5704
-      m_isLocked: 1
-    m_towerPrefab: {fileID: 6564793830113267108, guid: 49a613f59edcee0488af8cae8558c60a, type: 3}
-    m_turretVisualPrefab: {fileID: 0}
-    m_housingPrefab: {fileID: 3089907692032091951, guid: e715850301fcb6e43aa5606cf0aab308, type: 3}
-    m_isStartingTower: 1
-  - m_id:
-      serializedGuid: ff0cedd0-8d51-4f3a-9f03-784e3c3d3673
-      m_isLocked: 1
-    m_towerPrefab: {fileID: 6564793830113267108, guid: 49a613f59edcee0488af8cae8558c60a, type: 3}
-    m_turretVisualPrefab: {fileID: 0}
-    m_housingPrefab: {fileID: 3089907692032091951, guid: e715850301fcb6e43aa5606cf0aab308, type: 3}
-    m_isStartingTower: 1
-  - m_id:
-      serializedGuid: 252b251f-a33a-4d38-927b-548624fafd18
-      m_isLocked: 1
-    m_towerPrefab: {fileID: 6564793830113267108, guid: 49a613f59edcee0488af8cae8558c60a, type: 3}
-    m_turretVisualPrefab: {fileID: 0}
-    m_housingPrefab: {fileID: 3089907692032091951, guid: e715850301fcb6e43aa5606cf0aab308, type: 3}
-    m_isStartingTower: 1
-  - m_id:
-      serializedGuid: 78a5c32f-31b8-4321-87d3-69bbfabc35eb
-      m_isLocked: 1
-    m_towerPrefab: {fileID: 6564793830113267108, guid: 49a613f59edcee0488af8cae8558c60a, type: 3}
-    m_turretVisualPrefab: {fileID: 0}
-    m_housingPrefab: {fileID: 3089907692032091951, guid: e715850301fcb6e43aa5606cf0aab308, type: 3}
-    m_isStartingTower: 1

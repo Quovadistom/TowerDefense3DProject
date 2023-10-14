@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class SupportComponent : ComponentBase
+public class SupportModule : ModuleBase
 {
-    public ComponentDataTypeWithEvent<float> UpgradePercentage;
+    public ModuleDataTypeWithEvent<float> UpgradePercentage;
 
     [Range(0, 1)][SerializeField] private float m_sharedTowerFactor = 1;
 

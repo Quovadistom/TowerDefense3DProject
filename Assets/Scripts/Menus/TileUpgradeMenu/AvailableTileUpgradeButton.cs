@@ -37,7 +37,7 @@ public class AvailableTileUpgradeButton : MonoBehaviour
 
     private void OnTileUpgradeApplied(HousingData housingData, int location)
     {
-        m_upgradeAppliedCheck.SetActive(housingData.ActiveUpgrades[location] == m_connectedEnhancement.ID);
+        m_upgradeAppliedCheck.SetActive(housingData.ActiveUpgrades[location] == m_connectedEnhancement);
     }
 
     public void SetButtonInfo(EnhancementContainer connectedEnhancement, int enhancementAmount, int connectedLocation)
@@ -51,7 +51,7 @@ public class AvailableTileUpgradeButton : MonoBehaviour
 
         m_enhancementAmountText.text = enhancementAmount.ToString();
 
-        m_upgradeAppliedCheck.SetActive(m_townHousingService.GetHousingData(m_id).ActiveUpgrades[m_connectedLocation] == m_connectedEnhancement.ID);
+        m_upgradeAppliedCheck.SetActive(m_townHousingService.GetHousingData(m_id).ActiveUpgrades[m_connectedLocation] == m_connectedEnhancement);
     }
 
     private void OnButtonClicked()

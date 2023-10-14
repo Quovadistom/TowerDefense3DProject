@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class TurretLaserComponent : MonoBehaviour
+public class TurretLaserModule : MonoBehaviour
 {
-    [SerializeField] private RangeComponent m_turretRangeComponent;
+    [SerializeField] private RangeModule m_turretRangeComponent;
     [SerializeField] private LaserSpawnPoints m_laserSpawnPoints;
 
     [SerializeField] private float m_damageRate;

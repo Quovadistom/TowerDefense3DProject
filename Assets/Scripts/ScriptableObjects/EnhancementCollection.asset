@@ -10,29 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb477860988e2a0449bdda8bafb48ee9, type: 3}
-  m_Name: BoostCollection
+  m_Name: EnhancementCollection
   m_EditorClassIdentifier: 
-  m_boostList:
+  m_enhancementList:
   - m_name: Range
     m_id:
-      serializedGuid: 53b8c607-ab91-4499-8d93-5012323cee52
+      serializedGuid: 54c19adb-7f70-49db-a290-a1285a315578
       m_isLocked: 1
-    m_boostType: 1
+    m_enhancementType: 1
     Upgrades:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
-  - m_name: Range 2
-    m_id:
-      serializedGuid: 2341027d-63cc-4d58-b0ad-cf7320a355a2
-      m_isLocked: 1
-    m_boostType: 1
-    Upgrades:
-    - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
-    Rarity: 0
-    Visual: {fileID: 1179993806073376038, guid: c24e01f0a7013ea408d776bb7c6eb7d9, type: 3}
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}
   m_rarityRangeLegendary: {x: 0, y: 180}
   m_frequency: 6
-  m_boostAmount: 3
+  m_enhancementAmount: 0

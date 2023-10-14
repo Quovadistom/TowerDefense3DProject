@@ -48,14 +48,14 @@ public class TargetingDropDown : MonoBehaviour
     }
 
 
-    private void OnTurretChanged(TowerInfoComponent selectedTurret)
+    private void OnTurretChanged(TowerModule selectedTurret)
     {
         if (selectedTurret == null)
         {
             return;
         }
 
-        bool success = !selectedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) =>
+        bool success = !selectedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) =>
         {
             m_dropdown.value = m_dropdown.options.Select((info, index) => (info, index)).First(x => x.info.text == component.TargetMethod.Name).index;
         });
@@ -65,7 +65,7 @@ public class TargetingDropDown : MonoBehaviour
 
     private void OnTargetingChanged(int index)
     {
-        SelectedTurretMenu.SelectedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) =>
+        SelectedTurretMenu.SelectedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) =>
         component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == m_dropdown.options[index].text));
     }
 }

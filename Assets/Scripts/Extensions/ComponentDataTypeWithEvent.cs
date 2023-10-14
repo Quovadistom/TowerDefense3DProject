@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class ComponentDataTypeWithEvent<T>
+public class ModuleDataTypeWithEvent<T>
 {
     [SerializeField] private T m_value;
     public Action<T> ValueChanged;

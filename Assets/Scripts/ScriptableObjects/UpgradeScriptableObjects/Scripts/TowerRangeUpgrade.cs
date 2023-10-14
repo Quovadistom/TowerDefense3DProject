@@ -2,11 +2,11 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TowerRangeUpgrade", menuName = "ScriptableObjects/Upgrades/TowerRangeUpgrade")]
-public class TowerRangeUpgrade : Upgrade<RangeComponent>
+public class TowerRangeUpgrade : Upgrade<RangeModule>
 {
     public float Percentage;
 
-    protected override Action<RangeComponent> ComponentAction => (component) =>
+    protected override Action<RangeModule> ComponentAction => (component) =>
             {
                 component.RangeValue.BaseValue = component.RangeValue.BaseValue.AddPercentage(Percentage);
             };

@@ -30,7 +30,7 @@ public class TurretCollection : ScriptableObject
 public class TowerAssets
 {
     [SerializeField] private SerializableGuid m_id;
-    [SerializeField] private TowerInfoComponent m_towerPrefab;
+    [SerializeField] private TowerModule m_towerPrefab;
     [SerializeField] private GameObject m_turretVisualPrefab;
     [SerializeField] private TowerTileVisual m_housingPrefab;
 
@@ -38,7 +38,7 @@ public class TowerAssets
 
     public Guid ID => m_id;
 
-    public TowerInfoComponent TowerPrefab => m_towerPrefab;
+    public TowerModule TowerPrefab => m_towerPrefab;
 
     public TowerTileVisual HousingPrefab => m_housingPrefab;
 

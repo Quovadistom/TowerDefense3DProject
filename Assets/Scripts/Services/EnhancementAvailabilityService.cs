@@ -8,9 +8,10 @@ public class EnhancementAvailabilityService : ServiceSerializationHandler<Enhanc
     private EnhancementCollection m_enhancementCollection;
     private Dictionary<EnhancementContainer, int> m_availableEnhancements = new();
 
-    protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
-
-    public EnhancementAvailabilityService(EnhancementCollection enhancementCollection, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public EnhancementAvailabilityService(EnhancementCollection enhancementCollection,
+        ModuleModificationService enhancementService,
+        SerializationService serializationService,
+        DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_enhancementCollection = enhancementCollection;
 
@@ -21,25 +22,6 @@ public class EnhancementAvailabilityService : ServiceSerializationHandler<Enhanc
                 AddAvailableEnhancement(enhancement);
             }
         }
-    }
-
-    public Dictionary<EnhancementContainer, int> GetAvailableEnhancementList()
-    {
-        Dictionary<EnhancementContainer, int> keyValuePairs = (Dictionary<EnhancementContainer, int>)m_availableEnhancements.Where(x => x.Value > 0);
-
-        return keyValuePairs;
-    }
-
-    public bool TryGetEnhancement(Guid id, out EnhancementContainer enhancement)
-    {
-        enhancement = null;
-
-        if (id != Guid.Empty)
-        {
-            enhancement = m_enhancementCollection.EnhancementList.FirstOrDefault(enhancement => enhancement.ID == id);
-        }
-
-        return enhancement != null;
     }
 
     public void AddAvailableEnhancement(EnhancementContainer enhancementContainer)
@@ -66,10 +48,12 @@ public class EnhancementAvailabilityService : ServiceSerializationHandler<Enhanc
         }
     }
 
-    public Dictionary<EnhancementContainer, int> GetEnhancementsForComponentParent(ComponentParent componentParent, EnhancementType enhancementType)
+    public Dictionary<EnhancementContainer, int> GetEnhancementsForComponentParent(ModuleParent componentParent, EnhancementType enhancementType)
     {
         return m_availableEnhancements.Where(enhancement => enhancement.Key.EnhancementType == enhancementType && enhancement.Key.IsEnhancementSuitable(componentParent)).ToDictionary(x => x.Key, x => x.Value);
     }
+
+    protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
 
     protected override void ConvertDto()
     {
@@ -80,7 +64,7 @@ public class EnhancementAvailabilityService : ServiceSerializationHandler<Enhanc
     {
         foreach (KeyValuePair<Guid, int> pair in dto.AvailableEnhancements)
         {
-            if (TryGetEnhancement(pair.Key, out EnhancementContainer enhancement))
+            if (m_enhancementCollection.TryGetEnhancement(pair.Key, out EnhancementContainer enhancement))
             {
                 m_availableEnhancements.Add(enhancement, pair.Value);
             }

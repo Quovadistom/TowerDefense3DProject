@@ -9,9 +9,9 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 
     private int m_health = 10;
     private int m_money = 1000;
-    private EnhancementService m_enhancementService;
+    private ModuleModificationService m_enhancementService;
 
-    public LevelService(EnhancementService enhancementService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public LevelService(ModuleModificationService enhancementService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_enhancementService = enhancementService;
     }

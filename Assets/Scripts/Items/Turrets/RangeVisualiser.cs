@@ -1,13 +1,13 @@
 using UnityEngine;
 using Zenject;
 
-public class RangeVisualiser : ComponentWithUpgradeBase
+public class RangeVisualiser : ModuleWithModificationBase
 {
     [SerializeField] private SpriteRenderer m_renderer;
     [SerializeField] private SphereCollider m_rangeCollider;
     [SerializeField] private Draggable m_draggable;
 
-    public RangeComponent RangeComponent;
+    public RangeModule RangeComponent;
 
     private ColorSettings m_colorSettings;
 

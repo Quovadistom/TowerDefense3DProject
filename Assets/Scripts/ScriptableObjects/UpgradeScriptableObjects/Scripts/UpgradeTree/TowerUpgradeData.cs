@@ -19,7 +19,7 @@ public class TowerUpgradeData
         set => m_towerUpgradeID = (SerializableGuid)value;
     }
 
-    [JsonIgnore][Expandable] public UpgradeBase[] TowerUpgrades;
+    [JsonIgnore][Expandable] public ModuleModificationBase[] TowerUpgrades;
 
     private int m_unlockSignals;
     public int UnlockSignals
@@ -34,7 +34,7 @@ public class TowerUpgradeData
 
     public event Action<bool> UnlockSignalsChanged;
 
-    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerInfoComponent towerInfoComponent)
+    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerModule towerInfoComponent)
     {
         if (treeToCopy.TryGetTowerUpgradeData(TowerUpgradeID, out TowerUpgradeData towerUpgradeData))
         {
@@ -48,9 +48,9 @@ public class TowerUpgradeData
         }
     }
 
-    public void ApplyUpgrades(TowerInfoComponent towerInfoComponent)
+    public void ApplyUpgrades(TowerModule towerInfoComponent)
     {
-        foreach (UpgradeBase upgradeData in TowerUpgrades)
+        foreach (ModuleModificationBase upgradeData in TowerUpgrades)
         {
             upgradeData.TryApplyUpgrade(towerInfoComponent);
         }

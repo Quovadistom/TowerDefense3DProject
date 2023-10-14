@@ -6,7 +6,7 @@ using Zenject;
 public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Button m_button;
-    private TowerInfoComponent.Factory m_turretFactory;
+    private TowerModule.Factory m_turretFactory;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
@@ -15,7 +15,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     public TowerAssets TurretAssets { get; set; }
 
     [Inject]
-    public void Construct(TowerInfoComponent.Factory turretFactory,
+    public void Construct(TowerModule.Factory turretFactory,
         TouchInputService touchInputService,
         LayerSettings layerSettings,
         LevelService levelService,
@@ -64,7 +64,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
             return;
         }
 
-        TowerInfoComponent turret = m_turretFactory.Create(TurretAssets.TowerPrefab, TurretAssets.ID);
+        TowerModule turret = m_turretFactory.Create(TurretAssets.TowerPrefab, TurretAssets.ID);
 
         turret.StartTowerPlacement();
 

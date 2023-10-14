@@ -1,10 +1,10 @@
 ﻿using System;
 
-public class TowerRangeBuff : Upgrade<RangeComponent>
+public class TowerRangeBuff : Upgrade<RangeModule>
 {
     public float Percentage;
 
-    protected override Action<RangeComponent> ComponentAction => (component) =>
+    protected override Action<RangeModule> ComponentAction => (component) =>
     {
         component.RangeValue.BuffPercentage += Percentage;
     };

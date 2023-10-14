@@ -28,7 +28,7 @@ public class TowerUpgradeTreeData
         }
     }
 
-    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerInfoComponent towerInfoComponent)
+    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerModule towerInfoComponent)
     {
         Initialize();
         foreach (TowerUpgradeTreeRow towerUpgradeTreeRow in Structure)

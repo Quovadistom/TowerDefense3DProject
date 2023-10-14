@@ -3,14 +3,14 @@ using Zenject;
 
 public class TurretProjectileBarrel : TurretBarrel
 {
-    public ProjectileComponent m_projectileComponent;
-    public FireRateComponent m_fireRateComponent;
-    public DamageComponent m_damageComponent;
-    public ComponentDataTypeVisual<BulletSpawnPoints> m_bulletBarrelComponent;
+    public ProjectileModule m_projectileModule;
+    public FireRateModule m_fireRateModule;
+    public DamageModule m_damageModule;
+    public ModuleDataTypeVisual<BulletSpawnPoints> m_bulletBarrelModule;
 
     private BulletService m_bulletService;
 
-    public override float Interval => m_fireRateComponent.FireRate.Value;
+    public override float Interval => m_fireRateModule.FireRate.Value;
 
     [Inject]
     public void Construct(BulletService bulletService)
@@ -20,10 +20,10 @@ public class TurretProjectileBarrel : TurretBarrel
 
     public override void TimeElapsed(BasicEnemy basicEnemy)
     {
-        foreach (Transform spawnPoint in m_bulletBarrelComponent.Visual.SpawnPoints)
+        foreach (Transform spawnPoint in m_bulletBarrelModule.Visual.SpawnPoints)
         {
-            ProjectileProfile projectileProfile = new ProjectileProfile(m_projectileComponent.BulletSpeed.Value, m_damageComponent.Damage.Value);
-            m_bulletService.CreateNewBullet(m_projectileComponent.BulletPrefab.Value, spawnPoint.position, projectileProfile, basicEnemy, null);
+            ProjectileProfile projectileProfile = new ProjectileProfile(m_projectileModule.BulletSpeed.Value, m_damageModule.Damage.Value);
+            m_bulletService.CreateNewBullet(m_projectileModule.BulletPrefab.Value, spawnPoint.position, projectileProfile, basicEnemy, null);
         }
     }
 }

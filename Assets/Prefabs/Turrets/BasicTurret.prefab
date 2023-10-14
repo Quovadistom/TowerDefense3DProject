@@ -446,20 +446,20 @@ MonoBehaviour:
       m_value: {fileID: 0}
     TurnSpeed:
       m_value: 100
-  m_projectileComponent:
+  m_projectileModule:
     BulletPrefab:
       m_value: {fileID: 6370903167984068401, guid: 28b5654a0d11cdd41ab018f07a1ecfcf, type: 3}
     BulletSpeed:
       m_value: 10
-    EplosionRange:
+    ExplosionRange:
       m_value: 0
-  m_fireRateComponent:
+  m_fireRateModule:
     FireRate:
-      m_value: 0.5
-  m_damageComponent:
+      m_value: 1
+  m_damageModule:
     Damage:
-      m_value: 20
-  m_bulletBarrelComponent:
+      m_value: 10
+  m_bulletBarrelModule:
     m_visual: {fileID: 4231306636256174191}
 --- !u!114 &6564793830113267108 stripped
 MonoBehaviour:

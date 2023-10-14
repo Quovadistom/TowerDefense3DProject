@@ -37,7 +37,7 @@ public class TowerUpgradeButton : MonoBehaviour
 
     public void SetButtonInfo(TowerUpgradeTreeData towerUpgradeTreeStructure,
         TowerUpgradeData towerUpgradeData,
-        TowerInfoComponent towerInfoComponent,
+        TowerModule towerInfoComponent,
         UpgradeTree upgradeTree)
     {
         m_textObject.text = towerUpgradeData.Name;
@@ -56,7 +56,7 @@ public class TowerUpgradeButton : MonoBehaviour
         });
     }
 
-    public void ApplyTowerUpgrade(TowerUpgradeData towerUpgradeData, TowerInfoComponent towerInfoComponent)
+    public void ApplyTowerUpgrade(TowerUpgradeData towerUpgradeData, TowerModule towerInfoComponent)
     {
         TowerUpgradeData.IsBought = true;
         SetButtonState(false);

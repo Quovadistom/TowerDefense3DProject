@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-public class ComponentWithUpgradeBase : MonoBehaviour
+public class ModuleWithModificationBase : MonoBehaviour
 {
     private List<FieldInfo> m_fields = new();
     private bool m_isInitialized = false;

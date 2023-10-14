@@ -7,8 +7,8 @@ public class SelectedTurretMenu : MonoBehaviour
 {
     private SelectionService m_selectionService;
 
-    public event Action<TowerInfoComponent> TurretDataChanged;
-    public TowerInfoComponent SelectedTurret { get; private set; }
+    public event Action<TowerModule> TurretDataChanged;
+    public TowerModule SelectedTurret { get; private set; }
 
     [Inject]
     public void Construct(SelectionService selectionService)
@@ -35,7 +35,7 @@ public class SelectedTurretMenu : MonoBehaviour
     {
         SelectedTurret = null;
 
-        if (selectable != null && selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent) && towerInfoComponent.IsTowerPlaced)
+        if (selectable != null && selectable.GameObjectToSelect.TryGetComponent(out TowerModule towerInfoComponent) && towerInfoComponent.IsTowerPlaced)
         {
             SelectedTurret = towerInfoComponent;
         }

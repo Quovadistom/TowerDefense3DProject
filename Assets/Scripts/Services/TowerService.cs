@@ -16,22 +16,22 @@ public class TurretInfo
 
 public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 {
-    private List<TowerInfoComponent> m_placedTurrets = new();
+    private List<TowerModule> m_placedTurrets = new();
     private TurretCollection m_turretCollection;
-    private TowerInfoComponent.Factory m_turretFactory;
+    private TowerModule.Factory m_turretFactory;
 
-    public TowerService(TurretCollection turretCollection, TowerInfoComponent.Factory turretFactory, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public TowerService(TurretCollection turretCollection, TowerModule.Factory turretFactory, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_turretCollection = turretCollection;
         m_turretFactory = turretFactory;
     }
 
-    public void AddTower(TowerInfoComponent turretInfoComponent)
+    public void AddTower(TowerModule turretInfoComponent)
     {
         m_placedTurrets.Add(turretInfoComponent);
     }
 
-    public void RemoveTower(TowerInfoComponent selectedTurret)
+    public void RemoveTower(TowerModule selectedTurret)
     {
         m_placedTurrets.Remove(selectedTurret);
     }
@@ -42,7 +42,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
     {
         List<TurretInfo> placedTurrets = new();
 
-        foreach (TowerInfoComponent placedTurret in m_placedTurrets)
+        foreach (TowerModule placedTurret in m_placedTurrets)
         {
             TurretInfo turretInfo = new TurretInfo()
             {
@@ -53,7 +53,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
             };
 
-            placedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) => turretInfo.TargetMethodName = component.TargetMethod.Name);
+            placedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) => turretInfo.TargetMethodName = component.TargetMethod.Name);
 
             placedTurrets.Add(turretInfo);
         }
@@ -69,10 +69,10 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 
             if (assets != null)
             {
-                TowerInfoComponent placedTurret = m_turretFactory.Create(assets.TowerPrefab, assets.ID);
+                TowerModule placedTurret = m_turretFactory.Create(assets.TowerPrefab, assets.ID);
                 placedTurret.PlaceNewTower(selectedTurret.UniqueTowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
 
-                placedTurret.TryFindAndActOnComponent<TargetMethodComponent>((component) =>
+                placedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) =>
                 component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName));
             }
             else

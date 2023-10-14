@@ -8,14 +8,14 @@ using Zenject;
 public class SupportTowerSelector : MonoBehaviour
 {
     [SerializeField] private Selectable m_selectable;
-    [SerializeField] private TowerInfoComponent m_towerInfoComponent;
+    [SerializeField] private TowerModule m_towerInfoComponent;
 
-    public SupportSelectorComponent SupportSelectorComponent;
+    public SupportSelectorModule SupportSelectorComponent;
 
     private SelectionService m_selectionService;
     private ColorSettings m_colorSettings;
     private List<Selectable> m_suitableTowers = new();
-    private List<Func<TowerInfoComponent, bool>> m_suitableTowerArguments = new();
+    private List<Func<TowerModule, bool>> m_suitableTowerArguments = new();
 
     public List<Selectable> ConnectedTowers { get; private set; } = new();
     public int ConnectedTowerCount => ConnectedTowers.Count;
@@ -39,7 +39,7 @@ public class SupportTowerSelector : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Selectable selectable) &&
             selectable != m_selectable &&
-            selectable.GameObjectToSelect.TryGetComponent(out TowerInfoComponent towerInfoComponent) &&
+            selectable.GameObjectToSelect.TryGetComponent(out TowerModule towerInfoComponent) &&
             m_suitableTowerArguments.All(isTowerSuitable => isTowerSuitable.Invoke(towerInfoComponent)))
         {
             selectable.Destroyed += RemoveTower;
@@ -64,7 +64,7 @@ public class SupportTowerSelector : MonoBehaviour
         m_selectable.ObjectSelected -= OnSelected;
     }
 
-    public void AddArgument(Func<TowerInfoComponent, bool> func) => m_suitableTowerArguments.Add(func);
+    public void AddArgument(Func<TowerModule, bool> func) => m_suitableTowerArguments.Add(func);
 
     private void RemoveTower(Selectable selectable)
     {
@@ -140,14 +140,14 @@ public class SupportTowerSelector : MonoBehaviour
             }
 
             selectable.OutlineObject(true, m_colorSettings.ConnectedOutline);
-            selectable.GameObjectToSelect.GetComponent<TowerInfoComponent>().ConnectedSupportTowers.AddSafely(m_towerInfoComponent.TowerID);
+            selectable.GameObjectToSelect.GetComponent<TowerModule>().ConnectedSupportTowers.AddSafely(m_towerInfoComponent.TowerID);
             ConnectedTowers.Add(selectable);
             TowerAdded?.Invoke(selectable);
         }
         else if (ConnectedTowers.Contains(selectable))
         {
             selectable.OutlineObject(true, m_colorSettings.FocusOutline);
-            selectable.GameObjectToSelect.GetComponent<TowerInfoComponent>().ConnectedSupportTowers.Remove(m_towerInfoComponent.TowerID);
+            selectable.GameObjectToSelect.GetComponent<TowerModule>().ConnectedSupportTowers.Remove(m_towerInfoComponent.TowerID);
             ConnectedTowers.Remove(selectable);
             TowerRemoved?.Invoke(selectable);
         }

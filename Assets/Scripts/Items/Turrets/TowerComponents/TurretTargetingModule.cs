@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class TurretTargetingComponent : MonoBehaviour
+public class TurretTargetingModule : MonoBehaviour
 {
     private BasicEnemy m_currentTarget;
     private ITargetMethod m_currentTargetMethod;

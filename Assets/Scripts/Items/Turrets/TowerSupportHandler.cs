@@ -3,9 +3,9 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SupportTowerSelector))]
-public abstract class TowerSupportHandler<T> : MonoBehaviour where T : ComponentBase
+public abstract class TowerSupportHandler<T> : MonoBehaviour where T : ModuleBase
 {
-    [SerializeField] private TowerInfoComponent m_towerInfoComponent;
+    [SerializeField] private TowerModule m_towerInfoComponent;
 
     protected SupportTowerSelector m_supportTowerSelector;
 
@@ -23,20 +23,20 @@ public abstract class TowerSupportHandler<T> : MonoBehaviour where T : Component
         ResetConnectedTowers();
     }
 
-    protected void AddArgument(Func<TowerInfoComponent, bool> argument)
+    protected void AddArgument(Func<TowerModule, bool> argument)
     {
         m_supportTowerSelector.AddArgument(argument);
     }
 
-    protected abstract void AddTowerBuff(ComponentParent componentParent);
+    protected abstract void AddTowerBuff(ModuleParent componentParent);
 
-    protected abstract void RemoveTowerBuff(ComponentParent componentParent);
+    protected abstract void RemoveTowerBuff(ModuleParent componentParent);
 
     protected abstract void ResetConnectedTowers();
 
     private void OnTowerAdded(Selectable selectable)
     {
-        if (selectable.GameObjectToSelect.TryGetComponent(out ComponentParent componentParent))
+        if (selectable.GameObjectToSelect.TryGetComponent(out ModuleParent componentParent))
         {
             AddTowerBuff(componentParent);
         }
@@ -44,7 +44,7 @@ public abstract class TowerSupportHandler<T> : MonoBehaviour where T : Component
 
     private void OnTowerRemoved(Selectable selectable)
     {
-        if (selectable.GameObjectToSelect.TryGetComponent(out ComponentParent componentParent))
+        if (selectable.GameObjectToSelect.TryGetComponent(out ModuleParent componentParent))
         {
             RemoveTowerBuff(componentParent);
         }

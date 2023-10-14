@@ -2,8 +2,8 @@
 using UnityEngine;
 
 [Serializable]
-public class RangeComponent : ComponentBase
+public class RangeModule : ModuleBase
 {
     public ComponentDataTypeFloatWithBuff RangeValue;
-    public ComponentDataTypeVisual<Transform> VisualComponent;
+    public ModuleDataTypeVisual<Transform> VisualComponent;
 }

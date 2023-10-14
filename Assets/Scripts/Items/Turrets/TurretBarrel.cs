@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public abstract class TurretBarrel : ComponentWithUpgradeBase
+public abstract class TurretBarrel : ModuleWithModificationBase
 {
-    [SerializeField] private TowerInfoComponent m_towerInfoComponent;
+    [SerializeField] private TowerModule m_towerInfoComponent;
 
     private float m_elapsedTime = Mathf.Infinity;
 
@@ -12,7 +12,7 @@ public abstract class TurretBarrel : ComponentWithUpgradeBase
     public abstract float Interval { get; }
     public float Accuracy = 0.99f;
 
-    public TargetingComponent TargetingComponent;
+    public TargetingModule TargetingComponent;
 
     private bool m_updateAndFollowTarget = true;
     public bool UpdateAndFollowTarget

@@ -6,7 +6,7 @@ using Zenject;
 
 public class TowerModule : ModuleParent
 {
-    [SerializeField] private TowerUpgradeTree m_upgradeTreeData;
+    [SerializeField] private TowerModificationTree m_modificationTreeData;
 
     public Selectable Selectable;
     public Draggable Draggable;
@@ -14,12 +14,12 @@ public class TowerModule : ModuleParent
     private TowerService m_turretService;
     private SelectionService m_selectionService;
 
-    public int AvailableUpgradeAmount = 5;
+    public int AvailableModificationAmount = 5;
 
     public Guid TowerID { get; private set; }
     public List<Guid> ConnectedSupportTowers { get; set; } = new List<Guid>();
     public bool IsTowerPlaced { get; private set; } = false;
-    public TowerUpgradeTreeData UpgradeTreeData { get; private set; }
+    public TowerModificationTreeData ModificationTreeData { get; private set; }
 
     [Inject]
     private void Construct(Guid id, TowerService turretService, SelectionService selectionService)
@@ -33,10 +33,10 @@ public class TowerModule : ModuleParent
     {
         base.Awake();
 
-        if (m_upgradeTreeData != null)
+        if (m_modificationTreeData != null)
         {
-            UpgradeTreeData = Instantiate(m_upgradeTreeData).TowerUpgradeTreeData;
-            UpgradeTreeData.Initialize();
+            ModificationTreeData = Instantiate(m_modificationTreeData).TowerModificationTreeData;
+            ModificationTreeData.Initialize();
         }
 
         Draggable.PlacementRequested += OnTowerPlaced;
@@ -68,11 +68,11 @@ public class TowerModule : ModuleParent
         //SubtractCost();
     }
 
-    public void PlaceNewTower(Guid towerID, Vector3 position, TowerUpgradeTreeData treeData, List<Guid> connectedSupportTowers)
+    public void PlaceNewTower(Guid towerID, Vector3 position, TowerModificationTreeData treeData, List<Guid> connectedSupportTowers)
     {
         TowerID = towerID;
         transform.position = position;
-        UpgradeTreeData.CopyTreeData(treeData, this);
+        ModificationTreeData.CopyTreeData(treeData, this);
         ConnectedSupportTowers = connectedSupportTowers;
         Draggable.CanDrag = false;
         m_turretService.AddTower(this);

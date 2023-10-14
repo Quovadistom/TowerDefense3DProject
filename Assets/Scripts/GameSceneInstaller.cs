@@ -12,7 +12,7 @@ public class GameSceneInstaller : MonoInstaller
 
     [Header("Factory Assets")]
     public GameObject SpawnTurretButtonPrefab;
-    public TowerUpgradeButton UpgradeButtonPrefab;
+    public TowerModificationButton ModificationButtonPrefab;
 
     public override void InstallBindings()
     {
@@ -37,6 +37,6 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindFactory<TowerModule, Guid, TowerModule, TowerModule.Factory>().FromFactory<PrefabFactory<Guid, TowerModule>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
         Container.BindFactory<SpawnTowerButton, SpawnTowerButton.Factory>().FromComponentInNewPrefab(SpawnTurretButtonPrefab);
-        Container.BindFactory<TowerUpgradeButton, TowerUpgradeButton.Factory>().FromComponentInNewPrefab(UpgradeButtonPrefab);
+        Container.BindFactory<TowerModificationButton, TowerModificationButton.Factory>().FromComponentInNewPrefab(ModificationButtonPrefab);
     }
 }

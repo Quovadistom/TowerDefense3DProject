@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class TowerDamageUpgrade : Upgrade<DamageModule>
+public class TowerDamageModification : Modification<DamageModule>
 {
     [SerializeField] private float m_increasePercentage;
 

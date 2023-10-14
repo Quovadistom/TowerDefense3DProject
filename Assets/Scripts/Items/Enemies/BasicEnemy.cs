@@ -13,15 +13,15 @@ public class BasicEnemy : Poolable
     private Transform m_target;
     private LevelService m_levelService;
     private WaveService m_waveService;
-    private ModuleModificationService m_enhancementService;
+    private ModuleModificationService m_modificationService;
     private float m_currentHealth;
 
     [Inject]
-    public void Construct(LevelService levelService, WaveService waveService, ModuleModificationService enhancementService)
+    public void Construct(LevelService levelService, WaveService waveService, ModuleModificationService modificationService)
     {
         m_levelService = levelService;
         m_waveService = waveService;
-        m_enhancementService = enhancementService;
+        m_modificationService = modificationService;
     }
 
     private void Awake()
@@ -54,10 +54,10 @@ public class BasicEnemy : Poolable
         }
         else
         {
-            HealthUpgrade upgradeContainer = ScriptableObject.CreateInstance<HealthUpgrade>();
-            upgradeContainer.HealthEnhancement = -1;
+            HealthModification modificationContainer = ScriptableObject.CreateInstance<HealthModification>();
+            modificationContainer.HealthValue = -1;
 
-            m_enhancementService.SendEnhancement(upgradeContainer);
+            m_modificationService.SendModification(modificationContainer);
 
             m_waveService.AliveEnemies--;
             m_poolingService.ReturnPooledObject(this);

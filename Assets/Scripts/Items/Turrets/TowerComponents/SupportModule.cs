@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class SupportModule : ModuleBase
 {
-    public ModuleDataTypeWithEvent<float> UpgradePercentage;
+    public ModuleDataTypeWithEvent<float> ModificationPercentage;
 
     [Range(0, 1)][SerializeField] private float m_sharedTowerFactor = 1;
 

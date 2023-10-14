@@ -5,8 +5,8 @@ using Zenject;
 public class TownSceneInstaller : MonoInstaller
 {
     [Header("Factory Assets")]
-    public TileUpgradeMenuItem TileUpgradeMenuItem;
-    public AvailableTileUpgradeButton AvailableTileUpgradeButton;
+    public TileModificationMenuItem TileModificationMenuItem;
+    public AvailableTileModificationButton AvailableTileModificationButton;
 
     public override void InstallBindings()
     {
@@ -14,7 +14,7 @@ public class TownSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<TownHousingService>().AsSingle().NonLazy();
 
         Container.BindFactory<TowerTileVisual, Guid, TowerTileVisual, TowerTileVisual.Factory>().FromFactory<PrefabFactory<Guid, TowerTileVisual>>();
-        Container.BindFactory<TileUpgradeMenuItem, TileUpgradeMenuItem.Factory>().FromComponentInNewPrefab(TileUpgradeMenuItem);
-        Container.BindFactory<Guid, AvailableTileUpgradeButton, AvailableTileUpgradeButton.Factory>().FromComponentInNewPrefab(AvailableTileUpgradeButton);
+        Container.BindFactory<TileModificationMenuItem, TileModificationMenuItem.Factory>().FromComponentInNewPrefab(TileModificationMenuItem);
+        Container.BindFactory<Guid, AvailableTileModificationButton, AvailableTileModificationButton.Factory>().FromComponentInNewPrefab(AvailableTileModificationButton);
     }
 }

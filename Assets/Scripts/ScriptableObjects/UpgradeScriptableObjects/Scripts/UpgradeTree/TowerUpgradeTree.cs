@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "cvvxzcv", menuName = "ScriptableObjects/vcxzvcxzv/TowerUpgradeTree")]
-public class TowerUpgradeTree : ScriptableObject
+[CreateAssetMenu(fileName = "cvvxzcv", menuName = "ScriptableObjects/vcxzvcxzv/TowerModificationTree")]
+public class TowerModificationTree : ScriptableObject
 {
-    public TowerUpgradeTreeData TowerUpgradeTreeData;
+    public TowerModificationTreeData TowerModificationTreeData;
 }
 

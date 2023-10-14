@@ -9,7 +9,7 @@ public class TurretInfo
     public Guid UniqueTowerID { get; set; }
     public Guid TurretTypeID { get; set; }
     public Vector3 Position { get; set; }
-    public TowerUpgradeTreeData TowerUpgradeTree { get; set; }
+    public TowerModificationTreeData TowerModificationTree { get; set; }
     public List<Guid> ConnectedSupportTowers { get; set; }
     public string TargetMethodName { get; set; }
 }
@@ -49,7 +49,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
                 UniqueTowerID = placedTurret.TowerID,
                 TurretTypeID = placedTurret.ID,
                 Position = placedTurret.transform.position,
-                TowerUpgradeTree = placedTurret.UpgradeTreeData,
+                TowerModificationTree = placedTurret.ModificationTreeData,
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
             };
 
@@ -70,7 +70,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
             if (assets != null)
             {
                 TowerModule placedTurret = m_turretFactory.Create(assets.TowerPrefab, assets.ID);
-                placedTurret.PlaceNewTower(selectedTurret.UniqueTowerID, selectedTurret.Position, selectedTurret.TowerUpgradeTree, selectedTurret.ConnectedSupportTowers);
+                placedTurret.PlaceNewTower(selectedTurret.UniqueTowerID, selectedTurret.Position, selectedTurret.TowerModificationTree, selectedTurret.ConnectedSupportTowers);
 
                 placedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) =>
                 component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName));

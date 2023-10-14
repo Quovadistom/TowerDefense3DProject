@@ -63,10 +63,10 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
     {
         if (m_supportTowerSelector.ConnectedTowerCount == 0)
         {
-            return m_towerSupportComponent.UpgradePercentage.Value;
+            return m_towerSupportComponent.ModificationPercentage.Value;
         }
 
-        float totalPercentagePool = m_towerSupportComponent.UpgradePercentage.Value + (m_supportTowerSelector.ConnectedTowerCount - 1) * m_towerSupportComponent.SharedTowerFactor * m_towerSupportComponent.UpgradePercentage.Value;
+        float totalPercentagePool = m_towerSupportComponent.ModificationPercentage.Value + (m_supportTowerSelector.ConnectedTowerCount - 1) * m_towerSupportComponent.SharedTowerFactor * m_towerSupportComponent.ModificationPercentage.Value;
         return totalPercentagePool * (1 / ((float)m_supportTowerSelector.ConnectedTowerCount));
     }
 }

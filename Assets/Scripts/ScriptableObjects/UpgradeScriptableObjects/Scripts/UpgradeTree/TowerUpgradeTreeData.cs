@@ -3,47 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 
 [Serializable]
-public class TowerUpgradeTreeData
+public class TowerModificationTreeData
 {
-    public List<TowerUpgradeTreeRow> Structure;
+    public List<TowerModificationTreeRow> Structure;
 
     public void Initialize()
     {
-        foreach (TowerUpgradeTreeRow towerUpgradeTreeRow in Structure)
+        foreach (TowerModificationTreeRow towerModificationTreeRow in Structure)
         {
-            for (int i = 0; i < towerUpgradeTreeRow.TowerUpgrades.Count; i++)
+            for (int i = 0; i < towerModificationTreeRow.TowerModifications.Count; i++)
             {
-                TowerUpgradeData towerUpgradeData = towerUpgradeTreeRow.TowerUpgrades[i];
+                TowerModificationData towerModificationData = towerModificationTreeRow.TowerModifications[i];
 
-                if (i + 1 < towerUpgradeTreeRow.TowerUpgrades.Count)
+                if (i + 1 < towerModificationTreeRow.TowerModifications.Count)
                 {
-                    towerUpgradeData.RequiredFor.Add(towerUpgradeTreeRow.TowerUpgrades[i + 1].TowerUpgradeID.ToString());
+                    towerModificationData.RequiredFor.Add(towerModificationTreeRow.TowerModifications[i + 1].TowerModificationID.ToString());
                 }
 
-                foreach (TowerUpgradeData upgradeData in GetTowerUpgradesDatas(towerUpgradeData.RequiredFor.Select(id => Guid.Parse(id))))
+                foreach (TowerModificationData modificationData in GetTowerModificationsDatas(towerModificationData.RequiredFor.Select(id => Guid.Parse(id))))
                 {
-                    upgradeData.UnlockSignals++;
+                    modificationData.UnlockSignals++;
                 }
             }
         }
     }
 
-    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerModule towerInfoComponent)
+    public void CopyTreeData(TowerModificationTreeData treeToCopy, TowerModule towerInfoComponent)
     {
         Initialize();
-        foreach (TowerUpgradeTreeRow towerUpgradeTreeRow in Structure)
+        foreach (TowerModificationTreeRow towerModificationTreeRow in Structure)
         {
-            towerUpgradeTreeRow.CopyTreeData(treeToCopy, towerInfoComponent);
+            towerModificationTreeRow.CopyTreeData(treeToCopy, towerInfoComponent);
         }
     }
 
-    public bool TryGetTowerUpgradeData(Guid ID, out TowerUpgradeData data)
+    public bool TryGetTowerModificationData(Guid ID, out TowerModificationData data)
     {
         data = null;
 
-        foreach (TowerUpgradeTreeRow row in Structure)
+        foreach (TowerModificationTreeRow row in Structure)
         {
-            data = row.TowerUpgrades.FirstOrDefault(upgrade => upgrade.TowerUpgradeID == ID);
+            data = row.TowerModifications.FirstOrDefault(modification => modification.TowerModificationID == ID);
             if (data != null)
             {
                 return true;
@@ -53,19 +53,19 @@ public class TowerUpgradeTreeData
         return data != null;
     }
 
-    public IEnumerable<TowerUpgradeData> GetTowerUpgradesDatas(IEnumerable<Guid> ids)
+    public IEnumerable<TowerModificationData> GetTowerModificationsDatas(IEnumerable<Guid> ids)
     {
-        List<TowerUpgradeData> towerUpgradeDatas = new();
+        List<TowerModificationData> towerModificationDatas = new();
 
         foreach (Guid id in ids)
         {
-            if (TryGetTowerUpgradeData(id, out TowerUpgradeData towerUpgradeData))
+            if (TryGetTowerModificationData(id, out TowerModificationData towerModificationData))
             {
-                towerUpgradeDatas.Add(towerUpgradeData);
+                towerModificationDatas.Add(towerModificationData);
             }
         }
 
-        return towerUpgradeDatas;
+        return towerModificationDatas;
     }
 }
 

@@ -5,21 +5,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class TowerUpgradeData
+public class TowerModificationData
 {
-    [SerializeField] private SerializableGuid m_towerUpgradeID;
+    [SerializeField] private SerializableGuid m_towerModificationID;
     public string Name;
-    public int UpgradeCost = 100;
+    public int ModificationCost = 100;
     public bool IsBought = false;
     public List<string> RequiredFor = new();
 
-    public Guid TowerUpgradeID
+    public Guid TowerModificationID
     {
-        get => m_towerUpgradeID;
-        set => m_towerUpgradeID = (SerializableGuid)value;
+        get => m_towerModificationID;
+        set => m_towerModificationID = (SerializableGuid)value;
     }
 
-    [JsonIgnore][Expandable] public ModuleModificationBase[] TowerUpgrades;
+    [JsonIgnore][Expandable] public ModuleModificationBase[] TowerModifications;
 
     private int m_unlockSignals;
     public int UnlockSignals
@@ -34,25 +34,25 @@ public class TowerUpgradeData
 
     public event Action<bool> UnlockSignalsChanged;
 
-    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerModule towerInfoComponent)
+    public void CopyTreeData(TowerModificationTreeData treeToCopy, TowerModule towerInfoComponent)
     {
-        if (treeToCopy.TryGetTowerUpgradeData(TowerUpgradeID, out TowerUpgradeData towerUpgradeData))
+        if (treeToCopy.TryGetTowerModificationData(TowerModificationID, out TowerModificationData towerModificationData))
         {
-            IsBought = towerUpgradeData.IsBought;
-            UnlockSignals = towerUpgradeData.UnlockSignals;
+            IsBought = towerModificationData.IsBought;
+            UnlockSignals = towerModificationData.UnlockSignals;
 
             if (IsBought)
             {
-                ApplyUpgrades(towerInfoComponent);
+                ApplyModifications(towerInfoComponent);
             }
         }
     }
 
-    public void ApplyUpgrades(TowerModule towerInfoComponent)
+    public void ApplyModifications(TowerModule towerInfoComponent)
     {
-        foreach (ModuleModificationBase upgradeData in TowerUpgrades)
+        foreach (ModuleModificationBase modificationData in TowerModifications)
         {
-            upgradeData.TryApplyUpgrade(towerInfoComponent);
+            modificationData.TryApplyModification(towerInfoComponent);
         }
     }
 }

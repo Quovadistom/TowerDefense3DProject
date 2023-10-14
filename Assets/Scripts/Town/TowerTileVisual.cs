@@ -19,7 +19,7 @@ public class TowerTileVisual : MonoBehaviour
     private void Awake()
     {
         m_townHousingService.ServiceRead += ReadService;
-        m_townHousingService.TileUpgradeApplied += OnTileUpgradeApplied;
+        m_townHousingService.TileModificationApplied += OnTileModificationApplied;
 
         ReadService();
     }
@@ -27,32 +27,32 @@ public class TowerTileVisual : MonoBehaviour
     private void OnDestroy()
     {
         m_townHousingService.ServiceRead -= ReadService;
-        m_townHousingService.TileUpgradeApplied -= OnTileUpgradeApplied;
+        m_townHousingService.TileModificationApplied -= OnTileModificationApplied;
     }
 
     private void ReadService()
     {
         HousingData housingData = m_townHousingService.GetHousingData(ID);
-        SetTileUpgrades(housingData);
+        SetTileModifications(housingData);
     }
 
-    public void SetTileUpgrades(HousingData updates)
+    public void SetTileModifications(HousingData updates)
     {
-        for (int i = 0; i < updates.ActiveUpgrades.Length; i++)
+        for (int i = 0; i < updates.ActiveModifications.Length; i++)
         {
-            OnTileUpgradeApplied(updates, i);
+            OnTileModificationApplied(updates, i);
         }
     }
 
-    private void OnTileUpgradeApplied(HousingData housingData, int location)
+    private void OnTileModificationApplied(HousingData housingData, int location)
     {
         if (housingData.TowerTypeGuid == ID)
         {
             m_updateLocations[location].ClearChildren();
 
-            if (housingData.ActiveUpgrades[location] != null)
+            if (housingData.ActiveModifications[location] != null)
             {
-                Instantiate(housingData.ActiveUpgrades[location].Visual, m_updateLocations[location], false);
+                Instantiate(housingData.ActiveModifications[location].Visual, m_updateLocations[location], false);
             }
         }
     }

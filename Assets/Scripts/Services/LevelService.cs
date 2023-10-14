@@ -9,11 +9,11 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 
     private int m_health = 10;
     private int m_money = 1000;
-    private ModuleModificationService m_enhancementService;
+    private ModuleModificationService m_modificationService;
 
-    public LevelService(ModuleModificationService enhancementService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public LevelService(ModuleModificationService modificationService, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
-        m_enhancementService = enhancementService;
+        m_modificationService = modificationService;
     }
 
     public event Action<int> MoneyChanged;

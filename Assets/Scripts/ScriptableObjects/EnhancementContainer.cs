@@ -3,28 +3,28 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class EnhancementContainer
+public class ModificationContainer
 {
     [SerializeField] private string m_name;
     [SerializeField] private SerializableGuid m_id;
-    [SerializeField] private EnhancementType m_enhancementType;
+    [SerializeField] private ModificationType m_modificationType;
 
     public Guid TargetObjectID { get; set; } = Guid.Empty;
-    public EnhancementType EnhancementType => m_enhancementType;
+    public ModificationType ModificationType => m_modificationType;
 
-    public ModuleModificationBase[] Upgrades;
+    public ModuleModificationBase[] Modifications;
     public string Name => m_name;
     public Guid ID => m_id;
     public Rarity Rarity = Rarity.Common;
     public GameObject Visual;
 
-    public bool IsEnhancementSuitable(ModuleParent towerInfoComponent) => Upgrades.All(x => x.IsObjectSuitable(towerInfoComponent));
+    public bool IsModificationSuitable(ModuleParent towerInfoComponent) => Modifications.All(x => x.IsObjectSuitable(towerInfoComponent));
 
-    public void ApplyUpgrades(ModuleParent towerInfoComponent)
+    public void ApplyModifications(ModuleParent towerInfoComponent)
     {
-        foreach (ModuleModificationBase upgrade in Upgrades)
+        foreach (ModuleModificationBase modification in Modifications)
         {
-            upgrade.TryApplyUpgrade(towerInfoComponent);
+            modification.TryApplyModification(towerInfoComponent);
         }
     }
 }

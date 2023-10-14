@@ -11,16 +11,16 @@ public enum Rarity
     Legendary
 }
 
-public enum EnhancementType
+public enum ModificationType
 {
-    GameEnhancement,
-    TowerEnhancement
+    GameModification,
+    TowerModification
 }
 
-[CreateAssetMenu(fileName = "UpgradesCollection", menuName = "ScriptableObjects/UpgradesCollection")]
-public class EnhancementCollection : ScriptableObject
+[CreateAssetMenu(fileName = "ModificationsCollection", menuName = "ScriptableObjects/ModificationsCollection")]
+public class ModificationCollection : ScriptableObject
 {
-    [SerializeField] private List<EnhancementContainer> m_enhancementList;
+    [SerializeField] private List<ModificationContainer> m_modificationList;
 
     [Header("Rarity Rates")]
     [SerializeField] private int m_maxWaveForRarity;
@@ -29,27 +29,27 @@ public class EnhancementCollection : ScriptableObject
 
     [Header("Spawn Rates")]
     [SerializeField] private int m_frequency;
-    [SerializeField] private int m_enhancementAmount;
+    [SerializeField] private int m_modificationAmount;
 
     public int Frequency => m_frequency;
-    public int EnhancementAmount => m_enhancementAmount;
-    public IReadOnlyList<EnhancementContainer> EnhancementList => m_enhancementList;
+    public int ModificationAmount => m_modificationAmount;
+    public IReadOnlyList<ModificationContainer> ModificationList => m_modificationList;
 
-    public bool TryGetEnhancement(Guid id, out EnhancementContainer enhancement)
+    public bool TryGetModification(Guid id, out ModificationContainer modification)
     {
-        enhancement = null;
+        modification = null;
 
         if (id != Guid.Empty)
         {
-            enhancement = EnhancementList.FirstOrDefault(enhancement => enhancement.ID == id);
+            modification = ModificationList.FirstOrDefault(modification => modification.ID == id);
         }
 
-        return enhancement != null;
+        return modification != null;
     }
 
-    public EnhancementContainer GetRandomEnhancementWeighted(int wave)
+    public ModificationContainer GetRandomModificationWeighted(int wave)
     {
-        IEnumerable<Rarity> rarities = EnhancementList.Select(enhancement => enhancement.Rarity);
+        IEnumerable<Rarity> rarities = ModificationList.Select(modification => modification.Rarity);
 
         int[] calculatedWeights = new int[rarities.Count()];
 
@@ -62,7 +62,7 @@ public class EnhancementCollection : ScriptableObject
         int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
 
         int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
-        return EnhancementList[randomIndex];
+        return ModificationList[randomIndex];
     }
 
     private int GetWeight(Rarity rarity, int wave)

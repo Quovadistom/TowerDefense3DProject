@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class TowerRangeBuff : Upgrade<RangeModule>
+public class TowerRangeBuff : Modification<RangeModule>
 {
     public float Percentage;
 

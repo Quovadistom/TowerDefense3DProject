@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(Button))]
-public class TowerUpgradeButton : MonoBehaviour
+public class TowerModificationButton : MonoBehaviour
 {
     [SerializeField] private Button m_button;
     [SerializeField] private TMP_Text m_textObject;
@@ -15,11 +15,11 @@ public class TowerUpgradeButton : MonoBehaviour
     private LevelService m_levelService;
     private DifficultyService m_difficultyService;
 
-    public TowerUpgradeTreeData TowerUpgradeTree { get; private set; }
-    public TowerUpgradeData TowerUpgradeData { get; private set; }
-    public UpgradeTree UpgradeTree { get; private set; }
+    public TowerModificationTreeData TowerModificationTree { get; private set; }
+    public TowerModificationData TowerModificationData { get; private set; }
+    public ModificationTree ModificationTree { get; private set; }
 
-    public IEnumerable<TowerUpgradeData> LockedTowerUpgrades => TowerUpgradeTree.GetTowerUpgradesDatas(TowerUpgradeData.RequiredFor.Select(id => Guid.Parse(id)));
+    public IEnumerable<TowerModificationData> LockedTowerModifications => TowerModificationTree.GetTowerModificationsDatas(TowerModificationData.RequiredFor.Select(id => Guid.Parse(id)));
 
     [Inject]
     private void Construct(LevelService levelService, DifficultyService difficultyService)
@@ -31,45 +31,45 @@ public class TowerUpgradeButton : MonoBehaviour
     private void OnDestroy()
     {
         m_button.onClick.RemoveAllListeners();
-        TowerUpgradeData.UnlockSignalsChanged -= SetButtonState;
-        UpgradeTree.AvailableUpgradeCountChanged -= OnAvailableUpgradeCountChanged;
+        TowerModificationData.UnlockSignalsChanged -= SetButtonState;
+        ModificationTree.AvailableModificationCountChanged -= OnAvailableModificationCountChanged;
     }
 
-    public void SetButtonInfo(TowerUpgradeTreeData towerUpgradeTreeStructure,
-        TowerUpgradeData towerUpgradeData,
+    public void SetButtonInfo(TowerModificationTreeData towerModificationTreeStructure,
+        TowerModificationData towerModificationData,
         TowerModule towerInfoComponent,
-        UpgradeTree upgradeTree)
+        ModificationTree modificationTree)
     {
-        m_textObject.text = towerUpgradeData.Name;
-        TowerUpgradeTree = towerUpgradeTreeStructure;
-        TowerUpgradeData = towerUpgradeData;
-        UpgradeTree = upgradeTree;
-        UpgradeTree.AvailableUpgradeCountChanged += OnAvailableUpgradeCountChanged;
+        m_textObject.text = towerModificationData.Name;
+        TowerModificationTree = towerModificationTreeStructure;
+        TowerModificationData = towerModificationData;
+        ModificationTree = modificationTree;
+        ModificationTree.AvailableModificationCountChanged += OnAvailableModificationCountChanged;
 
-        bool isButtonActive = !TowerUpgradeData.IsBought && TowerUpgradeData.UnlockSignals == 0;
-        TowerUpgradeData.UnlockSignalsChanged += SetButtonState;
+        bool isButtonActive = !TowerModificationData.IsBought && TowerModificationData.UnlockSignals == 0;
+        TowerModificationData.UnlockSignalsChanged += SetButtonState;
         SetButtonState(isButtonActive);
 
         m_button.onClick.AddListener(() =>
         {
-            ApplyTowerUpgrade(towerUpgradeData, towerInfoComponent);
+            ApplyTowerModification(towerModificationData, towerInfoComponent);
         });
     }
 
-    public void ApplyTowerUpgrade(TowerUpgradeData towerUpgradeData, TowerModule towerInfoComponent)
+    public void ApplyTowerModification(TowerModificationData towerModificationData, TowerModule towerInfoComponent)
     {
-        TowerUpgradeData.IsBought = true;
+        TowerModificationData.IsBought = true;
         SetButtonState(false);
-        towerUpgradeData.ApplyUpgrades(towerInfoComponent);
-        foreach (var towerData in LockedTowerUpgrades)
+        towerModificationData.ApplyModifications(towerInfoComponent);
+        foreach (var towerData in LockedTowerModifications)
         {
             towerData.UnlockSignals--;
         }
-        UpgradeTree.AvailableUpgradeCount--;
-        m_levelService.Money -= TowerUpgradeData.UpgradeCost;
+        ModificationTree.AvailableModificationCount--;
+        m_levelService.Money -= TowerModificationData.ModificationCost;
     }
 
-    private void OnAvailableUpgradeCountChanged(int count)
+    private void OnAvailableModificationCountChanged(int count)
     {
         if (count == 0)
         {
@@ -82,7 +82,7 @@ public class TowerUpgradeButton : MonoBehaviour
         m_button.interactable = isEnabled;
     }
 
-    public class Factory : PlaceholderFactory<TowerUpgradeButton>
+    public class Factory : PlaceholderFactory<TowerModificationButton>
     {
     }
 }

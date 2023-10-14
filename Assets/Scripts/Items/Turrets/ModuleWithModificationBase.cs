@@ -29,7 +29,7 @@ public class ModuleWithModificationBase : MonoBehaviour
     /// Can be used to check if a component is available and use the callback to do something with this component,
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="upgradeFunc"></param>
+    /// <param name="modificationFunc"></param>
     /// <returns></returns>
     public bool TryFindAndActOnComponent<T>(Action<T> callback)
     {

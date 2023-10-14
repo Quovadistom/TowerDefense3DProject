@@ -3,76 +3,76 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnhancementAvailabilityService : ServiceSerializationHandler<EnhancementCollectionServiceDto>
+public class ModificationAvailabilityService : ServiceSerializationHandler<ModificationCollectionServiceDto>
 {
-    private EnhancementCollection m_enhancementCollection;
-    private Dictionary<EnhancementContainer, int> m_availableEnhancements = new();
+    private ModificationCollection m_modificationCollection;
+    private Dictionary<ModificationContainer, int> m_availableModifications = new();
 
-    public EnhancementAvailabilityService(EnhancementCollection enhancementCollection,
-        ModuleModificationService enhancementService,
+    public ModificationAvailabilityService(ModificationCollection modificationCollection,
+        ModuleModificationService modificationService,
         SerializationService serializationService,
         DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
-        m_enhancementCollection = enhancementCollection;
+        m_modificationCollection = modificationCollection;
 
-        if (m_debugSettings.EnableAllEnhancements)
+        if (m_debugSettings.EnableAllModifications)
         {
-            foreach (var enhancement in m_enhancementCollection.EnhancementList)
+            foreach (var modification in m_modificationCollection.ModificationList)
             {
-                AddAvailableEnhancement(enhancement);
+                AddAvailableModification(modification);
             }
         }
     }
 
-    public void AddAvailableEnhancement(EnhancementContainer enhancementContainer)
+    public void AddAvailableModification(ModificationContainer modificationContainer)
     {
-        if (m_availableEnhancements.Keys.Contains(enhancementContainer))
+        if (m_availableModifications.Keys.Contains(modificationContainer))
         {
-            m_availableEnhancements[enhancementContainer]++;
+            m_availableModifications[modificationContainer]++;
         }
         else
         {
-            m_availableEnhancements.Add(enhancementContainer, 1);
+            m_availableModifications.Add(modificationContainer, 1);
         }
     }
 
-    public void RemoveAvailableEnhancement(EnhancementContainer enhancementContainer)
+    public void RemoveAvailableModification(ModificationContainer modificationContainer)
     {
-        if (m_availableEnhancements.ContainsKey(enhancementContainer))
+        if (m_availableModifications.ContainsKey(modificationContainer))
         {
-            m_availableEnhancements[enhancementContainer]--;
+            m_availableModifications[modificationContainer]--;
         }
         else
         {
-            Debug.LogWarning($"Could not remove enhancement with ID {enhancementContainer.ID}");
+            Debug.LogWarning($"Could not remove modification with ID {modificationContainer.ID}");
         }
     }
 
-    public Dictionary<EnhancementContainer, int> GetEnhancementsForComponentParent(ModuleParent componentParent, EnhancementType enhancementType)
+    public Dictionary<ModificationContainer, int> GetModificationsForComponentParent(ModuleParent componentParent, ModificationType modificationType)
     {
-        return m_availableEnhancements.Where(enhancement => enhancement.Key.EnhancementType == enhancementType && enhancement.Key.IsEnhancementSuitable(componentParent)).ToDictionary(x => x.Key, x => x.Value);
+        return m_availableModifications.Where(modification => modification.Key.ModificationType == modificationType && modification.Key.IsModificationSuitable(componentParent)).ToDictionary(x => x.Key, x => x.Value);
     }
 
     protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");
 
     protected override void ConvertDto()
     {
-        Dto.AvailableEnhancements = m_availableEnhancements.ToDictionary(enhancement => enhancement.Key.ID, enhancement => enhancement.Value);
+        Dto.AvailableModifications = m_availableModifications.ToDictionary(modification => modification.Key.ID, modification => modification.Value);
     }
 
-    protected override void ConvertDtoBack(EnhancementCollectionServiceDto dto)
+    protected override void ConvertDtoBack(ModificationCollectionServiceDto dto)
     {
-        foreach (KeyValuePair<Guid, int> pair in dto.AvailableEnhancements)
+        foreach (KeyValuePair<Guid, int> pair in dto.AvailableModifications)
         {
-            if (m_enhancementCollection.TryGetEnhancement(pair.Key, out EnhancementContainer enhancement))
+            if (m_modificationCollection.TryGetModification(pair.Key, out ModificationContainer modification))
             {
-                m_availableEnhancements.Add(enhancement, pair.Value);
+                m_availableModifications.Add(modification, pair.Value);
             }
         }
     }
 }
 
-public class EnhancementCollectionServiceDto
+public class ModificationCollectionServiceDto
 {
-    public Dictionary<Guid, int> AvailableEnhancements;
+    public Dictionary<Guid, int> AvailableModifications;
 }

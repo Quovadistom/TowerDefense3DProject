@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class TownUpgrade<T> : Upgrade<T> where T : ModuleBase
+public abstract class TownModification<T> : Modification<T> where T : ModuleBase
 {
-    public GameObject UpgradeVisual;
+    public GameObject ModificationVisual;
 }

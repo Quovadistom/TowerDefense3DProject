@@ -7,11 +7,11 @@ public class WaveService
 {
     private WaveSettings m_waveSettings;
     private SerializationService m_serializationService;
-    private EnhancementCollection m_enhancementCollection;
+    private ModificationCollection m_modificationCollection;
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
-    public event Action<List<EnhancementContainer>> EnhancementsDrawn;
+    public event Action<List<ModificationContainer>> ModificationsDrawn;
 
     private int m_currentWaveIndex = 0;
 
@@ -29,11 +29,11 @@ public class WaveService
         }
     }
 
-    public WaveService(WaveSettings waveSettings, SerializationService serializationService, EnhancementCollection enhancementCollection)
+    public WaveService(WaveSettings waveSettings, SerializationService serializationService, ModificationCollection modificationCollection)
     {
         m_waveSettings = waveSettings;
         m_serializationService = serializationService;
-        m_enhancementCollection = enhancementCollection;
+        m_modificationCollection = modificationCollection;
     }
 
     public void StartNextWave()
@@ -53,16 +53,16 @@ public class WaveService
     {
         WaveComplete.Invoke();
 
-        if (m_currentWaveIndex % m_enhancementCollection.Frequency == 0)
+        if (m_currentWaveIndex % m_modificationCollection.Frequency == 0)
         {
-            Debug.Log($"Enhancement Drawn for {m_currentWaveIndex}!");
-            List<EnhancementContainer> enhancementList = new List<EnhancementContainer>();
-            for (int i = 0; i < m_enhancementCollection.EnhancementAmount; i++)
+            Debug.Log($"Modification Drawn for {m_currentWaveIndex}!");
+            List<ModificationContainer> modificationList = new List<ModificationContainer>();
+            for (int i = 0; i < m_modificationCollection.ModificationAmount; i++)
             {
-                enhancementList.Add(m_enhancementCollection.GetRandomEnhancementWeighted(m_currentWaveIndex));
+                modificationList.Add(m_modificationCollection.GetRandomModificationWeighted(m_currentWaveIndex));
             }
 
-            EnhancementsDrawn?.Invoke(enhancementList);
+            ModificationsDrawn?.Invoke(modificationList);
         }
 
         // m_serializationService.RequestSerialization();

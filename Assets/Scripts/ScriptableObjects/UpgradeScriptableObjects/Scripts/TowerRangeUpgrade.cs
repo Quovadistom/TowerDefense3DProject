@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TowerRangeUpgrade", menuName = "ScriptableObjects/Upgrades/TowerRangeUpgrade")]
-public class TowerRangeUpgrade : Upgrade<RangeModule>
+[CreateAssetMenu(fileName = "TowerRangeModification", menuName = "ScriptableObjects/Modifications/TowerRangeModification")]
+public class TowerRangeModification : Modification<RangeModule>
 {
     public float Percentage;
 

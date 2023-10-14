@@ -13,9 +13,9 @@ public class HousingData
     public Guid TowerTypeGuid { get; set; }
 
     /// <summary>
-    /// Active upgrades on this tile. There are a maximum of 4 available slots to upgrade from
+    /// Active modifications on this tile. There are a maximum of 4 available slots to modification from
     /// </summary>
-    public EnhancementContainer[] ActiveUpgrades { get; set; } = new EnhancementContainer[4]
+    public ModificationContainer[] ActiveModifications { get; set; } = new ModificationContainer[4]
     {
         null,
         null,
@@ -30,21 +30,21 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     private Dictionary<Guid, HousingData> m_housingData = new();
     private TowerAvailabilityService m_towerAvailabilityService;
-    private EnhancementCollection m_enhancementCollection;
-    private ModuleModificationService m_enhancementService;
+    private ModificationCollection m_modificationCollection;
+    private ModuleModificationService m_modificationService;
 
-    public event Action<HousingData> TileHousingUpgradeRequested;
-    public event Action<HousingData, int> TileUpgradeApplied;
+    public event Action<HousingData> TileHousingModificationRequested;
+    public event Action<HousingData, int> TileModificationApplied;
 
     public TownHousingService(SerializationService serializationService,
         DebugSettings debugSettings,
         TowerAvailabilityService towerAvailabilityService,
-        EnhancementCollection enhancementCollection,
-        ModuleModificationService enhancementService) : base(serializationService, debugSettings)
+        ModificationCollection modificationCollection,
+        ModuleModificationService modificationService) : base(serializationService, debugSettings)
     {
         m_towerAvailabilityService = towerAvailabilityService;
-        m_enhancementCollection = enhancementCollection;
-        m_enhancementService = enhancementService;
+        m_modificationCollection = modificationCollection;
+        m_modificationService = modificationService;
 
         foreach (TowerAssets towerAssets in m_towerAvailabilityService.AvailableTowers)
         {
@@ -62,28 +62,28 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
         return m_housingData[guid];
     }
 
-    public void RequestTileUpgrade(Guid guid) => TileHousingUpgradeRequested?.Invoke(m_housingData[guid]);
+    public void RequestTileModification(Guid guid) => TileHousingModificationRequested?.Invoke(m_housingData[guid]);
 
-    public void UpgradeTile(Guid tileID, EnhancementContainer upgrade, int location)
+    public void ModificationTile(Guid tileID, ModificationContainer modification, int location)
     {
         HousingData housingData = GetHousingData(tileID);
 
-        if (housingData.ActiveUpgrades[location] != null)
+        if (housingData.ActiveModifications[location] != null)
         {
-            m_enhancementService.RemoveEnhancement(housingData.ActiveUpgrades[location]);
+            m_modificationService.RemoveModification(housingData.ActiveModifications[location]);
         }
 
-        housingData.ActiveUpgrades[location] = upgrade;
+        housingData.ActiveModifications[location] = modification;
 
-        m_enhancementService.AddEnhancement(upgrade);
-        TileUpgradeApplied?.Invoke(housingData, location);
+        m_modificationService.AddModification(modification);
+        TileModificationApplied?.Invoke(housingData, location);
     }
 
     protected override Guid Id => Guid.Parse("89ffe769-ce80-42ca-b8e2-9eb55a8adef8");
 
     protected override void ConvertDto()
     {
-        Dto.HousingData = m_housingData.ToDictionary(key => key.Key, value => value.Value.ActiveUpgrades.Select(upgrade => upgrade.ID).ToArray());
+        Dto.HousingData = m_housingData.ToDictionary(key => key.Key, value => value.Value.ActiveModifications.Select(modification => modification.ID).ToArray());
     }
 
     protected override void ConvertDtoBack(TownHousingServiceDTO dto)
@@ -92,9 +92,9 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
         {
             for (int i = 0; i < keyValuePair.Value.Length; i++)
             {
-                if (m_enhancementCollection.TryGetEnhancement(keyValuePair.Value[i], out EnhancementContainer enhancement))
+                if (m_modificationCollection.TryGetModification(keyValuePair.Value[i], out ModificationContainer modification))
                 {
-                    UpgradeTile(keyValuePair.Key, enhancement, i);
+                    ModificationTile(keyValuePair.Key, modification, i);
                 }
             }
         }

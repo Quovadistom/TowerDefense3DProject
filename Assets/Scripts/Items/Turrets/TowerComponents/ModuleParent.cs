@@ -7,7 +7,7 @@ using Zenject;
 public class ModuleParent : MonoBehaviour
 {
     private List<ModuleWithModificationBase> m_upgradableComponents = new();
-    private ModuleModificationService m_enhancementService;
+    private ModuleModificationService m_modificationService;
     private bool m_isInitialized = false;
 
     public List<ModuleWithModificationBase> UpgradableComponents
@@ -27,27 +27,27 @@ public class ModuleParent : MonoBehaviour
     public Guid ID { get; set; }
 
     [Inject]
-    private void Construct(ModuleModificationService enhancementService)
+    private void Construct(ModuleModificationService modificationService)
     {
-        m_enhancementService = enhancementService;
+        m_modificationService = modificationService;
     }
 
     protected virtual void Awake()
     {
-        m_enhancementService.ApplyEnhancementsToObject(this);
-        m_enhancementService.UpgradeReceived += OnUpgradeReceived;
+        m_modificationService.ApplyModificationsToObject(this);
+        m_modificationService.ModificationReceived += OnModificationReceived;
     }
 
     protected virtual void OnDestroy()
     {
-        m_enhancementService.UpgradeReceived -= OnUpgradeReceived;
+        m_modificationService.ModificationReceived -= OnModificationReceived;
     }
 
-    private void OnUpgradeReceived(ModuleModificationBase upgrade)
+    private void OnModificationReceived(ModuleModificationBase modification)
     {
-        if (upgrade.IsObjectSuitable(this))
+        if (modification.IsObjectSuitable(this))
         {
-            upgrade.TryApplyUpgrade(this);
+            modification.TryApplyModification(this);
         }
     }
 
@@ -55,7 +55,7 @@ public class ModuleParent : MonoBehaviour
 
     public bool TryFindAndActOnComponent<T>(Action<T> func)
     {
-        bool upgradeSucces = false;
+        bool modificationSucces = false;
         foreach (ModuleWithModificationBase upgradable in UpgradableComponents)
         {
             if (!upgradable.TryFindAndActOnComponent(func))
@@ -63,14 +63,14 @@ public class ModuleParent : MonoBehaviour
                 continue;
             }
 
-            upgradeSucces = true;
+            modificationSucces = true;
         }
 
-        if (!upgradeSucces)
+        if (!modificationSucces)
         {
-            Debug.LogWarning($"Upgrade failed, there is no component of {typeof(T)} on {gameObject.name}", this);
+            Debug.LogWarning($"Modification failed, there is no component of {typeof(T)} on {gameObject.name}", this);
         }
 
-        return upgradeSucces;
+        return modificationSucces;
     }
 }

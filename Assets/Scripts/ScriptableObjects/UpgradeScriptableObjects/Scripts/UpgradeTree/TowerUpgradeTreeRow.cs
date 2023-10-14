@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 
 [Serializable]
-public class TowerUpgradeTreeRow
+public class TowerModificationTreeRow
 {
-    public List<TowerUpgradeData> TowerUpgrades;
+    public List<TowerModificationData> TowerModifications;
 
-    public void CopyTreeData(TowerUpgradeTreeData treeToCopy, TowerModule towerInfoComponent)
+    public void CopyTreeData(TowerModificationTreeData treeToCopy, TowerModule towerInfoComponent)
     {
-        foreach (TowerUpgradeData towerUpgradeData in TowerUpgrades)
+        foreach (TowerModificationData towerModificationData in TowerModifications)
         {
-            towerUpgradeData.CopyTreeData(treeToCopy, towerInfoComponent);
+            towerModificationData.CopyTreeData(treeToCopy, towerInfoComponent);
         }
     }
 }

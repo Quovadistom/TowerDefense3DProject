@@ -7,7 +7,7 @@ public class TileContextMenu : MonoBehaviour
     [SerializeField] private RectTransform m_uiRectTransform;
     [SerializeField] private Button m_deleteButton;
     [SerializeField] private Button m_moveButton;
-    [SerializeField] private Button m_upgradeButton;
+    [SerializeField] private Button m_modificationButton;
 
     private TownTileService m_tileService;
     private TownHousingService m_townHousingService;
@@ -25,7 +25,7 @@ public class TileContextMenu : MonoBehaviour
         m_tileService.TileSelected += OnTileSelected;
 
         m_deleteButton.onClick.AddListener(EmptyTile);
-        m_upgradeButton.onClick.AddListener(UpgradeTile);
+        m_modificationButton.onClick.AddListener(ModificationTile);
 
         m_rectTransform = GetComponent<RectTransform>();
 
@@ -46,7 +46,7 @@ public class TileContextMenu : MonoBehaviour
 
         m_deleteButton.onClick.RemoveAllListeners();
         m_moveButton.onClick.RemoveAllListeners();
-        m_upgradeButton.onClick.RemoveAllListeners();
+        m_modificationButton.onClick.RemoveAllListeners();
     }
     private void EmptyTile()
     {
@@ -54,9 +54,9 @@ public class TileContextMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void UpgradeTile()
+    private void ModificationTile()
     {
-        m_townHousingService.RequestTileUpgrade(m_tileService.ActiveTownTile.ConnectedTowerID);
+        m_townHousingService.RequestTileModification(m_tileService.ActiveTownTile.ConnectedTowerID);
     }
 
     private void OnTileSelected(TownTile tile)

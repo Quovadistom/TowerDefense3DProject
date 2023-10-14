@@ -3,54 +3,48 @@ using System.Collections.Generic;
 
 public class ModuleModificationService
 {
-    private Dictionary<EnhancementContainer, int> m_enhancementsToApplyOnGameLoad = new();
-    private EnhancementCollection m_enhancementCollection;
+    private Dictionary<ModificationContainer, int> m_modificationsToApplyOnGameLoad = new();
 
-    public event Action<ModuleModificationBase> UpgradeReceived;
+    public event Action<ModuleModificationBase> ModificationReceived;
 
-    public ModuleModificationService(EnhancementCollection enhancementCollection)
+    public void AddModification(ModificationContainer modificationID)
     {
-        m_enhancementCollection = enhancementCollection;
-    }
-
-    public void AddEnhancement(EnhancementContainer upgradeID)
-    {
-        if (m_enhancementsToApplyOnGameLoad.ContainsKey(upgradeID))
+        if (m_modificationsToApplyOnGameLoad.ContainsKey(modificationID))
         {
-            m_enhancementsToApplyOnGameLoad[upgradeID] += 1;
+            m_modificationsToApplyOnGameLoad[modificationID] += 1;
         }
         else
         {
-            m_enhancementsToApplyOnGameLoad.Add(upgradeID, 1);
+            m_modificationsToApplyOnGameLoad.Add(modificationID, 1);
         }
     }
 
-    public void RemoveEnhancement(EnhancementContainer upgradeID)
+    public void RemoveModification(ModificationContainer modificationID)
     {
-        if (m_enhancementsToApplyOnGameLoad.ContainsKey(upgradeID))
+        if (m_modificationsToApplyOnGameLoad.ContainsKey(modificationID))
         {
-            m_enhancementsToApplyOnGameLoad[upgradeID] -= 1;
+            m_modificationsToApplyOnGameLoad[modificationID] -= 1;
         }
     }
 
-    public void ApplyEnhancementsToObject(ModuleParent componentParent)
+    public void ApplyModificationsToObject(ModuleParent componentParent)
     {
-        foreach (KeyValuePair<EnhancementContainer, int> keyValuePair in m_enhancementsToApplyOnGameLoad)
+        foreach (KeyValuePair<ModificationContainer, int> keyValuePair in m_modificationsToApplyOnGameLoad)
         {
-            if (keyValuePair.Key.IsEnhancementSuitable(componentParent) &&
+            if (keyValuePair.Key.IsModificationSuitable(componentParent) &&
                 (keyValuePair.Key.TargetObjectID == componentParent.ID ||
                 keyValuePair.Key.TargetObjectID == Guid.Empty))
             {
                 for (int i = 0; i <= keyValuePair.Value; i++)
                 {
-                    keyValuePair.Key.ApplyUpgrades(componentParent);
+                    keyValuePair.Key.ApplyModifications(componentParent);
                 }
             }
         }
     }
 
-    public void SendEnhancement(ModuleModificationBase upgradeContainer)
+    public void SendModification(ModuleModificationBase modificationContainer)
     {
-        UpgradeReceived?.Invoke(upgradeContainer);
+        ModificationReceived?.Invoke(modificationContainer);
     }
 }

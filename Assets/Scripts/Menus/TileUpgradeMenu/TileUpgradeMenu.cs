@@ -8,16 +8,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class TileUpgradeMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class TileModificationMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("References")]
     [SerializeField] private MenuController m_menuController;
     [SerializeField] private MenuPage m_menuPage;
-    [SerializeField] private TileUpgradeMenuItem m_tileUpgradeMenuItemPrefab;
+    [SerializeField] private TileModificationMenuItem m_tileModificationMenuItemPrefab;
     [SerializeField] private RectTransform m_tileContainer;
-    [SerializeField] private RectTransform m_tileUpgradeMenu;
+    [SerializeField] private RectTransform m_tileModificationMenu;
     [SerializeField] private List<Button> m_buttonList;
-    [SerializeField] private AvailableUpgradesMenu m_availableUpgradeMenu;
+    [SerializeField] private AvailableModificationsMenu m_availableModificationMenu;
 
     [Header("Settings")]
     [SerializeField] private float m_scrollSpeedMultiplier = 0.2f;
@@ -26,42 +26,42 @@ public class TileUpgradeMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private RectTransform m_rectTransform;
     private float m_tileItemWidth;
     private TownHousingService m_townHousingService;
-    private TileUpgradeMenuItem.Factory m_tileUpgradeMenuItemFactory;
+    private TileModificationMenuItem.Factory m_tileModificationMenuItemFactory;
     private TweenerCore<Vector3, Vector3, VectorOptions> m_dragTask;
 
     private Guid m_selectedTileGuid = Guid.Empty;
 
     [Inject]
-    private void Construct(TownHousingService townHousingService, TileUpgradeMenuItem.Factory tileUpgradeMenuItemFactory)
+    private void Construct(TownHousingService townHousingService, TileModificationMenuItem.Factory tileModificationMenuItemFactory)
     {
         m_townHousingService = townHousingService;
-        m_tileUpgradeMenuItemFactory = tileUpgradeMenuItemFactory;
+        m_tileModificationMenuItemFactory = tileModificationMenuItemFactory;
     }
 
     private void Awake()
     {
-        m_townHousingService.TileHousingUpgradeRequested += OnTileUpgradeRequested;
-        m_tileItemWidth = m_tileUpgradeMenuItemPrefab.GetComponent<RectTransform>().sizeDelta.x;
+        m_townHousingService.TileHousingModificationRequested += OnTileModificationRequested;
+        m_tileItemWidth = m_tileModificationMenuItemPrefab.GetComponent<RectTransform>().sizeDelta.x;
         m_rectTransform = transform.GetComponent<RectTransform>();
 
         for (int i = 0; i < m_buttonList.Count; i++)
         {
             Button button = m_buttonList[i];
             int buttonIndex = i;
-            button.onClick.AddListener(() => ShowAvailableUpgrades(buttonIndex));
+            button.onClick.AddListener(() => ShowAvailableModifications(buttonIndex));
         }
     }
 
-    private void ShowAvailableUpgrades(int buttonIndex)
+    private void ShowAvailableModifications(int buttonIndex)
     {
-        m_availableUpgradeMenu.SetUpgrades(m_selectedTileGuid, buttonIndex);
+        m_availableModificationMenu.SetModifications(m_selectedTileGuid, buttonIndex);
 
         DOTween.To(() => m_rectTransform.offsetMax.x,
             (value) => m_rectTransform.offsetMax = new Vector2(value, 0),
-            -m_tileUpgradeMenu.sizeDelta.x, 1);
+            -m_tileModificationMenu.sizeDelta.x, 1);
     }
 
-    private void HideAvailableUpgrades()
+    private void HideAvailableModifications()
     {
         DOTween.To(() => m_rectTransform.offsetMax.x,
             (value) => m_rectTransform.offsetMax = new Vector2(value, 0),
@@ -75,7 +75,7 @@ public class TileUpgradeMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         m_tileContainer.ClearChildren();
         foreach (HousingData housingData in m_townHousingService.AvailableHousingData)
         {
-            TileUpgradeMenuItem tile = m_tileUpgradeMenuItemFactory.Create();
+            TileModificationMenuItem tile = m_tileModificationMenuItemFactory.Create();
             tile.transform.SetParent(m_tileContainer.transform, false);
             tile.SetHousingInfo(housingData);
         }
@@ -85,7 +85,7 @@ public class TileUpgradeMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void OnDestroy()
     {
-        m_townHousingService.TileHousingUpgradeRequested -= OnTileUpgradeRequested;
+        m_townHousingService.TileHousingModificationRequested -= OnTileModificationRequested;
 
         foreach (Button button in m_buttonList)
         {
@@ -93,7 +93,7 @@ public class TileUpgradeMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         }
     }
 
-    private void OnTileUpgradeRequested(HousingData obj)
+    private void OnTileModificationRequested(HousingData obj)
     {
         m_menuController.PushMenuPage(m_menuPage);
     }
@@ -123,6 +123,6 @@ public class TileUpgradeMenu : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void SetTileGuid(int goalTile)
     {
-        m_selectedTileGuid = m_tileContainer.GetChild(goalTile).GetComponent<TileUpgradeMenuItem>().TileGuid;
+        m_selectedTileGuid = m_tileContainer.GetChild(goalTile).GetComponent<TileModificationMenuItem>().TileGuid;
     }
 }

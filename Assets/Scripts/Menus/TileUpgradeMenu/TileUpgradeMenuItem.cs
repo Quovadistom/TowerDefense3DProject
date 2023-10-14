@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class TileUpgradeMenuItem : MonoBehaviour
+public class TileModificationMenuItem : MonoBehaviour
 {
     [SerializeField] private RectTransform m_content;
     [SerializeField] private Transform m_tile;
@@ -30,5 +30,5 @@ public class TileUpgradeMenuItem : MonoBehaviour
         }
     }
 
-    public class Factory : PlaceholderFactory<TileUpgradeMenuItem> { }
+    public class Factory : PlaceholderFactory<TileModificationMenuItem> { }
 }

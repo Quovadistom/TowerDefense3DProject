@@ -1,6 +1,6 @@
 ﻿using System;
 
-public abstract class Upgrade<T> : ModuleModificationBase where T : ModuleBase
+public abstract class Modification<T> : ModuleModificationBase where T : ModuleBase
 {
     protected abstract Action<T> ComponentAction { get; }
 
@@ -9,7 +9,7 @@ public abstract class Upgrade<T> : ModuleModificationBase where T : ModuleBase
         return component.HasComponent<T>();
     }
 
-    public override void TryApplyUpgrade(ModuleParent towerInfoComponent)
+    public override void TryApplyModification(ModuleParent towerInfoComponent)
     {
         towerInfoComponent.TryFindAndActOnComponent<T>(ComponentAction);
     }

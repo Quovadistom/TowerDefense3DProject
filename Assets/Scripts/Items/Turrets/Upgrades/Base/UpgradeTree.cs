@@ -4,43 +4,43 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class UpgradeTree : MonoBehaviour
+public class ModificationTree : MonoBehaviour
 {
     [SerializeField] private SelectedTurretMenu m_selectedTurretMenu;
     [SerializeField] private ScrollRect m_scrollRect;
     [SerializeField] private RectTransform m_viewPort;
-    [SerializeField] private TMP_Text m_upgradeCountText;
-    [SerializeField] private int m_availableUpgradeCount = 5;
+    [SerializeField] private TMP_Text m_modificationCountText;
+    [SerializeField] private int m_availableModificationCount = 5;
 
     [SerializeField] private Transform m_treeParent;
-    [SerializeField] private GameObject m_upgradeRow;
+    [SerializeField] private GameObject m_modificationRow;
 
     private TowerModule m_activeTurrentInfo;
-    private TowerUpgradeButton.Factory m_towerUpgradeButtonFactory;
+    private TowerModificationButton.Factory m_towerModificationButtonFactory;
 
-    public event Action<int> AvailableUpgradeCountChanged;
+    public event Action<int> AvailableModificationCountChanged;
 
-    public int AvailableUpgradeCount
+    public int AvailableModificationCount
     {
-        get => m_availableUpgradeCount;
+        get => m_availableModificationCount;
         set
         {
-            m_availableUpgradeCount = value;
-            m_upgradeCountText.text = value.ToString();
-            AvailableUpgradeCountChanged?.Invoke(value);
+            m_availableModificationCount = value;
+            m_modificationCountText.text = value.ToString();
+            AvailableModificationCountChanged?.Invoke(value);
         }
     }
 
     [Inject]
-    private void Construct(TowerUpgradeButton.Factory towerUpgradeButtonFactory)
+    private void Construct(TowerModificationButton.Factory towerModificationButtonFactory)
     {
-        m_towerUpgradeButtonFactory = towerUpgradeButtonFactory;
+        m_towerModificationButtonFactory = towerModificationButtonFactory;
     }
 
     void Awake()
     {
         m_selectedTurretMenu.TurretDataChanged += OnTurretChanged;
-        AvailableUpgradeCount = m_availableUpgradeCount;
+        AvailableModificationCount = m_availableModificationCount;
     }
 
     private void OnDestroy()
@@ -62,34 +62,34 @@ public class UpgradeTree : MonoBehaviour
 
         if (selectedTurret != null)
         {
-            CreateTurretUpgradeMenu(selectedTurret);
+            CreateTurretModificationMenu(selectedTurret);
         }
     }
 
-    private void CreateTurretUpgradeMenu(TowerModule selectedTurret)
+    private void CreateTurretModificationMenu(TowerModule selectedTurret)
     {
-        TowerUpgradeTreeData towerUpgradeTreeData = selectedTurret.UpgradeTreeData;
+        TowerModificationTreeData towerModificationTreeData = selectedTurret.ModificationTreeData;
 
-        if (towerUpgradeTreeData == null)
+        if (towerModificationTreeData == null)
         {
             return;
         }
 
-        AvailableUpgradeCount = selectedTurret.AvailableUpgradeAmount;
+        AvailableModificationCount = selectedTurret.AvailableModificationAmount;
 
-        foreach (TowerUpgradeTreeRow towerUpgradeTreeStructure in towerUpgradeTreeData.Structure)
+        foreach (TowerModificationTreeRow towerModificationTreeStructure in towerModificationTreeData.Structure)
         {
-            GameObject row = Instantiate(m_upgradeRow, m_treeParent, false);
-            foreach (TowerUpgradeData upgrade in towerUpgradeTreeStructure.TowerUpgrades)
+            GameObject row = Instantiate(m_modificationRow, m_treeParent, false);
+            foreach (TowerModificationData modification in towerModificationTreeStructure.TowerModifications)
             {
-                if (upgrade.IsBought)
+                if (modification.IsBought)
                 {
-                    AvailableUpgradeCount--;
+                    AvailableModificationCount--;
                 }
 
-                TowerUpgradeButton button = m_towerUpgradeButtonFactory.Create();
+                TowerModificationButton button = m_towerModificationButtonFactory.Create();
                 button.transform.SetParent(row.transform, false);
-                button.SetButtonInfo(towerUpgradeTreeData, upgrade, selectedTurret, this);
+                button.SetButtonInfo(towerModificationTreeData, modification, selectedTurret, this);
             }
         }
     }

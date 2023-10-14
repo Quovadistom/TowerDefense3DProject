@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeMenu : MonoBehaviour
+public class ModificationMenu : MonoBehaviour
 {
     [SerializeField] private MenuController m_controller;
     [SerializeField] private ItemsMenu m_itemsMenu;

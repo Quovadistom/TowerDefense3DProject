@@ -220,6 +220,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5460914499701273303, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
+      propertyPath: m_modificationTreeData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7deebbd86c1eb76409713efb67b250d4, type: 2}
+    - target: {fileID: 5460914499701273303, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}
       propertyPath: ComponentID.serializedGuid
       value: 9f720f0a-6e6e-4495-9c2d-918be35bf75a
       objectReference: {fileID: 0}

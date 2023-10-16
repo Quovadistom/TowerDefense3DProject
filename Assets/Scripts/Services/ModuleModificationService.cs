@@ -4,26 +4,35 @@ using System.Collections.Generic;
 public class ModuleModificationService
 {
     private Dictionary<ModificationContainer, int> m_modificationsToApplyOnGameLoad = new();
+    private ModificationAvailabilityService m_modificationAvailabilityService;
 
     public event Action<ModuleModificationBase> ModificationReceived;
 
-    public void AddModification(ModificationContainer modificationID)
+    public ModuleModificationService(ModificationAvailabilityService modificationAvailabilityService)
     {
-        if (m_modificationsToApplyOnGameLoad.ContainsKey(modificationID))
+        m_modificationAvailabilityService = modificationAvailabilityService;
+    }
+
+    public void AddModification(ModificationContainer modification)
+    {
+        if (m_modificationsToApplyOnGameLoad.ContainsKey(modification))
         {
-            m_modificationsToApplyOnGameLoad[modificationID] += 1;
+            m_modificationsToApplyOnGameLoad[modification] += 1;
         }
         else
         {
-            m_modificationsToApplyOnGameLoad.Add(modificationID, 1);
+            m_modificationsToApplyOnGameLoad.Add(modification, 1);
         }
+
+        m_modificationAvailabilityService.RemoveAvailableModification(modification);
     }
 
-    public void RemoveModification(ModificationContainer modificationID)
+    public void RemoveModification(ModificationContainer modification)
     {
-        if (m_modificationsToApplyOnGameLoad.ContainsKey(modificationID))
+        if (m_modificationsToApplyOnGameLoad.ContainsKey(modification))
         {
-            m_modificationsToApplyOnGameLoad[modificationID] -= 1;
+            m_modificationsToApplyOnGameLoad[modification] -= 1;
+            m_modificationAvailabilityService.AddAvailableModification(modification);
         }
     }
 

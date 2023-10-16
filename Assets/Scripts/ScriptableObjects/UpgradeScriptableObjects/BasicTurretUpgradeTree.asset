@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a322798d06342b4cb189445192f4196, type: 3}
   m_Name: BasicTurretUpgradeTree
   m_EditorClassIdentifier: 
-  TowerUpgradeTreeData:
+  TowerModificationTreeData:
     Structure:
-    - TowerUpgrades:
-      - m_towerUpgradeID:
-          serializedGuid: ead68dca-315b-4f5e-aea2-99b26d4b1bc9
+    - TowerModifications:
+      - m_towerModificationID:
+          serializedGuid: 2c19cd58-ed97-4012-9a64-ddfe1dad38d0
           m_isLocked: 1
         Name: Range
-        UpgradeCost: 0
+        ModificationCost: 0
         IsBought: 0
         RequiredFor: []
-        TowerUpgrades:
-        - {fileID: 11400000, guid: 2ee6e63eedafba64db390ae9540a835a, type: 2}
+        TowerModifications:
+        - {fileID: 11400000, guid: d88e70ccb7af5b24988352b53d65d9df, type: 2}

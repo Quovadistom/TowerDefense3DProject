@@ -138,9 +138,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_text: {fileID: 6732365156327703040}
-  m_enhancementAmountText: {fileID: 2333514889761643131}
+  m_modificationAmountText: {fileID: 2333514889761643131}
   m_button: {fileID: 1328410069969657558}
-  m_upgradeAppliedCheck: {fileID: 7646495275671818721}
+  m_modificationAppliedCheck: {fileID: 7646495275671818721}
 --- !u!1 &1785274168578918390
 GameObject:
   m_ObjectHideFlags: 0

@@ -1548,7 +1548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0083e14072b9a0645ae1ca6e911940aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_availableTileUpgradeButton: {fileID: 492092649366837479, guid: 8f23e54bec7ab004c9dcc421324214c6, type: 3}
+  m_availableTileModificationButton: {fileID: 0}
   m_buttonParent: {fileID: 47114309}
 --- !u!1 &140404797 stripped
 GameObject:
@@ -9189,7 +9189,7 @@ MonoBehaviour:
   m_uiRectTransform: {fileID: 908805056}
   m_deleteButton: {fileID: 735399451}
   m_moveButton: {fileID: 1398969966}
-  m_upgradeButton: {fileID: 444884409}
+  m_modificationButton: {fileID: 444884409}
 --- !u!1 &1084016872
 GameObject:
   m_ObjectHideFlags: 0
@@ -9972,8 +9972,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8a7733de0e36774b9dbbe6e0e077a69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileUpgradeMenuItem: {fileID: 3715977145236199040, guid: e549cf772b05ea24b8a786d3f2569b1e, type: 3}
-  AvailableTileUpgradeButton: {fileID: 492092649366837479, guid: 8f23e54bec7ab004c9dcc421324214c6, type: 3}
+  TileModificationMenuItem: {fileID: 3715977145236199040, guid: e549cf772b05ea24b8a786d3f2569b1e, type: 3}
+  AvailableTileModificationButton: {fileID: 492092649366837479, guid: 8f23e54bec7ab004c9dcc421324214c6, type: 3}
 --- !u!1 &1164089001
 GameObject:
   m_ObjectHideFlags: 0
@@ -12293,15 +12293,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_menuController: {fileID: 2118522134}
   m_menuPage: {fileID: 1506972708}
-  m_tileUpgradeMenuItemPrefab: {fileID: 3715977145236199040, guid: e549cf772b05ea24b8a786d3f2569b1e, type: 3}
+  m_tileModificationMenuItemPrefab: {fileID: 3715977145236199040, guid: e549cf772b05ea24b8a786d3f2569b1e, type: 3}
   m_tileContainer: {fileID: 1751956271}
-  m_tileUpgradeMenu: {fileID: 139817054}
+  m_tileModificationMenu: {fileID: 139817054}
   m_buttonList:
   - {fileID: 1823994160}
   - {fileID: 52799553}
   - {fileID: 1159137323}
   - {fileID: 1949572415}
-  m_availableUpgradeMenu: {fileID: 139817055}
+  m_availableModificationMenu: {fileID: 139817055}
   m_scrollSpeedMultiplier: 0.2
   m_dragMultiplier: 1.2
 --- !u!1 &1522543448 stripped
@@ -17029,8 +17029,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 400021459}
   m_HandleRect: {fileID: 400021458}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

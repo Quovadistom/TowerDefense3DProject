@@ -31,7 +31,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
     private Dictionary<Guid, HousingData> m_housingData = new();
     private TowerAvailabilityService m_towerAvailabilityService;
     private ModificationCollection m_modificationCollection;
-    private ModuleModificationService m_modificationService;
+    private ModuleModificationService m_moduleModificationService;
 
     public event Action<HousingData> TileHousingModificationRequested;
     public event Action<HousingData, int> TileModificationApplied;
@@ -40,11 +40,11 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
         DebugSettings debugSettings,
         TowerAvailabilityService towerAvailabilityService,
         ModificationCollection modificationCollection,
-        ModuleModificationService modificationService) : base(serializationService, debugSettings)
+        ModuleModificationService moduleModificationService) : base(serializationService, debugSettings)
     {
         m_towerAvailabilityService = towerAvailabilityService;
         m_modificationCollection = modificationCollection;
-        m_modificationService = modificationService;
+        m_moduleModificationService = moduleModificationService;
 
         foreach (TowerAssets towerAssets in m_towerAvailabilityService.AvailableTowers)
         {
@@ -70,12 +70,12 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
         if (housingData.ActiveModifications[location] != null)
         {
-            m_modificationService.RemoveModification(housingData.ActiveModifications[location]);
+            m_moduleModificationService.RemoveModification(housingData.ActiveModifications[location]);
         }
 
         housingData.ActiveModifications[location] = modification;
 
-        m_modificationService.AddModification(modification);
+        m_moduleModificationService.AddModification(modification);
         TileModificationApplied?.Invoke(housingData, location);
     }
 

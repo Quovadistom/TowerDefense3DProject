@@ -397,11 +397,10 @@ MonoBehaviour:
   m_selectedTurretMenu: {fileID: 0}
   m_scrollRect: {fileID: 5517581843765287049}
   m_viewPort: {fileID: 5517581845345041461}
-  m_upgradeCountText: {fileID: 5517581844856050364}
-  m_availableUpgradeCount: 5
+  m_modificationCountText: {fileID: 5517581844856050364}
+  m_availableModificationCount: 5
   m_treeParent: {fileID: 4391854535595515232}
-  m_upgradeRow: {fileID: 3398782653867882707, guid: 556ca4a84eb8a804c9ce2eb446080c63, type: 3}
-  m_upgradeButton: {fileID: 131612049855649567, guid: 1acf94216886354478c931ddc741a684, type: 3}
+  m_modificationRow: {fileID: 3398782653867882707, guid: 556ca4a84eb8a804c9ce2eb446080c63, type: 3}
 --- !u!114 &7356391849812297454
 MonoBehaviour:
   m_ObjectHideFlags: 0

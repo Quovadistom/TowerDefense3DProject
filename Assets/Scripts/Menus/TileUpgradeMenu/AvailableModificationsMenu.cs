@@ -10,13 +10,15 @@ public class AvailableModificationsMenu : MonoBehaviour
     [SerializeField] private RectTransform m_buttonParent;
 
     private ModificationAvailabilityService m_modificationAvailabilityService;
+    private TownHousingService m_townHousingService;
     private TurretCollection m_towerCollection;
     private AvailableTileModificationButton.Factory m_buttonFactory;
 
     [Inject]
-    private void Construct(ModificationAvailabilityService modificationAvailabilityService, TurretCollection towerCollection, AvailableTileModificationButton.Factory buttonFactory)
+    private void Construct(ModificationAvailabilityService modificationAvailabilityService, TownHousingService townHousingService, TurretCollection towerCollection, AvailableTileModificationButton.Factory buttonFactory)
     {
         m_modificationAvailabilityService = modificationAvailabilityService;
+        m_townHousingService = townHousingService;
         m_towerCollection = towerCollection;
         m_buttonFactory = buttonFactory;
     }
@@ -31,9 +33,15 @@ public class AvailableModificationsMenu : MonoBehaviour
 
             for (int i = 0; i < availableModifications.Count(); i++)
             {
-                AvailableTileModificationButton availableTileModificationButton = m_buttonFactory.Create(m_selectedTileGuid);
-                availableTileModificationButton.transform.SetParent(m_buttonParent, false);
-                availableTileModificationButton.SetButtonInfo(availableModifications.ElementAt(i).Key, availableModifications.ElementAt(i).Value, buttonIndex);
+                KeyValuePair<ModificationContainer, int> modification = availableModifications.ElementAt(i);
+                var currentModification = m_townHousingService.GetHousingData(m_selectedTileGuid).ActiveModifications[buttonIndex];
+
+                if (modification.Value != 0 || (currentModification != null && currentModification.ID == modification.Key.ID))
+                {
+                    AvailableTileModificationButton availableTileModificationButton = m_buttonFactory.Create(m_selectedTileGuid);
+                    availableTileModificationButton.transform.SetParent(m_buttonParent, false);
+                    availableTileModificationButton.SetButtonInfo(modification.Key, modification.Value, buttonIndex);
+                }
             }
         }
     }

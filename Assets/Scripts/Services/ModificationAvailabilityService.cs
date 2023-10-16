@@ -9,7 +9,6 @@ public class ModificationAvailabilityService : ServiceSerializationHandler<Modif
     private Dictionary<ModificationContainer, int> m_availableModifications = new();
 
     public ModificationAvailabilityService(ModificationCollection modificationCollection,
-        ModuleModificationService modificationService,
         SerializationService serializationService,
         DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
@@ -50,7 +49,8 @@ public class ModificationAvailabilityService : ServiceSerializationHandler<Modif
 
     public Dictionary<ModificationContainer, int> GetModificationsForComponentParent(ModuleParent componentParent, ModificationType modificationType)
     {
-        return m_availableModifications.Where(modification => modification.Key.ModificationType == modificationType && modification.Key.IsModificationSuitable(componentParent)).ToDictionary(x => x.Key, x => x.Value);
+        return m_availableModifications.Where(modification => modification.Key.ModificationType == modificationType
+            && modification.Key.IsModificationSuitable(componentParent)).ToDictionary(x => x.Key, x => x.Value);
     }
 
     protected override Guid Id => Guid.Parse("57dffad0-7783-4183-a0a6-f7d2246c929d");

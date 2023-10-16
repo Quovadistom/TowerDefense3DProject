@@ -2548,7 +2548,7 @@ MonoBehaviour:
   WaveSettings: {fileID: 11400000, guid: 39518cdd67c5911468e450c47d78876b, type: 2}
   PrefabCollection: {fileID: 11400000, guid: 6d83c8b507085454c86fec4169dcba75, type: 2}
   SpawnTurretButtonPrefab: {fileID: 6893870045112303542, guid: cd080d458d1ca554c9e1cd1fcd4dab74, type: 3}
-  UpgradeButtonPrefab: {fileID: 131612049855649567, guid: 1acf94216886354478c931ddc741a684, type: 3}
+  ModificationButtonPrefab: {fileID: 131612049855649567, guid: 1acf94216886354478c931ddc741a684, type: 3}
 --- !u!1 &1170270047
 GameObject:
   m_ObjectHideFlags: 0
@@ -3459,6 +3459,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595854359}
   m_CullTransparentMesh: 1
+--- !u!114 &1601022907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8565161220799351748, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+  m_PrefabInstance: {fileID: 1784912117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1612642435
 GameObject:
   m_ObjectHideFlags: 0
@@ -3568,9 +3579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a162b60671fd24a9ed9df11ed20db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ComponentID:
-    serializedGuid: 00000000-0000-0000-0000-000000000000
-    m_isLocked: 0
 --- !u!1 &1666192199
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,7 +3667,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_prefab: {fileID: 225751326240966841, guid: 9c71385897edaa1429a56475e6c829c0, type: 3}
   m_canvasGroup: {fileID: 13324574}
-  m_boostParent: {fileID: 221152601}
+  m_modificationParent: {fileID: 0}
   m_fadeTime: 0.5
   m_button: {fileID: 1376037492}
 --- !u!1 &1722348417
@@ -3886,6 +3894,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8565161221498872368, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+      propertyPath: m_modificationCountText
+      value: 
+      objectReference: {fileID: 1601022907}
     - target: {fileID: 8565161221498872383, guid: e2419258f08069b4d97833c81a08deff, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

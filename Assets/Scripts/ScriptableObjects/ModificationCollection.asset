@@ -12,18 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb477860988e2a0449bdda8bafb48ee9, type: 3}
   m_Name: ModificationCollection
   m_EditorClassIdentifier: 
-  m_enhancementList:
-  - m_name: Range
+  m_modificationList:
+  - m_name: Range 1
     m_id:
-      serializedGuid: 54c19adb-7f70-49db-a290-a1285a315578
+      serializedGuid: ab3ac7f9-f74d-4ee5-800a-c7f86ed67357
       m_isLocked: 1
-    m_enhancementType: 1
-    Upgrades:
+    m_modificationType: 1
+    Modifications:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: e8d539c1ab27ca54cb679ce7f7becd58, type: 3}
+  - m_name: Range 2
+    m_id:
+      serializedGuid: f423fac2-c075-4a1f-8670-7e719418bf37
+      m_isLocked: 1
+    m_modificationType: 1
+    Modifications:
+    - {fileID: 11400000, guid: 2ee6e63eedafba64db390ae9540a835a, type: 2}
+    Rarity: 0
+    Visual: {fileID: 1179993806073376038, guid: c24e01f0a7013ea408d776bb7c6eb7d9, type: 3}
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}
   m_rarityRangeLegendary: {x: 0, y: 180}
   m_frequency: 6
-  m_enhancementAmount: 0
+  m_modificationAmount: 0

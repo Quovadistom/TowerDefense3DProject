@@ -64,7 +64,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     public void RequestTileModification(Guid guid) => TileHousingModificationRequested?.Invoke(m_housingData[guid]);
 
-    public void ModificationTile(Guid tileID, ModificationContainer modification, int location)
+    public void ModificateTile(Guid tileID, ModificationContainer modification, int location)
     {
         HousingData housingData = GetHousingData(tileID);
 
@@ -94,7 +94,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
             {
                 if (m_modificationCollection.TryGetModification(keyValuePair.Value[i], out ModificationContainer modification))
                 {
-                    ModificationTile(keyValuePair.Key, modification, i);
+                    ModificateTile(keyValuePair.Key, modification, i);
                 }
             }
         }

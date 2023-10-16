@@ -56,7 +56,7 @@ public class AvailableTileModificationButton : MonoBehaviour
 
     private void OnButtonClicked()
     {
-        m_townHousingService.ModificationTile(m_id, m_connectedModification, m_connectedLocation);
+        m_townHousingService.ModificateTile(m_id, m_connectedModification, m_connectedLocation);
     }
 
     public class Factory : PlaceholderFactory<Guid, AvailableTileModificationButton> { }

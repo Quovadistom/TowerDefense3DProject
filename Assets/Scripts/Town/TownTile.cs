@@ -18,9 +18,11 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
     [SerializeField] private Transform m_tileSideHead;
     [SerializeField] private Transform m_tileSideTail;
     [SerializeField] private RectTransform m_tileContextMenu;
+    [SerializeField] private Map m_connectedMap;
 
     private Sequence m_sequence;
 
+    public Map ConnectedMap => m_connectedMap;
     public string Coordinates { get; private set; }
     public Guid ConnectedTowerID { get; private set; } = Guid.Empty;
     public bool IsCaptured { get; set; }
@@ -30,7 +32,6 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
     private TowerAvailabilityService m_towerAvailabilityService;
     private TowerTileVisual.Factory m_townTileVisualFactory;
     private bool m_dragged;
-    private TowerAssets m_currentContent;
 
     [Inject]
     private void Construct(TownTileService townTileService, TowerAvailabilityService towerAvailabilityService, TowerTileVisual.Factory townTileVisualFactory)
@@ -89,15 +90,8 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
         // m_townTileService.UpdateTile(Coordinates, TownTileData);
     }
 
-    private void OnTileUpdated()
-    {
-        SetTileContent(m_currentContent);
-    }
-
     public void SetTileContent(TowerAssets towerAssets)
     {
-        m_currentContent = towerAssets;
-
         m_sequence?.Kill(true);
 
         if (towerAssets?.HousingPrefab != null)

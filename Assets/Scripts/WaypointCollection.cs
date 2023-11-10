@@ -21,6 +21,5 @@ public class WaypointCollection : MonoBehaviour
 
     private void Awake()
     {
-        m_levelService.SetWaypoints(m_waypoints);
     }
 }

@@ -26,6 +26,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<ModuleModificationService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<ModificationAvailabilityService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TowerAvailabilityService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
 
         // Factories
         Container.BindFactory<ItemMenuButton, ItemMenuButton.Factory>().FromComponentInNewPrefab(ItemMenuButtonPrefab);

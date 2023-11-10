@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Pool;
-using static UnityEngine.EventSystems.EventTrigger;
-
 public class EnemyService
 {
     public WaypointCollection WaypointsCollection;
@@ -14,10 +8,10 @@ public class EnemyService
         m_poolingService = poolingService;
     }
 
-    public BasicEnemy CreateNewEnemy(BasicEnemy enemy, Vector3 position)
+    public BasicEnemy CreateNewEnemy(BasicEnemy enemy, WaypointList waypoints)
     {
         BasicEnemy newEnemy = (BasicEnemy)m_poolingService.GetPooledObject(enemy);
-        newEnemy.transform.position = position;
+        newEnemy.SetWaypoints(waypoints.Waypoints);
         return newEnemy;
-    }   
+    }
 }

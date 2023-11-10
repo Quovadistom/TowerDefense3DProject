@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WaveSettings", menuName = "ScriptableObjects/WaveSettings")]
-public class WaveSettings : ScriptableObject
+public class WavesCollection : ScriptableObject
 {
     public List<Wave> Waves;
 

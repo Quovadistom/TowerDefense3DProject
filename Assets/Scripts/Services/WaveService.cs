@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class WaveService
 {
-    private WaveSettings m_waveSettings;
+    private LevelService m_levelService;
     private SerializationService m_serializationService;
     private ModificationCollection m_modificationCollection;
+    private WavesCollection m_wavesCollection;
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
@@ -29,21 +30,23 @@ public class WaveService
         }
     }
 
-    public WaveService(WaveSettings waveSettings, SerializationService serializationService, ModificationCollection modificationCollection)
+    public WaveService(LevelService levelService, SerializationService serializationService, ModificationCollection modificationCollection)
     {
-        m_waveSettings = waveSettings;
+        m_levelService = levelService;
         m_serializationService = serializationService;
         m_modificationCollection = modificationCollection;
+
+        m_wavesCollection = m_levelService.Map.WavesCollection;
     }
 
     public void StartNextWave()
     {
-        if (m_waveSettings.Waves.Count < m_currentWaveIndex)
+        if (m_wavesCollection.Waves.Count < m_currentWaveIndex)
         {
             return;
         }
 
-        Wave selectedWave = m_waveSettings.Waves[m_currentWaveIndex];
+        Wave selectedWave = m_wavesCollection.Waves[m_currentWaveIndex];
         AliveEnemies = selectedWave.EnemyGroups.Sum(x => x.EnemyAmount);
         StartWave.Invoke(selectedWave);
         m_currentWaveIndex++;

@@ -7,7 +7,6 @@ public class GameSceneInstaller : MonoInstaller
     [Header("Scriptable Objects")]
     public LayerSettings LayerSettings;
     public ColorSettings ColorSettings;
-    public WaveSettings WaveSettings;
     public PrefabCollection PrefabCollection;
 
     [Header("Factory Assets")]
@@ -19,13 +18,11 @@ public class GameSceneInstaller : MonoInstaller
         // Scriptables
         Container.BindInterfacesAndSelfTo<LayerSettings>().FromInstance(LayerSettings);
         Container.BindInterfacesAndSelfTo<ColorSettings>().FromInstance(ColorSettings);
-        Container.BindInterfacesAndSelfTo<WaveSettings>().FromInstance(WaveSettings);
         Container.BindInterfacesAndSelfTo<PrefabCollection>().FromInstance(PrefabCollection);
 
         // Services
         Container.BindInterfacesAndSelfTo<PoolingService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<EnemyService>().AsSingle().NonLazy();
-        Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<WaveService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<BulletService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TouchInputService>().AsSingle().NonLazy();

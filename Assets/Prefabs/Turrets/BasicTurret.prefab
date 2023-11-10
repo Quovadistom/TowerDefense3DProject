@@ -462,7 +462,7 @@ MonoBehaviour:
       m_value: 1
   m_damageModule:
     Damage:
-      m_value: 10
+      m_value: 50
   m_bulletBarrelModule:
     m_visual: {fileID: 4231306636256174191}
 --- !u!114 &6564793830113267108 stripped

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -9,11 +10,15 @@ public class PlayMenu : MonoBehaviour
     [SerializeField] private Button m_startButton;
 
     private TownTileService m_tileService;
+    private SceneCollection m_sceneCollection;
+    private LevelService m_levelService;
 
     [Inject]
-    private void Construct(TownTileService tileService)
+    private void Construct(TownTileService tileService, SceneCollection sceneCollection, LevelService levelService)
     {
         m_tileService = tileService;
+        m_sceneCollection = sceneCollection;
+        m_levelService = levelService;
     }
 
     private void Awake()
@@ -30,8 +35,9 @@ public class PlayMenu : MonoBehaviour
 
     private void StartLevel()
     {
-        m_tileService.ActiveTownTile.IsCaptured = true;
+        m_levelService.Map = m_tileService.ActiveTownTile.ConnectedMap;
         m_menuController.PopMenuPage();
+        SceneManager.LoadScene(m_sceneCollection.LevelScene);
     }
 
     private void OnTileSelected(TownTile tile)

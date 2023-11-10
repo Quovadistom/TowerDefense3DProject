@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 public class BasicEnemy : Poolable
@@ -16,6 +17,8 @@ public class BasicEnemy : Poolable
     private ModuleModificationService m_modificationService;
     private float m_currentHealth;
 
+    private IReadOnlyList<Transform> m_waypoints;
+
     [Inject]
     public void Construct(LevelService levelService, WaveService waveService, ModuleModificationService modificationService)
     {
@@ -29,11 +32,6 @@ public class BasicEnemy : Poolable
         ResetObject();
     }
 
-    private void OnEnable()
-    {
-        SetWaypoint(m_waypointIndex);
-    }
-
     private void Update()
     {
         Vector3 direction = m_target.position - transform.position;
@@ -42,15 +40,22 @@ public class BasicEnemy : Poolable
         if (Vector3.Distance(transform.position, m_target.position) <= 0.02f)
         {
             m_waypointIndex++;
-            SetWaypoint(m_waypointIndex);
+            GoToWaypoint(m_waypointIndex);
         }
     }
 
-    private void SetWaypoint(int waypointIndex)
+    public void SetWaypoints(IReadOnlyList<Transform> waypoints)
     {
-        if (m_levelService.Waypoints.Count > waypointIndex)
+        m_waypoints = waypoints;
+        transform.position = waypoints[0].position;
+        GoToWaypoint(0);
+    }
+
+    private void GoToWaypoint(int waypointIndex)
+    {
+        if (m_waypoints.Count > waypointIndex)
         {
-            m_target = m_levelService.Waypoints[waypointIndex];
+            m_target = m_waypoints[waypointIndex];
         }
         else
         {

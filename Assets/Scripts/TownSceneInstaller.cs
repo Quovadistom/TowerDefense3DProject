@@ -10,8 +10,8 @@ public class TownSceneInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<TownTileService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TownHousingService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<TownTileService>().AsSingle().NonLazy();
 
         Container.BindFactory<TowerTileVisual, Guid, TowerTileVisual, TowerTileVisual.Factory>().FromFactory<PrefabFactory<Guid, TowerTileVisual>>();
         Container.BindFactory<TileModificationMenuItem, TileModificationMenuItem.Factory>().FromComponentInNewPrefab(TileModificationMenuItem);

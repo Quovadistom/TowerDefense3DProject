@@ -3,6 +3,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -27,15 +28,17 @@ public class TileModificationMenu : MonoBehaviour, IBeginDragHandler, IDragHandl
     private float m_tileItemWidth;
     private TownHousingService m_townHousingService;
     private TileModificationMenuItem.Factory m_tileModificationMenuItemFactory;
+    private TownTileService m_townTileService;
     private TweenerCore<Vector3, Vector3, VectorOptions> m_dragTask;
 
     private Guid m_selectedTileGuid = Guid.Empty;
 
     [Inject]
-    private void Construct(TownHousingService townHousingService, TileModificationMenuItem.Factory tileModificationMenuItemFactory)
+    private void Construct(TownHousingService townHousingService, TileModificationMenuItem.Factory tileModificationMenuItemFactory, TownTileService townTileService)
     {
         m_townHousingService = townHousingService;
         m_tileModificationMenuItemFactory = tileModificationMenuItemFactory;
+        m_townTileService = townTileService;
     }
 
     private void Awake()
@@ -70,7 +73,16 @@ public class TileModificationMenu : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     private void OnEnable()
     {
-        m_tileContainer.localPosition = new Vector3(-m_tileItemWidth / 2, 0, 0);
+        if (m_townTileService.ActiveTownTile != null)
+        {
+            int tileIndex = m_townHousingService.AvailableHousingData.Select((item, i) => new { item = item, index = i })
+                .Where(itemIndex => itemIndex.item.TowerTypeGuid == m_townTileService.ActiveTownTile.ConnectedTowerID).First().index;
+            m_tileContainer.localPosition = new Vector3(-m_tileItemWidth * tileIndex - m_tileItemWidth / 2, 0, 0);
+        }
+        else
+        {
+            m_tileContainer.localPosition = new Vector3(-m_tileItemWidth / 2, 0, 0);
+        }
 
         m_tileContainer.ClearChildren();
         foreach (HousingData housingData in m_townHousingService.AvailableHousingData)
@@ -110,6 +122,8 @@ public class TileModificationMenu : MonoBehaviour, IBeginDragHandler, IDragHandl
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        HideAvailableModifications();
+
         int goalTile = Mathf.RoundToInt((m_tileContainer.localPosition.x + m_tileItemWidth / 2) / -m_tileItemWidth);
         goalTile += Mathf.RoundToInt(goalTile * -eventData.delta.x * 0.05f);
         goalTile = Mathf.Clamp(goalTile, 0, m_tileContainer.childCount - 1);

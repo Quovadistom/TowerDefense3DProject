@@ -23,6 +23,11 @@ public class PlacementMenu : MonoBehaviour
         m_townTileService.TileSelected += OnTileSelected;
     }
 
+    private void OnDestroy()
+    {
+        m_townTileService.TileSelected -= OnTileSelected;
+    }
+
     private void OnTileSelected(TownTile tile)
     {
         if (tile.IsCaptured && !tile.IsOccupied)

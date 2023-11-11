@@ -16,25 +16,35 @@ public class TurretInfo
 
 public class TowerService : ServiceSerializationHandler<TurretServiceDto>
 {
+    public event Action<TowerModule> TowerModuleAdded;
+    public event Action<TowerModule> TowerModuleRemoved;
+
     private List<TowerModule> m_placedTurrets = new();
     private TurretCollection m_turretCollection;
     private TowerModule.Factory m_turretFactory;
 
-    public TowerService(TurretCollection turretCollection, TowerModule.Factory turretFactory, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public TowerService(TurretCollection turretCollection,
+        TowerModule.Factory turretFactory,
+        SerializationService serializationService,
+        DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
         m_turretCollection = turretCollection;
         m_turretFactory = turretFactory;
     }
 
-    public void AddTower(TowerModule turretInfoComponent)
+    public void AddTower(TowerModule towerModule)
     {
-        m_placedTurrets.Add(turretInfoComponent);
+        m_placedTurrets.Add(towerModule);
+        TowerModuleAdded?.Invoke(towerModule);
     }
 
-    public void RemoveTower(TowerModule selectedTurret)
+    public void RemoveTower(TowerModule towerModule)
     {
-        m_placedTurrets.Remove(selectedTurret);
+        m_placedTurrets.Remove(towerModule);
+        TowerModuleRemoved?.Invoke(towerModule);
     }
+
+    public int GetPlacedTowerAmount(Guid id) => m_placedTurrets.Count(tower => tower.ID == id);
 
     protected override Guid Id => Guid.Parse("c35801bc-3e17-4ae9-9b46-b0b6dd990769");
 

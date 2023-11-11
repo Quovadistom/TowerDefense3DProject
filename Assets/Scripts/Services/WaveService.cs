@@ -13,6 +13,7 @@ public class WaveService
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
     public event Action<List<ModificationContainer>> ModificationsDrawn;
+    public bool IsLastWave => m_currentWaveIndex == m_wavesCollection.Waves.Count;
 
     private int m_currentWaveIndex = 0;
 
@@ -36,7 +37,7 @@ public class WaveService
         m_serializationService = serializationService;
         m_modificationCollection = modificationCollection;
 
-        m_wavesCollection = m_levelService.Map.WavesCollection;
+        m_wavesCollection = m_levelService.MapInfo.WavesCollection;
     }
 
     public void StartNextWave()

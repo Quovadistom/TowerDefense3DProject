@@ -15,12 +15,13 @@ public class MapSpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (m_levelService.Map != null)
+        if (m_levelService.MapInfo != null)
         {
             Destroy(m_currentMap.gameObject);
 
-            m_currentMap = Instantiate(m_levelService.Map, transform, false);
+            m_currentMap = Instantiate(m_levelService.MapInfo, transform, false);
         }
-        m_levelService.Map = m_currentMap;
+
+        m_levelService.MapInfo = m_currentMap;
     }
 }

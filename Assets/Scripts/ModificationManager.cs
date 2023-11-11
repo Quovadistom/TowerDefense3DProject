@@ -14,12 +14,14 @@ public class ModificationManager : MonoBehaviour
 
     private WaveService m_waveService;
     private ModificationAvailabilityService m_modificationAvailabilityService;
+    private LevelService m_levelService;
 
     [Inject]
-    private void Construct(WaveService waveService, ModificationAvailabilityService modificationAvailabilityService)
+    private void Construct(WaveService waveService, ModificationAvailabilityService modificationAvailabilityService, LevelService levelService)
     {
         m_waveService = waveService;
         m_modificationAvailabilityService = modificationAvailabilityService;
+        m_levelService = levelService;
     }
 
     private void Awake()
@@ -65,5 +67,10 @@ public class ModificationManager : MonoBehaviour
 
             m_canvasGroup.gameObject.SetActive(false);
         });
+
+        if (m_waveService.IsLastWave)
+        {
+            m_levelService.EndLevel();
+        }
     }
 }

@@ -44,9 +44,9 @@ public class WaveManager : MonoBehaviour
 
         if (m_currentEnemyGroup != null && m_elapsedTime > m_currentEnemyGroup.EnemyDelay && m_spawnedEnemyCount < m_currentEnemyGroup.EnemyAmount)
         {
-            for (int i = 0; i < m_levelService.Map.WaypointsCollection.Count; i++)
+            for (int i = 0; i < m_levelService.MapInfo.WaypointsCollection.Count; i++)
             {
-                WaypointList waypoints = m_levelService.Map.WaypointsCollection[i];
+                WaypointList waypoints = m_levelService.MapInfo.WaypointsCollection[i];
                 m_enemyService.CreateNewEnemy(m_currentEnemyGroup.Enemy, waypoints);
             }
 

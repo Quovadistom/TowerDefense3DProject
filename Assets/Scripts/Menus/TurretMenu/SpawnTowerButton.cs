@@ -7,6 +7,8 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private Button m_button;
     private TowerModule.Factory m_turretFactory;
+    private TowerService m_towerService;
+    private TownTileService m_townTileService;
     private TouchInputService m_touchInputService;
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
@@ -16,12 +18,16 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 
     [Inject]
     public void Construct(TowerModule.Factory turretFactory,
+        TowerService towerService,
+        TownTileService townTileService,
         TouchInputService touchInputService,
         LayerSettings layerSettings,
         LevelService levelService,
         DraggingService draggingService)
     {
         m_turretFactory = turretFactory;
+        m_towerService = towerService;
+        m_townTileService = townTileService;
         m_touchInputService = touchInputService;
         m_layerSettings = layerSettings;
         m_levelService = levelService;
@@ -32,6 +38,15 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     {
         m_levelService.MoneyChanged += OnMoneyChanged;
         m_draggingService.PlacementProgressChanged += OnPlacementProgressChanged;
+        m_towerService.TowerModuleAdded += OnTowerModuleChanged;
+        m_towerService.TowerModuleRemoved += OnTowerModuleChanged;
+    }
+
+    private void Start()
+    {
+
+
+        SetButtonInteraction();
     }
 
     private void OnDestroy()
@@ -41,20 +56,31 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 
     private void OnPlacementProgressChanged(bool busy)
     {
-        m_button.interactable = IsButtonInteractable();
+        SetButtonInteraction();
     }
 
     private void OnMoneyChanged(int money)
     {
-        m_button.interactable = IsButtonInteractable();
+        SetButtonInteraction();
     }
 
-    private bool IsButtonInteractable()
+    private void OnTowerModuleChanged(TowerModule towerModule)
     {
+        if (towerModule.ID != TurretAssets.ID)
+        {
+            return;
+        }
+
+        SetButtonInteraction();
+    }
+
+    private void SetButtonInteraction()
+    {
+        bool hasTurretsLeft = m_townTileService.GetTowerTileAmount(TurretAssets.ID) * 3 > m_towerService.GetPlacedTowerAmount(TurretAssets.ID);
         bool canBuyTurret = true; // TurretToSpawn.Value <= m_levelService.Money;
         bool canPlaceTurret = !m_draggingService.IsDraggingInProgress;
 
-        return canBuyTurret && canPlaceTurret;
+        m_button.interactable = canBuyTurret && canPlaceTurret && hasTurretsLeft;
     }
 
     public void OnPointerDown(PointerEventData eventData)

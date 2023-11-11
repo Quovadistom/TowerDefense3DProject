@@ -13,6 +13,8 @@ public struct SerializableGuid : ISerializationCallbackReceiver
 {
     private Guid guid;
     [AllowNesting, Label(""), SerializeField, ReadOnly] private string serializedGuid;
+
+    // Used for PropertyDrawer
     [SerializeField] private bool m_isLocked;
 
     public SerializableGuid(Guid guid)

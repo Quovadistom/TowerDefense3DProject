@@ -2004,7 +2004,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerSettings: {fileID: 11400000, guid: ab3cff13687481a44b05a825b621441b, type: 2}
   ColorSettings: {fileID: 11400000, guid: 76baa4bf5efd42e40a5acd7506d973ec, type: 2}
-  WaveSettings: {fileID: 11400000, guid: 39518cdd67c5911468e450c47d78876b, type: 2}
   PrefabCollection: {fileID: 11400000, guid: 6d83c8b507085454c86fec4169dcba75, type: 2}
   SpawnTurretButtonPrefab: {fileID: 6893870045112303542, guid: cd080d458d1ca554c9e1cd1fcd4dab74, type: 3}
   ModificationButtonPrefab: {fileID: 131612049855649567, guid: 1acf94216886354478c931ddc741a684, type: 3}
@@ -2736,7 +2735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_prefab: {fileID: 225751326240966841, guid: 9c71385897edaa1429a56475e6c829c0, type: 3}
   m_canvasGroup: {fileID: 13324574}
-  m_modificationParent: {fileID: 0}
+  m_modificationParent: {fileID: 221152601}
   m_fadeTime: 0.5
   m_button: {fileID: 1376037492}
 --- !u!1 &1722348417

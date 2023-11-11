@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [Serializable]
 public class TownTileData
@@ -22,8 +23,16 @@ public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
     private TownTile m_activeTownTile;
     private Dictionary<string, TownTileData> m_townTileData = new();
 
-    public TownTileService(SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public TownTileService(TownSettings townSettings, SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
+        foreach (StartingTownTile tileData in townSettings.StartingTownTiles)
+        {
+            m_townTileData.Add(tileData.TileCoordinate, new()
+            {
+                IsCaptured = true,
+                ConnectedTowerID = tileData.ConnectingTowerID != string.Empty ? Guid.Parse(tileData.ConnectingTowerID) : Guid.Empty
+            });
+        }
     }
 
     public TownTile ActiveTownTile
@@ -36,16 +45,33 @@ public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
         }
     }
 
-    public void UpdateTile(string coordinates, TownTile townTile)
+    public void SetTileCapture(string coordinates, bool isCaptured)
     {
-        m_townTileData.AddOrOverwriteKey(coordinates, new TownTileData()
+        if (m_townTileData.ContainsKey(coordinates))
         {
-            IsCaptured = townTile.IsCaptured,
-            ConnectedTowerID = townTile.ConnectedTowerID
-        });
+            m_townTileData[coordinates].IsCaptured = isCaptured;
+        }
+        else
+        {
+            m_townTileData.AddOrOverwriteKey(coordinates, new TownTileData()
+            {
+                IsCaptured = isCaptured,
+                ConnectedTowerID = Guid.Empty
+            });
+        }
+    }
+
+    public void SetTileTowerID(string coordinates, Guid towerID)
+    {
+        if (m_townTileData.ContainsKey(coordinates))
+        {
+            m_townTileData[coordinates].ConnectedTowerID = towerID;
+        }
     }
 
     public bool TryGetTileData(string coordinate, out TownTileData townTileSetup) => m_townTileData.TryGetValue(coordinate, out townTileSetup);
+
+    public int GetTowerTileAmount(Guid towerTypeID) => m_townTileData.Count(x => x.Value.ConnectedTowerID == towerTypeID);
 
     protected override Guid Id => Guid.Parse("2041c455-0822-4f6d-a11e-f75fe8783f4b");
 

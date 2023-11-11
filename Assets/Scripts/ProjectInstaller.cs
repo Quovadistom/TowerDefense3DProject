@@ -6,6 +6,7 @@ public class ProjectInstaller : MonoInstaller
     [Header("Scriptable Objects")]
     public SceneCollection SceneCollection;
     public TurretCollection TurretCollection;
+    public TownSettings TownSettings;
     public ModificationCollection ModificationsCollection;
     public DebugSettings DebugSettings;
 
@@ -19,6 +20,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<TurretCollection>().FromInstance(TurretCollection);
         Container.BindInterfacesAndSelfTo<ModificationCollection>().FromInstance(ModificationsCollection);
         Container.BindInterfacesAndSelfTo<DebugSettings>().FromInstance(DebugSettings);
+        Container.BindInterfacesAndSelfTo<TownSettings>().FromInstance(TownSettings);
 
         // Services
         Container.BindInterfacesAndSelfTo<SerializationService>().AsSingle().NonLazy();
@@ -27,6 +29,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<ModificationAvailabilityService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TowerAvailabilityService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<LevelService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<TownTileService>().AsSingle().NonLazy();
 
         // Factories
         Container.BindFactory<ItemMenuButton, ItemMenuButton.Factory>().FromComponentInNewPrefab(ItemMenuButtonPrefab);

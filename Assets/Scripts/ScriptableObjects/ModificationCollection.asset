@@ -31,8 +31,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 2ee6e63eedafba64db390ae9540a835a, type: 2}
     Rarity: 0
     Visual: {fileID: 1179993806073376038, guid: c24e01f0a7013ea408d776bb7c6eb7d9, type: 3}
+  - m_name: Health
+    m_id:
+      serializedGuid: 9419707e-7b7e-4af2-96b2-77de44d0db2f
+      m_isLocked: 1
+    m_modificationType: 0
+    Modifications:
+    - {fileID: 11400000, guid: fa9552e0b56d2e541aff0b54aa661993, type: 2}
+    Rarity: 0
+    Visual: {fileID: 1179993806073376038, guid: c24e01f0a7013ea408d776bb7c6eb7d9, type: 3}
   m_maxWaveForRarity: 125
   m_rarityRangeCommon: {x: 100, y: 30}
   m_rarityRangeLegendary: {x: 0, y: 180}
-  m_frequency: 6
-  m_modificationAmount: 0
+  m_frequency: 1
+  m_modificationAmount: 2

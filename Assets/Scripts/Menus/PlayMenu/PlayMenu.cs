@@ -35,7 +35,7 @@ public class PlayMenu : MonoBehaviour
 
     private void StartLevel()
     {
-        m_levelService.Map = m_tileService.ActiveTownTile.ConnectedMap;
+        m_levelService.SetLevelInfo(m_tileService.ActiveTownTile.ConnectedMap, m_tileService.ActiveTownTile.Coordinates);
         m_menuController.PopMenuPage();
         SceneManager.LoadScene(m_sceneCollection.LevelScene);
     }

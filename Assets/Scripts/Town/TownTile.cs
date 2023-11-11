@@ -20,11 +20,26 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
     [SerializeField] private RectTransform m_tileContextMenu;
     [SerializeField] private Map m_connectedMap;
 
+    [SerializeField, ReadOnly] private string m_coordinates = string.Empty;
     private Sequence m_sequence;
+    private Guid m_connectedTowerID = Guid.Empty;
 
     public Map ConnectedMap => m_connectedMap;
-    public string Coordinates { get; private set; }
-    public Guid ConnectedTowerID { get; private set; } = Guid.Empty;
+    public string Coordinates
+    {
+        get => m_coordinates;
+        private set => m_coordinates = value;
+    }
+    public Guid ConnectedTowerID
+    {
+        get => m_connectedTowerID;
+        set
+        {
+            m_connectedTowerID = value;
+            m_townTileService.SetTileTowerID(Coordinates, m_connectedTowerID);
+        }
+    }
+
     public bool IsCaptured { get; set; }
     public bool IsOccupied => ConnectedTowerID != Guid.Empty;
 
@@ -45,6 +60,7 @@ public class TownTile : MonoBehaviour, IPointerClickHandler, IDragHandler
     {
         Coordinates = $"{transform.parent.GetSiblingIndex()}-{transform.GetSiblingIndex()}";
 
+        OnServiceRead();
         m_townTileService.ServiceRead += OnServiceRead;
     }
 

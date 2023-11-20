@@ -36,12 +36,12 @@ public class WaveService
         m_levelService = levelService;
         m_serializationService = serializationService;
         m_modificationCollection = modificationCollection;
-
-        m_wavesCollection = m_levelService.MapInfo.WavesCollection;
     }
 
     public void StartNextWave()
     {
+        m_wavesCollection ??= m_levelService.MapInfo.WavesCollection;
+
         if (m_wavesCollection.Waves.Count < m_currentWaveIndex)
         {
             return;

@@ -16,4 +16,14 @@ public static class FloatExtensions
     {
         return Mathf.Clamp(number - (number * (percentage / 100)), 0, number);
     }
+
+    public static int AddPercentage(this int number, float percentage)
+    {
+        return Mathf.FloorToInt(number + (number * (percentage / 100)));
+    }
+
+    public static int RemovePercentage(this int number, float percentage)
+    {
+        return Mathf.FloorToInt(Mathf.Clamp(number - (number * (percentage / 100)), 0, number));
+    }
 }

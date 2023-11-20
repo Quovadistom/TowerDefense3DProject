@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b4059afdcb22944a303ea5d6a2b90f, type: 3}
   m_Name: TownSettings
   m_EditorClassIdentifier: 
-  m_startingTileData: []
+  m_startingTileData:
+  - TileCoordinate: 3-3
+    ConnectingTowerID: 9e91b6ec-896f-4499-9880-ecd9b56be3cb
+  - TileCoordinate: 3-4
+    ConnectingTowerID: 

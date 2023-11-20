@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,12 +25,13 @@ public class GameTimeButton : MonoBehaviour
 
     private void OnDestroy()
     {
+        Time.timeScale = 1;
         m_button.onClick.RemoveListener(OnButtonClick);
     }
 
     private void OnButtonClick()
     {
-        m_currentIndex = m_currentIndex == m_speedInformation.Length - 1 ? 0 : m_currentIndex + 1; 
+        m_currentIndex = m_currentIndex == m_speedInformation.Length - 1 ? 0 : m_currentIndex + 1;
 
         SpeedInformation speedInformation = m_speedInformation[m_currentIndex];
         m_text.text = speedInformation.m_speedText;

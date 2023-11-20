@@ -15,15 +15,15 @@ public abstract class StatusEffect
     public abstract EffectType EffectTypeType { get; }
     public abstract string EffectName { get; }
 
-    public float DamageRate { get; private set; }
-    public float EffectTime { get; private set; }
+    public float DamageRateInSeconds { get; private set; }
+    public float DurationInSeconds { get; private set; }
 
     public StatusEffectContext Context { get; set; }
 
     public StatusEffect(float damageRate, float effectTime)
     {
-        DamageRate = damageRate;
-        EffectTime = effectTime;
+        DamageRateInSeconds = damageRate;
+        DurationInSeconds = effectTime;
     }
 
     // Bool because effect (e.g. frost) can block other effects from taking effect (e.g. corrosion)

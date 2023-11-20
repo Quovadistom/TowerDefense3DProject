@@ -44,8 +44,6 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 
     private void Start()
     {
-
-
         SetButtonInteraction();
     }
 

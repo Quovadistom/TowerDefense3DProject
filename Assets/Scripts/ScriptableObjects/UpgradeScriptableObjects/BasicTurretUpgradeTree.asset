@@ -19,7 +19,7 @@ MonoBehaviour:
           serializedGuid: 2c19cd58-ed97-4012-9a64-ddfe1dad38d0
           m_isLocked: 1
         Name: Range
-        ModificationCost: 0
+        ModificationCost: 100
         IsBought: 0
         RequiredFor: []
         TowerModifications:

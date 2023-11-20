@@ -11,6 +11,7 @@ public class TowerModificationButton : MonoBehaviour
 {
     [SerializeField] private Button m_button;
     [SerializeField] private TMP_Text m_textObject;
+    [SerializeField] private TMP_Text m_priceText;
     [SerializeField] private Sprite m_spriteObject;
     private LevelService m_levelService;
     private DifficultyService m_difficultyService;
@@ -41,6 +42,7 @@ public class TowerModificationButton : MonoBehaviour
         ModificationTree modificationTree)
     {
         m_textObject.text = towerModificationData.Name;
+        m_priceText.text = towerModificationData.ModificationCost.ToString();
         TowerModificationTree = towerModificationTreeStructure;
         TowerModificationData = towerModificationData;
         ModificationTree = modificationTree;

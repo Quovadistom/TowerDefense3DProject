@@ -24,6 +24,7 @@ public class ModuleWithModificationBase : MonoBehaviour
     }
 
     public bool HasComponent<T>() => Fields.FirstOrDefault(field => field.FieldType == typeof(T)) != null;
+    public bool HasComponent(Type type) => Fields.FirstOrDefault(field => field.FieldType == type) != null;
 
     /// <summary>
     /// Can be used to check if a component is available and use the callback to do something with this component,

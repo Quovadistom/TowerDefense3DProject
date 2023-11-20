@@ -8,6 +8,8 @@ public class TowerRangeModification : Modification<RangeModule>
 
     protected override Action<RangeModule> ComponentAction => (component) =>
             {
-                component.RangeValue.BaseValue = component.RangeValue.BaseValue.AddPercentage(Percentage);
+                component = null;
+
+                //component.RangeValue.BaseValue = component.RangeValue.BaseValue.AddPercentage(Percentage);
             };
 }

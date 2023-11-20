@@ -52,6 +52,7 @@ public class ModuleParent : MonoBehaviour
     }
 
     public bool HasComponent<T>() => UpgradableComponents.FirstOrDefault(component => component.HasComponent<T>()) != null;
+    public bool HasComponent(Type type) => UpgradableComponents.FirstOrDefault(component => component.HasComponent(type)) != null;
 
     public bool TryFindAndActOnComponent<T>(Action<T> func)
     {

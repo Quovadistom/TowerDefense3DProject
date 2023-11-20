@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DebugSettings
   m_EditorClassIdentifier: 
   UseSerialization: 1
-  EnableAllModifications: 1
+  EnableAllModifications: 0

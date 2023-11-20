@@ -6,6 +6,7 @@ public class TurretProjectileBarrel : TurretBarrel
     public ProjectileModule m_projectileModule;
     public FireRateModule m_fireRateModule;
     public DamageModule m_damageModule;
+    public TurretStatusEffectModule m_turretStatusEffectModule = new();
     public ModuleDataTypeVisual<BulletSpawnPoints> m_bulletBarrelModule;
 
     private BulletService m_bulletService;

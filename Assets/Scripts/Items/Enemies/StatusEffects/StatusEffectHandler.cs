@@ -29,7 +29,7 @@ public class StatusEffectHandler : MonoBehaviour
 
         if (statusEffect is not NoneStatusEffect)
         {
-            if (m_statusEffectCounter >= statusEffect.DamageRate)
+            if (m_statusEffectCounter >= statusEffect.DamageRateInSeconds)
             {
                 statusEffect.ApplyEffect(m_enemy);
                 m_statusEffectCounter = 0;
@@ -37,7 +37,7 @@ public class StatusEffectHandler : MonoBehaviour
 
             m_statusDamageTime += Time.deltaTime;
 
-            if (m_statusDamageTime >= statusEffect.EffectTime)
+            if (m_statusDamageTime >= statusEffect.DurationInSeconds)
             {
                 RequestChangeStatusEffect(new NoneStatusEffect());
                 m_statusDamageTime = 0;

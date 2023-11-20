@@ -7,6 +7,7 @@ using Zenject;
 public class TowerModule : ModuleParent
 {
     [SerializeField] private TowerModificationTree m_modificationTreeData;
+    [SerializeField] private int m_towerCost;
 
     public Selectable Selectable;
     public Draggable Draggable;
@@ -20,6 +21,7 @@ public class TowerModule : ModuleParent
     public List<Guid> ConnectedSupportTowers { get; set; } = new List<Guid>();
     public bool IsTowerPlaced { get; private set; } = false;
     public TowerModificationTreeData ModificationTreeData { get; private set; }
+    public int TowerCost => m_towerCost;
 
     [Inject]
     private void Construct(Guid id, TowerService turretService, SelectionService selectionService)
@@ -65,7 +67,6 @@ public class TowerModule : ModuleParent
         TowerID = Guid.NewGuid();
         m_selectionService.ForceClearSelected();
         EnableTowerDragging();
-        //SubtractCost();
     }
 
     public void PlaceNewTower(Guid towerID, Vector3 position, TowerModificationTreeData treeData, List<Guid> connectedSupportTowers)

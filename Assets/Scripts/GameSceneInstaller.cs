@@ -29,6 +29,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<SelectionService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<DraggingService>().AsSingle().NonLazy();
         Container.BindInterfacesAndSelfTo<TowerService>().AsSingle().NonLazy();
+        Container.BindInterfacesAndSelfTo<InflationService>().AsSingle().NonLazy();
 
         // Factories
         Container.BindFactory<TowerModule, Guid, TowerModule, TowerModule.Factory>().FromFactory<PrefabFactory<Guid, TowerModule>>();

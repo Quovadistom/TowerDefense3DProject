@@ -4,7 +4,7 @@ public class StatusEffectInflation : InflationData
 {
     private EffectType m_effectType;
 
-    public StatusEffectInflation(InflationType inflationType, Guid guid, EffectType effectType) : base(inflationType, guid)
+    public StatusEffectInflation(Guid guid, EffectType effectType) : base(guid)
     {
         m_effectType = effectType;
     }

@@ -20,35 +20,22 @@ public class InflationCollection
     {
         m_inflationDataList.AddRange(new List<InflationData>()
         {
-            new GeneralInflation(InflationType.General,
-                Guid.Parse("ba836721-6ee5-4cf6-b386-b6d1e08a2483")),
-            new StatusEffectInflation(InflationType.Fire,
-                Guid.Parse("4afd6096-ecc2-4efe-b52f-f6c0189a9780"),
+            new GeneralInflation(Guid.Parse("ba836721-6ee5-4cf6-b386-b6d1e08a2483")),
+            new StatusEffectInflation(Guid.Parse("4afd6096-ecc2-4efe-b52f-f6c0189a9780"),
                 EffectType.Fire),
-            new StatusEffectInflation(InflationType.Corrosion,
-                Guid.Parse("fb59f069-7c67-47c8-b717-1cc940eb911a"),
+            new StatusEffectInflation(Guid.Parse("fb59f069-7c67-47c8-b717-1cc940eb911a"),
                 EffectType.Corrosion),
-            new StatusEffectInflation(InflationType.Water,
-                Guid.Parse("ad484b4f-c030-4e76-a554-a1b7eb55b7de"),
+            new StatusEffectInflation(Guid.Parse("ad484b4f-c030-4e76-a554-a1b7eb55b7de"),
                 EffectType.Water),
-            new StatusEffectInflation(InflationType.Electricity,
-                Guid.Parse("9fba3109-df4e-4610-9076-0ebc547e56fd"),
+            new StatusEffectInflation(Guid.Parse("9fba3109-df4e-4610-9076-0ebc547e56fd"),
                 EffectType.Electricity)
         });
     }
 
-    private bool TurretStatusEffectCheck(ModuleParent moduleParent, EffectType effectType)
-    {
-        bool isSuitable = false;
-        moduleParent.TryFindAndActOnModule<TurretStatusEffectModule>((module) =>
-        {
-            isSuitable = module.CurrentStatusEffect.EffectTypeType == effectType;
-        });
-
-        return isSuitable;
-    }
-
     public InflationData GetInflationData(Guid guid) => m_inflationDataList.First(data => data.Guid == guid);
 
-    public InflationData GetInflationData(InflationType type) => m_inflationDataList.First(data => data.Type == type);
+    public T GetInflationData<T>() where T : InflationData
+    {
+        return (T)m_inflationDataList.First(data => data.GetType() == typeof(T));
+    }
 }

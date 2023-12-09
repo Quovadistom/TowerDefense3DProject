@@ -2,7 +2,7 @@
 
 public class GeneralInflation : InflationData
 {
-    public GeneralInflation(InflationType inflationType, Guid guid) : base(inflationType, guid)
+    public GeneralInflation(Guid guid) : base(guid)
     {
     }
 

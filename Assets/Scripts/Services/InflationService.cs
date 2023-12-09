@@ -16,9 +16,8 @@ public class InflationService : ServiceSerializationHandler<InflationServiceDTO>
     {
         m_inflationCollection = inflationCollection;
 
-        InflationData testData = inflationCollection.GetInflationData(InflationType.General);
-        testData.InflationPercentage = 100;
-
+        InflationData testData = inflationCollection.GetInflationData<GeneralInflation>();
+        testData.InflationPercentage = 50;
         m_inflationDatas.Add(testData);
     }
 

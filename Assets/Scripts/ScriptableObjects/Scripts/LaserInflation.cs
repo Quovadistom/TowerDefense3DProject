@@ -3,7 +3,7 @@ using System.Linq;
 
 public class LaserInflation : InflationData
 {
-    protected LaserInflation(InflationType inflationType, Guid guid) : base(inflationType, guid)
+    protected LaserInflation(Guid guid) : base(guid)
     {
     }
 
@@ -26,7 +26,7 @@ public class LaserInflation : InflationData
 
 public class BulletInflation : InflationData
 {
-    protected BulletInflation(InflationType inflationType, Guid guid) : base(inflationType, guid)
+    protected BulletInflation(Guid guid) : base(guid)
     {
     }
 

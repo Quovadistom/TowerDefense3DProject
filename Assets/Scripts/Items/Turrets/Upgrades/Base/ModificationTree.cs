@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +17,12 @@ public class ModificationTree : MonoBehaviour
     [SerializeField] private Transform m_treeParent;
     [SerializeField] private GameObject m_modificationRow;
 
-    private TowerModule m_activeTurrentInfo;
-    private TowerModificationButton.Factory m_towerModificationButtonFactory;
-
     public event Action<int> AvailableModificationCountChanged;
+
+    public TowerModule ActiveTowerModule { get; private set; }
+
+    private TowerModificationButton.Factory m_towerModificationButtonFactory;
+    private List<TowerModificationButton> m_towerButtons = new();
 
     public int AvailableModificationCount
     {
@@ -30,6 +34,8 @@ public class ModificationTree : MonoBehaviour
             AvailableModificationCountChanged?.Invoke(value);
         }
     }
+
+    public TowerModificationTreeData TowerModificationTreeData { get; private set; }
 
     [Inject]
     private void Construct(TowerModificationButton.Factory towerModificationButtonFactory)
@@ -50,7 +56,7 @@ public class ModificationTree : MonoBehaviour
 
     private void OnTurretChanged(TowerModule selectedTurret)
     {
-        if (selectedTurret != m_activeTurrentInfo)
+        if (selectedTurret != ActiveTowerModule)
         {
             foreach (Transform child in m_treeParent)
             {
@@ -58,7 +64,7 @@ public class ModificationTree : MonoBehaviour
             }
         }
 
-        m_activeTurrentInfo = selectedTurret;
+        ActiveTowerModule = selectedTurret;
 
         if (selectedTurret != null)
         {
@@ -68,16 +74,18 @@ public class ModificationTree : MonoBehaviour
 
     private void CreateTurretModificationMenu(TowerModule selectedTurret)
     {
-        TowerModificationTreeData towerModificationTreeData = selectedTurret.ModificationTreeData;
+        m_towerButtons.Clear();
 
-        if (towerModificationTreeData == null)
+        TowerModificationTreeData = selectedTurret.ModificationTreeData;
+
+        if (TowerModificationTreeData == null)
         {
             return;
         }
 
         AvailableModificationCount = selectedTurret.AvailableModificationAmount;
 
-        foreach (TowerModificationTreeRow towerModificationTreeStructure in towerModificationTreeData.Structure)
+        foreach (TowerModificationTreeRow towerModificationTreeStructure in TowerModificationTreeData.Structure)
         {
             GameObject row = Instantiate(m_modificationRow, m_treeParent, false);
             foreach (TowerModificationData modification in towerModificationTreeStructure.TowerModifications)
@@ -87,10 +95,21 @@ public class ModificationTree : MonoBehaviour
                     AvailableModificationCount--;
                 }
 
-                TowerModificationButton button = m_towerModificationButtonFactory.Create();
+                TowerModificationButton button = m_towerModificationButtonFactory.Create(modification, this);
                 button.transform.SetParent(row.transform, false);
-                button.SetButtonInfo(towerModificationTreeData, modification, selectedTurret, this);
+
+                m_towerButtons.Add(button);
             }
         }
+    }
+
+    public void ApplyTowerModification(TowerModificationData towerModificationData)
+    {
+        foreach (var towerData in TowerModificationTreeData.GetTowerModificationsDatas(towerModificationData.RequiredFor.Select(id => Guid.Parse(id))))
+        {
+            towerData.UnlockSignals--;
+        }
+
+        AvailableModificationCount--;
     }
 }

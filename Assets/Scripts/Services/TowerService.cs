@@ -63,7 +63,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
                 ConnectedSupportTowers = placedTurret.ConnectedSupportTowers
             };
 
-            placedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) => turretInfo.TargetMethodName = component.TargetMethod.Name);
+            placedTurret.TryFindAndActOnModule<TargetMethodModule>((component) => turretInfo.TargetMethodName = component.TargetMethod.Name);
 
             placedTurrets.Add(turretInfo);
         }
@@ -82,7 +82,7 @@ public class TowerService : ServiceSerializationHandler<TurretServiceDto>
                 TowerModule placedTurret = m_turretFactory.Create(assets.TowerPrefab, assets.ID);
                 placedTurret.PlaceNewTower(selectedTurret.UniqueTowerID, selectedTurret.Position, selectedTurret.TowerModificationTree, selectedTurret.ConnectedSupportTowers);
 
-                placedTurret.TryFindAndActOnComponent<TargetMethodModule>((component) =>
+                placedTurret.TryFindAndActOnModule<TargetMethodModule>((component) =>
                 component.TargetMethod = m_turretCollection.TargetMethodList.First(x => x.Name == selectedTurret.TargetMethodName));
             }
             else

@@ -13,6 +13,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     private LayerSettings m_layerSettings;
     private LevelService m_levelService;
     private DraggingService m_draggingService;
+    private InflationService m_inflationService;
 
     public TowerAssets TurretAssets { get; set; }
 
@@ -23,7 +24,8 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         TouchInputService touchInputService,
         LayerSettings layerSettings,
         LevelService levelService,
-        DraggingService draggingService)
+        DraggingService draggingService,
+        InflationService inflationService)
     {
         m_turretFactory = turretFactory;
         m_towerService = towerService;
@@ -32,6 +34,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         m_layerSettings = layerSettings;
         m_levelService = levelService;
         m_draggingService = draggingService;
+        m_inflationService = inflationService;
     }
 
     private void Awake()
@@ -40,6 +43,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         m_draggingService.PlacementProgressChanged += OnPlacementProgressChanged;
         m_towerService.TowerModuleAdded += OnTowerModuleChanged;
         m_towerService.TowerModuleRemoved += OnTowerModuleChanged;
+        m_inflationService.InflationChanged += OnInflationChanged;
     }
 
     private void Start()
@@ -50,6 +54,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     private void OnDestroy()
     {
         m_levelService.MoneyChanged -= OnMoneyChanged;
+        m_inflationService.InflationChanged -= OnInflationChanged;
     }
 
     private void OnPlacementProgressChanged(bool busy)
@@ -79,6 +84,11 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         bool canPlaceTurret = !m_draggingService.IsDraggingInProgress;
 
         m_button.interactable = canBuyTurret && canPlaceTurret && hasTurretsLeft;
+    }
+
+    private void OnInflationChanged()
+    {
+        // recalculate costs
     }
 
     public void OnPointerDown(PointerEventData eventData)

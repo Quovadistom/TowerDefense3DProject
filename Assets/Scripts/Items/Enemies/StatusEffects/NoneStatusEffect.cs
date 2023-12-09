@@ -2,7 +2,7 @@
 
 public class NoneStatusEffect : StatusEffect
 {
-    public override EffectType EffectTypeType => EffectType.NONE;
+    public override EffectType EffectTypeType => EffectType.None;
 
     public override string EffectName => "None";
 

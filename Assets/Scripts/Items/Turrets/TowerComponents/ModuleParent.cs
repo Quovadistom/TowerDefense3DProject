@@ -6,21 +6,21 @@ using Zenject;
 
 public class ModuleParent : MonoBehaviour
 {
-    private List<ModuleWithModificationBase> m_upgradableComponents = new();
+    private List<ModuleWithModificationBase> m_upgradableModules = new();
     private ModuleModificationService m_modificationService;
     private bool m_isInitialized = false;
 
-    public List<ModuleWithModificationBase> UpgradableComponents
+    public List<ModuleWithModificationBase> UpgradableModules
     {
         get
         {
             if (!m_isInitialized || gameObject.scene == default)
             {
-                m_upgradableComponents = gameObject.GetComponentsInChildren<ModuleWithModificationBase>(true).ToList();
+                m_upgradableModules = gameObject.GetComponentsInChildren<ModuleWithModificationBase>(true).ToList();
                 m_isInitialized = true;
             }
 
-            return m_upgradableComponents;
+            return m_upgradableModules;
         }
     }
 
@@ -51,15 +51,14 @@ public class ModuleParent : MonoBehaviour
         }
     }
 
-    public bool HasComponent<T>() => UpgradableComponents.FirstOrDefault(component => component.HasComponent<T>()) != null;
-    public bool HasComponent(Type type) => UpgradableComponents.FirstOrDefault(component => component.HasComponent(type)) != null;
+    public bool HasModule<T>() => UpgradableModules.FirstOrDefault(component => component.HasModule<T>()) != null;
 
-    public bool TryFindAndActOnComponent<T>(Action<T> func)
+    public bool TryFindAndActOnModule<T>(Action<T> func)
     {
         bool modificationSucces = false;
-        foreach (ModuleWithModificationBase upgradable in UpgradableComponents)
+        foreach (ModuleWithModificationBase upgradable in UpgradableModules)
         {
-            if (!upgradable.TryFindAndActOnComponent(func))
+            if (!upgradable.TryFindAndActOnModule(func))
             {
                 continue;
             }

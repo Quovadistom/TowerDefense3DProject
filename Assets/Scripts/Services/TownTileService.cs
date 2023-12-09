@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class TownTileData
@@ -47,6 +48,11 @@ public class TownTileService : ServiceSerializationHandler<TownTileServiceDTO>
 
     public void SetTileCapture(string coordinates, bool isCaptured)
     {
+        if (string.IsNullOrEmpty(coordinates))
+        {
+            Debug.LogWarning("There are no coordinates set, unable to capture tile.");
+        }
+
         if (m_townTileData.ContainsKey(coordinates))
         {
             m_townTileData[coordinates].IsCaptured = isCaptured;

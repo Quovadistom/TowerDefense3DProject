@@ -6,7 +6,6 @@ public class TowerRangeBuff : Modification<RangeModule>
 
     protected override Action<RangeModule> ComponentAction => (component) =>
     {
-        component = null;
-        //component.RangeValue.BuffPercentage += Percentage;
+        component.RangeValue.BuffPercentage += Percentage;
     };
 }

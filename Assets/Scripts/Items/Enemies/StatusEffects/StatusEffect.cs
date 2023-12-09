@@ -3,11 +3,11 @@ using System;
 [Flags]
 public enum EffectType
 {
-    NONE = 0,
-    FIRE = 1,
-    CORROSION = 2,
-    WATER = 4,
-    ELECTRICITY = 8
+    None = 0,
+    Fire = 1,
+    Corrosion = 2,
+    Water = 4,
+    Electricity = 8
 }
 
 public abstract class StatusEffect

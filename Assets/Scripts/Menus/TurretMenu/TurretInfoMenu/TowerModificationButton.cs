@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,63 +9,62 @@ public class TowerModificationButton : MonoBehaviour
     [SerializeField] private Button m_button;
     [SerializeField] private TMP_Text m_textObject;
     [SerializeField] private TMP_Text m_priceText;
+
     [SerializeField] private Sprite m_spriteObject;
     private LevelService m_levelService;
-    private DifficultyService m_difficultyService;
-
-    public TowerModificationTreeData TowerModificationTree { get; private set; }
-    public TowerModificationData TowerModificationData { get; private set; }
-    public ModificationTree ModificationTree { get; private set; }
-
-    public IEnumerable<TowerModificationData> LockedTowerModifications => TowerModificationTree.GetTowerModificationsDatas(TowerModificationData.RequiredFor.Select(id => Guid.Parse(id)));
+    private InflationService m_inflationService;
+    private TowerModificationData m_towerModificationData;
+    private ModificationTree m_modificationTree;
 
     [Inject]
-    private void Construct(LevelService levelService, DifficultyService difficultyService)
+    private void Construct(TowerModificationData towerModificationData,
+        ModificationTree modificationTree,
+        LevelService levelService,
+        InflationService inflationService)
     {
+        m_towerModificationData = towerModificationData;
+        m_modificationTree = modificationTree;
+
         m_levelService = levelService;
-        m_difficultyService = difficultyService;
+        m_inflationService = inflationService;
+    }
+
+    private void Awake()
+    {
+        m_modificationTree.AvailableModificationCountChanged += OnAvailableModificationCountChanged;
+        m_towerModificationData.UnlockSignalsChanged += SetButtonState;
+        m_inflationService.InflationChanged += OnInflationChanged;
+
+        m_button.onClick.AddListener(() =>
+        {
+            ApplyTowerModification(m_towerModificationData, m_modificationTree.ActiveTowerModule);
+        });
+
+        m_textObject.text = m_towerModificationData.Name;
+        m_priceText.text = GetInflationCorrectedCost().ToString();
+
+        SetButtonState(!m_towerModificationData.IsBought && m_towerModificationData.UnlockSignals == 0);
     }
 
     private void OnDestroy()
     {
+        m_towerModificationData.UnlockSignalsChanged -= SetButtonState;
+        m_modificationTree.AvailableModificationCountChanged -= OnAvailableModificationCountChanged;
+        m_inflationService.InflationChanged -= OnInflationChanged;
         m_button.onClick.RemoveAllListeners();
-        TowerModificationData.UnlockSignalsChanged -= SetButtonState;
-        ModificationTree.AvailableModificationCountChanged -= OnAvailableModificationCountChanged;
     }
 
-    public void SetButtonInfo(TowerModificationTreeData towerModificationTreeStructure,
-        TowerModificationData towerModificationData,
-        TowerModule towerInfoComponent,
-        ModificationTree modificationTree)
-    {
-        m_textObject.text = towerModificationData.Name;
-        m_priceText.text = towerModificationData.ModificationCost.ToString();
-        TowerModificationTree = towerModificationTreeStructure;
-        TowerModificationData = towerModificationData;
-        ModificationTree = modificationTree;
-        ModificationTree.AvailableModificationCountChanged += OnAvailableModificationCountChanged;
-
-        bool isButtonActive = !TowerModificationData.IsBought && TowerModificationData.UnlockSignals == 0;
-        TowerModificationData.UnlockSignalsChanged += SetButtonState;
-        SetButtonState(isButtonActive);
-
-        m_button.onClick.AddListener(() =>
-        {
-            ApplyTowerModification(towerModificationData, towerInfoComponent);
-        });
-    }
+    private void OnInflationChanged() => m_priceText.text = GetInflationCorrectedCost().ToString();
 
     public void ApplyTowerModification(TowerModificationData towerModificationData, TowerModule towerInfoComponent)
     {
-        TowerModificationData.IsBought = true;
+        m_towerModificationData.IsBought = true;
         SetButtonState(false);
         towerModificationData.ApplyModifications(towerInfoComponent);
-        foreach (var towerData in LockedTowerModifications)
-        {
-            towerData.UnlockSignals--;
-        }
-        ModificationTree.AvailableModificationCount--;
-        m_levelService.Money -= TowerModificationData.ModificationCost;
+
+        m_modificationTree.ApplyTowerModification(towerModificationData);
+
+        m_levelService.Money -= GetInflationCorrectedCost();
     }
 
     private void OnAvailableModificationCountChanged(int count)
@@ -79,12 +75,21 @@ public class TowerModificationButton : MonoBehaviour
         }
     }
 
-    public void SetButtonState(bool isEnabled)
+    public void SetButtonState(bool isEnabled) => m_button.interactable = isEnabled;
+
+    private int GetInflationCorrectedCost()
     {
-        m_button.interactable = isEnabled;
+        float inflationPercentage = 0;
+
+        foreach (var modification in m_towerModificationData.TowerModifications)
+        {
+            inflationPercentage += m_inflationService.CalculateInflationPercentage(modification, m_modificationTree.ActiveTowerModule);
+        }
+
+        return m_towerModificationData.ModificationCost.AddPercentage(inflationPercentage);
     }
 
-    public class Factory : PlaceholderFactory<TowerModificationButton>
+    public class Factory : PlaceholderFactory<TowerModificationData, ModificationTree, TowerModificationButton>
     {
     }
 }

@@ -12,7 +12,7 @@ public abstract class TowerSupportHandler<T> : MonoBehaviour where T : ModuleBas
     protected virtual void Awake()
     {
         m_supportTowerSelector = GetComponent<SupportTowerSelector>();
-        m_supportTowerSelector.AddArgument((component) => component.HasComponent<T>());
+        m_supportTowerSelector.AddArgument((component) => component.HasModule<T>());
 
         m_supportTowerSelector.TowerAdded += OnTowerAdded;
         m_supportTowerSelector.TowerRemoved += OnTowerRemoved;

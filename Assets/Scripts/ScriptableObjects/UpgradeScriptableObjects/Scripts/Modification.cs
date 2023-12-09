@@ -6,11 +6,11 @@ public abstract class Modification<T> : ModuleModificationBase where T : ModuleB
 
     public override bool IsObjectSuitable(ModuleParent component)
     {
-        return component.HasComponent<T>();
+        return component.HasModule<T>();
     }
 
     public override void TryApplyModification(ModuleParent towerInfoComponent)
     {
-        towerInfoComponent.TryFindAndActOnComponent<T>(ComponentAction);
+        towerInfoComponent.TryFindAndActOnModule<T>(ComponentAction);
     }
 }

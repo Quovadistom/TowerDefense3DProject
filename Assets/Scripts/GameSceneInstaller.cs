@@ -19,6 +19,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<LayerSettings>().FromInstance(LayerSettings);
         Container.BindInterfacesAndSelfTo<ColorSettings>().FromInstance(ColorSettings);
         Container.BindInterfacesAndSelfTo<PrefabCollection>().FromInstance(PrefabCollection);
+        Container.BindInterfacesAndSelfTo<InflationCollection>().AsSingle().NonLazy();
 
         // Services
         Container.BindInterfacesAndSelfTo<PoolingService>().AsSingle().NonLazy();
@@ -35,6 +36,6 @@ public class GameSceneInstaller : MonoInstaller
         Container.BindFactory<TowerModule, Guid, TowerModule, TowerModule.Factory>().FromFactory<PrefabFactory<Guid, TowerModule>>();
         Container.BindFactory<Poolable, Poolable, Poolable.Factory>().FromFactory<PrefabFactory<Poolable>>();
         Container.BindFactory<SpawnTowerButton, SpawnTowerButton.Factory>().FromComponentInNewPrefab(SpawnTurretButtonPrefab);
-        Container.BindFactory<TowerModificationButton, TowerModificationButton.Factory>().FromComponentInNewPrefab(ModificationButtonPrefab);
+        Container.BindFactory<TowerModificationData, ModificationTree, TowerModificationButton, TowerModificationButton.Factory>().FromComponentInNewPrefab(ModificationButtonPrefab);
     }
 }

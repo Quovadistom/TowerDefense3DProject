@@ -56,7 +56,7 @@ public abstract class TowerFloatSupportHandler<T> : TowerSupportHandler<T> where
 
     protected void BuffComponent(ModuleParent componentParent, float buffPercentage)
     {
-        componentParent.TryFindAndActOnComponent<T>((component) => ComponentFunc?.Invoke(component, buffPercentage));
+        componentParent.TryFindAndActOnModule<T>((component) => ComponentFunc?.Invoke(component, buffPercentage));
     }
 
     private float GetPercentageForOneTower()

@@ -1,6 +1,6 @@
 ﻿public class FireStatusEffect : StatusEffect
 {
-    public override EffectType EffectTypeType => EffectType.FIRE;
+    public override EffectType EffectTypeType => EffectType.Fire;
 
     public override string EffectName => "Fire";
 

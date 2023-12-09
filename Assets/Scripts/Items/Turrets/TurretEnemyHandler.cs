@@ -16,7 +16,7 @@ public class TurretEnemyHandler : ModuleWithModificationBase
         set
         {
             m_currentTarget = value;
-            m_towerModule.TryFindAndActOnComponent<TargetingModule>((component) => component.Target.Value = value);
+            m_towerModule.TryFindAndActOnModule<TargetingModule>((component) => component.Target.Value = value);
         }
     }
 

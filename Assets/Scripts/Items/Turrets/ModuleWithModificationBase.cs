@@ -23,8 +23,7 @@ public class ModuleWithModificationBase : MonoBehaviour
         }
     }
 
-    public bool HasComponent<T>() => Fields.FirstOrDefault(field => field.FieldType == typeof(T)) != null;
-    public bool HasComponent(Type type) => Fields.FirstOrDefault(field => field.FieldType == type) != null;
+    public bool HasModule<T>() => Fields.FirstOrDefault(field => field.FieldType == typeof(T)) != null;
 
     /// <summary>
     /// Can be used to check if a component is available and use the callback to do something with this component,
@@ -32,7 +31,7 @@ public class ModuleWithModificationBase : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="modificationFunc"></param>
     /// <returns></returns>
-    public bool TryFindAndActOnComponent<T>(Action<T> callback)
+    public bool TryFindAndActOnModule<T>(Action<T> callback)
     {
         foreach (var field in Fields.Where(field => field.FieldType == typeof(T)))
         {

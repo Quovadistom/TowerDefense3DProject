@@ -1,67 +1,77 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Data;
+using System.Linq;
 
 public class InflationService : ServiceSerializationHandler<InflationServiceDTO>
 {
     public event Action InflationChanged;
 
+    private InflationCollection m_inflationCollection;
+
     private List<InflationData> m_inflationDatas = new();
 
-    private float m_gameInflationPercentage = 0;
-    public float GameInflationPercentage
+    public InflationService(InflationCollection inflationCollection,
+        SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
     {
-        get => m_gameInflationPercentage;
-        set
-        {
-            m_gameInflationPercentage = value;
-            InflationChanged?.Invoke();
-        }
+        m_inflationCollection = inflationCollection;
+
+        InflationData testData = inflationCollection.GetInflationData(InflationType.General);
+        testData.InflationPercentage = 100;
+
+        m_inflationDatas.Add(testData);
     }
 
-    public InflationService(SerializationService serializationService, DebugSettings debugSettings) : base(serializationService, debugSettings)
+    public float CalculateInflationPercentage(ModuleParent towerModule)
     {
+        float totalInflation = 0;
 
-    }
-
-    public int CalculateInflation(TowerModule towerModule)
-    {
-        float totalInflation = GameInflationPercentage;
-
-        foreach (var data in m_inflationDatas)
+        foreach (InflationData data in m_inflationDatas)
         {
-            try
+            if (data.IsModelParentSuitable(towerModule))
             {
-                //Type moduleType = Type.GetType(data.ModuleName);
-                //if (towerModule.HasComponent(moduleType))
-                //{
-                //    totalInflation += data.InflationPercentage;
-                //}
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Type is not found {ex.Message}");
+                totalInflation += data.InflationPercentage;
             }
         }
 
-        return towerModule.TowerCost.AddPercentage(totalInflation);
+        return totalInflation;
+    }
+
+    public float CalculateInflationPercentage(ModuleModificationBase moduleModificationBase, ModuleParent towerModule)
+    {
+        float totalInflation = 0;
+
+        foreach (InflationData data in m_inflationDatas)
+        {
+            if (data.IsModificationSuitable(moduleModificationBase, towerModule))
+            {
+                totalInflation += data.InflationPercentage;
+            }
+        }
+
+        return totalInflation;
     }
 
     protected override Guid Id => Guid.Parse("21ab3cb6-6fa3-4ce1-9adc-201fe272ad29");
 
     protected override void ConvertDto()
     {
-        Dto.GameInflationPercentage = GameInflationPercentage;
+        Dto.InflationDatas = m_inflationDatas.ToDictionary(x => x.Guid, x => x.InflationPercentage);
     }
 
     protected override void ConvertDtoBack(InflationServiceDTO dto)
     {
-        GameInflationPercentage = dto.GameInflationPercentage;
+        m_inflationDatas = dto.InflationDatas.Select(x =>
+        {
+            InflationData data = m_inflationCollection.GetInflationData(x.Key);
+            data.InflationPercentage = x.Value;
+            return data;
+        }).ToList();
     }
 }
 
 [Serializable]
 public class InflationServiceDTO
 {
-    public float GameInflationPercentage;
+    public Dictionary<Guid, float> InflationDatas;
 }

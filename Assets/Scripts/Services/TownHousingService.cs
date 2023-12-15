@@ -15,7 +15,7 @@ public class HousingData
     /// <summary>
     /// Active modifications on this tile. There are a maximum of 4 available slots to modification from
     /// </summary>
-    public ModificationContainer[] ActiveModifications { get; set; } = new ModificationContainer[4]
+    public Blueprint[] ActiveModifications { get; set; } = new Blueprint[4]
     {
         null,
         null,
@@ -30,8 +30,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     private Dictionary<Guid, HousingData> m_housingData = new();
     private TowerAvailabilityService m_towerAvailabilityService;
-    private ModificationCollection m_modificationCollection;
-    private ModuleModificationService m_moduleModificationService;
+    private BlueprintService m_blueprintService;
 
     public event Action<HousingData> TileHousingModificationRequested;
     public event Action<HousingData, int> TileModificationApplied;
@@ -39,12 +38,10 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
     public TownHousingService(SerializationService serializationService,
         DebugSettings debugSettings,
         TowerAvailabilityService towerAvailabilityService,
-        ModificationCollection modificationCollection,
-        ModuleModificationService moduleModificationService) : base(serializationService, debugSettings)
+        BlueprintService blueprintService) : base(serializationService, debugSettings)
     {
         m_towerAvailabilityService = towerAvailabilityService;
-        m_modificationCollection = modificationCollection;
-        m_moduleModificationService = moduleModificationService;
+        m_blueprintService = blueprintService;
 
         foreach (TowerAssets towerAssets in m_towerAvailabilityService.AvailableTowers)
         {
@@ -64,18 +61,19 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
 
     public void RequestTileModification(Guid guid) => TileHousingModificationRequested?.Invoke(m_housingData[guid]);
 
-    public void ModificateTile(Guid tileID, ModificationContainer modification, int location)
+    public void ModificateTile(Guid tileID, Blueprint blueprint, int location)
     {
         HousingData housingData = GetHousingData(tileID);
 
         if (housingData.ActiveModifications[location] != null)
         {
-            m_moduleModificationService.RemoveModification(housingData.ActiveModifications[location]);
+            m_blueprintService.SellBlueprint(blueprint);
         }
 
-        housingData.ActiveModifications[location] = modification;
+        housingData.ActiveModifications[location] = blueprint;
 
-        m_moduleModificationService.AddModification(modification);
+        m_blueprintService.BuyBlueprint(blueprint);
+
         TileModificationApplied?.Invoke(housingData, location);
     }
 
@@ -92,7 +90,7 @@ public class TownHousingService : ServiceSerializationHandler<TownHousingService
         {
             for (int i = 0; i < keyValuePair.Value.Length; i++)
             {
-                if (m_modificationCollection.TryGetModification(keyValuePair.Value[i], out ModificationContainer modification))
+                if (m_blueprintService.TryGetBlueprint(keyValuePair.Value[i], out Blueprint modification))
                 {
                     ModificateTile(keyValuePair.Key, modification, i);
                 }

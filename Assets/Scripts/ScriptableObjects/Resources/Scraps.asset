@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a63404f2cbd0d954d96202aa74afdf39, type: 3}
-  m_Name: DebugSettings
+  m_Script: {fileID: 11500000, guid: 07f82817a87c30e479d3fd6ed82e19fe, type: 3}
+  m_Name: Scraps
   m_EditorClassIdentifier: 
-  UseSerialization: 1
-  EnableAllBlueprints: 1
-  EnableAllArtifacts: 1
+  m_name: Scrap
+  m_id:
+    serializedGuid: cb70e959-34ee-472c-96e6-9dd7fae51a31
+    m_isLocked: 1
+  m_rarity: 0
+  m_visual: {fileID: 0}
+  m_startingAmount: 200

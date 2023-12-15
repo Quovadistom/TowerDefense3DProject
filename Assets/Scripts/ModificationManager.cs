@@ -1,32 +1,32 @@
-using DG.Tweening;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class ModificationManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour
 {
     [SerializeField] private ItemMenuButton m_prefab;
     [SerializeField] private CanvasGroup m_canvasGroup;
-    [SerializeField] private Transform m_modificationParent;
+    [SerializeField] private Transform m_resourceParent;
     [SerializeField] private float m_fadeTime = 0.5f;
     [SerializeField] private Button m_button;
 
     private WaveService m_waveService;
-    private ModificationAvailabilityService m_modificationAvailabilityService;
+    private ResourceService m_resourceAvailabilityService;
     private LevelService m_levelService;
 
     [Inject]
-    private void Construct(WaveService waveService, ModificationAvailabilityService modificationAvailabilityService, LevelService levelService)
+    private void Construct(WaveService waveService, ResourceService resourceAvailabilityService, LevelService levelService)
     {
         m_waveService = waveService;
-        m_modificationAvailabilityService = modificationAvailabilityService;
+        m_resourceAvailabilityService = resourceAvailabilityService;
         m_levelService = levelService;
     }
 
     private void Awake()
     {
-        m_waveService.ModificationsDrawn += OnModificationsDrawn;
+        m_waveService.ModificationsDrawn += OnResourcesDrawn;
         m_button.onClick.AddListener(OnButtonClicked);
 
         m_canvasGroup.gameObject.SetActive(false);
@@ -35,22 +35,22 @@ public class ModificationManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        m_waveService.ModificationsDrawn -= OnModificationsDrawn;
+        m_waveService.ModificationsDrawn -= OnResourcesDrawn;
         m_button.onClick.RemoveListener(OnButtonClicked);
     }
 
-    private void OnModificationsDrawn(List<ModificationContainer> modificationList)
+    private void OnResourcesDrawn(List<Resource> resourceList)
     {
         m_canvasGroup.gameObject.SetActive(true);
         m_canvasGroup.DOFade(1, m_fadeTime).SetUpdate(true).OnComplete(() =>
         {
-            foreach (var modification in modificationList)
+            foreach (var resource in resourceList)
             {
-                m_modificationAvailabilityService.AddAvailableModification(modification);
-                ItemMenuButton spawnedButton = Instantiate(m_prefab, m_modificationParent);
+                m_resourceAvailabilityService.ChangeAvailableResource(resource);
+                ItemMenuButton spawnedButton = Instantiate(m_prefab, m_resourceParent);
                 spawnedButton.SetContent(new ButtonInfo()
                 {
-                    Title = modification.Name
+                    Title = resource.Name
                 });
             }
         });
@@ -60,7 +60,7 @@ public class ModificationManager : MonoBehaviour
     {
         m_canvasGroup.DOFade(0, m_fadeTime).SetUpdate(true).OnComplete(() =>
         {
-            foreach (Transform child in m_modificationParent)
+            foreach (Transform child in m_resourceParent)
             {
                 Destroy(child.gameObject);
             }

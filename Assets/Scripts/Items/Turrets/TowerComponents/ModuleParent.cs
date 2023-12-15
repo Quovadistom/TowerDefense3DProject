@@ -34,7 +34,7 @@ public class ModuleParent : MonoBehaviour
 
     protected virtual void Awake()
     {
-        m_modificationService.ApplyModificationsToObject(this);
+        m_modificationService.ApplyBlueprintsToObject(this);
         m_modificationService.ModificationReceived += OnModificationReceived;
     }
 

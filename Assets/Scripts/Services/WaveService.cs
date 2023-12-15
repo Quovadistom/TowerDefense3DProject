@@ -7,12 +7,12 @@ public class WaveService
 {
     private LevelService m_levelService;
     private SerializationService m_serializationService;
-    private ModificationCollection m_modificationCollection;
+    private ResourceCollection m_resourceCollection;
     private WavesCollection m_wavesCollection;
 
     public event Action<Wave> StartWave;
     public event Action WaveComplete;
-    public event Action<List<ModificationContainer>> ModificationsDrawn;
+    public event Action<List<Resource>> ModificationsDrawn;
     public bool IsLastWave => m_currentWaveIndex == m_wavesCollection.Waves.Count;
 
     private int m_currentWaveIndex = 0;
@@ -31,11 +31,11 @@ public class WaveService
         }
     }
 
-    public WaveService(LevelService levelService, SerializationService serializationService, ModificationCollection modificationCollection)
+    public WaveService(LevelService levelService, SerializationService serializationService, ResourceCollection modificationCollection)
     {
         m_levelService = levelService;
         m_serializationService = serializationService;
-        m_modificationCollection = modificationCollection;
+        m_resourceCollection = modificationCollection;
     }
 
     public void StartNextWave()
@@ -57,13 +57,13 @@ public class WaveService
     {
         WaveComplete.Invoke();
 
-        if (m_currentWaveIndex % m_modificationCollection.Frequency == 0)
+        if (m_currentWaveIndex % m_resourceCollection.Frequency == 0)
         {
             Debug.Log($"Modification Drawn for {m_currentWaveIndex}!");
-            List<ModificationContainer> modificationList = new List<ModificationContainer>();
-            for (int i = 0; i < m_modificationCollection.ModificationAmount; i++)
+            List<Resource> modificationList = new List<Resource>();
+            for (int i = 0; i < m_resourceCollection.ResourceAmount; i++)
             {
-                modificationList.Add(m_modificationCollection.GetRandomModificationWeighted(m_currentWaveIndex));
+                modificationList.Add(m_resourceCollection.GetRandomResourceWeighted(m_currentWaveIndex));
             }
 
             ModificationsDrawn?.Invoke(modificationList);

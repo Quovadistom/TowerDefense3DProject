@@ -2733,11 +2733,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ce9c346e6e3f643a0716ec78ad07ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_prefab: {fileID: 225751326240966841, guid: 9c71385897edaa1429a56475e6c829c0, type: 3}
-  m_canvasGroup: {fileID: 13324574}
-  m_modificationParent: {fileID: 221152601}
-  m_fadeTime: 0.5
-  m_button: {fileID: 1376037492}
 --- !u!1 &1722348417
 GameObject:
   m_ObjectHideFlags: 0
@@ -3005,6 +3000,10 @@ PrefabInstance:
     - target: {fileID: 8565161222687111144, guid: e2419258f08069b4d97833c81a08deff, type: 3}
       propertyPath: m_Name
       value: TowerInfoPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8565161222687111144, guid: e2419258f08069b4d97833c81a08deff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8565161222687111145, guid: e2419258f08069b4d97833c81a08deff, type: 3}
       propertyPath: m_Pivot.x

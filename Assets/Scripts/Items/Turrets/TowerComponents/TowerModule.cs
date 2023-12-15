@@ -1,6 +1,6 @@
-using Assets.Scripts.Interactables;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.Interactables;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +14,8 @@ public class TowerModule : ModuleParent
 
     private TowerService m_turretService;
     private SelectionService m_selectionService;
-
+    private InflationService m_inflationService;
+    private ResourceService m_resourceService;
     public int AvailableModificationAmount = 5;
 
     public Guid TowerID { get; private set; }
@@ -24,11 +25,13 @@ public class TowerModule : ModuleParent
     public int TowerCost => m_towerCost;
 
     [Inject]
-    private void Construct(Guid id, TowerService turretService, SelectionService selectionService)
+    private void Construct(Guid id, TowerService turretService, SelectionService selectionService, InflationService inflationService, ResourceService resourceService)
     {
         ID = id;
         m_turretService = turretService;
         m_selectionService = selectionService;
+        m_inflationService = inflationService;
+        m_resourceService = resourceService;
     }
 
     protected override void Awake()
@@ -56,6 +59,9 @@ public class TowerModule : ModuleParent
         Draggable.CanDrag = false;
         m_turretService.AddTower(this);
         IsTowerPlaced = true;
+
+        int correctedCost = TowerCost.AddPercentage(m_inflationService.CalculateInflationPercentage(this));
+        m_resourceService.ChangeAvailableResource<BattleFunds>(-correctedCost);
 
         m_selectionService.ForceSetSelected(transform);
     }

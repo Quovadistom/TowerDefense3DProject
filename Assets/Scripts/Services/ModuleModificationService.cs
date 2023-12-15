@@ -3,17 +3,11 @@ using System.Collections.Generic;
 
 public class ModuleModificationService
 {
-    private Dictionary<ModificationContainer, int> m_modificationsToApplyOnGameLoad = new();
-    private ModificationAvailabilityService m_modificationAvailabilityService;
+    private Dictionary<Blueprint, int> m_modificationsToApplyOnGameLoad = new();
 
     public event Action<ModuleModificationBase> ModificationReceived;
 
-    public ModuleModificationService(ModificationAvailabilityService modificationAvailabilityService)
-    {
-        m_modificationAvailabilityService = modificationAvailabilityService;
-    }
-
-    public void AddModification(ModificationContainer modification)
+    public void AddBlueprint(Blueprint modification)
     {
         if (m_modificationsToApplyOnGameLoad.ContainsKey(modification))
         {
@@ -23,30 +17,27 @@ public class ModuleModificationService
         {
             m_modificationsToApplyOnGameLoad.Add(modification, 1);
         }
-
-        m_modificationAvailabilityService.RemoveAvailableModification(modification);
     }
 
-    public void RemoveModification(ModificationContainer modification)
+    public void RemoveBlueprint(Blueprint modification)
     {
         if (m_modificationsToApplyOnGameLoad.ContainsKey(modification))
         {
             m_modificationsToApplyOnGameLoad[modification] -= 1;
-            m_modificationAvailabilityService.AddAvailableModification(modification);
         }
     }
 
-    public void ApplyModificationsToObject(ModuleParent componentParent)
+    public void ApplyBlueprintsToObject(ModuleParent componentParent)
     {
-        foreach (KeyValuePair<ModificationContainer, int> keyValuePair in m_modificationsToApplyOnGameLoad)
+        foreach (KeyValuePair<Blueprint, int> keyValuePair in m_modificationsToApplyOnGameLoad)
         {
-            if (keyValuePair.Key.IsModificationSuitable(componentParent) &&
+            if (keyValuePair.Key.IsBlueprintSuitable(componentParent) &&
                 (keyValuePair.Key.TargetObjectID == componentParent.ID ||
                 keyValuePair.Key.TargetObjectID == Guid.Empty))
             {
                 for (int i = 0; i <= keyValuePair.Value; i++)
                 {
-                    keyValuePair.Key.ApplyModifications(componentParent);
+                    keyValuePair.Key.ApplyBlueprint(componentParent);
                 }
             }
         }

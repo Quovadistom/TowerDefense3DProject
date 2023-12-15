@@ -12,7 +12,7 @@ public class BasicEnemy : Poolable
 
     private int m_waypointIndex = 0;
     private Transform m_target;
-    private LevelService m_levelService;
+    private ResourceService m_resourceService;
     private WaveService m_waveService;
     private ModuleModificationService m_modificationService;
     private float m_currentHealth;
@@ -20,9 +20,9 @@ public class BasicEnemy : Poolable
     private IReadOnlyList<Transform> m_waypoints;
 
     [Inject]
-    public void Construct(LevelService levelService, WaveService waveService, ModuleModificationService modificationService)
+    public void Construct(ResourceService resourceService, WaveService waveService, ModuleModificationService modificationService)
     {
-        m_levelService = levelService;
+        m_resourceService = resourceService;
         m_waveService = waveService;
         m_modificationService = modificationService;
     }
@@ -83,7 +83,7 @@ public class BasicEnemy : Poolable
         m_meshRenderer.material.color = new Color(1, m_meshRenderer.material.color.g + damage / StartingHealth, 0, 1);
         if (m_currentHealth <= 0)
         {
-            m_levelService.Money += m_enemyWorth;
+            m_resourceService.ChangeAvailableResource<BattleFunds>(m_enemyWorth);
             m_waveService.AliveEnemies--;
             m_poolingService.ReturnPooledObject(this);
             ResetObject();

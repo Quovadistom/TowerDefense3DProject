@@ -11,29 +11,29 @@ public class TowerModificationButton : MonoBehaviour
     [SerializeField] private TMP_Text m_priceText;
 
     [SerializeField] private Sprite m_spriteObject;
-    private LevelService m_levelService;
     private InflationService m_inflationService;
+    private ResourceService m_resourceService;
     private TowerModificationData m_towerModificationData;
     private ModificationTree m_modificationTree;
 
     [Inject]
     private void Construct(TowerModificationData towerModificationData,
         ModificationTree modificationTree,
-        LevelService levelService,
-        InflationService inflationService)
+        InflationService inflationService,
+        ResourceService resourceService)
     {
         m_towerModificationData = towerModificationData;
         m_modificationTree = modificationTree;
-
-        m_levelService = levelService;
         m_inflationService = inflationService;
+        m_resourceService = resourceService;
     }
 
     private void Awake()
     {
         m_modificationTree.AvailableModificationCountChanged += OnAvailableModificationCountChanged;
-        m_towerModificationData.UnlockSignalsChanged += SetButtonState;
+        m_towerModificationData.UnlockSignalsChanged += OnUnlockSignalsChanged;
         m_inflationService.InflationChanged += OnInflationChanged;
+        m_resourceService.ResourceChanged += OnResourceChanged;
 
         m_button.onClick.AddListener(() =>
         {
@@ -43,39 +43,55 @@ public class TowerModificationButton : MonoBehaviour
         m_textObject.text = m_towerModificationData.Name;
         m_priceText.text = GetInflationCorrectedCost().ToString();
 
-        SetButtonState(!m_towerModificationData.IsBought && m_towerModificationData.UnlockSignals == 0);
+        SetButtonState();
     }
 
     private void OnDestroy()
     {
-        m_towerModificationData.UnlockSignalsChanged -= SetButtonState;
         m_modificationTree.AvailableModificationCountChanged -= OnAvailableModificationCountChanged;
+        m_towerModificationData.UnlockSignalsChanged -= OnUnlockSignalsChanged;
         m_inflationService.InflationChanged -= OnInflationChanged;
+        m_resourceService.ResourceChanged -= OnResourceChanged;
         m_button.onClick.RemoveAllListeners();
     }
 
-    private void OnInflationChanged() => m_priceText.text = GetInflationCorrectedCost().ToString();
+    private void OnUnlockSignalsChanged(bool obj) => SetButtonState();
+
+    private void OnInflationChanged()
+    {
+        m_priceText.text = GetInflationCorrectedCost().ToString();
+        SetButtonState();
+    }
+
+    private void OnResourceChanged(object sender, ResourcesChangeEventArgs e)
+    {
+        if (e.Resource is BattleFunds)
+        {
+            SetButtonState();
+        }
+    }
 
     public void ApplyTowerModification(TowerModificationData towerModificationData, TowerModule towerInfoComponent)
     {
         m_towerModificationData.IsBought = true;
-        SetButtonState(false);
+        SetButtonState();
         towerModificationData.ApplyModifications(towerInfoComponent);
 
         m_modificationTree.ApplyTowerModification(towerModificationData);
 
-        m_levelService.Money -= GetInflationCorrectedCost();
+        m_resourceService.ChangeAvailableResource<BattleFunds>(-GetInflationCorrectedCost());
     }
 
-    private void OnAvailableModificationCountChanged(int count)
+    private void OnAvailableModificationCountChanged(int count) => SetButtonState();
+
+    public void SetButtonState()
     {
-        if (count == 0)
-        {
-            SetButtonState(false);
-        }
-    }
+        bool canBuy = m_modificationTree.AvailableModificationCount > 0 && !m_towerModificationData.IsBought;
+        bool isUnlocked = m_towerModificationData.UnlockSignals == 0;
+        bool hasResources = GetInflationCorrectedCost() <= m_resourceService.GetAvailableResourceAmount<BattleFunds>();
 
-    public void SetButtonState(bool isEnabled) => m_button.interactable = isEnabled;
+        m_button.interactable = canBuy && isUnlocked && hasResources;
+    }
 
     private int GetInflationCorrectedCost()
     {

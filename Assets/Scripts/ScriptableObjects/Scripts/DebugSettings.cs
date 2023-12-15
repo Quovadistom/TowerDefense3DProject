@@ -3,5 +3,6 @@ using UnityEngine;
 public class DebugSettings : ScriptableObject
 {
     public bool UseSerialization;
-    public bool EnableAllModifications;
+    public bool EnableAllBlueprints;
+    public bool EnableAllResources;
 }

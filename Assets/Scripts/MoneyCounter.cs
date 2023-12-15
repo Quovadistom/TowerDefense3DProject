@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -7,27 +5,35 @@ using Zenject;
 public class MoneyCounter : MonoBehaviour
 {
     public TMP_Text m_text;
-    private LevelService m_levelService;
+    private ResourceService m_resourceService;
 
     [Inject]
-    public void Construct(LevelService levelService)
+    public void Construct(ResourceService resourceService)
     {
-        m_levelService = levelService;
+        m_resourceService = resourceService;
     }
 
     private void Awake()
     {
-        OnMoneyChanged(m_levelService.Money);
-        m_levelService.MoneyChanged += OnMoneyChanged;
+        UpdateText(m_resourceService.GetAvailableResourceAmount<BattleFunds>());
+        m_resourceService.ResourceChanged += OnFundsChanged;
     }
 
     private void OnDestroy()
     {
-        m_levelService.MoneyChanged -= OnMoneyChanged;
+        m_resourceService.ResourceChanged -= OnFundsChanged;
     }
 
-    private void OnMoneyChanged(int currentMoney)
+    private void OnFundsChanged(object sender, ResourcesChangeEventArgs e)
     {
-        m_text.text = currentMoney.ToString();
+        if (e.Resource is BattleFunds)
+        {
+            UpdateText(e.NewAmount);
+        }
+    }
+
+    private void UpdateText(int amount)
+    {
+        m_text.text = amount.ToString();
     }
 }

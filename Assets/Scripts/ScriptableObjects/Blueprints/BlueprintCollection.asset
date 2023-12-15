@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb477860988e2a0449bdda8bafb48ee9, type: 3}
+  m_Name: BlueprintCollection
+  m_EditorClassIdentifier: 
+  m_blueprints:
+  - m_blueprintType: 1
+    m_name: Heater
+    m_id:
+      serializedGuid: 79d60968-3114-4b7b-bc45-a6e652f1eb1e
+      m_isLocked: 1
+    m_visual: {fileID: 1179993806073376038, guid: c24e01f0a7013ea408d776bb7c6eb7d9, type: 3}
+    m_modifications:
+    - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
+    - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
+    m_requiredArtifacts:
+    - m_requiredArtifact: {fileID: 11400000, guid: 0b16090b6bfb493489d2f134a3c022b0, type: 2}
+      m_requiredArtifactCount: 2
+    - m_requiredArtifact: {fileID: 11400000, guid: e133aef183cddc44687e495266638fdd, type: 2}
+      m_requiredArtifactCount: 15

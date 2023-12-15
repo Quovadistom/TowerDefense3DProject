@@ -14,6 +14,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
     private LevelService m_levelService;
     private DraggingService m_draggingService;
     private InflationService m_inflationService;
+    private ResourceService m_resourceService;
 
     public TowerAssets TurretAssets { get; set; }
 
@@ -25,7 +26,8 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         LayerSettings layerSettings,
         LevelService levelService,
         DraggingService draggingService,
-        InflationService inflationService)
+        InflationService inflationService,
+        ResourceService resourceService)
     {
         m_turretFactory = turretFactory;
         m_towerService = towerService;
@@ -35,15 +37,16 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         m_levelService = levelService;
         m_draggingService = draggingService;
         m_inflationService = inflationService;
+        m_resourceService = resourceService;
     }
 
     private void Awake()
     {
-        m_levelService.MoneyChanged += OnMoneyChanged;
         m_draggingService.PlacementProgressChanged += OnPlacementProgressChanged;
         m_towerService.TowerModuleAdded += OnTowerModuleChanged;
         m_towerService.TowerModuleRemoved += OnTowerModuleChanged;
         m_inflationService.InflationChanged += OnInflationChanged;
+        m_resourceService.ResourceChanged += OnResourcesChanged;
     }
 
     private void Start()
@@ -53,8 +56,11 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
 
     private void OnDestroy()
     {
-        m_levelService.MoneyChanged -= OnMoneyChanged;
+        m_draggingService.PlacementProgressChanged -= OnPlacementProgressChanged;
+        m_towerService.TowerModuleAdded -= OnTowerModuleChanged;
+        m_towerService.TowerModuleRemoved -= OnTowerModuleChanged;
         m_inflationService.InflationChanged -= OnInflationChanged;
+        m_resourceService.ResourceChanged -= OnResourcesChanged;
     }
 
     private void OnPlacementProgressChanged(bool busy)
@@ -62,7 +68,7 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         SetButtonInteraction();
     }
 
-    private void OnMoneyChanged(int money)
+    private void OnInflationChanged()
     {
         SetButtonInteraction();
     }
@@ -77,18 +83,22 @@ public class SpawnTowerButton : MonoBehaviour, IPointerDownHandler
         SetButtonInteraction();
     }
 
+    private void OnResourcesChanged(object sender, ResourcesChangeEventArgs e)
+    {
+        if (e.Resource is BattleFunds)
+        {
+            SetButtonInteraction();
+        }
+    }
+
     private void SetButtonInteraction()
     {
         bool hasTurretsLeft = m_townTileService.GetTowerTileAmount(TurretAssets.ID) * 3 > m_towerService.GetPlacedTowerAmount(TurretAssets.ID);
-        bool canBuyTurret = true; // TurretToSpawn.Value <= m_levelService.Money;
+        bool canBuyTurret = TurretAssets.TowerPrefab.TowerCost.AddPercentage(
+            m_inflationService.CalculateInflationPercentage(TurretAssets.TowerPrefab)) <= m_resourceService.GetAvailableResourceAmount<BattleFunds>();
         bool canPlaceTurret = !m_draggingService.IsDraggingInProgress;
 
         m_button.interactable = canBuyTurret && canPlaceTurret && hasTurretsLeft;
-    }
-
-    private void OnInflationChanged()
-    {
-        // recalculate costs
     }
 
     public void OnPointerDown(PointerEventData eventData)

@@ -7,21 +7,21 @@ using Zenject;
 public class AvailableTileModificationButton : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_text;
-    [SerializeField] private TMP_Text m_modificationAmountText;
     [SerializeField] private Button m_button;
     [SerializeField] private GameObject m_modificationAppliedCheck;
 
-    private ModificationContainer m_connectedModification;
-    private int m_modificationAmount;
+    private Blueprint m_connectedBluePrint;
     private TownHousingService m_townHousingService;
+    private BlueprintService m_blueprintService;
     private Guid m_id;
     private int m_connectedLocation;
 
     [Inject]
-    private void Construct(Guid id, TownHousingService townHousingService)
+    private void Construct(Guid id, TownHousingService townHousingService, BlueprintService blueprintService)
     {
         m_id = id;
         m_townHousingService = townHousingService;
+        m_blueprintService = blueprintService;
     }
 
     private void Awake()
@@ -37,26 +37,31 @@ public class AvailableTileModificationButton : MonoBehaviour
 
     private void OnTileModificationApplied(HousingData housingData, int location)
     {
-        m_modificationAppliedCheck.SetActive(housingData.ActiveModifications[location] == m_connectedModification);
+        m_modificationAppliedCheck.SetActive(housingData.ActiveModifications[location] == m_connectedBluePrint);
     }
 
-    public void SetButtonInfo(ModificationContainer connectedModification, int modificationAmount, int connectedLocation)
+    public void SetButtonInfo(Blueprint blueprint, int connectedLocation)
     {
-        m_connectedModification = connectedModification;
-        m_modificationAmount = modificationAmount;
-        m_text.text = m_connectedModification.Name;
+        m_connectedBluePrint = blueprint;
+        m_text.text = m_connectedBluePrint.Name;
         m_connectedLocation = connectedLocation;
 
         m_button.onClick.AddListener(OnButtonClicked);
 
-        m_modificationAmountText.text = modificationAmount.ToString();
+        bool isInstalled = m_townHousingService.GetHousingData(m_id).ActiveModifications[m_connectedLocation] == m_connectedBluePrint;
+        m_modificationAppliedCheck.SetActive(isInstalled);
 
-        m_modificationAppliedCheck.SetActive(m_townHousingService.GetHousingData(m_id).ActiveModifications[m_connectedLocation] == m_connectedModification);
+        if (isInstalled)
+        {
+            transform.SetAsFirstSibling();
+        }
+
+        m_button.interactable = m_blueprintService.CanBuyBlueprint(m_connectedBluePrint);
     }
 
     private void OnButtonClicked()
     {
-        m_townHousingService.ModificateTile(m_id, m_connectedModification, m_connectedLocation);
+        m_townHousingService.ModificateTile(m_id, m_connectedBluePrint, m_connectedLocation);
     }
 
     public class Factory : PlaceholderFactory<Guid, AvailableTileModificationButton> { }

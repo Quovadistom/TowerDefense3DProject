@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a63404f2cbd0d954d96202aa74afdf39, type: 3}
-  m_Name: DebugSettings
+  m_Script: {fileID: 11500000, guid: 3dce37087beb8e4468a07505d79093a7, type: 3}
+  m_Name: Heater
   m_EditorClassIdentifier: 
-  UseSerialization: 1
-  EnableAllBlueprints: 1
-  EnableAllArtifacts: 1
+  m_name: Crystal
+  m_id:
+    serializedGuid: edfd9921-a652-4b83-ab5a-5987850db8e0
+    m_isLocked: 1
+  m_rarity: 0
+  m_visual: {fileID: 0}

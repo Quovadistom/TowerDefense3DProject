@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 
 public enum Rarity
@@ -11,17 +12,8 @@ public enum Rarity
     Legendary
 }
 
-public enum ModificationType
+public class ResourceCollection : ScriptableObject
 {
-    GameModification,
-    TowerModification
-}
-
-[CreateAssetMenu(fileName = "ModificationsCollection", menuName = "ScriptableObjects/ModificationsCollection")]
-public class ModificationCollection : ScriptableObject
-{
-    [SerializeField] private List<ModificationContainer> m_modificationList;
-
     [Header("Rarity Rates")]
     [SerializeField] private int m_maxWaveForRarity;
     [SerializeField] private Vector2 m_rarityRangeCommon;
@@ -29,27 +21,30 @@ public class ModificationCollection : ScriptableObject
 
     [Header("Spawn Rates")]
     [SerializeField] private int m_frequency;
-    [SerializeField] private int m_modificationAmount;
+    [SerializeField] private int m_resourceAmount;
 
     public int Frequency => m_frequency;
-    public int ModificationAmount => m_modificationAmount;
-    public IReadOnlyList<ModificationContainer> ModificationList => m_modificationList;
+    public int ResourceAmount => m_resourceAmount;
 
-    public bool TryGetModification(Guid id, out ModificationContainer modification)
+    [SerializeField, Expandable] private List<Resource> m_resourceList;
+
+    public IReadOnlyList<Resource> ResourceList => m_resourceList;
+
+    public bool TryGetResource(Guid id, out Resource resource)
     {
-        modification = null;
+        resource = null;
 
         if (id != Guid.Empty)
         {
-            modification = ModificationList.FirstOrDefault(modification => modification.ID == id);
+            resource = ResourceList.FirstOrDefault(resource => resource.ID == id);
         }
 
-        return modification != null;
+        return resource != null;
     }
 
-    public ModificationContainer GetRandomModificationWeighted(int wave)
+    public Resource GetRandomResourceWeighted(int wave)
     {
-        IEnumerable<Rarity> rarities = ModificationList.Select(modification => modification.Rarity);
+        IEnumerable<Rarity> rarities = ResourceList.Select(resource => resource.Rarity);
 
         int[] calculatedWeights = new int[rarities.Count()];
 
@@ -62,7 +57,7 @@ public class ModificationCollection : ScriptableObject
         int randomWeight = UnityEngine.Random.Range(0, calculatedWeights[^1]);
 
         int randomIndex = Array.IndexOf(calculatedWeights, calculatedWeights.FirstOrDefault(x => x > randomWeight));
-        return ModificationList[randomIndex];
+        return ResourceList[randomIndex];
     }
 
     private int GetWeight(Rarity rarity, int wave)

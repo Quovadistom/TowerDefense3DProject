@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -9,15 +8,15 @@ public class AvailableModificationsMenu : MonoBehaviour
     [SerializeField] private AvailableTileModificationButton m_availableTileModificationButton;
     [SerializeField] private RectTransform m_buttonParent;
 
-    private ModificationAvailabilityService m_modificationAvailabilityService;
+    private BlueprintService m_blueprintService;
     private TownHousingService m_townHousingService;
     private TurretCollection m_towerCollection;
     private AvailableTileModificationButton.Factory m_buttonFactory;
 
     [Inject]
-    private void Construct(ModificationAvailabilityService modificationAvailabilityService, TownHousingService townHousingService, TurretCollection towerCollection, AvailableTileModificationButton.Factory buttonFactory)
+    private void Construct(BlueprintService blueprintService, TownHousingService townHousingService, TurretCollection towerCollection, AvailableTileModificationButton.Factory buttonFactory)
     {
-        m_modificationAvailabilityService = modificationAvailabilityService;
+        m_blueprintService = blueprintService;
         m_townHousingService = townHousingService;
         m_towerCollection = towerCollection;
         m_buttonFactory = buttonFactory;
@@ -29,19 +28,13 @@ public class AvailableModificationsMenu : MonoBehaviour
 
         if (m_towerCollection.TryGetAssets(m_selectedTileGuid, out TowerAssets towerAssets))
         {
-            Dictionary<ModificationContainer, int> availableModifications = m_modificationAvailabilityService.GetModificationsForComponentParent(towerAssets.TowerPrefab, ModificationType.TowerModification);
+            IEnumerable<Blueprint> availableModifications = m_blueprintService.GetSuitableBlueprints(towerAssets.TowerPrefab, BlueprintType.Tower);
 
-            for (int i = 0; i < availableModifications.Count(); i++)
+            foreach (Blueprint blueprint in availableModifications)
             {
-                KeyValuePair<ModificationContainer, int> modification = availableModifications.ElementAt(i);
-                var currentModification = m_townHousingService.GetHousingData(m_selectedTileGuid).ActiveModifications[buttonIndex];
-
-                if (modification.Value != 0 || (currentModification != null && currentModification.ID == modification.Key.ID))
-                {
-                    AvailableTileModificationButton availableTileModificationButton = m_buttonFactory.Create(m_selectedTileGuid);
-                    availableTileModificationButton.transform.SetParent(m_buttonParent, false);
-                    availableTileModificationButton.SetButtonInfo(modification.Key, modification.Value, buttonIndex);
-                }
+                AvailableTileModificationButton availableTileModificationButton = m_buttonFactory.Create(m_selectedTileGuid);
+                availableTileModificationButton.transform.SetParent(m_buttonParent, false);
+                availableTileModificationButton.SetButtonInfo(blueprint, buttonIndex);
             }
         }
     }

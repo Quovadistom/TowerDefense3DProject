@@ -7,7 +7,6 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
     public Map MapInfo { get; set; }
 
     private int m_health = 10;
-    private int m_money = 1000;
 
     private ModuleModificationService m_modificationService;
     private SceneCollection m_sceneCollection;
@@ -24,18 +23,7 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
         m_tileService = tileService;
     }
 
-    public event Action<int> MoneyChanged;
     public event Action GameOverRequested;
-
-    public int Money
-    {
-        get { return m_money; }
-        set
-        {
-            m_money = value;
-            MoneyChanged?.Invoke(m_money);
-        }
-    }
 
     public void SetLevelInfo(Map map, string coordinates)
     {
@@ -58,12 +46,10 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 
     protected override void ConvertDtoBack(LevelServiceDTO dto)
     {
-        Money = dto.Money;
     }
 
     protected override void ConvertDto()
     {
-        Dto.Money = Money;
     }
 }
 
@@ -71,5 +57,4 @@ public class LevelService : ServiceSerializationHandler<LevelServiceDTO>
 public class LevelServiceDTO
 {
     public int Health;
-    public int Money;
 }

@@ -7,6 +7,7 @@ public class TownSceneInstaller : MonoInstaller
     [Header("Factory Assets")]
     public TileModificationMenuItem TileModificationMenuItem;
     public AvailableTileModificationButton AvailableTileModificationButton;
+    public PlacementItemButton TownHousingPlacementButton;
 
     public override void InstallBindings()
     {
@@ -15,5 +16,6 @@ public class TownSceneInstaller : MonoInstaller
         Container.BindFactory<TowerTileVisual, Guid, TowerTileVisual, TowerTileVisual.Factory>().FromFactory<PrefabFactory<Guid, TowerTileVisual>>();
         Container.BindFactory<TileModificationMenuItem, TileModificationMenuItem.Factory>().FromComponentInNewPrefab(TileModificationMenuItem);
         Container.BindFactory<Guid, AvailableTileModificationButton, AvailableTileModificationButton.Factory>().FromComponentInNewPrefab(AvailableTileModificationButton);
+        Container.BindFactory<PlacementItemButton, PlacementItemButton.Factory>().FromComponentInNewPrefab(TownHousingPlacementButton);
     }
 }

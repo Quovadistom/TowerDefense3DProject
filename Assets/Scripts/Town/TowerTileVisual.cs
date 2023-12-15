@@ -1,13 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class TowerTileVisual : MonoBehaviour
 {
     [SerializeField] private Transform[] m_updateLocations = new Transform[4];
+    [SerializeField] private ResourceAmountContainer[] m_requiredResources;
+
+    public IReadOnlyDictionary<Resource, int> RequiredResources => m_requiredResources.ToDictionary(key => key.RequiredResource, value => value.RequiredResourceCount);
 
     public Guid ID;
     private TownHousingService m_townHousingService;
+
 
     [Inject]
     private void Construct(Guid m_id, TownHousingService townHousingService)

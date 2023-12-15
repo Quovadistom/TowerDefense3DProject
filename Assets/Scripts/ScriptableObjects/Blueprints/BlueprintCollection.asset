@@ -22,8 +22,8 @@ MonoBehaviour:
     m_modifications:
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
     - {fileID: 11400000, guid: 143f02946e41262459ebd0dd44d86706, type: 2}
-    m_requiredArtifacts:
-    - m_requiredArtifact: {fileID: 11400000, guid: 0b16090b6bfb493489d2f134a3c022b0, type: 2}
-      m_requiredArtifactCount: 2
-    - m_requiredArtifact: {fileID: 11400000, guid: e133aef183cddc44687e495266638fdd, type: 2}
-      m_requiredArtifactCount: 15
+    m_requiredResources:
+    - m_requiredResource: {fileID: 11400000, guid: 5d27f8e3b2862634191e8ea1c7fc978c, type: 2}
+      m_requiredResourceCount: 200
+    - m_requiredResource: {fileID: 11400000, guid: e133aef183cddc44687e495266638fdd, type: 2}
+      m_requiredResourceCount: 1

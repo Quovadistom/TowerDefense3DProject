@@ -10032,6 +10032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileModificationMenuItem: {fileID: 3715977145236199040, guid: e549cf772b05ea24b8a786d3f2569b1e, type: 3}
   AvailableTileModificationButton: {fileID: 492092649366837479, guid: 8f23e54bec7ab004c9dcc421324214c6, type: 3}
+  TownHousingPlacementButton: {fileID: -4091906782635224232, guid: 4c2cf27df02e33f45b95b8a7ef035c39, type: 3}
 --- !u!1 &1164089001
 GameObject:
   m_ObjectHideFlags: 0
@@ -17427,7 +17428,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 400021459}
   m_HandleRect: {fileID: 400021458}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

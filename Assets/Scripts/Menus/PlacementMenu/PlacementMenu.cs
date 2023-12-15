@@ -10,12 +10,14 @@ public class PlacementMenu : MonoBehaviour
 
     private TowerAvailabilityService m_towerAvailabilityService;
     private TownTileService m_townTileService;
+    private PlacementItemButton.Factory m_buttonFactory;
 
     [Inject]
-    private void Construct(TowerAvailabilityService towerAvailabilityService, TownTileService townTileService)
+    private void Construct(TowerAvailabilityService towerAvailabilityService, TownTileService townTileService, PlacementItemButton.Factory factory)
     {
         m_towerAvailabilityService = towerAvailabilityService;
         m_townTileService = townTileService;
+        m_buttonFactory = factory;
     }
 
     private void Awake()
@@ -37,13 +39,9 @@ public class PlacementMenu : MonoBehaviour
 
             foreach (TowerAssets turretAssets in m_towerAvailabilityService.AvailableTowers)
             {
-                PlacementItemButton placementItemButton = Instantiate(m_buttonPrefab, m_buttonParent);
-                placementItemButton.InitializeButton(turretAssets.TowerPrefab.GetType().ToString(),
-                    () =>
-                    {
-                        tile.UpdateTile(turretAssets);
-                        m_menuController.PopMenuPage();
-                    });
+                PlacementItemButton placementItemButton = m_buttonFactory.Create();
+                placementItemButton.transform.SetParent(m_buttonParent, false);
+                placementItemButton.InitializeButton(tile, turretAssets, m_menuController);
             }
         }
     }

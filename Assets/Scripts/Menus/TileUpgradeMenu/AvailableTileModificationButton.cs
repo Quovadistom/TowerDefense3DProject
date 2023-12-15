@@ -24,6 +24,7 @@ public class AvailableTileModificationButton : MonoBehaviour
         m_blueprintService = blueprintService;
     }
 
+    //TODO: Enable when already bought, so one can easily sell 
     private void Awake()
     {
         m_townHousingService.TileModificationApplied += OnTileModificationApplied;

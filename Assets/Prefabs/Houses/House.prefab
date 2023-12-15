@@ -86,6 +86,11 @@ MonoBehaviour:
   - {fileID: 7075995406020172165}
   - {fileID: 2647499158989555606}
   - {fileID: 6700291281014997013}
+  m_requiredResources:
+  - m_requiredResource: {fileID: 11400000, guid: 5d27f8e3b2862634191e8ea1c7fc978c, type: 2}
+    m_requiredResourceCount: 100
+  - m_requiredResource: {fileID: 11400000, guid: e133aef183cddc44687e495266638fdd, type: 2}
+    m_requiredResourceCount: 1
 --- !u!1 &1858809371167311950
 GameObject:
   m_ObjectHideFlags: 0

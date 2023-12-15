@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class ResourceBlueprintContainer
+public class ResourceAmountContainer
 {
     [SerializeField] private Resource m_requiredResource;
     [SerializeField] private int m_requiredResourceCount = 1;
@@ -21,14 +21,14 @@ public class Blueprint
     [SerializeField] private SerializableGuid m_id;
     [SerializeField] private GameObject m_visual;
     [SerializeField] private ModuleModificationBase[] m_modifications;
-    [SerializeField] private ResourceBlueprintContainer[] m_requiredResources;
+    [SerializeField] private ResourceAmountContainer[] m_requiredResources;
 
     public BlueprintType BlueprintType => m_blueprintType;
     public string Name => m_name;
     public Guid ID => m_id;
     public GameObject Visual => m_visual;
     public IReadOnlyCollection<ModuleModificationBase> Modifications => m_modifications;
-    public IReadOnlyCollection<ResourceBlueprintContainer> RequiredResources => m_requiredResources;
+    public IReadOnlyDictionary<Resource, int> RequiredResources => m_requiredResources.ToDictionary(key => key.RequiredResource, value => value.RequiredResourceCount);
 
     public Guid TargetObjectID { get; set; } = Guid.Empty;
     public bool IsUnlocked { get; set; }
@@ -43,7 +43,7 @@ public class Blueprint
     {
         bool canBuy = m_requiredResources.Count() == 0 || m_requiredResources.Select(resource => resource.RequiredResourceCount).Sum() == 0;
 
-        foreach (ResourceBlueprintContainer resourceBlueprintContainer in m_requiredResources)
+        foreach (ResourceAmountContainer resourceBlueprintContainer in m_requiredResources)
         {
             if (availableResources.TryGetValue(resourceBlueprintContainer.RequiredResource, out var count))
             {

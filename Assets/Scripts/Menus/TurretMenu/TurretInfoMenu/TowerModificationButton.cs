@@ -88,7 +88,7 @@ public class TowerModificationButton : MonoBehaviour
     {
         bool canBuy = m_modificationTree.AvailableModificationCount > 0 && !m_towerModificationData.IsBought;
         bool isUnlocked = m_towerModificationData.UnlockSignals == 0;
-        bool hasResources = GetInflationCorrectedCost() <= m_resourceService.GetAvailableResourceAmount<BattleFunds>();
+        bool hasResources = m_resourceService.HasResource<BattleFunds>(GetInflationCorrectedCost());
 
         m_button.interactable = canBuy && isUnlocked && hasResources;
     }

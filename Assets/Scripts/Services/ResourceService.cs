@@ -44,6 +44,50 @@ public class ResourceService : ServiceSerializationHandler<ResourceCollectionSer
         return resource != null ? m_availableResources[resource] : 0;
     }
 
+    public bool HasResource<T>(int amount)
+    {
+        Resource resource = m_availableResources.Keys.FirstOrDefault(key => key.GetType() == typeof(T));
+
+        return HasResource(resource, amount);
+    }
+
+    public bool HasResource(Resource resource, int amount)
+    {
+        return HasAllResources(new Dictionary<Resource, int>()
+        {
+            {resource , amount}
+        });
+    }
+
+    public bool HasAllResources(IReadOnlyDictionary<Resource, int> requiredResources)
+    {
+        foreach (KeyValuePair<Resource, int> requiredResource in requiredResources)
+        {
+            if (m_availableResources.TryGetValue(requiredResource.Key, out int amount) && amount < requiredResource.Value)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void AddAvailableResources(IReadOnlyDictionary<Resource, int> requiredResources)
+    {
+        foreach (var resource in requiredResources)
+        {
+            ChangeAvailableResource(resource.Key, resource.Value);
+        }
+    }
+
+    public void RemoveAvailableResources(IReadOnlyDictionary<Resource, int> requiredResources)
+    {
+        foreach (var resource in requiredResources)
+        {
+            ChangeAvailableResource(resource.Key, -resource.Value);
+        }
+    }
+
     /// <summary>
     /// Changes the amount of a specific resource type of which only one exists that inherits from Resource (e.g. 'BattleFunds.cs').
     /// </summary>

@@ -40,20 +40,14 @@ public class BlueprintService : ServiceSerializationHandler<BlueprintDTO>
 
     public void BuyBlueprint(Blueprint blueprint)
     {
-        foreach (ResourceBlueprintContainer resourceBlueprintContainer in blueprint.RequiredResources)
-        {
-            m_resourceService.ChangeAvailableResource(resourceBlueprintContainer.RequiredResource, -resourceBlueprintContainer.RequiredResourceCount);
-        }
+        m_resourceService.RemoveAvailableResources(blueprint.RequiredResources);
 
         m_moduleModificationService.AddBlueprint(blueprint);
     }
 
     public void SellBlueprint(Blueprint blueprint)
     {
-        foreach (ResourceBlueprintContainer resourceBlueprintContainer in blueprint.RequiredResources)
-        {
-            m_resourceService.ChangeAvailableResource(resourceBlueprintContainer.RequiredResource, resourceBlueprintContainer.RequiredResourceCount);
-        }
+        m_resourceService.AddAvailableResources(blueprint.RequiredResources);
 
         m_moduleModificationService.RemoveBlueprint(blueprint);
     }

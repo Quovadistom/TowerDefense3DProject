@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class TurretEnemyHandler : ModuleWithModificationBase
 
     public TargetMethodModule TargetMethodModule = new();
 
-    private GenericRepository<BasicEnemy> m_enemiesInRange;
+    private List<BasicEnemy> m_enemiesInRange = new();
 
     private BasicEnemy m_currentTarget = null;
     public BasicEnemy CurrentTarget
@@ -18,11 +19,6 @@ public class TurretEnemyHandler : ModuleWithModificationBase
             m_currentTarget = value;
             m_towerModule.TryFindAndActOnModule<TargetingModule>((component) => component.Target.Value = value);
         }
-    }
-
-    protected void Awake()
-    {
-        m_enemiesInRange = new GenericRepository<BasicEnemy>();
     }
 
     private void Update()
@@ -48,7 +44,7 @@ public class TurretEnemyHandler : ModuleWithModificationBase
 
     public void CheckTargetValidity()
     {
-        if (CurrentTarget != null && (CurrentTarget.IsPooled || !m_enemiesInRange.ReadOnlyList.Any()))
+        if (CurrentTarget != null && (CurrentTarget.IsPooled || !m_enemiesInRange.Any()))
         {
             m_enemiesInRange.Remove(CurrentTarget);
             CurrentTarget = null;
@@ -59,12 +55,12 @@ public class TurretEnemyHandler : ModuleWithModificationBase
     {
         CheckTargetValidity();
 
-        if (!m_enemiesInRange.ReadOnlyList.Any())
+        if (!m_enemiesInRange.Any())
         {
             return;
         }
 
-        TargetMethodModule.TargetMethod.TryGetTarget(this, m_enemiesInRange.ReadOnlyList, out BasicEnemy enemy);
+        TargetMethodModule.TargetMethod.TryGetTarget(this, m_enemiesInRange, out BasicEnemy enemy);
         CurrentTarget = enemy;
     }
 }

@@ -18,6 +18,10 @@ public class BasicEnemy : Poolable
     private float m_currentHealth;
 
     private IReadOnlyList<Transform> m_waypoints;
+    private float m_distanceTraveled = 0;
+    private Vector3 m_oldPosition;
+
+    public float DistanceTraveled => m_distanceTraveled;
 
     [Inject]
     public void Construct(ResourceService resourceService, WaveService waveService, ModuleModificationService modificationService)
@@ -35,19 +39,23 @@ public class BasicEnemy : Poolable
     private void Update()
     {
         Vector3 direction = m_target.position - transform.position;
-        transform.Translate(direction.normalized * Speed * Time.deltaTime, Space.World);
+        transform.Translate(Speed * Time.deltaTime * direction.normalized, Space.World);
+        m_distanceTraveled += Vector3.Distance(m_oldPosition, transform.position);
 
         if (Vector3.Distance(transform.position, m_target.position) <= 0.02f)
         {
             m_waypointIndex++;
             GoToWaypoint(m_waypointIndex);
         }
+
+        m_oldPosition = transform.position;
     }
 
     public void SetWaypoints(IReadOnlyList<Transform> waypoints)
     {
         m_waypoints = waypoints;
         transform.position = waypoints[0].position;
+        m_oldPosition = transform.position;
         GoToWaypoint(0);
     }
 
@@ -75,6 +83,7 @@ public class BasicEnemy : Poolable
         m_waypointIndex = 0;
         m_currentHealth = StartingHealth;
         m_meshRenderer.material.color = Color.red;
+        m_distanceTraveled = 0;
     }
 
     public void TakeDamage(float damage)

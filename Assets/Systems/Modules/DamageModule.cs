@@ -4,4 +4,5 @@ using System;
 public class DamageModule : ModuleBase
 {
     public ModuleDataTypeWithEvent<float> Damage;
+    public ModuleDataTypeWithEvent<int> Piercing;
 }

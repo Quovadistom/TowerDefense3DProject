@@ -18,4 +18,4 @@ MonoBehaviour:
     m_isLocked: 1
   m_rarity: 0
   m_visual: {fileID: 0}
-  m_startingAmount: 299
+  m_startingAmount: 10000

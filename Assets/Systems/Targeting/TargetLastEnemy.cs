@@ -7,7 +7,8 @@ public class TargetLastEnemy : ITargetMethod
 
     public bool TryGetTarget(TurretEnemyHandler turretEnemyHandler, IReadOnlyList<BasicEnemy> enemies, out BasicEnemy enemy)
     {
-        enemy = enemies.LastOrDefault();
+        enemy = enemies.OrderBy(x => x.DistanceTraveled).FirstOrDefault();
+
         return enemy != null;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 
@@ -15,7 +16,7 @@ public class BasicEnemy : Poolable
     private ResourceService m_resourceService;
     private WaveService m_waveService;
     private ModuleModificationService m_modificationService;
-    private float m_currentHealth;
+    [SerializeField, ReadOnly] private float m_currentHealth;
 
     private IReadOnlyList<Transform> m_waypoints;
     private float m_distanceTraveled = 0;

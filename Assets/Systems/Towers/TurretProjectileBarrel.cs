@@ -11,8 +11,6 @@ public class TurretProjectileBarrel : TurretBarrel
 
     private BulletService m_bulletService;
 
-    public override float Interval => m_fireRateModule.FireRate.Value;
-
     [Inject]
     public void Construct(BulletService bulletService)
     {

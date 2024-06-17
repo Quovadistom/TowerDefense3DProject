@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Flags]
 public enum EffectType
@@ -7,24 +8,20 @@ public enum EffectType
     Fire = 1,
     Corrosion = 2,
     Water = 4,
-    Electricity = 8
+    Electricity = 8,
+    Bleeding = 16
 }
 
-public abstract class StatusEffect
+public abstract class StatusEffect : ScriptableObject
 {
+    public float DamageRateInSeconds;
+    public float DurationInSeconds;
+    public float Damage;
+
     public abstract EffectType EffectTypeType { get; }
     public abstract string EffectName { get; }
 
-    public float DamageRateInSeconds { get; private set; }
-    public float DurationInSeconds { get; private set; }
-
     public StatusEffectContext Context { get; set; }
-
-    public StatusEffect(float damageRate, float effectTime)
-    {
-        DamageRateInSeconds = damageRate;
-        DurationInSeconds = effectTime;
-    }
 
     // Bool because effect (e.g. frost) can block other effects from taking effect (e.g. corrosion)
     public abstract bool RequestEffectChange(StatusEffect newStatusEffect);

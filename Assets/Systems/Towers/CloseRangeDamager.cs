@@ -22,9 +22,15 @@ public class CloseRangeDamager : MonoBehaviour
     {
         if (other.attachedRigidbody != null &&
             other.attachedRigidbody.TryGetComponent(out BasicEnemy enemy) &&
-            m_turretCloseRange.IsMovingToTarget)
+            !m_turretCloseRange.UpdateTarget)
         {
             enemy.TakeDamage(m_turretCloseRange.DamageModule.Damage.Value);
+
+            if (enemy.TryGetComponent(out StatusEffectHandler statusEffectHandler))
+            {
+                statusEffectHandler.RequestChangeStatusEffect(m_turretCloseRange.DamageModule.StatusEffect.Value);
+            }
+
             m_targetsHit++;
 
             if (m_targetsHit >= m_turretCloseRange.DamageModule.Piercing.Value + 1)

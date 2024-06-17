@@ -18,7 +18,7 @@ public class StatusEffectHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        m_statusEffectContext = new StatusEffectContext(new NoneStatusEffect());
+        m_statusEffectContext = new StatusEffectContext(ScriptableObject.CreateInstance<NoneStatusEffect>());
     }
 
     private void Update()
@@ -39,7 +39,8 @@ public class StatusEffectHandler : MonoBehaviour
 
             if (m_statusDamageTime >= statusEffect.DurationInSeconds)
             {
-                RequestChangeStatusEffect(new NoneStatusEffect());
+                Debug.LogError(1);
+                RequestChangeStatusEffect(ScriptableObject.CreateInstance<NoneStatusEffect>());
                 m_statusDamageTime = 0;
             }
         }

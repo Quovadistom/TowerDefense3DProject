@@ -150,20 +150,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_towerInfoComponent: {fileID: 6487813973549487550}
   Accuracy: 0.95
-  TargetingComponent:
+  TargetingModule:
     Target:
       m_value: {fileID: 0}
     TurnSpeed:
-      m_value: 100
+      m_value: 0
+  FireRateModule:
+    FireRate:
+      m_value: 2.5
   DamageModule:
     Damage:
       m_value: 1
     Piercing:
       m_value: 1
+    StatusEffect:
+      m_value: {fileID: 11400000, guid: 579cf4431bf765c4ca0e0adb163b15d9, type: 2}
   m_conversionFactor: 29
   m_sphereCollider: {fileID: 314169341793058372}
   m_neck: {fileID: 8578225552687451619}
-  IsMovingToTarget: 0
 --- !u!1 &4102717779752323518 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2967732206594944727, guid: 5b91fa929ee91604c8a2a6eb26b7b29e, type: 3}

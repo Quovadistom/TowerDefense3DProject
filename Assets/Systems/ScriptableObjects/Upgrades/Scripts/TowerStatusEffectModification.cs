@@ -1,11 +1,11 @@
 ﻿using System;
 
-public class TowerStatusEffectModification : Modification<TurretStatusEffectModule>
+public class TowerStatusEffectModification : Modification<DamageModule>
 {
     public StatusEffect StatusEffect;
 
-    protected override Action<TurretStatusEffectModule> ComponentAction => (component) =>
+    protected override Action<DamageModule> ComponentAction => (component) =>
     {
-        component.CurrentStatusEffect = StatusEffect;
+        component.StatusEffect.Value = StatusEffect;
     };
 }

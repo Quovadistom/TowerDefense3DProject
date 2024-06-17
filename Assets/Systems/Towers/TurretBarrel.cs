@@ -5,25 +5,26 @@ public abstract class TurretBarrel : ModuleWithModificationBase
 {
     [SerializeField] private TowerModule m_towerInfoComponent;
 
-    private float m_elapsedTime = Mathf.Infinity;
+    private float m_elapsedTime = 0;
 
     private BasicEnemy m_currentTarget = null;
     public BasicEnemy CurrentTarget => m_currentTarget;
-
-    public abstract float Interval { get; }
     public float Accuracy = 0.99f;
 
-    public TargetingModule TargetingComponent;
+    public TargetingModule TargetingModule;
+    public FireRateModule FireRateModule;
 
     private bool m_updateAndFollowTarget = true;
-    public bool UpdateAndFollowTarget
+    private Tweener m_towerRotationTween;
+
+    public bool UpdateTarget
     {
         get => m_updateAndFollowTarget;
         set
         {
             if (value)
             {
-                m_currentTarget = TargetingComponent.Target.Value;
+                m_currentTarget = TargetingModule.Target.Value;
             }
 
             m_updateAndFollowTarget = value;
@@ -32,25 +33,40 @@ public abstract class TurretBarrel : ModuleWithModificationBase
 
     protected virtual void Awake()
     {
-        TargetingComponent.Target.ValueChanged += RefreshTarget;
+        TargetingModule.Target.ValueChanged += RefreshTarget;
     }
 
     protected void OnDestroy()
     {
-        TargetingComponent.Target.ValueChanged -= RefreshTarget;
+        TargetingModule.Target.ValueChanged -= RefreshTarget;
     }
 
     protected virtual void Update()
     {
+        if (m_currentTarget != null)
+        {
+            m_towerRotationTween?.Kill();
+            m_towerRotationTween = transform.DOLookAt(new(m_currentTarget.EnemyMiddle.position.x,
+                transform.position.y,
+                m_currentTarget.EnemyMiddle.position.z), 0.5f);
+        }
+
+        m_elapsedTime += Time.deltaTime;
+
+        if (m_elapsedTime >= FireRateModule.FireRate.Value)
+        {
+            TimeElapsed(m_currentTarget);
+            m_elapsedTime = 0;
+        }
     }
+
+    protected void ResetTimer() => m_elapsedTime = 0;
 
     private void RefreshTarget(BasicEnemy basicEnemy)
     {
-        m_currentTarget = basicEnemy;
-
-        if (basicEnemy != null)
+        if (UpdateTarget)
         {
-            transform.DOLookAt(m_currentTarget.EnemyMiddle.position, 0.5f);
+            m_currentTarget = basicEnemy;
         }
     }
 

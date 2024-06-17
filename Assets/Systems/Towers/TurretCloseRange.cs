@@ -10,9 +10,6 @@ public class TurretCloseRange : TurretBarrel
     [SerializeField] private Transform m_sphereCollider;
     [SerializeField] private Transform m_neck;
 
-    public override float Interval => 2; //Component.Firerate;
-    public bool IsMovingToTarget = false;
-
     public event Action NeckExtended;
     public event Action NeckRetracted;
 
@@ -21,6 +18,7 @@ public class TurretCloseRange : TurretBarrel
     private Sequence m_sequence;
     private Vector3 m_targetPosition;
     private float m_speed;
+    private bool m_allowAttack = false;
 
     protected override void Awake()
     {
@@ -47,11 +45,14 @@ public class TurretCloseRange : TurretBarrel
                 m_sphereCollider.localPosition.z - targetDistance);
 
             m_speed = targetDistance / 4;
-            if (!IsMovingToTarget && IsLockedOnTarget(CurrentTarget))
+            if (UpdateTarget && m_allowAttack && IsLockedOnTarget(CurrentTarget))
             {
+                m_allowAttack = false;
+                UpdateTarget = false;
+
                 m_sequence?.Kill();
                 m_sequence = DOTween.Sequence();
-                IsMovingToTarget = true;
+
                 m_sequence.Append(m_sphereCollider.DOLocalMove(m_targetPosition, m_speed).SetEase(Ease.InSine))
                     .AppendCallback(() => NeckExtended?.Invoke())
                     .Append(RetractAnim());
@@ -68,19 +69,17 @@ public class TurretCloseRange : TurretBarrel
 
     private Sequence RetractAnim()
     {
+        ResetTimer();
         return DOTween.Sequence().Append(m_sphereCollider.DOLocalMove(m_basePosition, 0.5f))
            .AppendCallback(() =>
            {
-               IsMovingToTarget = false;
+               UpdateTarget = true;
                NeckRetracted?.Invoke();
            });
     }
 
-    public override void TimeElapsed(BasicEnemy basicEnemy)
+    public override void TimeElapsed(BasicEnemy currentTarget)
     {
-        m_sequence?.Kill();
-        m_sequence = DOTween.Sequence();
-        UpdateAndFollowTarget = false;
-        IsMovingToTarget = true;
+        m_allowAttack = true;
     }
 }

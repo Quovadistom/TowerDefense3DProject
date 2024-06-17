@@ -7,7 +7,6 @@ public class TurretLaserBarrel : TurretBarrel
     //private float m_activeLaserDuration = 0;
     //private float m_cooldownDuration = 0;
 
-    public override float Interval => 0.5f;
 
     //[Inject]
     //public void Construct(LayerSettings layerSettings)

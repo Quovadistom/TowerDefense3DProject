@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 506389960659806619}
   - component: {fileID: 9180935779869482348}
   - component: {fileID: 3817559662281220342}
+  - component: {fileID: 4874172995509903699}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   EnemyMiddle: {fileID: 6727829743358831176}
   m_meshRenderer: {fileID: 8294629718966055497}
   m_enemyWorth: 20
+  m_currentHealth: 0
 --- !u!54 &3817559662281220342
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -78,6 +80,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4874172995509903699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3033668209943446019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6abf2c09fa3b944b13aa17d3bb7403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_resistAgainstEffectType: 0
 --- !u!1 &6546101250999425745
 GameObject:
   m_ObjectHideFlags: 0

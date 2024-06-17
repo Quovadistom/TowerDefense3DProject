@@ -4,16 +4,9 @@
 
     public override string EffectName => "Fire";
 
-    private float m_damageAmount;
-
-    public FireStatusEffect(float damageAmount, float damageRate, float effectTime) : base(damageRate, effectTime)
-    {
-        m_damageAmount = damageAmount;
-    }
-
     public override void ApplyEffect(BasicEnemy basicEnemy)
     {
-        basicEnemy.TakeDamage(m_damageAmount);
+        basicEnemy.TakeDamage(Damage);
     }
 
     public override bool RequestEffectChange(StatusEffect newStatusEffect)

@@ -13,9 +13,9 @@ public class StatusEffectInflation : InflationData
     {
         bool isSuitable = false;
 
-        module.TryFindAndActOnModule<TurretStatusEffectModule>((suitableModel) =>
+        module.TryFindAndActOnModule<DamageModule>((suitableModel) =>
         {
-            isSuitable = suitableModel.CurrentStatusEffect.EffectTypeType == m_effectType;
+            isSuitable = suitableModel.StatusEffect.Value.EffectTypeType == m_effectType;
         });
 
         return isSuitable;

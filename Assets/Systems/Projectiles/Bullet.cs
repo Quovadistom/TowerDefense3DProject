@@ -6,7 +6,7 @@ public class Bullet : ProjectileBase
 
         if (enemy.TryGetComponent(out StatusEffectHandler statusEffectContext))
         {
-            statusEffectContext.RequestChangeStatusEffect(new FireStatusEffect(10, 0.5f, 2));
+            statusEffectContext.RequestChangeStatusEffect(StatusEffect);
         }
 
         m_poolingService.ReturnPooledObject(this);

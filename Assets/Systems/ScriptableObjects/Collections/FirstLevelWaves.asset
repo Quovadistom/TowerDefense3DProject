@@ -17,6 +17,6 @@ MonoBehaviour:
     EnemyGroups:
     - SlotName: Enemy Group 1 (BasicEnemy)
       Enemy: {fileID: 9180935779869482348, guid: 4fd074ba08f86ec4589e5b8b1868a317, type: 3}
-      EnemyAmount: 100
-      EnemyDelay: 1
+      EnemyAmount: 1
+      EnemyDelay: 3
       GroupDelay: 0

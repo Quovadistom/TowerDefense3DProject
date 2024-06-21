@@ -41,6 +41,7 @@ public class BasicEnemy : Poolable
     {
         Vector3 direction = m_target.position - transform.position;
         transform.Translate(Speed * Time.deltaTime * direction.normalized, Space.World);
+        transform.LookAt(new Vector3(m_target.position.x, transform.position.y, m_target.position.z));
         m_distanceTraveled += Vector3.Distance(m_oldPosition, transform.position);
 
         if (Vector3.Distance(transform.position, m_target.position) <= 0.02f)

@@ -33,7 +33,7 @@ public class TurretCloseRange : TurretBarrel
         base.Update();
 
         m_neck.localPosition = m_baseNeckPosition - Vector3.Lerp(Vector3.zero, m_basePosition - m_sphereCollider.transform.localPosition, 0.6f);
-        m_neck.localScale = new Vector3(0.01f + ((m_basePosition.z - m_sphereCollider.localPosition.z) * 0.062f), 0.01f, 0.01f);
+        m_neck.localScale = new Vector3(0.0001f + ((m_basePosition.z - m_sphereCollider.localPosition.z) * 0.00062f), 0.0001f, 0.0001f);
 
         if (CurrentTarget != null)
         {

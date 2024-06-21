@@ -1698,12 +1698,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 249463750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc49318fd9a25a479d2646d4fc0bea1, type: 3}
+  m_Script: {fileID: 11500000, guid: 939d953156fffea419085944625559fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_renderer: {fileID: 249463749}
   m_distanceFactor: 100
-  m_angleFactor: 1
+  m_angleFactor: 10
 --- !u!1001 &258309914
 PrefabInstance:
   m_ObjectHideFlags: 0

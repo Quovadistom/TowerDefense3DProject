@@ -39,7 +39,6 @@ public class StatusEffectHandler : MonoBehaviour
 
             if (m_statusDamageTime >= statusEffect.DurationInSeconds)
             {
-                Debug.LogError(1);
                 RequestChangeStatusEffect(ScriptableObject.CreateInstance<NoneStatusEffect>());
                 m_statusDamageTime = 0;
             }
